@@ -1,10 +1,14 @@
-import { Button } from "./components/ui/button";
+import { RouterProvider } from "react-router-dom";
+import { routers } from "./routers";
+import { RecoilRoot } from "recoil";
+import { Toaster } from "./components/ui/sonner";
 
 function App() {
   return (
-    <div>
-      <Button>Click me</Button>
-    </div>
+    <RecoilRoot>
+      <RouterProvider router={routers} />
+      <Toaster />
+    </RecoilRoot>
   );
 }
 
