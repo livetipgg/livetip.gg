@@ -6,7 +6,6 @@ import {
 } from "@/components/ui/accordion";
 import { useLocation } from "react-router-dom";
 import SidebarMenuItem from "./sidebar-menu-item";
-import { useState } from "react";
 
 interface MenuItemWithSubitemsProps {
   icon: React.ElementType;
@@ -22,16 +21,14 @@ const MenuItemWithSubitems: React.FC<MenuItemWithSubitemsProps> = ({
   const { pathname } = useLocation();
 
   const isActive = (path: string) => pathname.includes(path);
-  const [open, setOpen] = useState(false);
+  const isOpen = isActive("/carteira"); // Verifica se o item está ativo
+
   return (
-    <Accordion type="single" collapsible>
+    <Accordion type="single">
       <AccordionItem value="item-1" className="border-none">
         <AccordionTrigger
-          onClick={() => setOpen(!open)}
           className={`py-0 hover:no-underline ${
-            isActive("/financeiro")
-              ? "text-secondary"
-              : "text-foreground hover:opacity-75"
+            isOpen ? "text-secondary" : "text-foreground hover:opacity-75"
           }`}
         >
           <div className="flex items-center gap-3 rounded-lg px-3 py-4 transition-all">

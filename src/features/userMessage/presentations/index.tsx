@@ -69,7 +69,10 @@ const UserMessagePage = () => {
         {/* Avatar */}
         <div className="w-28 h-28 bg-white rounded-full flex items-center justify-center absolute -top-16 shadow-md p-1">
           <Avatar className="cursor-pointer w-full h-full">
-            <AvatarImage src="https://media.licdn.com/dms/image/v2/D4D03AQHgw4V53tPTwA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1720038175164?e=1732752000&v=beta&t=i6rgJ6n5wmUCrhalzCeSRlbpAdUUBijgL2doIG6OUUA" />
+            <AvatarImage
+              src="https://musicaecinema.com/wp-content/uploads/2024/02/the-office-how-to-watch.jpg"
+              className="object-cover"
+            />
             <AvatarFallback>EM</AvatarFallback>
           </Avatar>
         </div>

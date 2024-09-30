@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 import { DashboardIcon } from "@radix-ui/react-icons";
-import { MessageSquareDotIcon, MessagesSquare } from "lucide-react";
-import { PiMoney } from "react-icons/pi";
+import { ArrowLeftRight, MessageSquareDotIcon } from "lucide-react";
+import { PiBank, PiHandWithdraw } from "react-icons/pi";
 
 export interface MenuItem {
   label: string;
@@ -19,20 +19,33 @@ export const menuState = atom<MenuItem[]>({
       to: "/inicio",
     },
     {
+      label: "Carteira",
+      icon: PiBank,
+      to: "#",
+      subItems: [
+        {
+          label: "Saque",
+          icon: PiHandWithdraw,
+          to: "/carteira/saque",
+        },
+        {
+          label: "Histórico",
+          icon: ArrowLeftRight,
+          to: "/carteira/historico",
+        },
+      ],
+    },
+    {
       label: "Ver mensagens recebidas",
       icon: MessageSquareDotIcon,
       to: "/mensagens-recebidas",
     },
-    {
-      label: "Apresentação",
-      icon: MessagesSquare,
-      to: "/configuracoes",
-    },
-    {
-      label: "Financeiro",
-      icon: PiMoney,
-      to: "/financeiro",
-    },
+    // {
+    //   label: "Apresentação",
+    //   icon: MessagesSquare,
+    //   to: "/configuracoes",
+    // },
+
     // {
     //   label: "Financeiro",
     //   icon: PiMoney,

@@ -27,6 +27,11 @@ export const routes: RoutesProps = {
     label: "Mensagem Usuário",
     name: "mensagem-usuario",
   },
+  Withdraw: {
+    path: "/carteira/saque",
+    label: "Saque",
+    name: "saque",
+  },
   NotFound: {
     path: "*",
     label: "Not Found",

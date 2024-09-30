@@ -1,3 +1,4 @@
+import { Title } from "@/components/title";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatTextMaxCaracters } from "@/helpers/formatTextMaxCaracters";
@@ -8,6 +9,8 @@ import CountUp from "react-countup";
 const Dashboard = () => {
   return (
     <div>
+      <Title title="Dashboard" />
+
       <div className="grid grid-cols-2 gap-2">
         <Card
           style={{

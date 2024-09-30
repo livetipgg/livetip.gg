@@ -1,4 +1,4 @@
-import { BellIcon, Menu, PanelLeftClose } from "lucide-react";
+import { Eye, EyeOff, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -25,7 +25,6 @@ interface RootLayoutProps {
 }
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
-  const [sheetOpen, setSheetOpen] = useState(false);
   const menuItems = useRecoilValue(menuState);
   const [showSaldo, setShowSaldo] = useState(false);
 
@@ -39,7 +38,9 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
         <div className="flex h-full max-h-screen flex-col gap-2  sticky top-0 z-10">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link to="/" className="flex items-center gap-2 font-semibold">
-              Logotipo
+              <h4 className="text-2xl font-bold text-black dark:text-white">
+                LiveChat
+              </h4>
             </Link>
           </div>
           <div className="flex-1">
@@ -73,16 +74,26 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 6 sticky top-0 z-10 backdrop-blur-xl">
           <div className="   flex-col hidden md:flex">
             <span className="text-xs font-semibold">Saldo:</span>
-            <button
-              onClick={() => setShowSaldo(!showSaldo)}
-              className="text-lg"
-            >
-              {showSaldo ? (
-                "R$ 1.000,00"
-              ) : (
-                <span className="text-lg blur-sm">R$ 1.000,00</span>
-              )}
-            </button>
+            <div className="flex items-center gap-2">
+              <span className="text-lg">
+                {showSaldo ? (
+                  "R$ 1.000,00"
+                ) : (
+                  <span className="text-lg blur-sm">R$ 1.000,00</span>
+                )}
+              </span>
+              <Button
+                onClick={() => setShowSaldo((prev) => !prev)}
+                variant="ghost"
+                size="icon"
+              >
+                {showSaldo ? (
+                  <EyeOff className="h-5 w-5" />
+                ) : (
+                  <Eye className="h-5 w-5" />
+                )}
+              </Button>
+            </div>
           </div>
           <Sheet>
             <SheetTrigger asChild>
