@@ -9,10 +9,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { useNavigate } from "react-router-dom";
 
 export const ButtonNewLive = () => {
-  const navigate = useNavigate();
   return (
     <Dialog>
       <DialogTrigger asChild>
