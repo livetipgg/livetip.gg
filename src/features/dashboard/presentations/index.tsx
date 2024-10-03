@@ -1,6 +1,5 @@
 import { ButtonNewLive } from "@/components/button-new-live";
 import { SectionTitle } from "@/components/section-title";
-import { Title } from "@/components/title";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatTextMaxCaracters } from "@/helpers/formatTextMaxCaracters";

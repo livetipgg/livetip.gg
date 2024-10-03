@@ -127,10 +127,10 @@ const UserMessagePage = () => {
                     <div className="flex items-center gap-2">
                       <div className="flex items-center gap-2 ">
                         <div className="flex items-center">
-                          {paymentMethods.find((item) => item?.selected).icon}
+                          {paymentMethods.find((item) => item?.selected)?.icon}
                         </div>
                         <strong className="text-sm">
-                          {paymentMethods.find((item) => item?.selected).name}
+                          {paymentMethods.find((item) => item?.selected)?.name}
                         </strong>
                       </div>
                     </div>

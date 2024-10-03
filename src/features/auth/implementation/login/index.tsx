@@ -22,15 +22,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useTheme } from "@/components/theme-provider";
 import ButtonLoading from "@/components/button-loader";
 import { ModeToggle } from "@/components/mode-toggle";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { loginType, isLoading, isAuthenticated } =

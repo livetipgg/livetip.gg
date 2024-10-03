@@ -19,7 +19,6 @@ import React from "react";
 import { DateRange } from "react-day-picker";
 import { Badge } from "@/components/ui/badge";
 import { formatTextMaxCaracters } from "@/helpers/formatTextMaxCaracters";
-import { Title } from "@/components/title";
 import { ptBR } from "date-fns/locale";
 import { ButtonNewLive } from "@/components/button-new-live";
 import { SectionTitle } from "@/components/section-title";
