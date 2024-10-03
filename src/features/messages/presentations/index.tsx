@@ -21,6 +21,8 @@ import { Badge } from "@/components/ui/badge";
 import { formatTextMaxCaracters } from "@/helpers/formatTextMaxCaracters";
 import { Title } from "@/components/title";
 import { ptBR } from "date-fns/locale";
+import { ButtonNewLive } from "@/components/button-new-live";
+import { SectionTitle } from "@/components/section-title";
 
 // Função para gerar dados aleatórios
 const generateRandomMessages = () => {
@@ -93,7 +95,8 @@ const MessagesReceived = () => {
 
   return (
     <div>
-      <Title title="Mensagens Recebidas" />
+      <SectionTitle title="Mensagens Recebidas" actions={<ButtonNewLive />} />
+
       <div>
         <div className="flex justify-between items-center flex-wrap bg-muted/40 p-4">
           <div className="flex gap-4 flex-wrap flex-1 ">
@@ -188,6 +191,9 @@ const MessagesReceived = () => {
   );
 };
 
-const MessagesReceivedPage = withLayout(MessagesReceived);
+const MessagesReceivedPage = withLayout(
+  MessagesReceived,
+  "LiveChat - Mensagens Recebidas"
+);
 
 export default MessagesReceivedPage;

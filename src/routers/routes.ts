@@ -23,7 +23,7 @@ export const routes: RoutesProps = {
     name: "mensagens-recebidas",
   },
   UserMessage: {
-    path: "/mensagem-usuario",
+    path: "/donate/:id",
     label: "Mensagem Usuário",
     name: "mensagem-usuario",
   },
@@ -31,6 +31,16 @@ export const routes: RoutesProps = {
     path: "/carteira/saque",
     label: "Saque",
     name: "saque",
+  },
+  Profile: {
+    path: "/perfil",
+    label: "Perfil",
+    name: "perfil",
+  },
+  Transmission: {
+    path: "/transmissao/:id",
+    label: "Transmissão",
+    name: "transmissao",
   },
   NotFound: {
     path: "*",

@@ -15,7 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Circle, CircleCheck } from "lucide-react";
+import { Circle, CircleCheck, RefreshCcw } from "lucide-react";
 import pixLogo from "@/assets/pix-logo.png";
 import bitcoinLogo from "@/assets/bitcoin-logo.png";
 import qrcode from "@/assets/qrcode.png";
@@ -52,14 +52,14 @@ const UserMessagePage = () => {
       name: "Pix",
       description: "Pagamento por QR Code",
       selected: true,
-      icon: <img src={pixLogo} alt="Pix" className="w-8" />,
+      icon: <img src={pixLogo} alt="Pix" className="w-6" />,
     },
     {
       id: 2,
       name: "Bitcoin",
       description: "Pagamento por endereço de carteira",
       selected: false,
-      icon: <img src={bitcoinLogo} alt="Bitcoin" className="w-8" />,
+      icon: <img src={bitcoinLogo} alt="Bitcoin" className="w-6" />,
     },
   ]);
 
@@ -108,6 +108,84 @@ const UserMessagePage = () => {
               {message.length}/{MAX_LENGTH} caracteres restantes
             </span>
           </div>
+          {/* Método de pagamento */}
+          <div className="flex flex-col w-full mt-2">
+            <Label className="mb-2 text-muted-foreground text-xs">
+              Método de pagamento
+            </Label>
+            <Dialog
+              open={dialogPaymentMethodsOpen}
+              onOpenChange={(open) => {
+                setDialogPaymentMethodsOpen(open);
+              }}
+            >
+              <DialogTrigger asChild>
+                <div className="w-full rounded-xl border">
+                  <div
+                    className={`flex items-center w-full p-2 justify-between border rounded-xl cursor-pointer `}
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 ">
+                        <div className="flex items-center">
+                          {paymentMethods.find((item) => item?.selected).icon}
+                        </div>
+                        <strong className="text-sm">
+                          {paymentMethods.find((item) => item?.selected).name}
+                        </strong>
+                      </div>
+                    </div>
+                    <div>
+                      <Button variant="ghost" size={"icon"}>
+                        <RefreshCcw size={16} />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Escolha a forma de pagamento:</DialogTitle>
+                  <DialogDescription>
+                    Você pode escolher entre PIX ou Bitcoin
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex flex-col w-full mt-2 gap-3">
+                  {paymentMethods.map((paymentMethod) => (
+                    <div
+                      onClick={() => {
+                        setPaymentMethods((prev) =>
+                          prev.map((prevItem) => ({
+                            ...prevItem,
+                            selected: prevItem.id === paymentMethod.id,
+                          }))
+                        );
+                      }}
+                      className={`flex items-center w-full p-2 border-2 justify-between  ${
+                        paymentMethod.selected ? "border-success" : "border"
+                      } rounded-xl cursor-pointer `}
+                    >
+                      <div className="flex items-center gap-2">
+                        {paymentMethod.selected ? (
+                          <CircleCheck size={24} className="text-success" />
+                        ) : (
+                          <Circle size={24} />
+                        )}
+                        <div className="flex flex-col ">
+                          <strong>{paymentMethod.name}</strong>
+                          <span className="text-muted-foreground text-xs">
+                            {paymentMethod.description}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center">
+                        {paymentMethod.icon}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
           <div className="flex flex-col w-full mt-2">
             <Label className="mb-2 text-muted-foreground text-xs">Valor</Label>
             <NumericFormat
@@ -124,81 +202,15 @@ const UserMessagePage = () => {
               O valor mínimo é de R$ 1,00{" "}
             </span>
           </div>
-          <Dialog
-            open={dialogPaymentMethodsOpen}
-            onOpenChange={(open) => {
-              setDialogPaymentMethodsOpen(open);
+          <Button
+            className="mt-4 w-full rounded-xl"
+            onClick={() => {
+              setDialogPixPaymentMethodOpen(true);
             }}
           >
-            <DialogTrigger asChild>
-              <Button className="mt-4 w-full rounded-xl">CONTINUAR</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Escolha a forma de pagamento:</DialogTitle>
-                <DialogDescription>
-                  Você pode escolher entre PIX ou Bitcoin
-                </DialogDescription>
-              </DialogHeader>
-              <div className="flex flex-col w-full mt-2 gap-3">
-                {paymentMethods.map((paymentMethod) => (
-                  <div
-                    onClick={() => {
-                      setPaymentMethods((prev) =>
-                        prev.map((prevItem) => ({
-                          ...prevItem,
-                          selected: prevItem.id === paymentMethod.id,
-                        }))
-                      );
-                    }}
-                    className={`flex items-center w-full p-2 border-2 justify-between  ${
-                      paymentMethod.selected ? "border-success" : "border"
-                    } rounded-xl cursor-pointer `}
-                  >
-                    <div className="flex items-center gap-2">
-                      {paymentMethod.selected ? (
-                        <CircleCheck size={24} className="text-success" />
-                      ) : (
-                        <Circle size={24} />
-                      )}
-                      <div className="flex flex-col ">
-                        <strong>{paymentMethod.name}</strong>
-                        <span className="text-muted-foreground text-xs">
-                          {paymentMethod.description}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      {paymentMethod.icon}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <DialogFooter>
-                <div className=" flex flex-col w-full gap-4">
-                  <Button
-                    className="mt-4 w-full rounded-xl"
-                    onClick={() => {
-                      setDialogPaymentMethodsOpen(false);
-                      setDialogPixPaymentMethodOpen(true);
-                    }}
-                  >
-                    CONTINUAR
-                  </Button>
+            CONTINUAR
+          </Button>
 
-                  <Button
-                    variant={"link"}
-                    className="w-full rounded-xl"
-                    onClick={() => {
-                      setDialogPaymentMethodsOpen(false);
-                    }}
-                  >
-                    CANCELAR E VOLTAR
-                  </Button>
-                </div>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
           <Dialog
             open={pixDialogPaymentMethodOpen}
             onOpenChange={(open) => {
