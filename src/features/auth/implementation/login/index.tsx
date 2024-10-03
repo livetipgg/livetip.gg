@@ -132,7 +132,7 @@ const LoginPage: React.FC = () => {
                   </Button>
                 )}
 
-                <div className="flex justify-center">
+                {/* <div className="flex justify-center">
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button variant="link" className="p-0 m-0">
@@ -163,7 +163,7 @@ const LoginPage: React.FC = () => {
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
-                </div>
+                </div> */}
               </div>
             </FormProvider>
           )}

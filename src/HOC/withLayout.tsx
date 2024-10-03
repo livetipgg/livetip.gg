@@ -1,10 +1,15 @@
 import RootLayout from "@/components/layout";
-import { ComponentType } from "react";
+import { setDocumentTitle } from "@/helpers/setDocumentTitle";
+import { ComponentType, useEffect } from "react";
 
 export function withLayout<P extends object>(
-  WrappedComponent: ComponentType<P>
+  WrappedComponent: ComponentType<P>,
+  title?: string
 ) {
   return function Layout(props: P) {
+    useEffect(() => {
+      setDocumentTitle(title || "LiveChat");
+    }, []);
     return (
       <RootLayout {...props}>
         <WrappedComponent {...props} />

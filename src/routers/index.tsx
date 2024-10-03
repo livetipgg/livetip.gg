@@ -6,6 +6,8 @@ import MessagesReceivedPage from "@/features/messages/presentations";
 import UserMessagePage from "@/features/userMessage/presentations";
 import WithdrawPage from "@/features/carteira/presentations/withdraw";
 import { withAuth } from "@/HOC/withAuth";
+import ProfilePage from "@/features/profile/presentations";
+import TransmissionPage from "@/features/transmission/presentations";
 
 export const routers = createBrowserRouter([
   {
@@ -28,8 +30,16 @@ export const routers = createBrowserRouter([
         Component: withAuth(WithdrawPage),
       },
       {
+        path: routes["Profile"].path,
+        Component: withAuth(ProfilePage),
+      },
+      {
         path: routes["UserMessage"].path,
         Component: UserMessagePage,
+      },
+      {
+        path: routes["Transmission"].path,
+        Component: TransmissionPage,
       },
       // {
       //   path: routes["Register"].path,

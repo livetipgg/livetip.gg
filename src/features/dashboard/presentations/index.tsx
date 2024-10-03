@@ -1,3 +1,5 @@
+import { ButtonNewLive } from "@/components/button-new-live";
+import { SectionTitle } from "@/components/section-title";
 import { Title } from "@/components/title";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,7 +11,7 @@ import CountUp from "react-countup";
 const Dashboard = () => {
   return (
     <div>
-      <Title title="Dashboard" />
+      <SectionTitle title="Dashboard" actions={<ButtonNewLive />} />
 
       <div className="grid grid-cols-2 gap-2">
         <Card
@@ -169,6 +171,6 @@ const Dashboard = () => {
   );
 };
 
-const DashboardPage = withLayout(Dashboard);
+const DashboardPage = withLayout(Dashboard, "LiveChat - Dashboard");
 
 export default DashboardPage;
