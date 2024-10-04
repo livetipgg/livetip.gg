@@ -12,12 +12,5 @@ export const initialAuthController: IControllerAuthState = {
 
 export const initialAuthUser: IAuthUserState = {
   id: "",
-  _id: "",
-  email: "",
-  name: "",
-  token: "",
   username: "",
-  pin: "",
-  one_time_password: "",
-  updatedAt: "",
 };

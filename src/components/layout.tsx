@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -20,6 +20,7 @@ import MenuItemWithSubitems from "@/components/sidebar-menu-items-with-subitems"
 import { useRecoilValue } from "recoil";
 import { menuState } from "@/features/sidebar/states/menuState";
 import { useState } from "react";
+import { useAuthLogoutUseCase } from "@/features/auth/useCases/useAuthLogoutUseCase";
 interface RootLayoutProps {
   children: React.ReactNode;
 }
@@ -27,6 +28,9 @@ interface RootLayoutProps {
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const menuItems = useRecoilValue(menuState);
   const [showSaldo, setShowSaldo] = useState(false);
+  const { handleLogout } = useAuthLogoutUseCase();
+
+  const navigate = useNavigate();
 
   const user = {
     name: "Eduardo Moresco",
@@ -151,14 +155,14 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Configurações do perfil</DropdownMenuItem>
-              <DropdownMenuItem>Sair</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/perfil")}>
+                Configurações do perfil
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>Sair</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
         <main className="flex-1 overflow-auto h-full w-full relative lg:p-6 p-4">
-          {/* <DynamicBreadcrumbs /> */}
-
           {children}
         </main>
       </div>

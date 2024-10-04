@@ -6,15 +6,8 @@ export interface IControllerAuthState {
 }
 
 export interface IAuthUserState {
-  pin: string;
-  _id: string;
   id: string;
-  email: string;
-  name: string;
-  token: string;
-  one_time_password: string;
   username: string;
-  updatedAt: string;
 }
 
 export interface IAuthState {

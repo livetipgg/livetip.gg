@@ -6,7 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { withLayout } from "@/HOC/withLayout";
+import { useProfileCancelAccount } from "../useCases/useProfileCancelAccount";
+import { useRecoilValue } from "recoil";
+import { profileState } from "../states/atoms";
+import { LoaderCircle } from "lucide-react";
 const Profile = () => {
+  const { handleCancelAccount } = useProfileCancelAccount();
+  const { controller } = useRecoilValue(profileState);
+  const { isLoadingCancelAccount } = controller;
   return (
     <div className="max-w-xl ">
       <SectionTitle title="Meu Perfil" />
@@ -45,12 +52,24 @@ const Profile = () => {
           <ConfirmAlert
             title="Encerrar conta"
             description="Tem certeza que deseja encerrar sua conta? Essa ação não poderá ser desfeita."
+            confirmText="Encerrar conta"
+            cancelText="Voltar"
+            disabled={isLoadingCancelAccount}
             onConfirm={() => {
+              handleCancelAccount();
               console.log("Conta encerrada");
             }}
           >
-            <Button variant="destructive" className="w-40 ">
-              Encerrar conta
+            <Button
+              variant="destructive"
+              className="w-40 "
+              disabled={isLoadingCancelAccount}
+            >
+              {isLoadingCancelAccount ? (
+                <LoaderCircle className="w-5 h-5 animate-spin" />
+              ) : (
+                "Encerrar conta"
+              )}
             </Button>
           </ConfirmAlert>
         </div>
