@@ -42,6 +42,12 @@ export const routes: RoutesProps = {
     label: "Transmissão",
     name: "transmissao",
   },
+  TransactionsHistory: {
+    path: "/carteira/historico",
+    label: "Histórico de Transações",
+    name: "historico-transacoes",
+  },
+
   NotFound: {
     path: "*",
     label: "Not Found",

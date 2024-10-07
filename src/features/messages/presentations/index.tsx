@@ -159,7 +159,7 @@ const MessagesReceived = () => {
             ) : null}
             <div
               className={cn(
-                "flex flex-col md:flex-row w-full items-start md:items-center justify-between border-2 p-4 rounded-lg mt-4 relative",
+                "flex flex-col md:flex-row w-full items-start md:items-center justify-between border p-4 rounded-lg mt-4 relative bg-muted/40",
                 message.isLast ? "border-success" : ""
               )}
             >

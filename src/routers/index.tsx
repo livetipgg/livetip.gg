@@ -8,6 +8,7 @@ import WithdrawPage from "@/features/carteira/presentations/withdraw";
 import { withAuth } from "@/HOC/withAuth";
 import ProfilePage from "@/features/profile/presentations";
 import TransmissionPage from "@/features/transmission/presentations";
+import { TransactionsHistoryPage } from "@/features/carteira/presentations/history";
 
 export const routers = createBrowserRouter([
   {
@@ -41,10 +42,10 @@ export const routers = createBrowserRouter([
         path: routes["Transmission"].path,
         Component: TransmissionPage,
       },
-      // {
-      //   path: routes["Register"].path,
-      //   Component: RegisterPage,
-      // },
+      {
+        path: routes["TransactionsHistory"].path,
+        Component: withAuth(TransactionsHistoryPage),
+      },
 
       {
         path: "*",

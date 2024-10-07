@@ -1,5 +1,5 @@
 import { Eye, EyeOff } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../../../../components/ui/button";
 import pixLogo from "@/assets/pix-logo.png";
 import bitcoinLogo from "@/assets/bitcoin-logo.png";
 import { useRecoilValue } from "recoil";
@@ -7,13 +7,15 @@ import { authState } from "@/features/auth/states/atoms";
 import { formatCurrencyValue } from "@/helpers/formatCurrencyValue";
 import { balanceState } from "@/features/balance/states/atoms";
 import { useSetShowCurrentBalanceUseCase } from "@/features/balance/useCases/useSetShowCurrentBalanceUseCase";
+import { Skeleton } from "../../../../components/ui/skeleton";
 
 export const BalancePreview: React.FC = () => {
   const { controller } = useRecoilValue(balanceState);
-  const { showCurrentBalance } = controller;
+  const { showCurrentBalance, isLoading } = controller;
   const { setShowCurrentBalance } = useSetShowCurrentBalanceUseCase();
   const { user } = useRecoilValue(authState);
   const { brl_balance, btc_balance } = user;
+
   return (
     <div className="   hidden md:flex gap-2 items-center">
       <div className="flex items-center gap-2 border border-input rounded-lg pe-2">
@@ -22,9 +24,14 @@ export const BalancePreview: React.FC = () => {
         </div>
         <span className="text-foreground text-sm font-bold">
           {showCurrentBalance ? (
-            formatCurrencyValue(brl_balance)
+            <>
+              {!isLoading && formatCurrencyValue(brl_balance)}
+              {isLoading && (
+                <Skeleton className="w-[100px] h-[20px] rounded-full" />
+              )}
+            </>
           ) : (
-            <div className="blur-md">{formatCurrencyValue(brl_balance)}</div>
+            <div className="blur-sm">{formatCurrencyValue(brl_balance)}</div>
           )}
         </span>
       </div>
@@ -34,20 +41,27 @@ export const BalancePreview: React.FC = () => {
         </div>
         <span className="text-foreground text-sm font-bold">
           {showCurrentBalance ? (
-            btc_balance + " BTC"
+            <>
+              {!isLoading && btc_balance + " BTC"}
+              {isLoading && (
+                <Skeleton className="w-[100px] h-[20px] rounded-full" />
+              )}
+            </>
           ) : (
-            <div className="blur-md">{btc_balance} BTC</div>
+            <div className="blur-sm">{btc_balance} BTC</div>
           )}
         </span>
       </div>
-      <Button
-        size="icon"
-        variant={"ghost"}
-        className="w-5 h-5"
-        onClick={() => setShowCurrentBalance(!showCurrentBalance)}
-      >
-        {showCurrentBalance ? <EyeOff /> : <Eye />}
-      </Button>
+      {!isLoading && (
+        <Button
+          size="icon"
+          variant={"ghost"}
+          className="w-5 h-5"
+          onClick={() => setShowCurrentBalance(!showCurrentBalance)}
+        >
+          {showCurrentBalance ? <EyeOff /> : <Eye />}
+        </Button>
+      )}
     </div>
   );
 };

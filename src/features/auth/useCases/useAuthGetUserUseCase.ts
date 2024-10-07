@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import createApiInstance from "@/config/api";
 import { authController, authState } from "../states/atoms";
 import { useRecoilState } from "recoil";
 import { GET_USER } from "@/helpers/apiUrls";
+import useCreateApiInstance from "@/config/api";
 
 export const useAuthGetUserUseCase = () => {
-  const api = createApiInstance();
+  const api = useCreateApiInstance();
   const [, setAuth] = useRecoilState(authState);
   const [, setAuthController] = useRecoilState(authController);
   const fetchGetUser = async (id: number) => {
@@ -16,7 +16,6 @@ export const useAuthGetUserUseCase = () => {
     }));
     try {
       const response = await api.post(GET_USER, id);
-      console.log("response", response.data);
       setAuthController((prev: any) => ({
         ...prev,
         isLoading: false,

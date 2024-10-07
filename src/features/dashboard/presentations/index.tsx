@@ -2,17 +2,38 @@ import { ButtonNewLive } from "@/components/button-new-live";
 import { NoContent } from "@/components/no-content";
 import { SectionTitle } from "@/components/section-title";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { authState } from "@/features/auth/states/atoms";
 import { withLayout } from "@/HOC/withLayout";
 import CountUp from "react-countup";
+import pixLogo from "@/assets/pix-logo.png";
+import bitcoinLogo from "@/assets/bitcoin-logo.png";
+import { Button } from "@/components/ui/button";
+import { MessageSquare, RefreshCw } from "lucide-react";
+import { useGetUserBalancesUseCase } from "@/features/balance/useCases/useGetUserBalancesUseCase";
 import { useRecoilValue } from "recoil";
-
+import { balanceState } from "@/features/balance/states/atoms";
 const Dashboard = () => {
-  const { user } = useRecoilValue(authState);
-  console.log("auth", user);
+  const { loadUserBalance } = useGetUserBalancesUseCase();
+  const { controller } = useRecoilValue(balanceState);
+  const { isLoading } = controller;
   return (
     <div>
-      <SectionTitle title="Dashboard" actions={<ButtonNewLive />} />
+      <SectionTitle
+        title="Dashboard"
+        actions={[
+          <ButtonNewLive />,
+          <Button
+            variant={"outline"}
+            size={"icon"}
+            title="Atualizar"
+            onClick={loadUserBalance}
+            disabled={isLoading}
+          >
+            <RefreshCw
+              className={`w-4 h-4 mb-0 ${isLoading ? "animate-spin" : ""}`}
+            />
+          </Button>,
+        ]}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         <Card
@@ -21,7 +42,13 @@ const Dashboard = () => {
           }}
         >
           <CardHeader>
-            <CardTitle>Mensagens</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <MessageSquare
+                className="w-5 h-5 text-primary"
+                fill=" hsl(var(--primary))"
+              />
+              Mensagens Recebidas
+            </CardTitle>
             <span className="text-muted-foreground">
               Mensagens recebidas nos últimos 30 dias
             </span>
@@ -32,9 +59,13 @@ const Dashboard = () => {
             </span>
           </CardContent>
         </Card>
+        {/* Valor recebido por pix */}
         <Card style={{ borderBottom: "4px solid hsl(var(--success))" }}>
           <CardHeader>
-            <CardTitle>Valor Recebido</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <img src={pixLogo} alt="pix" className="w-5 h-5" />
+              PIX Recebido
+            </CardTitle>
             <span className="text-muted-foreground">
               Valor recebido nos últimos 30 dias
             </span>
@@ -55,7 +86,10 @@ const Dashboard = () => {
         </Card>
         <Card style={{ borderBottom: "4px solid hsl(var(--warning))" }}>
           <CardHeader>
-            <CardTitle>Valor Recebido</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <img src={bitcoinLogo} alt="bitcoin" className="w-5 h-5" />
+              Bitcoin Recebido
+            </CardTitle>
             <span className="text-muted-foreground">
               Valor recebido nos últimos 30 dias
             </span>

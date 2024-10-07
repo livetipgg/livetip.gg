@@ -20,7 +20,7 @@ import MenuItemWithSubitems from "@/components/sidebar-menu-items-with-subitems"
 import { useRecoilValue } from "recoil";
 import { menuState } from "@/features/sidebar/states/menuState";
 import { useAuthLogoutUseCase } from "@/features/auth/useCases/useAuthLogoutUseCase";
-import { BalancePreview } from "./balance-preview";
+import { BalancePreview } from "../features/balance/presentations/components/balance-preview";
 import { authState } from "@/features/auth/states/atoms";
 interface RootLayoutProps {
   children: React.ReactNode;
