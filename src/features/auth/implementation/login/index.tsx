@@ -95,7 +95,7 @@ const LoginPage: React.FC = () => {
                           <Input
                             {...field}
                             type="password"
-                            placeholder="*****"
+                            placeholder="Informe sua senha"
                             className="p-5"
                             onKeyDown={(e) => {
                               if (e.key === "Enter") {

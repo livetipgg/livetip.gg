@@ -26,7 +26,7 @@ export const useProfileCancelAccount = () => {
       },
     }));
     try {
-      const response = await api.delete(`${DELETE_USER}/1`);
+      const response = await api.delete(`${DELETE_USER}/${user.id}`);
 
       console.log("response", response.data);
 

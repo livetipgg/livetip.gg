@@ -10,14 +10,14 @@ export const useAuthLoginUseCase = () => {
   const [, setAuth] = useRecoilState(authState);
   const [, setAuthController] = useRecoilState(authController);
   const fetchLogin = async (payload: IAuthLoginPayload) => {
-    setAuthController((prev) => ({
+    setAuthController((prev: any) => ({
       ...prev,
       isLoading: true,
       error: "",
     }));
     try {
       const response = await api.post(LOGIN, payload);
-      setAuthController((prev) => ({
+      setAuthController((prev: any) => ({
         ...prev,
         isLoading: false,
         isAuthenticated: true,
@@ -36,7 +36,7 @@ export const useAuthLoginUseCase = () => {
       // setar no header da api o token
       setHeaderToken(response.data.token);
     } catch (error: any) {
-      setAuthController((prev) => ({
+      setAuthController((prev: any) => ({
         ...prev,
         error:
           error.response.data.message ||
@@ -44,7 +44,7 @@ export const useAuthLoginUseCase = () => {
         isLoading: false,
       }));
     } finally {
-      setAuthController((prev) => ({
+      setAuthController((prev: any) => ({
         ...prev,
         isLoading: false,
       }));

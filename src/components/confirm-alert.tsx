@@ -37,8 +37,6 @@ export const ConfirmAlert = ({
       open={open}
       onOpenChange={(open) => {
         if (disabled) return;
-        console.log("open", open);
-        console.log("disabled", disabled);
         setOpen(open);
       }}
     >

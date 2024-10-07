@@ -9,7 +9,7 @@ export const useAuthGetUserUseCase = () => {
   const [, setAuth] = useRecoilState(authState);
   const [, setAuthController] = useRecoilState(authController);
   const fetchGetUser = async (id: number) => {
-    setAuthController((prev) => ({
+    setAuthController((prev: any) => ({
       ...prev,
       isLoading: true,
       error: "",
@@ -17,7 +17,7 @@ export const useAuthGetUserUseCase = () => {
     try {
       const response = await api.post(GET_USER, id);
       console.log("response", response.data);
-      setAuthController((prev) => ({
+      setAuthController((prev: any) => ({
         ...prev,
         isLoading: false,
         isAuthenticated: true,
@@ -32,7 +32,7 @@ export const useAuthGetUserUseCase = () => {
         },
       }));
     } catch (error: any) {
-      setAuthController((prev) => ({
+      setAuthController((prev: any) => ({
         ...prev,
         error:
           error.response.data.message ||
@@ -40,7 +40,7 @@ export const useAuthGetUserUseCase = () => {
         isLoading: false,
       }));
     } finally {
-      setAuthController((prev) => ({
+      setAuthController((prev: any) => ({
         ...prev,
         isLoading: false,
       }));
