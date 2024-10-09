@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -7,99 +9,83 @@ import {
 } from "@/components/ui/popover";
 import { withLayout } from "@/HOC/withLayout";
 import { cn } from "@/lib/utils";
-import {
-  CalendarIcon,
-  CheckCheck,
-  MessageSquareMore,
-  Search,
-} from "lucide-react";
-import { addDays, format } from "date-fns";
+import { CalendarIcon, Search } from "lucide-react";
+import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import React from "react";
+import React, { useEffect } from "react";
 import { DateRange } from "react-day-picker";
-import { Badge } from "@/components/ui/badge";
-import { formatTextMaxCaracters } from "@/helpers/formatTextMaxCaracters";
-import { ptBR } from "date-fns/locale";
 import { ButtonNewLive } from "@/components/button-new-live";
 import { SectionTitle } from "@/components/section-title";
-
-// Função para gerar dados aleatórios
-const generateRandomMessages = () => {
-  const names = [
-    "Michael Scott",
-    "Pam Beesly",
-    "Jim Halpert",
-    "Dwight Schrute",
-    "Stanley Hudson",
-    "Ryan Howard",
-    "Kelly Kapoor",
-    "Angela Martin",
-    "Oscar Martinez",
-    "Phyllis Vance",
-  ];
-
-  const messages = [
-    "Gostei muito do seu trabalho, parabéns!",
-    "Foi o que ela disse.",
-    "Incrível!",
-    "Vamos marcar um horário para discutir.",
-    "Seu projeto está excelente.",
-    "Precisamos rever os prazos.",
-    "Estou ansioso para começar!",
-    "Esse relatório precisa de ajustes.",
-    "Por favor, envie os documentos até amanhã.",
-    "Nosso próximo encontro será na terça-feira.",
-    "Obrigado pela entrega rápida!",
-    "Os resultados foram impressionantes.",
-    "Podemos agendar uma reunião?",
-    "Você está fazendo um ótimo trabalho.",
-    "Vamos precisar de mais tempo.",
-    "Esse design está ótimo!",
-    "Aguardando sua confirmação.",
-    "Os dados estão incompletos.",
-    "Me avise se precisar de algo.",
-    "Podemos discutir os detalhes amanhã?",
-  ];
-
-  const dates = [
-    new Date(),
-    addDays(new Date(), -1),
-    addDays(new Date(), -3),
-    addDays(new Date(), -5),
-    addDays(new Date(), -10),
-    addDays(new Date(), -15),
-    addDays(new Date(), -20),
-    addDays(new Date(), -25),
-  ];
-
-  return dates.flatMap((date, dateIndex) =>
-    Array.from({ length: 3 }, (_, messageIndex) => ({
-      name: names[Math.floor(Math.random() * names.length)],
-      message: messages[Math.floor(Math.random() * messages.length)],
-      time: format(addDays(date, messageIndex), "HH:mm"),
-      amount: `R$ ${(Math.random() * 500).toFixed(2)}`,
-      date: format(date, "dd 'de' MMMM 'de' yyyy", { locale: ptBR }),
-      isLast: dateIndex === 0 && messageIndex === 0,
-    }))
-  );
-};
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { messageState } from "../states/atoms";
+import { useLoadMessagesUseCase } from "../useCases/useLoadMessagesUseCase";
+import MessageContainer from "./components/message-view/message-container";
+import { NoContent } from "@/components/no-content";
+import ContentLoader from "@/components/content-loader";
+import { ptBR } from "date-fns/locale";
 
 const MessagesReceived = () => {
+  const setMessageState = useSetRecoilState(messageState);
+  const { controller, messages } = useRecoilValue(messageState);
+  const { isLoadingMessages } = controller;
+  const { messagesParams } = controller;
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 30),
+    from: messagesParams.startDate
+      ? new Date(messagesParams.startDate)
+      : undefined,
+    to: messagesParams.endDate ? new Date(messagesParams.endDate) : undefined,
   });
 
-  const messagesByDate = generateRandomMessages();
+  const { loadMessages } = useLoadMessagesUseCase();
+  const handleSetDate = (date: DateRange) => {
+    setDate(date);
+
+    const from_date_formatted = date.from && format(date.from, "yyyy-MM-dd");
+    const to_date_formatted = date.to && format(date.to, "yyyy-MM-dd");
+
+    setMessageState((prevState) => ({
+      ...prevState,
+      controller: {
+        ...prevState.controller,
+        messagesParams: {
+          ...prevState.controller.messagesParams,
+          startDate: from_date_formatted,
+          endDate: to_date_formatted,
+        },
+      },
+    }));
+  };
+
+  useEffect(() => {
+    loadMessages();
+  }, []);
 
   return (
     <div>
-      <SectionTitle title="Mensagens Recebidas" actions={<ButtonNewLive />} />
+      <SectionTitle title="Mensagens Recebidas" actions={[<ButtonNewLive />]} />
 
       <div>
         <div className="flex justify-between items-center flex-wrap bg-muted/40 p-4">
           <div className="flex gap-4 flex-wrap flex-1 ">
             <Input
+              value={messagesParams.query}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  loadMessages();
+                }
+              }}
+              onChange={(e) =>
+                setMessageState((prevState) => ({
+                  ...prevState,
+                  controller: {
+                    ...prevState.controller,
+                    messagesParams: {
+                      ...prevState.controller.messagesParams,
+                      query: e.target.value,
+                    },
+                  },
+                }))
+              }
               placeholder="Pesquisar"
               className="w-full lg:w-[320px] bg-white dark:bg-black"
             />
@@ -117,14 +103,21 @@ const MessagesReceived = () => {
                   {date?.from ? (
                     date.to ? (
                       <>
-                        {format(date.from, "LLL dd, y")} -{" "}
-                        {format(date.to, "LLL dd, y")}
+                        {format(date.from, "LLLL dd, y", {
+                          locale: ptBR,
+                        })}{" "}
+                        -{" "}
+                        {format(date.to, "LLLL dd, y", {
+                          locale: ptBR,
+                        })}
                       </>
                     ) : (
-                      format(date.from, "LLL dd, y")
+                      format(date.from, "LLLL dd, y", {
+                        locale: ptBR,
+                      })
                     )
                   ) : (
-                    <span>Pick a date</span>
+                    <span>Selecione um intervalo de datas</span>
                   )}
                 </Button>
               </PopoverTrigger>
@@ -133,58 +126,61 @@ const MessagesReceived = () => {
                   initialFocus
                   mode="range"
                   defaultMonth={date?.from}
-                  selected={date}
-                  onSelect={setDate}
+                  selected={date || undefined}
+                  onSelect={handleSetDate as any}
                   numberOfMonths={2}
                 />
               </PopoverContent>
             </Popover>
+            {(date?.from || date?.to) && (
+              <Button
+                variant="link"
+                className="w-full lg:w-auto mt-4 lg:mt-0"
+                onClick={() => {
+                  setDate(undefined);
+                  setMessageState((prevState) => ({
+                    ...prevState,
+                    controller: {
+                      ...prevState.controller,
+                      messagesParams: {
+                        ...prevState.controller.messagesParams,
+                        startDate: undefined,
+                        endDate: undefined,
+                      },
+                    },
+                  }));
+                }}
+              >
+                Limpar Data
+              </Button>
+            )}
           </div>
 
-          <Button variant="default" className="w-full lg:w-auto mt-4 lg:mt-0">
+          <Button
+            variant="default"
+            className="w-full lg:w-auto mt-4 lg:mt-0"
+            onClick={loadMessages}
+            disabled={isLoadingMessages}
+          >
             <Search className="h-4 w-4 mr-2" />
             Filtrar
           </Button>
         </div>
       </div>
       <div className="mt-10">
-        {messagesByDate.map((message, index) => (
-          <div key={index}>
-            {index === 0 || message.date !== messagesByDate[index - 1].date ? (
-              <div className="my-6">
-                <span className="text-muted-foreground text-md font-bold mt-3">
-                  {message.date}
-                </span>
-              </div>
-            ) : null}
-            <div
-              className={cn(
-                "flex flex-col md:flex-row w-full items-start md:items-center justify-between border p-4 rounded-lg mt-4 relative bg-muted/40",
-                message.isLast ? "border-success" : ""
-              )}
-            >
-              <CheckCheck className="h-5 w-5 text-success mr-5" />
-              {message.isLast && (
-                <Badge className="bg-success text-white absolute -top-4 left-4">
-                  Última mensagem recebida
-                </Badge>
-              )}
-              <div className="flex flex-col w-[200px]">
-                <strong>{message.name}</strong>
-                <span>{message.time}</span>
-              </div>
-              <div className="flex w-full my-10 md:mx-10 md:my-0">
-                <MessageSquareMore className="h-5 w-5 mr-2" />
-                <p className="text-sm font-normal">
-                  {formatTextMaxCaracters(message.message, 180)}
-                </p>
-              </div>
-              <span className="text-success text-2xl font-semibold min-w-fit">
-                {message.amount}
-              </span>
-            </div>
-          </div>
-        ))}
+        {isLoadingMessages && <ContentLoader message="Carregando mensagens" />}
+        {!isLoadingMessages &&
+          messages.length > 0 &&
+          messages.map((message) => (
+            <MessageContainer
+              key={message._id}
+              messages={messages}
+              message={message}
+            />
+          ))}
+        {!isLoadingMessages && messages.length === 0 && (
+          <NoContent message="Nenhuma mensagem para mostrar" />
+        )}
       </div>
     </div>
   );
