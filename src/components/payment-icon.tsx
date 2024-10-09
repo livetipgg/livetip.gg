@@ -1,5 +1,3 @@
-import React from "react";
-
 import pixLogo from "@/assets/pix-logo.png";
 import bitcoinLogo from "@/assets/bitcoin-logo.png";
 
