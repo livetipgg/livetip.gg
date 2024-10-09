@@ -9,14 +9,13 @@ import { balanceState } from "@/features/balance/states/atoms";
 import { useSetShowCurrentBalanceUseCase } from "@/features/balance/useCases/useSetShowCurrentBalanceUseCase";
 import { Skeleton } from "../../../../components/ui/skeleton";
 
-// Componente BalanceItem
 const BalanceItem: React.FC<{
   logo: string;
   altText: string;
   balance: string | number;
   isLoading: boolean;
   showCurrentBalance: boolean;
-  unit?: string; // Ex: " BTC"
+  unit?: string;
 }> = ({ logo, altText, balance, isLoading, showCurrentBalance, unit }) => {
   return (
     <div className="flex items-center gap-2 border border-input rounded-lg pe-2">

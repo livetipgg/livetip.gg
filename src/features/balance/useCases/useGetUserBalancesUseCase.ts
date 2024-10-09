@@ -13,8 +13,8 @@ export const useGetUserBalancesUseCase = () => {
     setBalanceState((prevState) => ({
       ...prevState,
       controller: {
-        ...prevState.controller,
         isLoading: true,
+        error: "",
         showCurrentBalance: true,
       },
     }));
