@@ -23,10 +23,10 @@ const TransactionsHistory = () => {
   return (
     <div>
       <SectionTitle title="Histórico de Transações" />
-      {/*  */}
 
+      {/* Filtro de Data */}
       <div className="flex justify-between items-center flex-wrap bg-muted/40 p-4">
-        <div className="flex gap-4 flex-wrap flex-1 ">
+        <div className="flex gap-4 flex-wrap flex-1">
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -79,12 +79,13 @@ const TransactionsHistory = () => {
           {format(date?.to || addDays(new Date(), 30), "dd/MM/yyyy")}
         </span>
       </span>
-      {/* Transações */}
-      <div className="border p-4 mt-10 bg-muted/40 flex items-center justify-between">
-        <div className="flex items-center gap-10 flex-1">
+
+      {/* Cartões de Transações */}
+      <div className="border p-4 mt-10 bg-muted/40 flex flex-wrap items-start md:items-center justify-between gap-4 lg:gap-10 flex-col md:flex-row">
+        <div className="flex items-start md:items-center gap-4 lg:gap-10 flex-1 flex-col md:flex-row">
           <ArrowLeftRight className="h-4 w-4" />
           {/* Data */}
-          <span className="text-md"> 25 de Setembro de 2021</span>
+          <span className="text-md">25 de Setembro de 2021</span>
           {/* ID da transação */}
           <div className="flex items-center gap-2">
             <Hash className="h-4 w-4" />
@@ -92,24 +93,23 @@ const TransactionsHistory = () => {
               <span className="text-md text-muted-foreground">
                 ID da transação
               </span>
-              <span className="text-md font-semibold">
+              <span className="text-md font-semibold break-all">
                 E004169682024092600157QrTSY2mVi4
               </span>
             </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <img src={bitcoinLogo} alt="pix" className="w-6 h-6 " />
-          <span>
-            <span className="text-lg font-bold">0.50000000 BTC</span>
-          </span>
+          <img src={bitcoinLogo} alt="pix" className="w-6 h-6" />
+          <span className="text-lg font-bold">0.50000000 BTC</span>
         </div>
       </div>
-      <div className="border p-4 mt-10 bg-muted/40 flex items-center justify-between">
-        <div className="flex items-center gap-10 flex-1">
+
+      <div className="border p-4 mt-10 bg-muted/40 flex flex-wrap items-center justify-between gap-4 lg:gap-10">
+        <div className="flex items-center gap-4 lg:gap-10 flex-1">
           <ArrowLeftRight className="h-4 w-4" />
           {/* Data */}
-          <span className="text-md"> 25 de Setembro de 2021</span>
+          <span className="text-md">25 de Setembro de 2021</span>
           {/* ID da transação */}
           <div className="flex items-center gap-2">
             <Hash className="h-4 w-4" />
@@ -117,17 +117,15 @@ const TransactionsHistory = () => {
               <span className="text-md text-muted-foreground">
                 ID da transação
               </span>
-              <span className="text-md font-semibold">
+              <span className="text-md font-semibold break-all">
                 E004169682024092600157QrTSY2mVi4
               </span>
             </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <img src={pixLogo} alt="pix" className="w-6 h-6 " />
-          <span>
-            <span className="text-lg font-bold">R$ 100,00</span>
-          </span>
+          <img src={pixLogo} alt="pix" className="w-6 h-6" />
+          <span className="text-lg font-bold">R$ 100,00</span>
         </div>
       </div>
     </div>

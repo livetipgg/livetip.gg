@@ -20,6 +20,7 @@ export const useLoadTotalsMessageUseCase = () => {
       ...prevState,
       controller: {
         ...prevState.controller,
+        errorTotals: "",
         isLoadingTotals: true,
       },
     }));
