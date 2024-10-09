@@ -14,7 +14,9 @@ export const messageState = atom<IMessageState>({
       isLoadingLastMessages: false,
       isLoadingMessages: false,
       isLoadingTotals: false,
-      error: "",
+      errorMessages: "",
+      errorLastMessages: "",
+      errorTotals: "",
 
       messagesParams: {
         query: "",

@@ -23,6 +23,7 @@ export const useLoadLastMessagesUseCase = () => {
       ...prevState,
       controller: {
         ...prevState.controller,
+        error: "",
         isLoadingLastMessages: true,
       },
     }));
@@ -35,8 +36,15 @@ export const useLoadLastMessagesUseCase = () => {
         ...prevState,
         lastMessages: response.data,
       }));
-    } catch (error) {
-      console.log(error);
+    } catch {
+      setMessageState((prevState: IMessageState) => ({
+        ...prevState,
+        controller: {
+          ...prevState.controller,
+          error:
+            "Houve um erro ao carregar as mensagens, por favor tente novamente.",
+        },
+      }));
     } finally {
       setMessageState((prevState: IMessageState) => ({
         ...prevState,

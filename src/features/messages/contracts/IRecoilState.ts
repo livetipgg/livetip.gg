@@ -15,7 +15,9 @@ export interface ITotalsMessages {
 }
 
 export interface IMessageController {
-  error: string;
+  errorMessages: string;
+  errorLastMessages: string;
+  errorTotals: string;
 
   isLoadingMessages: boolean;
   isLoadingLastMessages: boolean;

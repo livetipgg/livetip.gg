@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { authState } from "@/features/auth/states/atoms";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { balanceState } from "../states/atoms";
@@ -31,8 +30,15 @@ export const useGetUserBalancesUseCase = () => {
           btc_balance: response.data[0].btc_balance,
         },
       }));
-    } catch (error: any) {
-      console.log(error);
+    } catch {
+      setBalanceState((prevState) => ({
+        ...prevState,
+        controller: {
+          ...prevState.controller,
+          error:
+            "Houve um erro ao carregar o saldo, por favor tente novamente.",
+        },
+      }));
     } finally {
       setBalanceState((prevState) => ({
         ...prevState,

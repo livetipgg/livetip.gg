@@ -14,7 +14,7 @@ export const ButtonNewLive = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="destructive" className="w-full mt-4 md:mt-0 md:w-auto">
+        <Button variant="destructive" className="w-full  md:w-auto">
           <TvMinimalPlay className="h-5 w-5 mr-2" />
           Iniciar transmissão
         </Button>

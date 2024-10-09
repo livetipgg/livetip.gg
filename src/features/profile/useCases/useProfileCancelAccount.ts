@@ -28,12 +28,12 @@ export const useProfileCancelAccount = () => {
     try {
       const response = await api.delete(`${DELETE_USER}/${user.id}`);
 
-      console.log("response", response.data);
-
       successSonner(
         "Conta encerrada com sucesso, redirecionando para a página inicial"
       );
       handleLogout();
+
+      return response;
     } catch (error: any) {
       console.error("error", error.response.data.message);
     } finally {

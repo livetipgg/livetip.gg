@@ -20,7 +20,10 @@ import MenuItemWithSubitems from "@/components/sidebar-menu-items-with-subitems"
 import { useRecoilValue } from "recoil";
 import { menuState } from "@/features/sidebar/states/menuState";
 import { useAuthLogoutUseCase } from "@/features/auth/useCases/useAuthLogoutUseCase";
-import { BalancePreview } from "../features/balance/presentations/components/balance-preview";
+import {
+  BalanceMobilePreview,
+  BalancePreview,
+} from "../features/balance/presentations/components/balance-preview";
 import { authState } from "@/features/auth/states/atoms";
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -85,6 +88,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col">
+              <BalanceMobilePreview />
               <nav className="grid gap-2 text-lg font-medium">
                 {menuItems.map((item) =>
                   item.subItems ? (

@@ -6,11 +6,12 @@ import { NoContent } from "@/components/no-content";
 import ContentLoader from "@/components/content-loader";
 import { useEffect } from "react";
 import { useLoadLastMessagesUseCase } from "@/features/messages/useCases/useLoadLastMessagesUseCase";
+import { ErrorAlert } from "@/components/error-alert";
 
 export const LastMessagesViewList = () => {
   const { controller: messageStateController, lastMessages } =
     useRecoilValue(messageState);
-  const { isLoadingLastMessages: lastMessagesIsLoading } =
+  const { isLoadingLastMessages: lastMessagesIsLoading, errorLastMessages } =
     messageStateController;
 
   const { loadLastMessages } = useLoadLastMessagesUseCase();
@@ -39,6 +40,8 @@ export const LastMessagesViewList = () => {
       {!lastMessagesIsLoading && lastMessages.length === 0 && (
         <NoContent message="Nenhuma mensagem para mostrar" />
       )}
+
+      {errorLastMessages && <ErrorAlert error={errorLastMessages} />}
     </div>
   );
 };
