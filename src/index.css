@@ -87,3 +87,27 @@
     -webkit-text-fill-color: var(--foreground);
   }
 }
+
+/* MUda o estilo do scroll */
+@layer components {
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--foreground);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #0d1526;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+  }
+}
+
+.saving-card + .saving-card {
+  margin-top: 1rem;
+}

@@ -11,11 +11,13 @@ import { useLoadTotalsMessageUseCase } from "@/features/messages/useCases/useLoa
 
 const AnalyticsCardGrid = () => {
   const { controller: balanceStateController } = useRecoilValue(balanceState);
-  const { isLoading: balanceIsLoading } = balanceStateController;
+  const { isLoading: balanceIsLoading, error: errorBalance } =
+    balanceStateController;
 
   const { controller: messageStateController, totals } =
     useRecoilValue(messageState);
-  const { isLoadingTotals: totalsMessageIsLoading } = messageStateController;
+  const { isLoadingTotals: totalsMessageIsLoading, errorTotals } =
+    messageStateController;
 
   const { loadTotalsMessage } = useLoadTotalsMessageUseCase();
 
@@ -28,6 +30,7 @@ const AnalyticsCardGrid = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
       <AnalyticsCard
+        error={errorTotals}
         isLoading={totalsMessageIsLoading}
         borderColor="hsl(var(--primary))"
         endValue={totals.total}
@@ -37,6 +40,7 @@ const AnalyticsCardGrid = () => {
         title="Mensagens Recebidas"
       />
       <AnalyticsCard
+        error={errorBalance}
         isLoading={balanceIsLoading}
         borderColor="hsl(var(--success))"
         endValue={1000}
@@ -48,6 +52,7 @@ const AnalyticsCardGrid = () => {
         decimals={2}
       />
       <AnalyticsCard
+        error={errorBalance}
         isLoading={balanceIsLoading}
         borderColor="hsl(var(--warning))"
         endValue={0.0005}

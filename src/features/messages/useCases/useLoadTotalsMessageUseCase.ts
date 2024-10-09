@@ -1,8 +1,9 @@
 import useCreateApiInstance from "@/config/api";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { IMessageState } from "../contracts/IRecoilState";
 import { messageState } from "../states/atoms";
 import { MESSAGE } from "@/helpers/apiUrls";
+import { authState } from "@/features/auth/states/atoms";
 
 interface ILoadTotalsMessageParams {
   startDate: string;
@@ -11,7 +12,7 @@ interface ILoadTotalsMessageParams {
 
 export const useLoadTotalsMessageUseCase = () => {
   const [, setMessageState] = useRecoilState(messageState);
-  // const { user } = useRecoilValue(authState);
+  const { user } = useRecoilValue(authState);
   const api = useCreateApiInstance();
 
   const loadTotalsMessage = async (params: ILoadTotalsMessageParams) => {
@@ -24,7 +25,7 @@ export const useLoadTotalsMessageUseCase = () => {
     }));
 
     try {
-      const response = await api.get(`${MESSAGE}/1/totals`, {
+      const response = await api.get(`${MESSAGE}/${user.id}/totals`, {
         params,
       });
       setMessageState((prevState: IMessageState) => ({
@@ -34,8 +35,15 @@ export const useLoadTotalsMessageUseCase = () => {
           count: response.data.count,
         },
       }));
-    } catch (error) {
-      console.log(error);
+    } catch {
+      setMessageState((prevState: IMessageState) => ({
+        ...prevState,
+        controller: {
+          ...prevState.controller,
+          errorTotals:
+            "Houve um erro ao carregar os totais, por favor tente novamente.",
+        },
+      }));
     } finally {
       setMessageState((prevState: IMessageState) => ({
         ...prevState,

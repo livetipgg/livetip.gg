@@ -27,11 +27,16 @@ const Dashboard = () => {
           <ButtonNewLive />,
           <Button
             variant={"outline"}
-            size={"icon"}
+            className={`${
+              balanceIsLoading || totalsMessageIsLoading
+                ? "text-muted-foreground"
+                : ""
+            }`}
             title="Atualizar"
             onClick={loadDashboardArea}
             disabled={balanceIsLoading || totalsMessageIsLoading}
           >
+            <span className="mr-2">Atualizar</span>
             <RefreshCw
               className={`w-4 h-4 mb-0 ${
                 balanceIsLoading || totalsMessageIsLoading ? "animate-spin" : ""

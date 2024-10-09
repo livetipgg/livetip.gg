@@ -3,14 +3,15 @@ import { messageState } from "@/features/messages/states/atoms";
 import { useRecoilValue } from "recoil";
 import MessageContainer from "../message-view/message-container";
 import { NoContent } from "@/components/no-content";
-import ContentLoader from "@/components/content-loader";
 import { useEffect } from "react";
 import { useLoadLastMessagesUseCase } from "@/features/messages/useCases/useLoadLastMessagesUseCase";
+import { ErrorAlert } from "@/components/error-alert";
+import { MessageSkeleton } from "../message-view/message-skeleton";
 
 export const LastMessagesViewList = () => {
   const { controller: messageStateController, lastMessages } =
     useRecoilValue(messageState);
-  const { isLoadingLastMessages: lastMessagesIsLoading } =
+  const { isLoadingLastMessages: lastMessagesIsLoading, errorLastMessages } =
     messageStateController;
 
   const { loadLastMessages } = useLoadLastMessagesUseCase();
@@ -22,9 +23,10 @@ export const LastMessagesViewList = () => {
   return (
     <div className="my-10">
       <h4 className="text-xl font-semibold mb-10">Últimas mensagens</h4>
-      {lastMessagesIsLoading && (
-        <ContentLoader message="Carregando mensagens" />
-      )}
+      {lastMessagesIsLoading &&
+        Array.from({ length: 4 }).map((_, index) => (
+          <MessageSkeleton key={index} />
+        ))}
       {!lastMessagesIsLoading &&
         lastMessages.length > 0 &&
         lastMessages
@@ -39,6 +41,8 @@ export const LastMessagesViewList = () => {
       {!lastMessagesIsLoading && lastMessages.length === 0 && (
         <NoContent message="Nenhuma mensagem para mostrar" />
       )}
+
+      {errorLastMessages && <ErrorAlert error={errorLastMessages} />}
     </div>
   );
 };

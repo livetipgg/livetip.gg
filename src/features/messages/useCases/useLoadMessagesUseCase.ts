@@ -17,6 +17,7 @@ export const useLoadMessagesUseCase = () => {
       ...prevState,
       controller: {
         ...prevState.controller,
+        errorMessages: "",
         isLoadingMessages: true,
       },
     }));
@@ -29,8 +30,15 @@ export const useLoadMessagesUseCase = () => {
         ...prevState,
         messages: response.data,
       }));
-    } catch (error) {
-      console.log(error);
+    } catch {
+      setMessageState((prevState: IMessageState) => ({
+        ...prevState,
+        controller: {
+          ...prevState.controller,
+          errorMessages:
+            "Houve um erro ao carregar as mensagens, por favor tente novamente.",
+        },
+      }));
     } finally {
       setMessageState((prevState: IMessageState) => ({
         ...prevState,

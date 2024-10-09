@@ -56,10 +56,7 @@ const Profile = () => {
             confirmText="Encerrar conta"
             cancelText="Voltar"
             disabled={isLoadingCancelAccount}
-            onConfirm={() => {
-              handleCancelAccount();
-              console.log("Conta encerrada");
-            }}
+            onConfirm={handleCancelAccount}
           >
             <Button
               variant="destructive"

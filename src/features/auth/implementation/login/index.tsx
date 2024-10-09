@@ -21,6 +21,7 @@ import { useAuthLoginUseCase } from "../../useCases/useAuthLoginUseCase";
 import { Navigate } from "react-router-dom";
 import ButtonLoading from "@/components/button-loader";
 import { ModeToggle } from "@/components/mode-toggle";
+import { ErrorAlert } from "@/components/error-alert";
 
 const LoginPage: React.FC = () => {
   const { loginType, isLoading, isAuthenticated, error } =
@@ -123,11 +124,7 @@ const LoginPage: React.FC = () => {
                   </Button>
                 )}
               </div>
-              {error && (
-                <div className="text-red-500 border text-sm p-2 border-red-500 rounded bg-red-50 text-center mt-2">
-                  {error}
-                </div>
-              )}
+              {error && <ErrorAlert error={error} />}
             </FormProvider>
           )}
         </div>

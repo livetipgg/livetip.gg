@@ -12,6 +12,7 @@ interface AnalyticsCardProps {
   prefix?: string;
   decimals?: number;
   isLoading?: boolean;
+  error?: string;
 }
 
 const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
@@ -24,6 +25,7 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
   isLoading,
   prefix = "",
   decimals = 0,
+  error = null,
 }) => {
   return (
     <Card style={{ borderBottom: `4px solid ${borderColor}` }}>
@@ -49,7 +51,7 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
       <CardContent>
         <span className={`text-2xl font-semibold ${textColor}`}>
           {isLoading && <Skeleton className="w-2/5 h-8" />}
-          {!isLoading && (
+          {!isLoading && !error && (
             <CountUp
               start={0}
               end={endValue}
@@ -59,6 +61,9 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
               separator="."
               decimal=","
             />
+          )}
+          {!isLoading && error && (
+            <span className="text-muted-foreground text-xs">{error}</span>
           )}
         </span>
       </CardContent>
