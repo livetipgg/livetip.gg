@@ -1,25 +1,54 @@
 import { ButtonNewLive } from "@/components/button-new-live";
+import { NoContent } from "@/components/no-content";
 import { SectionTitle } from "@/components/section-title";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatTextMaxCaracters } from "@/helpers/formatTextMaxCaracters";
 import { withLayout } from "@/HOC/withLayout";
-import { CheckCheck, MessageSquareMore } from "lucide-react";
 import CountUp from "react-countup";
-
+import pixLogo from "@/assets/pix-logo.png";
+import bitcoinLogo from "@/assets/bitcoin-logo.png";
+import { Button } from "@/components/ui/button";
+import { MessageSquare, RefreshCw } from "lucide-react";
+import { useGetUserBalancesUseCase } from "@/features/balance/useCases/useGetUserBalancesUseCase";
+import { useRecoilValue } from "recoil";
+import { balanceState } from "@/features/balance/states/atoms";
 const Dashboard = () => {
+  const { loadUserBalance } = useGetUserBalancesUseCase();
+  const { controller } = useRecoilValue(balanceState);
+  const { isLoading } = controller;
   return (
     <div>
-      <SectionTitle title="Dashboard" actions={<ButtonNewLive />} />
+      <SectionTitle
+        title="Dashboard"
+        actions={[
+          <ButtonNewLive />,
+          <Button
+            variant={"outline"}
+            size={"icon"}
+            title="Atualizar"
+            onClick={loadUserBalance}
+            disabled={isLoading}
+          >
+            <RefreshCw
+              className={`w-4 h-4 mb-0 ${isLoading ? "animate-spin" : ""}`}
+            />
+          </Button>,
+        ]}
+      />
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         <Card
           style={{
             borderBottom: "4px solid hsl(var(--primary))",
           }}
         >
           <CardHeader>
-            <CardTitle>Mensagens</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <MessageSquare
+                className="w-5 h-5 text-primary"
+                fill=" hsl(var(--primary))"
+              />
+              Mensagens Recebidas
+            </CardTitle>
             <span className="text-muted-foreground">
               Mensagens recebidas nos últimos 30 dias
             </span>
@@ -30,9 +59,13 @@ const Dashboard = () => {
             </span>
           </CardContent>
         </Card>
+        {/* Valor recebido por pix */}
         <Card style={{ borderBottom: "4px solid hsl(var(--success))" }}>
           <CardHeader>
-            <CardTitle>Valor Recebido</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <img src={pixLogo} alt="pix" className="w-5 h-5" />
+              PIX Recebido
+            </CardTitle>
             <span className="text-muted-foreground">
               Valor recebido nos últimos 30 dias
             </span>
@@ -51,120 +84,35 @@ const Dashboard = () => {
             </span>
           </CardContent>
         </Card>
+        <Card style={{ borderBottom: "4px solid hsl(var(--warning))" }}>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <img src={bitcoinLogo} alt="bitcoin" className="w-5 h-5" />
+              Bitcoin Recebido
+            </CardTitle>
+            <span className="text-muted-foreground">
+              Valor recebido nos últimos 30 dias
+            </span>
+          </CardHeader>
+          <CardContent>
+            <span className="text-2xl font-semibold text-warning">
+              {/* exemplo do valor 0,000000 */}
+              <CountUp
+                start={0}
+                end={0.0005}
+                duration={2}
+                decimals={6}
+                prefix=""
+                separator="."
+                decimal=","
+              />
+            </span>
+          </CardContent>
+        </Card>
       </div>
       <div>
         <h4 className="text-xl font-semibold mt-10">Últimas mensagens</h4>
-        <div>
-          {/* Messages */}
-          <div className="flex gap-4 mt-10 flex-col">
-            <div className=" flex flex-col md:flex-row w-full items-start md:items-center justify-between border-2 p-4 rounded-lg border-success relative">
-              <Badge className="bg-success text-white absolute -top-4 left-4">
-                Última mensagem recebida
-              </Badge>
-              <CheckCheck className="h-5 w-5 text-success mr-5" />
-
-              <div className="flex flex-col min-w-fit ">
-                <strong>Michael Scott</strong>
-                <span>14:30</span>
-              </div>
-              <div className="flex  w-full my-10 md:mx-10 md:my-0">
-                <MessageSquareMore className="h-5 w-5 mr-2" />
-
-                <p
-                  className=" text-sm font-normal"
-                  onClick={() => {
-                    console.log("Open message");
-                  }}
-                >
-                  {formatTextMaxCaracters(
-                    "Gostei muito do seu trabalho, parabéns!",
-                    180
-                  )}
-                </p>
-              </div>
-              <span className="text-success text-2xl  font-semibold min-w-fit  ">
-                R$ 100,00
-              </span>
-            </div>
-            <div className=" flex flex-col md:flex-row w-full items-start md:items-center justify-between border-2 p-4 rounded-lg relative">
-              <CheckCheck className="h-5 w-5 text-success mr-5" />
-
-              <div className="flex flex-col min-w-fit ">
-                <strong>Michael Scott</strong>
-                <span>14:30</span>
-              </div>
-              <div className="flex  w-full my-10 md:mx-10 md:my-0">
-                <MessageSquareMore className="h-5 w-5 mr-2" />
-
-                <p
-                  className=" text-sm font-normal"
-                  onClick={() => {
-                    console.log("Open message");
-                  }}
-                >
-                  {formatTextMaxCaracters(
-                    "Gostei muito do seu trabalho, parabéns!",
-                    180
-                  )}
-                </p>
-              </div>
-              <span className="text-success text-2xl  font-semibold min-w-fit  ">
-                R$ 10,00
-              </span>
-            </div>
-            <div className=" flex flex-col md:flex-row w-full items-start md:items-center justify-between border-2 p-4 rounded-lg relative">
-              <CheckCheck className="h-5 w-5 text-success mr-5" />
-
-              <div className="flex flex-col min-w-fit ">
-                <strong>Michael Scott</strong>
-                <span>14:30</span>
-              </div>
-              <div className="flex  w-full my-10 md:mx-10 md:my-0">
-                <MessageSquareMore className="h-5 w-5 mr-2" />
-
-                <p
-                  className=" text-sm font-normal"
-                  onClick={() => {
-                    console.log("Open message");
-                  }}
-                >
-                  {formatTextMaxCaracters(
-                    "Gostei muito do seu trabalho, parabéns!",
-                    180
-                  )}
-                </p>
-              </div>
-              <span className="text-success text-2xl  font-semibold min-w-fit  ">
-                R$ 10,00
-              </span>
-            </div>
-            <div className=" flex flex-col md:flex-row w-full items-start md:items-center justify-between border-2 p-4 rounded-lg relative">
-              <CheckCheck className="h-5 w-5 text-success mr-5" />
-              <div className="flex flex-col min-w-fit ">
-                <strong>Michael Scott</strong>
-                <span>14:30</span>
-              </div>
-              <div className="flex  w-full my-10 md:mx-10 md:my-0">
-                <MessageSquareMore className="h-5 w-5 mr-2" />
-
-                <p
-                  className=" text-sm font-normal"
-                  onClick={() => {
-                    console.log("Open message");
-                  }}
-                >
-                  {formatTextMaxCaracters(
-                    "Gostei muito do seu trabalho, parabéns!",
-                    180
-                  )}
-                </p>
-              </div>
-              <span className="text-success text-2xl  font-semibold min-w-fit  ">
-                R$ 10,00
-              </span>
-            </div>
-          </div>
-        </div>
+        <NoContent message="Nenhuma mensagem para mostrar" />
       </div>
     </div>
   );

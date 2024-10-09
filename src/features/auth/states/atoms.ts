@@ -17,4 +17,6 @@ export const authState = atom<IAuthState>({
 export const authController = atom({
   key: "authController",
   default: initialAuthController,
+
+  effects_UNSTABLE: [persistAtom],
 });

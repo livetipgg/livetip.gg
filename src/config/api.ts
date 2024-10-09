@@ -1,17 +1,38 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { authState } from "@/features/auth/states/atoms";
 import axios from "axios";
+import { useRecoilValue } from "recoil";
 
-const createApiInstance = () => {
+const useCreateApiInstance = () => {
+  const { user } = useRecoilValue(authState);
+
   const headers: any = {
     "Content-Type": "application/json",
   };
 
-  const BASE_URL = "http://localhost:8004";
+  if (user.token) {
+    headers.Authorization = `${user.token}`;
+  }
+
+  const BASE_URL = "http://localhost:3000/api/v1/";
 
   return axios.create({
     baseURL: BASE_URL,
     headers,
+
+    withCredentials: true,
   });
 };
 
-export default createApiInstance;
+const setHeaderToken = (token: string) => {
+  localStorage.setItem("token", token);
+  axios.defaults.headers.common.Authorization = `${token}`;
+};
+
+const deleteHeaderToken = () => {
+  localStorage.removeItem("token");
+  delete axios.defaults.headers.common.Authorization;
+};
+
+export { setHeaderToken, deleteHeaderToken };
+export default useCreateApiInstance;

@@ -1,4 +1,4 @@
-import { Eye, EyeOff, Menu } from "lucide-react";
+import { Menu, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -19,19 +19,19 @@ import SidebarMenuItem from "@/components/sidebar-menu-item";
 import MenuItemWithSubitems from "@/components/sidebar-menu-items-with-subitems";
 import { useRecoilValue } from "recoil";
 import { menuState } from "@/features/sidebar/states/menuState";
-import { useState } from "react";
+import { useAuthLogoutUseCase } from "@/features/auth/useCases/useAuthLogoutUseCase";
+import { BalancePreview } from "../features/balance/presentations/components/balance-preview";
+import { authState } from "@/features/auth/states/atoms";
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const menuItems = useRecoilValue(menuState);
-  const [showSaldo, setShowSaldo] = useState(false);
+  const { handleLogout } = useAuthLogoutUseCase();
+  const { user } = useRecoilValue(authState);
+  const navigate = useNavigate();
 
-  const user = {
-    name: "Eduardo Moresco",
-    email: "eduardomorescoiost@gmail.com",
-  };
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block  relative">
@@ -72,29 +72,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
       </div>
       <div className="flex flex-col">
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 6 sticky top-0 z-10 backdrop-blur-xl">
-          <div className="   flex-col hidden md:flex">
-            <span className="text-xs font-semibold">Saldo:</span>
-            <div className="flex items-center gap-2">
-              <span className="text-lg">
-                {showSaldo ? (
-                  "R$ 1.000,00"
-                ) : (
-                  <span className="text-lg blur-sm">R$ 1.000,00</span>
-                )}
-              </span>
-              <Button
-                onClick={() => setShowSaldo((prev) => !prev)}
-                variant="ghost"
-                size="icon"
-              >
-                {showSaldo ? (
-                  <EyeOff className="h-5 w-5" />
-                ) : (
-                  <Eye className="h-5 w-5" />
-                )}
-              </Button>
-            </div>
-          </div>
+          <BalancePreview />
           <Sheet>
             <SheetTrigger asChild>
               <Button
@@ -136,29 +114,31 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           <ModeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Avatar className="cursor-pointer w-8 h-8">
-                <AvatarImage src="https://medisa.licdn.com/dms/image/v2/D4D03AQHgw4V53tPTwA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1720038175146?e=1730937600&v=beta&t=MJItfILSRnIwLOsdBQbnTnAuN4fP8c5PdfoUrmV6J7A" />
-                <AvatarFallback>EM</AvatarFallback>
+              <Avatar className="cursor-pointer w-8 h-8 ">
+                <AvatarImage src={user.avatar_url} className="object-cover" />
+                <AvatarFallback>
+                  <UserRound className="h-4 w-4" />
+                </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>
                 <div>
-                  <span>{user.name}</span>
+                  <span>{user.username}</span>
                   <span className="text-muted-foreground block text-sm font-normal">
                     {user.email}
                   </span>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Configurações do perfil</DropdownMenuItem>
-              <DropdownMenuItem>Sair</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/perfil")}>
+                Configurações do perfil
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>Sair</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
         <main className="flex-1 overflow-auto h-full w-full relative lg:p-6 p-4">
-          {/* <DynamicBreadcrumbs /> */}
-
           {children}
         </main>
       </div>

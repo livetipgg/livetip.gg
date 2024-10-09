@@ -6,15 +6,14 @@ export interface IControllerAuthState {
 }
 
 export interface IAuthUserState {
-  pin: string;
-  _id: string;
-  id: string;
-  email: string;
-  name: string;
-  token: string;
-  one_time_password: string;
+  id: number | null;
   username: string;
-  updatedAt: string;
+  brl_balance: string;
+  btc_balance: string;
+  email: string;
+  is_deleted: boolean;
+  token: string;
+  avatar_url: string;
 }
 
 export interface IAuthState {

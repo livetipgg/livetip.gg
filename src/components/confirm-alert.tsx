@@ -1,7 +1,6 @@
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -9,9 +8,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import React from "react";
+import { Button } from "./ui/button";
 
 interface ConfirmAlertProps {
   children: React.ReactNode;
+  disabled?: boolean;
   title: string;
   description: string;
   cancelText?: string;
@@ -26,9 +28,18 @@ export const ConfirmAlert = ({
   onConfirm,
   cancelText = "Cancelar",
   confirmText = "Continuar",
+  disabled = false,
 }: ConfirmAlertProps) => {
+  const [open, setOpen] = React.useState(false);
+
   return (
-    <AlertDialog>
+    <AlertDialog
+      open={open}
+      onOpenChange={(open) => {
+        if (disabled) return;
+        setOpen(open);
+      }}
+    >
       <AlertDialogTrigger className="p-0 m-0 ">{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -36,10 +47,18 @@ export const ConfirmAlert = ({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>{cancelText}</AlertDialogCancel>
+          <Button
+            variant="link"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            {cancelText}
+          </Button>
           <AlertDialogAction
             onClick={() => {
               onConfirm();
+              setOpen(false);
             }}
           >
             {confirmText}

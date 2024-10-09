@@ -18,39 +18,33 @@ import { useRecoilValue } from "recoil";
 import { authController } from "../../states/atoms";
 
 import { useAuthLoginUseCase } from "../../useCases/useAuthLoginUseCase";
-import { Navigate, useNavigate } from "react-router-dom";
-import { useTheme } from "@/components/theme-provider";
+import { Navigate } from "react-router-dom";
 import ButtonLoading from "@/components/button-loader";
 import { ModeToggle } from "@/components/mode-toggle";
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
-  const { loginType, isLoading, isAuthenticated } =
+  const { loginType, isLoading, isAuthenticated, error } =
     useRecoilValue(authController);
 
   const { handleLogin } = useAuthLoginUseCase();
   const form = useForm<z.infer<typeof formLoginSchema>>({
     resolver: zodResolver(formLoginSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formLoginSchema>) {
     handleLogin(values);
-
-    navigate("/inicio");
   }
 
-  const { theme } = useTheme();
-  console.log("theme", theme);
   if (isAuthenticated) {
     return <Navigate to="/inicio" />;
   }
+
   return (
     <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative">
-      {/* Logotipo */}
       <h4 className="absolute top-4 left-4 text-2xl font-bold text-black dark:text-white">
         LiveChat
       </h4>
@@ -73,13 +67,13 @@ const LoginPage: React.FC = () => {
                 <div className="grid gap-2">
                   <FormField
                     control={form.control}
-                    name="email"
+                    name="username"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>Usuário</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="email@gmail.com"
+                            placeholder="Nome de usuario"
                             {...field}
                             className="p-5"
                           />
@@ -101,8 +95,13 @@ const LoginPage: React.FC = () => {
                           <Input
                             {...field}
                             type="password"
-                            placeholder="*****"
+                            placeholder="Informe sua senha"
                             className="p-5"
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                form.handleSubmit(onSubmit)();
+                              }
+                            }}
                           />
                         </FormControl>
 
@@ -123,40 +122,12 @@ const LoginPage: React.FC = () => {
                     Entrar
                   </Button>
                 )}
-
-                {/* <div className="flex justify-center">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant="link" className="p-0 m-0">
-                        Esqueci minha senha
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                      <DialogHeader>
-                        <DialogTitle>Recuperação de senha</DialogTitle>
-                        <DialogDescription>
-                          Digite seu e-mail que enviaremos uma nova senha para
-                          você.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div>
-                        <Input
-                          placeholder="Informe seu e-mail"
-                          className="p-5"
-                        />
-                      </div>
-                      <DialogFooter>
-                        <Button
-                          variant="secondary"
-                          className="w-full text-white p-5"
-                        >
-                          Enviar
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                </div> */}
               </div>
+              {error && (
+                <div className="text-red-500 border text-sm p-2 border-red-500 rounded bg-red-50 text-center mt-2">
+                  {error}
+                </div>
+              )}
             </FormProvider>
           )}
         </div>

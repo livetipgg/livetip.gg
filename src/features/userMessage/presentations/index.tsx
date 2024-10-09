@@ -26,6 +26,8 @@ import { useTheme } from "@/components/theme-provider";
 const UserMessagePage = () => {
   const { setTheme } = useTheme();
 
+  const [screenToShow, setScreenToShow] = useState("success");
+
   useEffect(() => {
     setTheme("light");
   }, [setTheme]);
@@ -70,146 +72,187 @@ const UserMessagePage = () => {
         <div className="w-28 h-28 bg-white rounded-full flex items-center justify-center absolute -top-16 shadow-md p-1">
           <Avatar className="cursor-pointer w-full h-full">
             <AvatarImage
-              src="https://musicaecinema.com/wp-content/uploads/2024/02/the-office-how-to-watch.jpg"
+              // src="https://musicaecinema.com/wp-content/uploads/2024/02/the-office-how-to-watch.jpg"
               className="object-cover"
             />
-            <AvatarFallback>EM</AvatarFallback>
+            <AvatarFallback>AC</AvatarFallback>
           </Avatar>
         </div>
         <div className="mt-10 flex items-center justify-center flex-col w-full">
           <div className="flex flex-col items-center justify-center mb-4">
-            <strong className="text-xl">Michael Scott</strong>
+            <strong className="text-xl">acougueirors</strong>
             <span className="text-lg font-semibold text-gray-400">
               Envie uma mensagem
             </span>
           </div>
+          {screenToShow !== "success" && (
+            <>
+              <div className="flex flex-col w-full">
+                <Label className="mb-2 text-muted-foreground text-xs">
+                  Seu nome de usuário
+                </Label>
+                <Input
+                  placeholder="Digite seu nome de usuário"
+                  className="rounded-xl"
+                />
+              </div>
+              <div className="flex flex-col w-full mt-2">
+                <Label className="mb-2 text-muted-foreground text-xs">
+                  Mensagem
+                </Label>
+                <Textarea
+                  style={{ resize: "none", overflow: "hidden" }} // Desativa o redimensionamento manual e oculta o scroll
+                  placeholder="Type your message here."
+                  maxLength={300}
+                  onChange={handleInputChange}
+                  className="h-auto rounded-xl max-h-60"
+                />
+                <span className="text-muted-foreground text-xs text-right mt-2">
+                  {message.length}/{MAX_LENGTH} caracteres restantes
+                </span>
+              </div>
+              {/* Método de pagamento */}
+              <div className="flex flex-col w-full mt-2">
+                <Label className="mb-2 text-muted-foreground text-xs">
+                  Método de pagamento
+                </Label>
+                <Dialog
+                  open={dialogPaymentMethodsOpen}
+                  onOpenChange={(open) => {
+                    setDialogPaymentMethodsOpen(open);
+                  }}
+                >
+                  <DialogTrigger asChild>
+                    <div className="w-full rounded-xl border">
+                      <div
+                        className={`flex items-center w-full p-2 justify-between border rounded-xl cursor-pointer `}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 ">
+                            <div className="flex items-center">
+                              {
+                                paymentMethods.find((item) => item?.selected)
+                                  ?.icon
+                              }
+                            </div>
+                            <strong className="text-sm">
+                              {
+                                paymentMethods.find((item) => item?.selected)
+                                  ?.name
+                              }
+                            </strong>
+                          </div>
+                        </div>
+                        <div>
+                          <Button variant="ghost" size={"icon"}>
+                            <RefreshCcw size={16} />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Escolha a forma de pagamento:</DialogTitle>
+                      <DialogDescription>
+                        Você pode escolher entre PIX ou Bitcoin
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex flex-col w-full mt-2 gap-3">
+                      {paymentMethods.map((paymentMethod) => (
+                        <div
+                          onClick={() => {
+                            setPaymentMethods((prev) =>
+                              prev.map((prevItem) => ({
+                                ...prevItem,
+                                selected: prevItem.id === paymentMethod.id,
+                              }))
+                            );
+                          }}
+                          className={`flex items-center w-full p-2 border-2 justify-between  ${
+                            paymentMethod.selected ? "border-success" : "border"
+                          } rounded-xl cursor-pointer `}
+                        >
+                          <div className="flex items-center gap-2">
+                            {paymentMethod.selected ? (
+                              <CircleCheck size={24} className="text-success" />
+                            ) : (
+                              <Circle size={24} />
+                            )}
+                            <div className="flex flex-col ">
+                              <strong>{paymentMethod.name}</strong>
+                              <span className="text-muted-foreground text-xs">
+                                {paymentMethod.description}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex items-center">
+                            {paymentMethod.icon}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
+              <div className="flex flex-col w-full mt-2">
+                <Label className="mb-2 text-muted-foreground text-xs">
+                  Valor
+                </Label>
+                <NumericFormat
+                  className="rounded-xl"
+                  thousandSeparator={true}
+                  decimalScale={2}
+                  prefix="R$"
+                  fixedDecimalScale
+                  allowNegative={false}
+                  customInput={Input}
+                  placeholder="R$ 0,00"
+                />
+                {/* Valor convertido */}
+                {/* Valor em bitcoin */}
+                <span className="text-muted-foreground text-xs text-start mt-2">
+                  Valor convertido: 0,00000001 BTC
+                </span>
+
+                <span className="text-primary font-semibold text-xs text-right mt-2">
+                  O valor mínimo é de R$ 1,00{" "}
+                </span>
+              </div>
+              <Button
+                className="mt-4 w-full rounded-xl"
+                onClick={() => {
+                  setDialogPixPaymentMethodOpen(true);
+                }}
+              >
+                CONTINUAR
+              </Button>
+            </>
+          )}
+          {screenToShow === "success" && (
+            <>
+              <div className="flex flex-col gap-4">
+                <strong className="text-xl">Obrigado!</strong>
+                <span className="text-md text-black-400">
+                  Seu pagamento foi confirmado e sua mensagem será exibida na
+                  transmissão em instantes.
+                </span>
+                <div className="border p-2 rounded-md flex flex-col">
+                  <span className="text-sm">ID DA TRANSAÇÃO</span>
+                  <strong>0x1234567890d1e2f3</strong>
+                </div>
+              </div>
+              <Button
+                className="mt-4 w-full rounded-xl"
+                onClick={() => {
+                  setScreenToShow("message");
+                }}
+              >
+                VOLTAR
+              </Button>
+            </>
+          )}
           {/* Input */}
-          <div className="flex flex-col w-full">
-            <Label className="mb-2 text-muted-foreground text-xs">
-              Seu nome de usuário
-            </Label>
-            <Input
-              placeholder="Digite seu nome de usuário"
-              className="rounded-xl"
-            />
-          </div>
-          <div className="flex flex-col w-full mt-2">
-            <Label className="mb-2 text-muted-foreground text-xs">
-              Mensagem
-            </Label>
-            <Textarea
-              style={{ resize: "none", overflow: "hidden" }} // Desativa o redimensionamento manual e oculta o scroll
-              placeholder="Type your message here."
-              maxLength={300}
-              onChange={handleInputChange}
-              className="h-auto rounded-xl max-h-60"
-            />
-            <span className="text-muted-foreground text-xs text-right mt-2">
-              {message.length}/{MAX_LENGTH} caracteres restantes
-            </span>
-          </div>
-          {/* Método de pagamento */}
-          <div className="flex flex-col w-full mt-2">
-            <Label className="mb-2 text-muted-foreground text-xs">
-              Método de pagamento
-            </Label>
-            <Dialog
-              open={dialogPaymentMethodsOpen}
-              onOpenChange={(open) => {
-                setDialogPaymentMethodsOpen(open);
-              }}
-            >
-              <DialogTrigger asChild>
-                <div className="w-full rounded-xl border">
-                  <div
-                    className={`flex items-center w-full p-2 justify-between border rounded-xl cursor-pointer `}
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-2 ">
-                        <div className="flex items-center">
-                          {paymentMethods.find((item) => item?.selected)?.icon}
-                        </div>
-                        <strong className="text-sm">
-                          {paymentMethods.find((item) => item?.selected)?.name}
-                        </strong>
-                      </div>
-                    </div>
-                    <div>
-                      <Button variant="ghost" size={"icon"}>
-                        <RefreshCcw size={16} />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Escolha a forma de pagamento:</DialogTitle>
-                  <DialogDescription>
-                    Você pode escolher entre PIX ou Bitcoin
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="flex flex-col w-full mt-2 gap-3">
-                  {paymentMethods.map((paymentMethod) => (
-                    <div
-                      onClick={() => {
-                        setPaymentMethods((prev) =>
-                          prev.map((prevItem) => ({
-                            ...prevItem,
-                            selected: prevItem.id === paymentMethod.id,
-                          }))
-                        );
-                      }}
-                      className={`flex items-center w-full p-2 border-2 justify-between  ${
-                        paymentMethod.selected ? "border-success" : "border"
-                      } rounded-xl cursor-pointer `}
-                    >
-                      <div className="flex items-center gap-2">
-                        {paymentMethod.selected ? (
-                          <CircleCheck size={24} className="text-success" />
-                        ) : (
-                          <Circle size={24} />
-                        )}
-                        <div className="flex flex-col ">
-                          <strong>{paymentMethod.name}</strong>
-                          <span className="text-muted-foreground text-xs">
-                            {paymentMethod.description}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-center">
-                        {paymentMethod.icon}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-          <div className="flex flex-col w-full mt-2">
-            <Label className="mb-2 text-muted-foreground text-xs">Valor</Label>
-            <NumericFormat
-              className="rounded-xl"
-              thousandSeparator={true}
-              decimalScale={2}
-              prefix="R$"
-              fixedDecimalScale
-              allowNegative={false}
-              customInput={Input}
-              placeholder="R$ 0,00"
-            />
-            <span className="text-primary font-semibold text-xs text-right mt-2">
-              O valor mínimo é de R$ 1,00{" "}
-            </span>
-          </div>
-          <Button
-            className="mt-4 w-full rounded-xl"
-            onClick={() => {
-              setDialogPixPaymentMethodOpen(true);
-            }}
-          >
-            CONTINUAR
-          </Button>
 
           <Dialog
             open={pixDialogPaymentMethodOpen}
@@ -255,6 +298,7 @@ const UserMessagePage = () => {
                   className="mt-4 w-full rounded-xl"
                   onClick={() => {
                     setDialogPixPaymentMethodOpen(false);
+                    setScreenToShow("success");
                   }}
                 >
                   VOLTAR

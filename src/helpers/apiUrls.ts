@@ -1,5 +1,9 @@
 // apiUrls.ts
 
 // Auth
-export const LOGIN = "/auth/login";
-export const REGISTER = "/auth/register";
+export const LOGIN = "/user/login";
+
+// User
+export const GET_USER = "/user/:id";
+export const DELETE_USER = "/user";
+export const GET_BALANCE = "/user/:id/balance";

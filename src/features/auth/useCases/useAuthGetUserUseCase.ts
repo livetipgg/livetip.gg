@@ -1,22 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IAuthLoginPayload } from "../contracts/IAuthPayload";
-import createApiInstance, { setHeaderToken } from "@/config/api";
 import { authController, authState } from "../states/atoms";
 import { useRecoilState } from "recoil";
-import { LOGIN } from "@/helpers/apiUrls";
+import { GET_USER } from "@/helpers/apiUrls";
+import useCreateApiInstance from "@/config/api";
 
-export const useAuthLoginUseCase = () => {
-  const api = createApiInstance();
+export const useAuthGetUserUseCase = () => {
+  const api = useCreateApiInstance();
   const [, setAuth] = useRecoilState(authState);
   const [, setAuthController] = useRecoilState(authController);
-  const fetchLogin = async (payload: IAuthLoginPayload) => {
+  const fetchGetUser = async (id: number) => {
     setAuthController((prev: any) => ({
       ...prev,
       isLoading: true,
       error: "",
     }));
     try {
-      const response = await api.post(LOGIN, payload);
+      const response = await api.post(GET_USER, id);
       setAuthController((prev: any) => ({
         ...prev,
         isLoading: false,
@@ -29,18 +28,14 @@ export const useAuthLoginUseCase = () => {
         user: {
           ...prev.user,
           ...response.data.user,
-          token: response.data.token,
         },
       }));
-
-      // setar no header da api o token
-      setHeaderToken(response.data.token);
     } catch (error: any) {
       setAuthController((prev: any) => ({
         ...prev,
         error:
           error.response.data.message ||
-          "Não foi possível realizar o login. Verifique suas credenciais e tente novamente.",
+          "Não foi possivel carregar os dados do usuário. Tente novamente.",
         isLoading: false,
       }));
     } finally {
@@ -51,11 +46,7 @@ export const useAuthLoginUseCase = () => {
     }
   };
 
-  const handleLogin = async (payload: IAuthLoginPayload) => {
-    await fetchLogin(payload);
-  };
-
   return {
-    handleLogin,
+    fetchGetUser,
   };
 };
