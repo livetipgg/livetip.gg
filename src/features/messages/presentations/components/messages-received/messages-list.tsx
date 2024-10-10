@@ -26,7 +26,11 @@ const MessagesList: React.FC<MessagesListProps> = ({
     );
   }
   if (messages?.length === 0)
-    return <NoContent message="Nenhuma mensagem para mostrar" />;
+    return (
+      <div className="mt-10">
+        <NoContent message="Nenhuma mensagem para mostrar" />
+      </div>
+    );
 
   if (error || !messages) return <ErrorAlert error={error} />;
 
