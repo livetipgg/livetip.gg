@@ -36,7 +36,12 @@ export const LastMessagesViewList = () => {
     lastMessages.results &&
     lastMessages.results.length === 0
   ) {
-    return <NoContent message="Nenhuma mensagem para mostrar" />;
+    return (
+      <div className="my-10">
+        <h4 className="text-xl font-semibold mb-10">Últimas mensagens</h4>
+        <NoContent message="Nenhuma mensagem para mostrar" />
+      </div>
+    );
   }
 
   return (
