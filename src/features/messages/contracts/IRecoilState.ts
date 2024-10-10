@@ -41,8 +41,16 @@ export interface IMessageController {
 }
 
 export interface IMessageState {
-  messages: IMessage[];
-  lastMessages: IMessage[];
+  messages: {
+    results: IMessage[];
+    count: number;
+    totalPages: number;
+  };
+  lastMessages: {
+    results: IMessage[];
+    count: number;
+    totalPages: number;
+  };
   totals: ITotalsMessages;
   controller: IMessageController;
 }

@@ -12,7 +12,12 @@ export const useLoadMessagesUseCase = () => {
   const { user } = useRecoilValue(authState);
   const api = useCreateApiInstance();
 
-  const loadMessages = async () => {
+  interface LoadMessagesParams {
+    limit?: number;
+    page?: number;
+  }
+
+  const loadMessages = async (params?: LoadMessagesParams) => {
     setMessageState((prevState: IMessageState) => ({
       ...prevState,
       controller: {
@@ -23,8 +28,25 @@ export const useLoadMessagesUseCase = () => {
     }));
 
     try {
+      if (!params?.page) {
+        setMessageState((prevState: IMessageState) => ({
+          ...prevState,
+          controller: {
+            ...prevState.controller,
+            messagesParams: {
+              ...prevState.controller.messagesParams,
+              page: 1,
+            },
+          },
+        }));
+      }
+
       const response = await api.get(`${MESSAGE}/${user.id}`, {
-        params: messagesParams,
+        params: {
+          ...messagesParams,
+          limit: params?.limit || messagesParams.limit,
+          page: params?.page || messagesParams.page,
+        },
       });
       setMessageState((prevState: IMessageState) => ({
         ...prevState,

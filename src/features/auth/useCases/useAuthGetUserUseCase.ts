@@ -22,9 +22,9 @@ export const useAuthGetUserUseCase = () => {
         isAuthenticated: true,
         error: "",
       }));
+
       setAuth((prev) => ({
         ...prev,
-
         user: {
           ...prev.user,
           ...response.data.user,

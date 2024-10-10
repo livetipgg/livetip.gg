@@ -17,6 +17,7 @@ const MessagesList: React.FC<MessagesListProps> = ({
   isLoading,
   error,
 }) => {
+  console.log("MessagesListProps", messages, isLoading, error);
   const { controller: messageStateController } = useRecoilValue(messageState);
   const { messagesParams } = messageStateController;
   if (isLoading) {
@@ -24,10 +25,10 @@ const MessagesList: React.FC<MessagesListProps> = ({
       (_, index) => <MessageSkeleton key={index} />
     );
   }
-  if (messages.length === 0)
+  if (messages?.length === 0)
     return <NoContent message="Nenhuma mensagem para mostrar" />;
 
-  if (error) return <ErrorAlert error={error} />;
+  if (error || !messages) return <ErrorAlert error={error} />;
 
   return (
     <>

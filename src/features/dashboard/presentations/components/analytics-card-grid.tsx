@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import pixLogo from "@/assets/pix-logo.png";
 import bitcoinLogo from "@/assets/bitcoin-logo.png";
-import { MessageSquare } from "lucide-react";
+import { Inbox } from "lucide-react";
 import AnalyticsCard from "./analytics-card";
 import { messageState } from "@/features/messages/states/atoms";
 import { useRecoilValue } from "recoil";
@@ -34,7 +34,7 @@ const AnalyticsCardGrid = () => {
         isLoading={totalsMessageIsLoading}
         borderColor="hsl(var(--primary))"
         endValue={totals.total}
-        icon={<MessageSquare className="w-5 h-5 text-primary" />}
+        icon={<Inbox className="w-5 h-5 text-primary" />}
         subtitle="Mensagens recebidas nos últimos 30 dias"
         textColor="text-primary"
         title="Mensagens Recebidas"

@@ -17,6 +17,7 @@ export const useAuthLoginUseCase = () => {
     }));
     try {
       const response = await api.post(LOGIN, payload);
+
       setAuthController((prev: any) => ({
         ...prev,
         isLoading: false,
@@ -33,13 +34,12 @@ export const useAuthLoginUseCase = () => {
         },
       }));
 
-      // setar no header da api o token
       setHeaderToken(response.data.token);
     } catch (error: any) {
       setAuthController((prev: any) => ({
         ...prev,
         error:
-          error.response.data.message ||
+          error?.response?.data?.message ||
           "Não foi possível realizar o login. Verifique suas credenciais e tente novamente.",
         isLoading: false,
       }));

@@ -28,15 +28,15 @@ export const LastMessagesViewList = () => {
           <MessageSkeleton key={index} />
         ))}
       {!lastMessagesIsLoading &&
-        lastMessages.length > 0 &&
-        lastMessages.map((message) => (
+        lastMessages.results.length > 0 &&
+        lastMessages.results.map((message) => (
           <MessageContainer
             key={message._id}
-            messages={lastMessages}
+            messages={lastMessages.results}
             message={message}
           />
         ))}
-      {!lastMessagesIsLoading && lastMessages.length === 0 && (
+      {!lastMessagesIsLoading && lastMessages.results.length === 0 && (
         <NoContent message="Nenhuma mensagem para mostrar" />
       )}
 
