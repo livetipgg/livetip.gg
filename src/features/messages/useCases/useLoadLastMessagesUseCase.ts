@@ -13,7 +13,7 @@ export const useLoadLastMessagesUseCase = () => {
   const loadLastMessages = async () => {
     const params = {
       ordered: true,
-      pageSize: 4,
+      limit: 4,
       page: 1,
       startDate: "2002-10-02",
       endDate: "2024-10-10",

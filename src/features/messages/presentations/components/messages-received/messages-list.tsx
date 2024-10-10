@@ -20,7 +20,7 @@ const MessagesList: React.FC<MessagesListProps> = ({
   const { controller: messageStateController } = useRecoilValue(messageState);
   const { messagesParams } = messageStateController;
   if (isLoading) {
-    return Array.from({ length: messagesParams.pageSize || 10 }).map(
+    return Array.from({ length: messagesParams.limit || 10 }).map(
       (_, index) => <MessageSkeleton key={index} />
     );
   }

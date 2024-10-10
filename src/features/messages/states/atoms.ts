@@ -22,13 +22,13 @@ export const messageState = atom<IMessageState>({
         query: "",
         startDate: undefined,
         endDate: undefined,
-        pageSize: 10,
+        limit: 10,
         page: 1,
         ordered: true,
       },
 
       lastMessagesParams: {
-        pageSize: 4,
+        limit: 4,
         page: 1,
         startDate: undefined,
         endDate: undefined,

@@ -27,13 +27,13 @@ export interface IMessageController {
     query: string;
     startDate: Date | undefined | string;
     endDate: Date | undefined | string;
-    pageSize: number;
+    limit: number;
     page: number;
     ordered: boolean;
   };
 
   lastMessagesParams: {
-    pageSize: number;
+    limit: number;
     page: number;
     startDate: Date | undefined | string;
     endDate: Date | undefined | string;
