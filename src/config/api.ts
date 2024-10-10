@@ -18,8 +18,8 @@ const useCreateApiInstance = () => {
     headers.Authorization = `${user.token}`;
   }
 
-  const BASE_URL = "http://localhost:3000/api/v1/";
-  // const BASE_URL = "https://livechat-437913.uc.r.appspot.com/api/v1/";
+  // const BASE_URL = "http://localhost:3000/api/v1/";
+  const BASE_URL = "https://livechat-437913.uc.r.appspot.com/api/v1/";
 
   const api = axios.create({
     baseURL: BASE_URL,

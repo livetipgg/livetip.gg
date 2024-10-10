@@ -4,8 +4,16 @@ import { IMessageState } from "../contracts/IRecoilState";
 export const messageState = atom<IMessageState>({
   key: "messageState",
   default: {
-    messages: [],
-    lastMessages: [],
+    messages: {
+      results: [],
+      count: 0,
+      totalPages: 0,
+    },
+    lastMessages: {
+      results: [],
+      count: 0,
+      totalPages: 0,
+    },
     totals: {
       total: 0,
       count: 0,

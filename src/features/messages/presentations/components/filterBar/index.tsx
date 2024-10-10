@@ -74,7 +74,11 @@ const FilterBar = () => {
               },
             }));
           }}
-          onSubmit={() => loadMessages()}
+          onSubmit={() =>
+            loadMessages({
+              page: 1,
+            })
+          }
           isLoading={isLoadingMessages}
         />
 
@@ -88,7 +92,11 @@ const FilterBar = () => {
       <Button
         variant="default"
         className="w-full lg:w-auto mt-4 lg:mt-0"
-        onClick={() => loadMessages()}
+        onClick={() =>
+          loadMessages({
+            page: 1,
+          })
+        }
         disabled={isLoadingMessages}
       >
         <Search className="h-4 w-4 mr-2" />

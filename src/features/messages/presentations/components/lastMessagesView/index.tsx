@@ -19,28 +19,36 @@ export const LastMessagesViewList = () => {
   useEffect(() => {
     loadLastMessages();
   }, []);
+  console.log(lastMessages);
+
+  if (errorLastMessages || !lastMessages)
+    return <ErrorAlert error={errorLastMessages} />;
+
+  if (lastMessagesIsLoading) {
+    return Array.from({ length: 4 }).map((_, index) => (
+      <MessageSkeleton key={index} />
+    ));
+  }
+
+  if (
+    !lastMessagesIsLoading &&
+    lastMessages &&
+    lastMessages.results &&
+    lastMessages.results.length === 0
+  ) {
+    return <NoContent message="Nenhuma mensagem para mostrar" />;
+  }
 
   return (
     <div className="my-10">
       <h4 className="text-xl font-semibold mb-10">Últimas mensagens</h4>
-      {lastMessagesIsLoading &&
-        Array.from({ length: 4 }).map((_, index) => (
-          <MessageSkeleton key={index} />
-        ))}
-      {!lastMessagesIsLoading &&
-        lastMessages.results.length > 0 &&
-        lastMessages.results.map((message) => (
-          <MessageContainer
-            key={message._id}
-            messages={lastMessages.results}
-            message={message}
-          />
-        ))}
-      {!lastMessagesIsLoading && lastMessages.results.length === 0 && (
-        <NoContent message="Nenhuma mensagem para mostrar" />
-      )}
-
-      {errorLastMessages && <ErrorAlert error={errorLastMessages} />}
+      {lastMessages?.results?.map((message) => (
+        <MessageContainer
+          key={message._id}
+          messages={lastMessages.results}
+          message={message}
+        />
+      ))}
     </div>
   );
 };
