@@ -59,8 +59,9 @@ const AnalyticsCardGrid = () => {
         icon={<img src={bitcoinLogo} alt="bitcoin" className="w-5 h-5" />}
         subtitle="Valor recebido nos últimos 30 dias"
         textColor="text-warning"
-        title="Bitcoin Recebido"
+        title="Satoshi Recebido"
         decimals={6}
+        convertToCurrency
       />
     </div>
   );

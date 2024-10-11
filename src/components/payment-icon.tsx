@@ -2,29 +2,25 @@ import pixLogo from "@/assets/pix-logo.png";
 import bitcoinLogo from "@/assets/bitcoin-logo.png";
 
 interface PaymentIconProps {
-  paymentType: "PIX" | "BTC";
+  currency: "BRL" | "BTC";
   className?: string;
 }
 
-const PaymentIcon = ({ paymentType, className }: PaymentIconProps) => {
+const PaymentIcon = ({ currency, className }: PaymentIconProps) => {
   const icons = {
-    PIX: pixLogo,
+    BRL: pixLogo,
     BTC: bitcoinLogo,
   };
 
   const altText = {
-    PIX: "pix",
+    BRL: "brl",
     BTC: "bitcoin",
   };
 
-  if (!icons[paymentType]) return null;
+  if (!icons[currency]) return null;
 
   return (
-    <img
-      src={icons[paymentType]}
-      alt={altText[paymentType]}
-      className={className}
-    />
+    <img src={icons[currency]} alt={altText[currency]} className={className} />
   );
 };
 

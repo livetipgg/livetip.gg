@@ -6,7 +6,7 @@ export interface IMessage {
   timestamp: Date;
   amount: number;
   paid: boolean;
-  payment_type: "PIX" | "BTC";
+  currency: "BRL" | "BTC";
 }
 
 export interface ITotalsMessages {

@@ -1,10 +1,10 @@
 interface IFormatPayment {
-  type: "PIX" | "BTC";
+  type: "BRL" | "BTC";
   amount: number;
 }
 
 export const formatPayment = ({ type, amount }: IFormatPayment) => {
-  if (type === "PIX") {
+  if (type === "BRL") {
     return amount.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",

@@ -13,6 +13,7 @@ interface AnalyticsCardProps {
   decimals?: number;
   isLoading?: boolean;
   error?: string;
+  convertToCurrency?: boolean;
 }
 
 const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
@@ -26,6 +27,7 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
   prefix = "",
   decimals = 0,
   error = null,
+  convertToCurrency = false,
 }) => {
   return (
     <Card style={{ borderBottom: `4px solid ${borderColor}` }}>
@@ -52,15 +54,25 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
         <span className={`text-2xl font-semibold ${textColor}`}>
           {isLoading && <Skeleton className="w-2/5 h-8" />}
           {!isLoading && !error && (
-            <CountUp
-              start={0}
-              end={endValue}
-              duration={2}
-              decimals={decimals}
-              prefix={prefix}
-              separator="."
-              decimal=","
-            />
+            <>
+              <CountUp
+                start={0}
+                end={endValue}
+                duration={2}
+                decimals={decimals}
+                prefix={prefix}
+                separator="."
+                decimal=","
+              />
+              {convertToCurrency && (
+                <small
+                  className="text-gray-500 text-sm font-semibold ml-1
+                "
+                >
+                  = R$ 12,23
+                </small>
+              )}
+            </>
           )}
           {!isLoading && error && (
             <span className="text-muted-foreground text-xs">{error}</span>

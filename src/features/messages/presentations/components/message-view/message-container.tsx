@@ -29,10 +29,7 @@ const MessageContainer = ({ message, messages }: MessageContainerProps) => {
       )}
       <MessageInfo sender={message.sender} timestamp={message.timestamp} />
       <MessageContent content={message.content} />
-      <MessageAmount
-        paymentType={message.payment_type}
-        amount={message.amount}
-      />
+      <MessageAmount currency={message.currency} amount={message.amount} />
     </div>
   );
 };
