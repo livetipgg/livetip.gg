@@ -4,18 +4,19 @@ import { IMessageState } from "../contracts/IRecoilState";
 import { messageState } from "../states/atoms";
 import { MESSAGE } from "@/helpers/apiUrls";
 import { authState } from "@/features/auth/states/atoms";
-
-interface ILoadTotalsMessageParams {
-  startDate: string;
-  endDate: string;
-}
+import { format } from "date-fns";
 
 export const useLoadTotalsMessageUseCase = () => {
   const [, setMessageState] = useRecoilState(messageState);
   const { user } = useRecoilValue(authState);
   const api = useCreateApiInstance();
 
-  const loadTotalsMessage = async (params: ILoadTotalsMessageParams) => {
+  const start = new Date();
+  start.setMonth(start.getMonth() - 1);
+
+  const end = new Date();
+
+  const loadTotalsMessage = async () => {
     setMessageState((prevState: IMessageState) => ({
       ...prevState,
       controller: {
@@ -27,7 +28,10 @@ export const useLoadTotalsMessageUseCase = () => {
 
     try {
       const response = await api.get(`${MESSAGE}/${user.id}/totals`, {
-        params,
+        params: {
+          startDate: format(start, "yyyy-MM-dd"),
+          endDate: format(end, "yyyy-MM-dd"),
+        },
       });
       setMessageState((prevState: IMessageState) => ({
         ...prevState,

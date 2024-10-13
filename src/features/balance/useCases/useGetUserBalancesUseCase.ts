@@ -19,9 +19,10 @@ export const useGetUserBalancesUseCase = () => {
       },
     }));
     try {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-
       const response = await api.get(`/user/${userState.user.id}/balance`);
+
+      console.log("Response:", response.data[0]);
+
       setAuthState((prev) => ({
         ...prev,
         user: {

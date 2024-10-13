@@ -22,10 +22,7 @@ const AnalyticsCardGrid = () => {
   const { loadTotalsMessage } = useLoadTotalsMessageUseCase();
 
   useEffect(() => {
-    loadTotalsMessage({
-      startDate: "2002-10-02",
-      endDate: "2024-10-10",
-    });
+    loadTotalsMessage();
   }, []);
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
@@ -33,7 +30,7 @@ const AnalyticsCardGrid = () => {
         error={errorTotals}
         isLoading={totalsMessageIsLoading}
         borderColor="hsl(var(--primary))"
-        endValue={totals.total}
+        endValue={totals.count}
         icon={<Inbox className="w-5 h-5 text-primary" />}
         subtitle="Mensagens recebidas nos últimos 30 dias"
         textColor="text-primary"
@@ -43,7 +40,7 @@ const AnalyticsCardGrid = () => {
         error={errorBalance}
         isLoading={balanceIsLoading}
         borderColor="hsl(var(--success))"
-        endValue={1000}
+        endValue={totals.total}
         icon={<img src={pixLogo} alt="pix" className="w-5 h-5" />}
         subtitle="Valor recebido nos últimos 30 dias"
         textColor="text-success"

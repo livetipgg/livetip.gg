@@ -10,17 +10,27 @@ import { useSetShowCurrentBalanceUseCase } from "@/features/balance/useCases/use
 import { Skeleton } from "../../../../components/ui/skeleton";
 
 const BalanceItem: React.FC<{
-  logo: string;
+  logo?: string;
   altText: string;
   balance: string | number;
   isLoading: boolean;
   showCurrentBalance: boolean;
   unit?: string;
-}> = ({ logo, altText, balance, isLoading, showCurrentBalance, unit }) => {
+  customLogo?: React.ReactNode;
+}> = ({
+  logo,
+  altText,
+  balance,
+  isLoading,
+  showCurrentBalance,
+  unit,
+  customLogo,
+}) => {
   return (
     <div className="flex items-center gap-2 border border-input rounded-lg pe-2">
       <div className="bg-background p-2 rounded-lg">
-        <img src={logo} alt={altText} className="w-5 h-5" />
+        {customLogo && customLogo}
+        {!customLogo && <img src={logo} alt={altText} className="w-5 h-5" />}
       </div>
       <span className="text-foreground text-sm font-bold">
         {showCurrentBalance ? (
@@ -83,6 +93,24 @@ export const BalancePreview: React.FC = () => {
         showCurrentBalance={showCurrentBalance}
         unit=" BTC"
       />
+      <BalanceItem
+        customLogo={
+          <div className="flex items-center gap-2">
+            <img src={pixLogo} alt="pix" className="w-4 h-4  grayscale" />
+            <span className="font-bold">+</span>
+            <img
+              src={bitcoinLogo}
+              alt="bitcoin"
+              className="w-4 h-4 grayscale"
+            />
+          </div>
+        }
+        altText="pix"
+        balance={formatCurrencyValue(brl_balance + btc_balance)}
+        isLoading={isLoading}
+        showCurrentBalance={showCurrentBalance}
+      />
+
       {!isLoading && (
         <BalanceToggleButton
           showCurrentBalance={showCurrentBalance}
@@ -104,49 +132,46 @@ export const BalanceMobilePreview: React.FC = () => {
 
   return (
     <div className="flex gap-2 flex-col items-center">
-      <div className="flex items-center gap-2 border border-input rounded-lg pe-2 w-full">
-        <div className="bg-background p-2 rounded-lg">
-          <img src={pixLogo} alt="pix" className="w-5 h-5" />
-        </div>
-        <span className="text-foreground text-sm font-bold">
-          {showCurrentBalance ? (
-            <>
-              {!isLoading && formatCurrencyValue(brl_balance)}
-              {isLoading && (
-                <Skeleton className="w-[100px] h-[20px] rounded-full" />
-              )}
-            </>
-          ) : (
-            <div className="blur-sm">{formatCurrencyValue(brl_balance)}</div>
-          )}
-        </span>
-      </div>
-      <div className="flex items-center gap-2 border border-input rounded-lg pe-2 w-full">
-        <div className="bg-background p-2 rounded-lg">
-          <img src={bitcoinLogo} alt="pix" className="w-5 h-5" />
-        </div>
-        <span className="text-foreground text-sm font-bold">
-          {showCurrentBalance ? (
-            <>
-              {!isLoading && btc_balance + " BTC"}
-              {isLoading && (
-                <Skeleton className="w-[100px] h-[20px] rounded-full" />
-              )}
-            </>
-          ) : (
-            <div className="blur-sm">{btc_balance} BTC</div>
-          )}
-        </span>
-      </div>
+      <BalanceItem
+        logo={pixLogo}
+        altText="pix"
+        balance={formatCurrencyValue(brl_balance)}
+        isLoading={isLoading}
+        showCurrentBalance={showCurrentBalance}
+      />
+      <BalanceItem
+        logo={bitcoinLogo}
+        altText="bitcoin"
+        balance={btc_balance}
+        isLoading={isLoading}
+        showCurrentBalance={showCurrentBalance}
+        unit=" BTC"
+      />
+      <BalanceItem
+        customLogo={
+          <div className="flex items-center gap-2">
+            <img src={pixLogo} alt="pix" className="w-4 h-4 grayscale" />
+            <span className="font-bold">+</span>
+            <img
+              src={bitcoinLogo}
+              alt="bitcoin"
+              className="w-4 h-4 grayscale"
+            />
+          </div>
+        }
+        altText="pix e bitcoin"
+        balance={formatCurrencyValue(brl_balance + btc_balance)}
+        isLoading={isLoading}
+        showCurrentBalance={showCurrentBalance}
+      />
+
       {!isLoading && (
-        <Button
-          size="icon"
-          variant={"ghost"}
-          className="w-5 h-5"
-          onClick={() => setShowCurrentBalance(!showCurrentBalance)}
-        >
-          {showCurrentBalance ? <EyeOff /> : <Eye />}
-        </Button>
+        <BalanceToggleButton
+          showCurrentBalance={showCurrentBalance}
+          toggleShowCurrentBalance={() =>
+            setShowCurrentBalance(!showCurrentBalance)
+          }
+        />
       )}
     </div>
   );

@@ -11,10 +11,7 @@ export const useLoadDashboardAreaUseCase = () => {
     try {
       await Promise.all([
         loadUserBalance(),
-        loadTotalsMessage({
-          startDate: "2002-10-02",
-          endDate: "2024-10-10",
-        }),
+        loadTotalsMessage(),
         loadLastMessages(),
       ]);
     } catch (error) {

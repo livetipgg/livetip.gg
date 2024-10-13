@@ -15,8 +15,6 @@ export const useLoadLastMessagesUseCase = () => {
       ordered: true,
       limit: 4,
       page: 1,
-      startDate: "2002-10-02",
-      endDate: "2024-10-10",
     };
 
     setMessageState((prevState: IMessageState) => ({
