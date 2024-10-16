@@ -19,7 +19,8 @@ const useCreateApiInstance = () => {
   }
 
   // const BASE_URL = "http://localhost:3000/api/v1/";
-  const BASE_URL = "https://livechat-437913.uc.r.appspot.com/api/v1/";
+  const BASE_URL =
+    "https://live-pix-service-dot-livechat-437913.uc.r.appspot.com/api/v1/";
 
   const api = axios.create({
     baseURL: BASE_URL,
