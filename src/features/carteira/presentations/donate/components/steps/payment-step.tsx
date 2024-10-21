@@ -11,12 +11,16 @@ import QRCode from "react-qr-code";
 
 const PaymentStep = () => {
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
-  const { controller } = useRecoilValue(paymentDonateState);
+  const { controller, content } = useRecoilValue(paymentDonateState);
   const { successSonner } = useCustomSonner();
 
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col">
+        {/* Valor */}
+        <Label className="text-primary text-xl   font-bold mb-5">
+          {content.amount}
+        </Label>
         <QRCode value={controller.qrCode} />
         <Label className="text-center my-4">Pix Copia e Cola</Label>
         <Input

@@ -10,7 +10,12 @@ export const useLoadReceiverData = () => {
   const api = useCreateApiInstance();
   const loadReceiverData = async (username: string) => {
     setPaymentState((prev: IPaymentDonateState) => ({
-      ...prev,
+      content: {
+        sender: "",
+        content: "",
+        amount: "",
+        currency: "BRL",
+      },
       receiver: {
         id: 0,
         username: "",

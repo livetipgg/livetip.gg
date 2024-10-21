@@ -9,13 +9,18 @@ import { withLayout } from "@/HOC/withLayout";
 import { useProfileCancelAccount } from "../useCases/useProfileCancelAccount";
 import { useRecoilValue } from "recoil";
 import { profileState } from "../states/atoms";
-import { LoaderCircle, UserRound } from "lucide-react";
+import { Copy, LoaderCircle, UserRound } from "lucide-react";
 import { authState } from "@/features/auth/states/atoms";
+import { useNavigate } from "react-router-dom";
+import { useCustomSonner } from "@/hooks/useCustomSonner";
 const Profile = () => {
   const { user } = useRecoilValue(authState);
   const { handleCancelAccount } = useProfileCancelAccount();
   const { controller } = useRecoilValue(profileState);
   const { isLoadingCancelAccount } = controller;
+  const { successSonner } = useCustomSonner();
+  const navigate = useNavigate();
+
   return (
     <div className="max-w-xl ">
       <SectionTitle title="Meu Perfil" />
@@ -39,6 +44,39 @@ const Profile = () => {
           <div className="flex flex-col space-y-2">
             <Label htmlFor="">Email</Label>
             <Input value={user.email} className="p-5" disabled />
+          </div>
+        </div>
+      </SectionCard>
+      <SectionCard className="mb-5">
+        <strong>Link de doação</strong>
+        <div className="flex flex-col  mt-4">
+          <div className="max-w-fit bg-background shadow-sm">
+            <div className="border rounded flex items-center ">
+              <Button
+                className="text-secondary"
+                variant="link"
+                onClick={() => {
+                  navigate(`/${user.username}`, {
+                    relative: "path",
+                  });
+                }}
+              >
+                http://localhost:5173/{user.username}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    ` http://localhost:5173/${user.username}`
+                  );
+
+                  successSonner("Link copiado com sucesso!");
+                }}
+              >
+                <Copy className="w-4 h-4 mr-2" />
+                Copiar
+              </Button>
+            </div>
           </div>
         </div>
       </SectionCard>

@@ -7,6 +7,7 @@ export interface IMessage {
   amount: number;
   paid: boolean;
   currency: "BRL" | "BTC";
+  read: boolean;
 }
 
 export interface ITotalsMessages {
@@ -21,6 +22,7 @@ export interface IMessageController {
 
   isLoadingMessages: boolean;
   isLoadingLastMessages: boolean;
+  isLoadingTransmissionMessages: boolean;
   isLoadingTotals: boolean;
 
   messagesParams: {
@@ -42,6 +44,11 @@ export interface IMessageController {
 
 export interface IMessageState {
   messages: {
+    results: IMessage[];
+    count: number;
+    totalPages: number;
+  };
+  transmissionMessages: {
     results: IMessage[];
     count: number;
     totalPages: number;

@@ -38,7 +38,7 @@ export const routes: RoutesProps = {
     name: "perfil",
   },
   Transmission: {
-    path: "/transmissao/:id",
+    path: "/transmissao",
     label: "Transmissão",
     name: "transmissao",
   },

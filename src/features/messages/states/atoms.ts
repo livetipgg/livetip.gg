@@ -9,6 +9,11 @@ export const messageState = atom<IMessageState>({
       count: 0,
       totalPages: 0,
     },
+    transmissionMessages: {
+      results: [],
+      count: 0,
+      totalPages: 0,
+    },
     lastMessages: {
       results: [],
       count: 0,
@@ -20,6 +25,7 @@ export const messageState = atom<IMessageState>({
     },
     controller: {
       isLoadingLastMessages: false,
+      isLoadingTransmissionMessages: false,
       isLoadingMessages: false,
       isLoadingTotals: false,
       errorMessages: "",

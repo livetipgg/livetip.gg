@@ -14,11 +14,6 @@ export const formatPayment = ({ type, amount }: IFormatPayment) => {
   if (type === "BTC") {
     const btc = Math.random() * 0.0001;
 
-    return btc
-      .toLocaleString("en-US", {
-        style: "currency",
-        currency: "BTC",
-      })
-      .replace("BTC", "");
+    return btc.toFixed(6);
   }
 };
