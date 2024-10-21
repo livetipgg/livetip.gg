@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { SectionTitle } from "@/components/section-title";
 import { Button } from "@/components/ui/button";
 
@@ -65,6 +66,7 @@ const TransactionsHistory = () => {
       },
     }));
   };
+
   return (
     <div>
       <SectionTitle title="Histórico de Transações" />
@@ -93,7 +95,7 @@ const TransactionsHistory = () => {
       )}
       {/* Cartões de Transações */}
       {!isLoadingPayments &&
-        payments.results.length &&
+        !!payments.results.length &&
         payments.results.map((payment: IPayment) => (
           <div
             className="border p-4 mt-10 bg-muted/40 flex flex-wrap items-start md:items-center justify-between gap-4 lg:gap-10 flex-col md:flex-row"

@@ -16,7 +16,6 @@ const UserMessagePage = () => {
   const { controller } = donateState;
   const params = useParams();
   const { userId } = params;
-  console.log("params", params);
   const { setTheme } = useTheme();
 
   useEffect(() => {

@@ -43,8 +43,6 @@ export const useSendMessageAndCreateQRCode = () => {
         updatedContent
       );
 
-      console.log("Response", response);
-
       setPaymentState((prev: IPaymentDonateState) => ({
         ...prev,
         controller: {

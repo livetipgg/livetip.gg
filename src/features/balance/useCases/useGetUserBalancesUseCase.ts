@@ -21,8 +21,6 @@ export const useGetUserBalancesUseCase = () => {
     try {
       const response = await api.get(`/user/${userState.user.id}/balance`);
 
-      console.log("Response:", response.data);
-
       setAuthState((prev) => ({
         ...prev,
         user: {

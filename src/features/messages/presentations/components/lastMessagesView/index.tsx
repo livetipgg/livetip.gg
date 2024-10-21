@@ -19,7 +19,6 @@ export const LastMessagesViewList = () => {
   useEffect(() => {
     loadLastMessages();
   }, []);
-  console.log(lastMessages);
 
   if (errorLastMessages || !lastMessages)
     return <ErrorAlert error={errorLastMessages} />;

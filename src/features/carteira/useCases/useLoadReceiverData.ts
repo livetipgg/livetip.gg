@@ -29,8 +29,6 @@ export const useLoadReceiverData = () => {
     try {
       const response = await api.get(`${USER}username/${username}`);
 
-      console.log("Response", response);
-
       setPaymentState((prev: IPaymentDonateState) => ({
         ...prev,
         receiver: response.data,

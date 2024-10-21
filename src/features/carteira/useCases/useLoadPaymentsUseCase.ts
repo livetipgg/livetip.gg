@@ -44,7 +44,7 @@ export const useLoadPaymentsUseCase = () => {
       const response = await api.get(`${PAYMENT}/${user.id}`, {
         params: {
           ...paymentParams,
-          limit: params?.limit || paymentParams.limit,
+          limit: params?.limit || paymentParams.limit || 10,
           page: params?.page || paymentParams.page,
         },
       });
