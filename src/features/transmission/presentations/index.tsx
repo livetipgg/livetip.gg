@@ -54,7 +54,7 @@ const TransmissionPage = () => {
                     src="https://musicaecinema.com/wp-content/uploads/2024/02/the-office-how-to-watch.jpg"
                     className="object-cover"
                   />
-                  <AvatarFallback>AC</AvatarFallback>
+                  <AvatarFallback></AvatarFallback>
                 </Avatar>
               </div>
               <div className="flex flex-col">
