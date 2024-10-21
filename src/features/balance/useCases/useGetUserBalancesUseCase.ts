@@ -21,14 +21,14 @@ export const useGetUserBalancesUseCase = () => {
     try {
       const response = await api.get(`/user/${userState.user.id}/balance`);
 
-      console.log("Response:", response.data[0]);
+      console.log("Response:", response.data);
 
       setAuthState((prev) => ({
         ...prev,
         user: {
           ...prev.user,
-          brl_balance: response.data[0].brl_balance,
-          btc_balance: response.data[0].btc_balance,
+          brlBalance: response.data.brlBalance,
+          btcBalance: response.data.btcBalance,
         },
       }));
     } catch {

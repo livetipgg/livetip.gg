@@ -10,3 +10,6 @@ export const GET_BALANCE = "/user/:id/balance";
 
 // Messages
 export const MESSAGE = "/message";
+
+// Payment
+export const PAYMENT = "/user/payment";

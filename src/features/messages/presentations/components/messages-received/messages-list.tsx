@@ -17,7 +17,6 @@ const MessagesList: React.FC<MessagesListProps> = ({
   isLoading,
   error,
 }) => {
-  console.log("MessagesListProps", messages, isLoading, error);
   const { controller: messageStateController } = useRecoilValue(messageState);
   const { messagesParams } = messageStateController;
   if (isLoading) {

@@ -13,8 +13,8 @@ export const initialAuthController: IControllerAuthState = {
 export const initialAuthUser: IAuthUserState = {
   id: null,
   username: "",
-  brl_balance: "",
-  btc_balance: "",
+  brlBalance: "",
+  btcBalance: "",
   email: "",
   is_deleted: false,
   token: "",

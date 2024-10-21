@@ -1,133 +1,133 @@
 import { SectionTitle } from "@/components/section-title";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import { withLayout } from "@/HOC/withLayout";
-import { cn } from "@/lib/utils";
-import { addDays, format, subDays } from "date-fns";
-import { ArrowLeftRight, CalendarIcon, Hash, Search } from "lucide-react";
-import { useState } from "react";
+import { format, formatDate, subDays } from "date-fns";
+import { ArrowLeftRight, Hash, Search } from "lucide-react";
+import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import pixLogo from "@/assets/pix-logo.png";
-import bitcoinLogo from "@/assets/bitcoin-logo.png";
+import { useLoadPaymentsUseCase } from "../../useCases/useLoadMessagesUseCase";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { paymentState } from "../../states/atoms";
+import { IPayment } from "../../contracts/IRecoilState";
+import PaymentIcon from "@/components/payment-icon";
+import { formatPayment } from "@/helpers/formatPayment";
+import DateFilter from "@/features/messages/presentations/components/messages-received/date-filter";
+import { NoContent } from "@/components/no-content";
 
 const TransactionsHistory = () => {
+  const setPaymentState = useSetRecoilState(paymentState);
   const [date, setDate] = useState<DateRange | undefined>({
     to: new Date(),
     from: subDays(new Date(), 30),
   });
+
+  const { payments, controller } = useRecoilValue(paymentState);
+  const { isLoadingPayments } = controller;
+  const { loadPayments } = useLoadPaymentsUseCase();
+
+  useEffect(() => {
+    loadPayments();
+  }, []);
+
+  const handleSetDate = (date: DateRange) => {
+    setDate(date);
+
+    const from_date_formatted = date.from && format(date.from, "yyyy-MM-dd");
+    const to_date_formatted = date.to && format(date.to, "yyyy-MM-dd");
+
+    setPaymentState((prevState) => ({
+      ...prevState,
+      controller: {
+        ...prevState.controller,
+        params: {
+          ...prevState.controller.params,
+          startDate: from_date_formatted,
+          endDate: to_date_formatted,
+        },
+      },
+    }));
+  };
+
+  const clearDate = () => {
+    setDate(undefined);
+
+    setPaymentState((prevState) => ({
+      ...prevState,
+      controller: {
+        ...prevState.controller,
+        params: {
+          ...prevState.controller.params,
+          startDate: undefined,
+          endDate: undefined,
+        },
+      },
+    }));
+  };
+
   return (
     <div>
       <SectionTitle title="Histórico de Transações" />
 
       {/* Filtro de Data */}
       <div className="flex justify-between items-center flex-wrap bg-muted/40 p-4">
-        <div className="flex gap-4 flex-wrap flex-1">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                id="date"
-                variant={"outline"}
-                className={cn(
-                  "w-full lg:w-[320px] justify-start text-left font-normal",
-                  !date && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {date?.from ? (
-                  date.to ? (
-                    <>
-                      {format(date.from, "LLL dd, y")} -{" "}
-                      {format(date.to, "LLL dd, y")}
-                    </>
-                  ) : (
-                    format(date.from, "LLL dd, y")
-                  )
-                ) : (
-                  <span>Pick a date</span>
-                )}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                initialFocus
-                mode="range"
-                defaultMonth={date?.from}
-                selected={date}
-                onSelect={setDate}
-                numberOfMonths={2}
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-        <Button variant="default" className="w-full lg:w-auto mt-4 lg:mt-0">
+        <DateFilter
+          date={date}
+          onDateSelect={handleSetDate}
+          onClear={clearDate}
+        />
+        <Button
+          variant="default"
+          className="w-full lg:w-auto mt-4 lg:mt-0"
+          onClick={() => loadPayments()}
+        >
           <Search className="h-4 w-4 mr-2" />
           Filtrar
         </Button>
       </div>
-      <span className="text-muted-foreground text-sm">
-        Filtrando transações de{" "}
-        <span className="font-semibold">
-          {format(date?.from || new Date(), "dd/MM/yyyy")}
-        </span>{" "}
-        até{" "}
-        <span className="font-semibold">
-          {format(date?.to || addDays(new Date(), 30), "dd/MM/yyyy")}
-        </span>
-      </span>
 
+      {!isLoadingPayments && !payments.results.length && (
+        <div className="mt-10">
+          <NoContent message="Nenhum pagamento para mostrar" />
+        </div>
+      )}
       {/* Cartões de Transações */}
-      <div className="border p-4 mt-10 bg-muted/40 flex flex-wrap items-start md:items-center justify-between gap-4 lg:gap-10 flex-col md:flex-row">
-        <div className="flex items-start md:items-center gap-4 lg:gap-10 flex-1 flex-col md:flex-row">
-          <ArrowLeftRight className="h-4 w-4" />
-          {/* Data */}
-          <span className="text-md">25 de Setembro de 2021</span>
-          {/* ID da transação */}
-          <div className="flex items-center gap-2">
-            <Hash className="h-4 w-4" />
-            <div className="flex flex-col">
-              <span className="text-md text-muted-foreground">
-                ID da transação
+      {payments &&
+        payments.results.map((payment: IPayment) => (
+          <div
+            className="border p-4 mt-10 bg-muted/40 flex flex-wrap items-start md:items-center justify-between gap-4 lg:gap-10 flex-col md:flex-row"
+            key={payment.id}
+          >
+            <div className="flex items-start md:items-center gap-4 lg:gap-10 flex-1 flex-col md:flex-row">
+              <ArrowLeftRight className="h-4 w-4" />
+              {/* Data */}
+              <span className="text-md">
+                {formatDate(payment.createdAt, "dd/MM/yyyy")}
               </span>
-              <span className="text-md font-semibold break-all">
-                E004169682024092600157QrTSY2mVi4
+              {/* ID da transação */}
+              <div className="flex items-center gap-2">
+                <Hash className="h-4 w-4" />
+                <div className="flex flex-col">
+                  <span className="text-md text-muted-foreground">
+                    ID da transação
+                  </span>
+                  <span className="text-md font-semibold break-all">
+                    {payment.senderId}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <PaymentIcon currency={payment.currency} className="h-5 w-5" />
+              <span className="text-lg font-bold">
+                {formatPayment({
+                  amount: payment.amount,
+                  type: payment.currency,
+                })}
               </span>
             </div>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <img src={bitcoinLogo} alt="pix" className="w-6 h-6" />
-          <span className="text-lg font-bold">0.50000000 BTC</span>
-        </div>
-      </div>
-
-      <div className="border p-4 mt-10 bg-muted/40 flex flex-wrap items-center justify-between gap-4 lg:gap-10">
-        <div className="flex items-center gap-4 lg:gap-10 flex-1">
-          <ArrowLeftRight className="h-4 w-4" />
-          {/* Data */}
-          <span className="text-md">25 de Setembro de 2021</span>
-          {/* ID da transação */}
-          <div className="flex items-center gap-2">
-            <Hash className="h-4 w-4" />
-            <div className="flex flex-col">
-              <span className="text-md text-muted-foreground">
-                ID da transação
-              </span>
-              <span className="text-md font-semibold break-all">
-                E004169682024092600157QrTSY2mVi4
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <img src={pixLogo} alt="pix" className="w-6 h-6" />
-          <span className="text-lg font-bold">R$ 100,00</span>
-        </div>
-      </div>
+        ))}
     </div>
   );
 };

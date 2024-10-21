@@ -25,41 +25,43 @@ const DateFilter: React.FC<DateFilterProps> = ({
   onClear,
 }) => {
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          id="date"
-          variant={"outline"}
-          className={cn(
-            "w-full lg:w-[320px] justify-start text-left font-normal",
-            !date && "text-muted-foreground"
-          )}
-        >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date?.from ? (
-            date.to ? (
-              <>
-                {format(date.from, "LLLL dd, y", { locale: ptBR })} -{" "}
-                {format(date.to, "LLLL dd, y", { locale: ptBR })}
-              </>
+    <div>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            id="date"
+            variant={"outline"}
+            className={cn(
+              "w-full lg:w-[320px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date?.from ? (
+              date.to ? (
+                <>
+                  {format(date.from, "LLLL dd, y", { locale: ptBR })} -{" "}
+                  {format(date.to, "LLLL dd, y", { locale: ptBR })}
+                </>
+              ) : (
+                format(date.from, "LLLL dd, y", { locale: ptBR })
+              )
             ) : (
-              format(date.from, "LLLL dd, y", { locale: ptBR })
-            )
-          ) : (
-            <span>Selecione um intervalo de datas</span>
-          )}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
-        <Calendar
-          initialFocus
-          mode="range"
-          defaultMonth={date?.from}
-          selected={date || undefined}
-          onSelect={(range) => range && onDateSelect(range)}
-          numberOfMonths={2}
-        />
-      </PopoverContent>
+              <span>Selecione um intervalo de datas</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date || undefined}
+            onSelect={(range) => range && onDateSelect(range)}
+            numberOfMonths={2}
+          />
+        </PopoverContent>
+      </Popover>
       {(date?.from || date?.to) && (
         <Button
           variant="link"
@@ -69,7 +71,7 @@ const DateFilter: React.FC<DateFilterProps> = ({
           Limpar Data
         </Button>
       )}
-    </Popover>
+    </div>
   );
 };
 

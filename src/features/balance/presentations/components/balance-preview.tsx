@@ -74,21 +74,21 @@ export const BalancePreview: React.FC = () => {
   const { showCurrentBalance, isLoading } = controller;
   const { setShowCurrentBalance } = useSetShowCurrentBalanceUseCase();
   const { user } = useRecoilValue(authState);
-  const { brl_balance, btc_balance } = user;
+  const { brlBalance, btcBalance } = user;
 
   return (
     <div className="hidden md:flex gap-2 items-center">
       <BalanceItem
         logo={pixLogo}
         altText="pix"
-        balance={formatCurrencyValue(brl_balance)}
+        balance={formatCurrencyValue(brlBalance)}
         isLoading={isLoading}
         showCurrentBalance={showCurrentBalance}
       />
       <BalanceItem
         logo={bitcoinLogo}
         altText="bitcoin"
-        balance={btc_balance}
+        balance={btcBalance}
         isLoading={isLoading}
         showCurrentBalance={showCurrentBalance}
         unit=" BTC"
@@ -106,7 +106,7 @@ export const BalancePreview: React.FC = () => {
           </div>
         }
         altText="pix"
-        balance={formatCurrencyValue(brl_balance + btc_balance)}
+        balance={formatCurrencyValue(brlBalance + btcBalance)}
         isLoading={isLoading}
         showCurrentBalance={showCurrentBalance}
       />
@@ -128,21 +128,21 @@ export const BalanceMobilePreview: React.FC = () => {
   const { showCurrentBalance, isLoading } = controller;
   const { setShowCurrentBalance } = useSetShowCurrentBalanceUseCase();
   const { user } = useRecoilValue(authState);
-  const { brl_balance, btc_balance } = user;
+  const { brlBalance, btcBalance } = user;
 
   return (
     <div className="flex gap-2 flex-col items-center">
       <BalanceItem
         logo={pixLogo}
         altText="pix"
-        balance={formatCurrencyValue(brl_balance)}
+        balance={formatCurrencyValue(brlBalance)}
         isLoading={isLoading}
         showCurrentBalance={showCurrentBalance}
       />
       <BalanceItem
         logo={bitcoinLogo}
         altText="bitcoin"
-        balance={btc_balance}
+        balance={btcBalance}
         isLoading={isLoading}
         showCurrentBalance={showCurrentBalance}
         unit=" BTC"
@@ -160,7 +160,7 @@ export const BalanceMobilePreview: React.FC = () => {
           </div>
         }
         altText="pix e bitcoin"
-        balance={formatCurrencyValue(brl_balance + btc_balance)}
+        balance={formatCurrencyValue(brlBalance + btcBalance)}
         isLoading={isLoading}
         showCurrentBalance={showCurrentBalance}
       />
