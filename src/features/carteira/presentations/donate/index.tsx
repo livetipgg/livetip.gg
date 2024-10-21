@@ -28,6 +28,8 @@ const UserMessagePage = () => {
     }
   }, []);
 
+  console.log("error", controller);
+
   if (controller.loadingReceiverData) {
     return (
       <div className="flex justify-center items-center h-screen w-full bg-gray-100">
@@ -51,9 +53,7 @@ const UserMessagePage = () => {
       <div className="flex justify-center items-center h-screen w-full bg-gray-100">
         <span></span>
         <h1>
-          <ErrorAlert
-            error={`Esta página não existe. Verifique o endereço e tente novamente.`}
-          />
+          <ErrorAlert error={controller.errorMessage} />
         </h1>
       </div>
     );

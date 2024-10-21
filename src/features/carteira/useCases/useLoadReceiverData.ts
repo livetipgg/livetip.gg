@@ -48,7 +48,9 @@ export const useLoadReceiverData = () => {
         ...prev,
         controller: {
           ...prev.controller,
-          errorMessage: err.response.data.message,
+          errorMessage:
+            err.response.data.message ||
+            "Houve um erro ao carregar as informações ou essa pagina não existe. Por favor revise as informações",
         },
       }));
     } finally {
