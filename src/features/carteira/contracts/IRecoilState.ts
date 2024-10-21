@@ -18,6 +18,36 @@ export interface IPayment {
   createdAt: string;
 }
 
+export interface IPaymentDonateState {
+  content: {
+    sender: string;
+    content: string;
+    amount: string;
+    currency: "BRL" | "BTC";
+  };
+  receiver: {
+    id: number;
+    username: string;
+    email: string;
+    isDeleted: boolean;
+    btcBalance: string;
+    brlBalance: string;
+  };
+  controller: {
+    loadingReceiverData: boolean;
+    loadingCreateQRCode: boolean;
+    currentStep: "MESSAGE" | "PAYMENT" | "SUCCESS";
+    paymentMethods: {
+      id: "BRL" | "BTC";
+      name: string;
+      description: string;
+      icon: string;
+    }[];
+    qrCode: string;
+    errorMessage: string;
+  };
+}
+
 export interface IPaymentState {
   payments: {
     results: IPayment[];

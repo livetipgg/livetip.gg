@@ -3,12 +3,12 @@ import { routes } from "./routes";
 import DashboardPage from "@/features/dashboard/presentations";
 import LoginPage from "@/features/auth/implementation/login";
 import MessagesReceivedPage from "@/features/messages/presentations";
-import UserMessagePage from "@/features/userMessage/presentations";
 import WithdrawPage from "@/features/carteira/presentations/withdraw";
 import { withAuth } from "@/HOC/withAuth";
 import ProfilePage from "@/features/profile/presentations";
 import TransmissionPage from "@/features/transmission/presentations";
 import { TransactionsHistoryPage } from "@/features/carteira/presentations/history";
+import UserMessagePage from "@/features/carteira/presentations/donate";
 
 export const routers = createBrowserRouter([
   {

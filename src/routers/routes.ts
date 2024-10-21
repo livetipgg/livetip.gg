@@ -23,7 +23,7 @@ export const routes: RoutesProps = {
     name: "mensagens-recebidas",
   },
   UserMessage: {
-    path: "/donate/:id",
+    path: "/:userId",
     label: "Mensagem Usuário",
     name: "mensagem-usuario",
   },

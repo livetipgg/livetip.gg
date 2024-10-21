@@ -1,5 +1,11 @@
 import { atom } from "recoil";
-import { IPaymentState } from "../contracts/IRecoilState";
+import { IPaymentDonateState, IPaymentState } from "../contracts/IRecoilState";
+import pixLogo from "@/assets/pix-logo.png";
+import bitcoinLogo from "@/assets/bitcoin-logo.png";
+import { dataEncryptionConfig } from "@/config/dataEncryptionConfig";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist(dataEncryptionConfig);
 
 export const paymentState = atom<IPaymentState>({
   key: "paymentState",
@@ -20,4 +26,48 @@ export const paymentState = atom<IPaymentState>({
       isLoadingPayments: false,
     },
   },
+});
+
+export const paymentDonateState = atom<IPaymentDonateState>({
+  key: "paymentDonateState",
+  default: {
+    content: {
+      sender: "",
+      content: "",
+      amount: "",
+      currency: "BRL",
+    },
+
+    receiver: {
+      id: 0,
+      username: "",
+      email: "",
+      isDeleted: false,
+      btcBalance: "",
+      brlBalance: "",
+    },
+
+    controller: {
+      currentStep: "MESSAGE",
+      loadingCreateQRCode: false,
+      loadingReceiverData: false,
+      paymentMethods: [
+        {
+          id: "BRL",
+          name: "Pix",
+          description: "Pagamento por QR Code",
+          icon: pixLogo,
+        },
+        {
+          id: "BTC",
+          name: "Bitcoin",
+          description: "Pagamento por endereço de carteira",
+          icon: bitcoinLogo,
+        },
+      ],
+      qrCode: "",
+      errorMessage: "",
+    },
+  },
+  effects_UNSTABLE: [persistAtom],
 });
