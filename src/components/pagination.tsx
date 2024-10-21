@@ -22,7 +22,7 @@ const PaginationComponent = ({
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      onPageChange(currentPage + 1); // Chama a função com a próxima página
+      onPageChange(currentPage + 1);
     }
   };
 

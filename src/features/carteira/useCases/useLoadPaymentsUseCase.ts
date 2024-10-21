@@ -33,7 +33,7 @@ export const useLoadPaymentsUseCase = () => {
           ...prevState,
           controller: {
             ...prevState.controller,
-            messagesParams: {
+            params: {
               ...prevState.controller.params,
               page: 1,
             },
@@ -50,10 +50,7 @@ export const useLoadPaymentsUseCase = () => {
       });
       setPaymentState((prevState: IPaymentState) => ({
         ...prevState,
-        payments: {
-          ...prevState.payments,
-          results: response.data,
-        },
+        payments: response.data,
       }));
     } catch {
       setPaymentState((prevState: IPaymentState) => ({
@@ -69,7 +66,7 @@ export const useLoadPaymentsUseCase = () => {
         ...prevState,
         controller: {
           ...prevState.controller,
-          isLoadingMessages: false,
+          isLoadingPayments: false,
         },
       }));
     }

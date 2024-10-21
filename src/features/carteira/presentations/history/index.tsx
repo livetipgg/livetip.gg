@@ -14,6 +14,7 @@ import PaymentIcon from "@/components/payment-icon";
 import { formatPayment } from "@/helpers/formatPayment";
 import DateFilter from "@/features/messages/presentations/components/messages-received/date-filter";
 import { NoContent } from "@/components/no-content";
+import PaginationComponent from "@/components/pagination";
 
 const TransactionsHistory = () => {
   const setPaymentState = useSetRecoilState(paymentState);
@@ -64,7 +65,6 @@ const TransactionsHistory = () => {
       },
     }));
   };
-
   return (
     <div>
       <SectionTitle title="Histórico de Transações" />
@@ -129,6 +129,29 @@ const TransactionsHistory = () => {
             </div>
           </div>
         ))}
+      <PaginationComponent
+        currentPage={controller.params.page}
+        totalPages={payments.totalPages}
+        total={payments.count}
+        onPageChange={(page) => {
+          setPaymentState((prevState) => ({
+            ...prevState,
+            controller: {
+              ...prevState.controller,
+              params: {
+                ...prevState.controller.params,
+                page: page,
+              },
+            },
+          }));
+
+          loadPayments({
+            page: page,
+          });
+
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      />
     </div>
   );
 };
