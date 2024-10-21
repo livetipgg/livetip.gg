@@ -40,7 +40,7 @@ export const routers = createBrowserRouter([
       },
       {
         path: routes["Transmission"].path,
-        Component: TransmissionPage,
+        Component: withAuth(TransmissionPage),
       },
       {
         path: routes["TransactionsHistory"].path,
