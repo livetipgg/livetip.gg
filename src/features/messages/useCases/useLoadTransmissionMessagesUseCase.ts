@@ -28,7 +28,7 @@ export const useLoadTransmissionMessagesUseCase = () => {
     try {
       const response = await api.get(`${MESSAGE}/${user.id}`, {
         params: {
-          startDate: start,
+          startDate: today,
           endDate: today,
           limit: 9999,
         },

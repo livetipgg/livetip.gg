@@ -87,8 +87,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="flex flex-col">
-              <BalanceMobilePreview />
+            <SheetContent side="left" className="flex flex-col justify-between">
               <nav className="grid gap-2 text-lg font-medium">
                 {menuItems.map((item) =>
                   item.subItems ? (
@@ -112,6 +111,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                   )
                 )}
               </nav>
+              <BalanceMobilePreview />
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1"></div>

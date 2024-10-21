@@ -131,7 +131,17 @@ export const BalanceMobilePreview: React.FC = () => {
   const { brlBalance, btcBalance } = user;
 
   return (
-    <div className="flex gap-2 flex-col items-center">
+    <div className="flex gap-2 flex-col items-stretch ">
+      <div className="flex items-center justify-end">
+        {!isLoading && (
+          <BalanceToggleButton
+            showCurrentBalance={showCurrentBalance}
+            toggleShowCurrentBalance={() =>
+              setShowCurrentBalance(!showCurrentBalance)
+            }
+          />
+        )}
+      </div>
       <BalanceItem
         logo={pixLogo}
         altText="pix"
@@ -164,15 +174,6 @@ export const BalanceMobilePreview: React.FC = () => {
         isLoading={isLoading}
         showCurrentBalance={showCurrentBalance}
       />
-
-      {!isLoading && (
-        <BalanceToggleButton
-          showCurrentBalance={showCurrentBalance}
-          toggleShowCurrentBalance={() =>
-            setShowCurrentBalance(!showCurrentBalance)
-          }
-        />
-      )}
     </div>
   );
 };

@@ -44,11 +44,11 @@ const TransmissionPage = () => {
   return (
     <>
       <div className="w-full h-32 bg-muted/80 relative mb-10"></div>
-      <div className="absolute w-full top-6">
+      <div className="absolute w-full top-8">
         <div className="max-w-4xl h-screen m-auto p-10 ">
           <div className=" flex items-center  mb-5 justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-28 h-28 bg-white rounded-full flex items-center justify-center  shadow-md p-1">
+              <div className="w-28 h-28 bg-background rounded-full flex items-center justify-center  shadow-md p-1">
                 <Avatar className="cursor-pointer w-full h-full">
                   <AvatarImage
                     src="https://musicaecinema.com/wp-content/uploads/2024/02/the-office-how-to-watch.jpg"
