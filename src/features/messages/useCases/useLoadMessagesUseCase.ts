@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import useCreateApiInstance from "@/config/api";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { IMessageState } from "../contracts/IRecoilState";
@@ -15,6 +16,7 @@ export const useLoadMessagesUseCase = () => {
   interface LoadMessagesParams {
     limit?: number;
     page?: number;
+    query?: string; // Adicionando query como opcional
   }
 
   const loadMessages = async (params?: LoadMessagesParams) => {
@@ -41,13 +43,25 @@ export const useLoadMessagesUseCase = () => {
         }));
       }
 
+      // Criar um objeto de queryParams condicionalmente
+      const queryParams: any = {
+        limit: params?.limit || messagesParams.limit,
+        page: params?.page || messagesParams.page,
+        ordered: true, // Se `ordered` for sempre necessário
+        query: params?.query || messagesParams.query || null,
+        startDate: messagesParams.startDate,
+        endDate: messagesParams.endDate,
+      };
+
+      // Adicionar `query` apenas se ela existir e não for vazia
+      if (params?.query && params.query.trim() !== "") {
+        queryParams.query = params.query;
+      }
+
       const response = await api.get(`${MESSAGE}/${user.id}`, {
-        params: {
-          ...messagesParams,
-          limit: params?.limit || messagesParams.limit,
-          page: params?.page || messagesParams.page,
-        },
+        params: queryParams,
       });
+
       setMessageState((prevState: IMessageState) => ({
         ...prevState,
         messages: response.data,

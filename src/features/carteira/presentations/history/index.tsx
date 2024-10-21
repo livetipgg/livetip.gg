@@ -6,7 +6,7 @@ import { format, formatDate, subDays } from "date-fns";
 import { ArrowLeftRight, Hash, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useLoadPaymentsUseCase } from "../../useCases/useLoadMessagesUseCase";
+import { useLoadPaymentsUseCase } from "../../useCases/useLoadPaymentsUseCase";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { paymentState } from "../../states/atoms";
 import { IPayment } from "../../contracts/IRecoilState";
@@ -92,7 +92,8 @@ const TransactionsHistory = () => {
         </div>
       )}
       {/* Cartões de Transações */}
-      {payments &&
+      {!isLoadingPayments &&
+        payments.results.length &&
         payments.results.map((payment: IPayment) => (
           <div
             className="border p-4 mt-10 bg-muted/40 flex flex-wrap items-start md:items-center justify-between gap-4 lg:gap-10 flex-col md:flex-row"
