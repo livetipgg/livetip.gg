@@ -5,7 +5,14 @@ interface IFormatPayment {
 
 export const formatPayment = ({ type, amount }: IFormatPayment) => {
   if (type === "BRL") {
-    return amount.toLocaleString("pt-BR", {
+    if (typeof amount === "number") {
+      return amount.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      });
+    }
+
+    return parseFloat(amount).toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
     });
