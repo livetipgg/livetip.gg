@@ -81,7 +81,21 @@ const TransactionsHistory = () => {
         <Button
           variant="default"
           className="w-full lg:w-auto mt-4 lg:mt-0"
-          onClick={() => loadPayments()}
+          onClick={() => {
+            setPaymentState((prevState) => ({
+              ...prevState,
+              controller: {
+                ...prevState.controller,
+                params: {
+                  ...prevState.controller.params,
+                  page: 1,
+                },
+              },
+            }));
+            loadPayments({
+              page: 1,
+            });
+          }}
         >
           <Search className="h-4 w-4 mr-2" />
           Filtrar
