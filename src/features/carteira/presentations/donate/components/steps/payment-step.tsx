@@ -10,13 +10,11 @@ import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState"
 import QRCode from "react-qr-code";
 import socket from "@/socket";
 import { useEffect } from "react";
-import { useLoadDashboardAreaUseCase } from "@/features/dashboard/useCases/useLoadDashboardAreaUseCase";
 
 const PaymentStep = () => {
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
   const { controller, content } = useRecoilValue(paymentDonateState);
   const { successSonner } = useCustomSonner();
-  const { loadDashboardArea } = useLoadDashboardAreaUseCase();
 
   useEffect(() => {
     socket.connect();
@@ -51,9 +49,6 @@ const PaymentStep = () => {
           currentStep: "SUCCESS",
         },
       }));
-
-      console.log("PAGAMENTO FOI SUCESSO");
-      loadDashboardArea();
     });
 
     return () => {
