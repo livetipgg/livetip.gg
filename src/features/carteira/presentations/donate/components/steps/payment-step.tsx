@@ -21,15 +21,9 @@ const PaymentStep = () => {
     socket.on("connect", () => {
       successSonner("connected");
 
-      socket.emit(
-        "join_room",
-        {
-          room: `payment-confirmation-${content.sender}`,
-        },
-        () => {
-          console.log("Room joined successfully");
-        }
-      );
+      socket.emit("join_room", {
+        room: `payment-confirmation-${content.sender}`,
+      });
       console.log("Conectado ao servidor WebSocket");
     });
     socket.on("connect_error", (err) => {
@@ -59,10 +53,9 @@ const PaymentStep = () => {
       socket.off("connect_error");
       socket.off("connect");
       socket.disconnect();
-      console.log("Desconectado do servidor WebSocket");
+      console.log("Disconnect");
     };
-  });
-
+  }, [socket]);
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col">

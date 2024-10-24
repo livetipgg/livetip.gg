@@ -12,13 +12,16 @@ import { useLoadReceiverData } from "../../useCases/useLoadReceiverData";
 import { useParams } from "react-router-dom";
 import { ErrorAlert } from "@/components/error-alert";
 import { LoaderCircle } from "lucide-react";
+
 const UserMessagePage = () => {
   const { loadReceiverData } = useLoadReceiverData();
   const donateState = useRecoilValue(paymentDonateState);
   const { controller } = donateState;
+
   const params = useParams();
   const { userId } = params;
   const { setTheme } = useTheme();
+
   useEffect(() => {
     setTheme("light");
 
