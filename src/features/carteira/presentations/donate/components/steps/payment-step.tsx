@@ -21,12 +21,12 @@ const PaymentStep = () => {
     socket.on("connect", () => {
       successSonner("connected");
 
-      socket.emit("join_room", {
-        room: `payment-confirmation-${content.sender}`,
-      });
       console.log("Conectado ao servidor WebSocket");
     });
 
+    socket.emit("join_room", {
+      room: `payment-confirmation-${content.sender}`,
+    });
     socket.on("joined_room", (room) => {
       successSonner(`Joined room: ${room}`);
       console.log(`Joined room: ${room}`);
