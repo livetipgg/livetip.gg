@@ -11,7 +11,8 @@ export interface IMessage {
 }
 
 export interface ITotalsMessages {
-  total: number;
+  brlTotal: number;
+  btcTotal: number;
   count: number;
 }
 

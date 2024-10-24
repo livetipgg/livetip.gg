@@ -21,6 +21,10 @@ const Profile = () => {
   const { successSonner } = useCustomSonner();
   const navigate = useNavigate();
 
+  const url = import.meta.env.PROD
+    ? import.meta.env.VITE_PRODUCTION_URL
+    : import.meta.env.DEV;
+
   return (
     <div className="max-w-xl ">
       <SectionTitle title="Meu Perfil" />
@@ -61,14 +65,13 @@ const Profile = () => {
                   });
                 }}
               >
-                http://localhost:5173/{user.username}
+                {url}
+                {user.username}
               </Button>
               <Button
                 variant="ghost"
                 onClick={() => {
-                  navigator.clipboard.writeText(
-                    ` http://localhost:5173/${user.username}`
-                  );
+                  navigator.clipboard.writeText(` ${url}${user.username}`);
 
                   successSonner("Link copiado com sucesso!");
                 }}

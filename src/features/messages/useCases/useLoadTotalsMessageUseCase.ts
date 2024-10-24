@@ -35,10 +35,7 @@ export const useLoadTotalsMessageUseCase = () => {
       });
       setMessageState((prevState: IMessageState) => ({
         ...prevState,
-        totals: {
-          total: response.data.total,
-          count: response.data.count,
-        },
+        totals: response.data,
       }));
     } catch {
       setMessageState((prevState: IMessageState) => ({

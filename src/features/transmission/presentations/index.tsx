@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { SectionTitle } from "@/components/section-title";
 import { Button } from "@/components/ui/button";
 import { setDocumentTitle } from "@/helpers/setDocumentTitle";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
@@ -17,6 +16,7 @@ import PaymentIcon from "@/components/payment-icon";
 import { useSetMessageReadUseCase } from "@/features/messages/useCases/useSetMessageReadUseCase";
 import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import socket from "@/socket";
 
 const TransmissionPage = () => {
   const { user } = useRecoilValue(authState);
@@ -34,6 +34,17 @@ const TransmissionPage = () => {
   }).format(today);
 
   useEffect(() => {
+    console.log(socket);
+    // Connect to the server when the component mounts
+    socket.connect();
+
+    // Cleanup when the component unmounts
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     setDocumentTitle(`Transmissão - ${date}`);
   }, [date]);
 
@@ -46,8 +57,8 @@ const TransmissionPage = () => {
       <div className="w-full h-32 bg-muted/80 relative mb-10"></div>
       <div className="absolute w-full top-8">
         <div className="max-w-4xl h-screen m-auto p-10 ">
-          <div className=" flex items-center  mb-5 justify-between">
-            <div className="flex items-center gap-4">
+          <div className=" flex items-centermb-5 justify-center md:justify-between  flex-wrap">
+            <div className="flex items-center justify-center flex-wrap  gap-4">
               <div className="w-28 h-28 bg-background rounded-full flex items-center justify-center  shadow-md p-1">
                 <Avatar className="cursor-pointer w-full h-full">
                   <AvatarImage
@@ -57,13 +68,13 @@ const TransmissionPage = () => {
                   <AvatarFallback></AvatarFallback>
                 </Avatar>
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col  w-full md:w-fit text-center">
                 <strong className="text-xl bg-background px-4 py-2 rounded-md shadow-sm">
                   {user.username}
                 </strong>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2 ">
               <div className="max-w-fit bg-background shadow-sm">
                 <div className="border rounded flex items-center ">
                   <Button
@@ -97,10 +108,12 @@ const TransmissionPage = () => {
               </div>
             </div>
           </div>
-          <SectionTitle title={`Transmissão - ${date}`} actions={[]} />
+          <div className="my-5 text-md md:text-2xl">
+            <strong>{`Transmissão - ${date}`}</strong>
+          </div>
 
           <div className="space-y-5 pb-10">
-            <strong>
+            <strong className="text-sm md:text-lg">
               Mensagens da transmissão ({transmissionMessages.results.length})
             </strong>
             <div className="flex flex-col">

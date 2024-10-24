@@ -64,14 +64,14 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
                 separator="."
                 decimal=","
               />
-              {convertToCurrency && (
+              {/* {convertToCurrency && (
                 <small
                   className="text-gray-500 text-sm font-semibold ml-1
                 "
                 >
                   = R$ 12,23
                 </small>
-              )}
+              )} */}
             </>
           )}
           {!isLoading && error && (

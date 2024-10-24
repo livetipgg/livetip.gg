@@ -6,18 +6,21 @@ import MessageInfo from "./message-info";
 import MessageContent from "./message-content";
 import MessageAmount from "./message-amount";
 
-interface MessageContainerProps {
+interface MessageContainerMobileProps {
   message: IMessage;
   messages: IMessage[];
 }
 
-const MessageContainer = ({ message, messages }: MessageContainerProps) => {
+const MessageContainerMobile = ({
+  message,
+  messages,
+}: MessageContainerMobileProps) => {
   const isLastMessage = messages[0] === message;
 
   return (
     <div
       className={cn(
-        "md:flex flex-col md:flex-row w-full items-start hidden md:items-center justify-between border p-4 rounded-lg mt-4 relative bg-muted/40",
+        "flex md:hidden flex-col md:flex-row w-full items-start md:items-center justify-between border p-4 rounded-lg mt-4 relative bg-muted/40",
         isLastMessage ? "border-success" : ""
       )}
     >
@@ -27,11 +30,13 @@ const MessageContainer = ({ message, messages }: MessageContainerProps) => {
           Última mensagem recebida
         </Badge>
       )}
-      <MessageInfo sender={message.sender} timestamp={message.timestamp} />
+      <div className="flex w-full justify-between">
+        <MessageInfo sender={message.sender} timestamp={message.timestamp} />
+        <MessageAmount currency={message.currency} amount={message.amount} />
+      </div>
       <MessageContent content={message.content} />
-      <MessageAmount currency={message.currency} amount={message.amount} />
     </div>
   );
 };
 
-export default MessageContainer;
+export default MessageContainerMobile;

@@ -40,7 +40,7 @@ const AnalyticsCardGrid = () => {
         error={errorBalance}
         isLoading={balanceIsLoading}
         borderColor="hsl(var(--success))"
-        endValue={totals.total}
+        endValue={totals.brlTotal}
         icon={<img src={pixLogo} alt="pix" className="w-5 h-5" />}
         subtitle="Valor recebido nos últimos 30 dias"
         textColor="text-success"
@@ -52,7 +52,7 @@ const AnalyticsCardGrid = () => {
         error={errorBalance}
         isLoading={balanceIsLoading}
         borderColor="hsl(var(--warning))"
-        endValue={0.0005}
+        endValue={totals.btcTotal}
         icon={<img src={bitcoinLogo} alt="bitcoin" className="w-5 h-5" />}
         subtitle="Valor recebido nos últimos 30 dias"
         textColor="text-warning"
