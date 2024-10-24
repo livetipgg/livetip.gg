@@ -13,13 +13,13 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { RefreshCcw, Circle, CircleCheck, LoaderCircle } from "lucide-react";
-import { NumericFormat } from "react-number-format";
 import pixLogo from "@/assets/pix-logo.png";
 import bitcoinLogo from "@/assets/bitcoin-logo.png";
 import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { paymentDonateState } from "@/features/carteira/states/atoms";
 import { useSendMessageAndCreateQRCode } from "@/features/carteira/useCases/useSendMessageAndCreateQRCode";
+import CurrencyInput from "react-currency-input-field";
 
 const MessageStep = () => {
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
@@ -165,32 +165,41 @@ const MessageStep = () => {
       </div>
       <div className="flex flex-col w-full mt-2">
         <Label className="mb-2 text-muted-foreground text-xs">Valor</Label>
-        <NumericFormat
+        <CurrencyInput
           className="rounded-xl"
-          thousandSeparator
-          decimalScale={2}
-          prefix="R$"
-          fixedDecimalScale
-          allowNegative={false}
           customInput={Input}
-          placeholder="R$ 0,00"
+          id="input-example"
+          name="input-name"
+          placeholder="Please enter a number"
+          defaultValue={0.0}
+          decimalScale={2}
+          decimalsLimit={2}
           value={content.amount}
-          onChange={(e) => {
+          intlConfig={{
+            locale: "pt-BR",
+            currency: "BRL",
+          }}
+          onValueChange={(e) => {
             setPaymentDonateState((prev: IPaymentDonateState) => ({
               ...prev,
               content: {
                 ...prev.content,
-                amount: e.target.value,
+                amount: e || "0",
               },
             }));
           }}
         />
-        {/* <span className="text-muted-foreground text-xs text-start mt-2">
-          Valor convertido: 0,00000001 BTC
-        </span>
-        <span className="text-primary font-semibold text-xs text-right mt-2">
-          O valor mínimo é de R$ 1,00
-        </span> */}
+
+        {content.currency === "BRL" && (
+          <span className="text-primary font-semibold text-xs text-right mt-2">
+            O valor mínimo é de R$ 0,01
+          </span>
+        )}
+        {content.currency === "BTC" && (
+          <span className="text-primary font-semibold text-xs text-right mt-2">
+            O valor mínimo é de R$ 1,00
+          </span>
+        )}
       </div>
       <Button
         className="mt-4 w-full rounded-xl"

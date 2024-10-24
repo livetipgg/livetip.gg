@@ -61,10 +61,6 @@ const PaymentStep = () => {
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col">
-        {/* Valor */}
-        <Label className="text-primary text-xl   font-bold mb-5">
-          {content.amount}
-        </Label>
         <QRCode value={controller.qrCode} />
         <Label className="text-center my-4">Pix Copia e Cola</Label>
         <Input

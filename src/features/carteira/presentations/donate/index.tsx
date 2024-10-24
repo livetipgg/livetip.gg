@@ -12,11 +12,10 @@ import { useLoadReceiverData } from "../../useCases/useLoadReceiverData";
 import { useParams } from "react-router-dom";
 import { ErrorAlert } from "@/components/error-alert";
 import { LoaderCircle } from "lucide-react";
-import socket from "@/socket";
 const UserMessagePage = () => {
   const { loadReceiverData } = useLoadReceiverData();
   const donateState = useRecoilValue(paymentDonateState);
-  const { controller, content } = donateState;
+  const { controller } = donateState;
   const params = useParams();
   const { userId } = params;
   const { setTheme } = useTheme();
@@ -25,25 +24,6 @@ const UserMessagePage = () => {
 
     if (userId) {
       loadReceiverData(userId);
-
-      document.title = `Livechat - ${userId}`;
-
-      socket.connect();
-
-      socket.on("connect_error", (err) => {
-        console.error("Erro de conexão:", err);
-      });
-
-      socket.on("connect", () => {});
-      socket.on(`payment-confirmation-${content.sender}`, (response) => {
-        console.log("payment-confirmation", response);
-      });
-
-      return () => {
-        socket.off(`payment-confirmation-${userId}`);
-        socket.off("message");
-        socket.disconnect();
-      };
     }
   }, [userId]);
 

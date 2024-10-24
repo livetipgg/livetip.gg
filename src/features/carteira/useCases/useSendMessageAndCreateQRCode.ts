@@ -20,6 +20,22 @@ export const useSendMessageAndCreateQRCode = () => {
       return errorSonner("Preencha todos os campos para prosseguir.");
     }
 
+    if (
+      parseFloat(payment.content.amount) < 1 &&
+      payment.content.currency === "BTC"
+    ) {
+      return errorSonner("O valor mínimo é de R$ 1,00.");
+    }
+
+    if (
+      parseFloat(
+        payment.content.amount.replace("R$", "").replace(",", ".").trim()
+      ) < 0.01 && //+
+      payment.content.currency === "BRL"
+    ) {
+      return errorSonner("O valor mínimo é de R$ 0,01.");
+    }
+
     setPaymentState((prev: IPaymentDonateState) => ({
       ...prev,
       controller: {
@@ -31,6 +47,7 @@ export const useSendMessageAndCreateQRCode = () => {
     try {
       const amountWithoutPrefix = payment.content.amount
         .replace("R$", "")
+        .replace(",", ".")
         .trim();
 
       const updatedContent = {
