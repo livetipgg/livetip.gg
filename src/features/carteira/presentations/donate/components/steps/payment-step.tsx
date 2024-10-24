@@ -8,11 +8,60 @@ import { paymentDonateState } from "@/features/carteira/states/atoms";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState";
 import QRCode from "react-qr-code";
+import socket from "@/socket";
+import { useEffect } from "react";
+import { useLoadDashboardAreaUseCase } from "@/features/dashboard/useCases/useLoadDashboardAreaUseCase";
 
 const PaymentStep = () => {
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
   const { controller, content } = useRecoilValue(paymentDonateState);
   const { successSonner } = useCustomSonner();
+  const { loadDashboardArea } = useLoadDashboardAreaUseCase();
+
+  useEffect(() => {
+    socket.connect();
+    socket.on("connect", () => {
+      console.log("Conectado ao servidor WebSocket");
+
+      socket.emit(
+        "join_room",
+        {
+          room: `payment-confirmation-${content.sender}`,
+        },
+        () => {
+          console.log("Room joined successfully");
+        }
+      );
+    });
+    socket.on("connect_error", (err) => {
+      console.error("Erro de conexão:", err);
+    });
+
+    socket.on("message", () => {
+      setPaymentDonateState((prev: IPaymentDonateState) => ({
+        ...prev,
+        content: {
+          amount: "",
+          content: "",
+          currency: "BRL",
+          sender: "",
+        },
+        controller: {
+          ...prev.controller,
+          currentStep: "SUCCESS",
+        },
+      }));
+
+      console.log("PAGAMENTO FOI SUCESSO");
+      loadDashboardArea();
+    });
+
+    return () => {
+      socket.off(`payment-confirmation-${content.sender}`);
+      socket.off("message");
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <>

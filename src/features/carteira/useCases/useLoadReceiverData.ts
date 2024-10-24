@@ -44,6 +44,7 @@ export const useLoadReceiverData = () => {
         },
       }));
     } catch (err: any) {
+      console.log("err", err);
       setPaymentState((prev: IPaymentDonateState) => ({
         ...prev,
         controller: {

@@ -18,9 +18,8 @@ const useCreateApiInstance = () => {
     headers.Authorization = `${user.token}`;
   }
 
-  // const BASE_URL = "http://localhost:3000/api/v1/";
-  const BASE_URL =
-    "https://live-pix-service-dot-livechat-437913.uc.r.appspot.com/api/v1/";
+  const BASE_URL = import.meta.env.VITE_API_PRODUCTION;
+  // : import.meta.env.VITE_API_DEVELOPMENT;
 
   const api = axios.create({
     baseURL: BASE_URL,
@@ -34,6 +33,14 @@ const useCreateApiInstance = () => {
       return response;
     },
     (error) => {
+      console.log("ERROR", error);
+
+      if (error.code === "ERR_NETWORK") {
+        errorSonner(
+          "A conexão com a internet não está disponível. Tente novamente mais tarde"
+        );
+      }
+
       if (error.response.status === 401) {
         handleLogout();
         errorSonner("Sessão expirada, faça login novamente");

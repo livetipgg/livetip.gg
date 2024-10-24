@@ -10,10 +10,11 @@ const SuccessStep = () => {
     <>
       <div className="w-full flex justify-center items-center flex-col">
         <h1 className="text-success font-bold text-2xl">
-          Obrigado pela sua doação!
+          Obrigado pela sua mensagem!
         </h1>
         <p className="text-muted-foreground text-center mt-2">
-          Sua doação foi concluída com sucesso. Agradecemos seu apoio.
+          Sua Mensagem foi enviada com sucesso. Em alguns instantes aparecerá
+          para o criador de conteúdo.
         </p>
       </div>
       <Button
@@ -28,7 +29,7 @@ const SuccessStep = () => {
           }));
         }}
       >
-        FAZER OUTRA DOAÇÃO
+        MANDAR OUTRA MENSAGEM
       </Button>
     </>
   );

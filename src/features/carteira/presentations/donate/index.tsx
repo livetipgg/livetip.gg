@@ -12,23 +12,40 @@ import { useLoadReceiverData } from "../../useCases/useLoadReceiverData";
 import { useParams } from "react-router-dom";
 import { ErrorAlert } from "@/components/error-alert";
 import { LoaderCircle } from "lucide-react";
+import socket from "@/socket";
 const UserMessagePage = () => {
   const { loadReceiverData } = useLoadReceiverData();
   const donateState = useRecoilValue(paymentDonateState);
-  const { controller } = donateState;
+  const { controller, content } = donateState;
   const params = useParams();
   const { userId } = params;
   const { setTheme } = useTheme();
-
   useEffect(() => {
     setTheme("light");
 
     if (userId) {
       loadReceiverData(userId);
-    }
-  }, []);
 
-  console.log("error", controller);
+      document.title = `Livechat - ${userId}`;
+
+      socket.connect();
+
+      socket.on("connect_error", (err) => {
+        console.error("Erro de conexão:", err);
+      });
+
+      socket.on("connect", () => {});
+      socket.on(`payment-confirmation-${content.sender}`, (response) => {
+        console.log("payment-confirmation", response);
+      });
+
+      return () => {
+        socket.off(`payment-confirmation-${userId}`);
+        socket.off("message");
+        socket.disconnect();
+      };
+    }
+  }, [userId]);
 
   if (controller.loadingReceiverData) {
     return (
@@ -48,6 +65,7 @@ const UserMessagePage = () => {
       </div>
     );
   }
+
   if (controller.errorMessage) {
     return (
       <div className="flex justify-center items-center h-screen w-full bg-gray-100">

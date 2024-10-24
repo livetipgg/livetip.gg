@@ -2,8 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { setDocumentTitle } from "@/helpers/setDocumentTitle";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
-import { Copy, MailCheck, MailX } from "lucide-react";
-import { useEffect } from "react";
+import { Copy, MailCheck, MailX, User } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/features/auth/states/atoms";
@@ -16,9 +16,12 @@ import PaymentIcon from "@/components/payment-icon";
 import { useSetMessageReadUseCase } from "@/features/messages/useCases/useSetMessageReadUseCase";
 import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import socket from "@/socket";
+import { useWebSocket } from "@/config/WebSocketProvider";
 
 const TransmissionPage = () => {
+  const [processedMessages, setProcessedMessages] = useState(new Set());
+
+  const socket = useWebSocket();
   const { user } = useRecoilValue(authState);
   const { transmissionMessages } = useRecoilValue(messageState);
   const { successSonner } = useCustomSonner();
@@ -26,7 +29,6 @@ const TransmissionPage = () => {
   const { setMessageRead, setMessageUnread } = useSetMessageReadUseCase();
   const navigate = useNavigate();
   const today = new Date();
-
   const date = new Intl.DateTimeFormat("pt-BR", {
     day: "numeric",
     month: "long",
@@ -34,13 +36,32 @@ const TransmissionPage = () => {
   }).format(today);
 
   useEffect(() => {
-    console.log(socket);
-    // Connect to the server when the component mounts
     socket.connect();
 
-    // Cleanup when the component unmounts
+    socket.on("connect", () => {
+      socket.emit(
+        "join_room",
+        {
+          room: `private-${user.id}`,
+          token: user.token,
+        },
+        () => {}
+      );
+    });
+    socket.on("message", (response) => {
+      const message = JSON.parse(response);
+
+      loadTransmissionMessages();
+
+      if (message && message.sender && !processedMessages.has(message.id)) {
+        setProcessedMessages((prev) => new Set(prev).add(message.id));
+        return successSonner(`🎉 Nova mensagem recebida`);
+      }
+    });
     return () => {
       socket.disconnect();
+      processedMessages.clear();
+      socket.off("message");
     };
   }, []);
 
@@ -65,10 +86,12 @@ const TransmissionPage = () => {
               <div className="w-28 h-28 bg-background rounded-full flex items-center justify-center  shadow-md p-1">
                 <Avatar className="cursor-pointer w-full h-full">
                   <AvatarImage
-                    src="https://musicaecinema.com/wp-content/uploads/2024/02/the-office-how-to-watch.jpg"
+                    // src="https://musicaecinema.com/wp-content/uploads/2024/02/the-office-how-to-watch.jpg"
                     className="object-cover"
                   />
-                  <AvatarFallback></AvatarFallback>
+                  <AvatarFallback>
+                    <User className="w-10 h-10 text-gray-500" />
+                  </AvatarFallback>
                 </Avatar>
               </div>
               <div className="flex flex-col  w-full md:w-fit text-center">

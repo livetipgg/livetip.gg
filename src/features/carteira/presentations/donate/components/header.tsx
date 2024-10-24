@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { paymentDonateState } from "@/features/carteira/states/atoms";
+import { User } from "lucide-react";
 import { useRecoilValue } from "recoil";
 
 export const Header = () => {
@@ -12,7 +13,9 @@ export const Header = () => {
             // src="https://musicaecinema.com/wp-content/uploads/2024/02/the-office-how-to-watch.jpg"
             className="object-cover"
           />
-          <AvatarFallback></AvatarFallback>
+          <AvatarFallback>
+            <User className="w-10 h-10 text-gray-500" />
+          </AvatarFallback>
         </Avatar>
       </div>
       <div className="flex flex-col items-center justify-center mt-10">

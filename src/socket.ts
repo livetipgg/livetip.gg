@@ -1,13 +1,11 @@
 // src/socket.ts
 import { io, Socket } from "socket.io-client";
 
-// Configure the URL for the Socket.IO server
-const URL =
-  "https://live-pix-service-dot-livechat-437913.uc.r.appspot.com/api/v1/";
-
-// Initialize the socket instance
+const URL = "wss://live-pix-service-dot-livechat-437913.uc.r.appspot.com";
+// const URL = "ws://localhost:3000";
 const socket: Socket = io(URL, {
-  autoConnect: false, // Only connect when necessary
+  autoConnect: false,
+  transports: ["websocket"],
 });
 
 export default socket;

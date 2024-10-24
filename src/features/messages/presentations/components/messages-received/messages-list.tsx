@@ -5,7 +5,6 @@ import { ErrorAlert } from "@/components/error-alert";
 import { messageState } from "@/features/messages/states/atoms";
 import { useRecoilValue } from "recoil";
 import { MessageSkeleton } from "../message-view/message-skeleton";
-import MessageContainerMobile from "../message-view/message-container-mobile";
 
 interface MessagesListProps {
   messages: IMessage[];
@@ -36,18 +35,9 @@ const MessagesList: React.FC<MessagesListProps> = ({
 
   return (
     <>
-      {messages.map((message) => (
+      {messages.map((message, idx) => (
         <>
-          <MessageContainerMobile
-            key={message._id}
-            messages={messages}
-            message={message}
-          />
-          <MessageContainer
-            key={message._id}
-            messages={messages}
-            message={message}
-          />
+          <MessageContainer key={idx} messages={messages} message={message} />
         </>
       ))}
     </>
