@@ -20,7 +20,8 @@ export const messageState = atom<IMessageState>({
       totalPages: 0,
     },
     totals: {
-      total: 0,
+      brlTotal: 0,
+      btcTotal: 0,
       count: 0,
     },
     controller: {

@@ -2,10 +2,6 @@ import { atom } from "recoil";
 import { IPaymentDonateState, IPaymentState } from "../contracts/IRecoilState";
 import pixLogo from "@/assets/pix-logo.png";
 import bitcoinLogo from "@/assets/bitcoin-logo.png";
-import { dataEncryptionConfig } from "@/config/dataEncryptionConfig";
-import { recoilPersist } from "recoil-persist";
-
-const { persistAtom } = recoilPersist(dataEncryptionConfig);
 
 export const paymentState = atom<IPaymentState>({
   key: "paymentState",
@@ -69,5 +65,4 @@ export const paymentDonateState = atom<IPaymentDonateState>({
       errorMessage: "",
     },
   },
-  effects_UNSTABLE: [persistAtom],
 });
