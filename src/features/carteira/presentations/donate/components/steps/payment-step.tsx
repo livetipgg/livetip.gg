@@ -19,7 +19,7 @@ const PaymentStep = () => {
   useEffect(() => {
     socket.connect();
     socket.on("connect", () => {
-      console.log("Conectado ao servidor WebSocket");
+      successSonner("connected");
 
       socket.emit(
         "join_room",
@@ -30,12 +30,14 @@ const PaymentStep = () => {
           console.log("Room joined successfully");
         }
       );
+      console.log("Conectado ao servidor WebSocket");
     });
     socket.on("connect_error", (err) => {
       console.error("Erro de conexão:", err);
     });
 
     socket.on("message", () => {
+      successSonner("payment-confirmation");
       setPaymentDonateState((prev: IPaymentDonateState) => ({
         ...prev,
         content: {
@@ -52,9 +54,7 @@ const PaymentStep = () => {
     });
 
     return () => {
-      socket.off(`payment-confirmation-${content.sender}`);
       socket.off("message");
-      socket.disconnect();
     };
   });
 

@@ -184,7 +184,7 @@ const MessageStep = () => {
               ...prev,
               content: {
                 ...prev.content,
-                amount: e || "0",
+                amount: e,
               },
             }));
           }}

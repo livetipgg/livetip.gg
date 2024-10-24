@@ -22,7 +22,7 @@ export interface IPaymentDonateState {
   content: {
     sender: string;
     content: string;
-    amount: string;
+    amount: string | undefined;
     currency: "BRL" | "BTC";
   };
   receiver: {
