@@ -26,6 +26,11 @@ const PaymentStep = () => {
       });
       console.log("Conectado ao servidor WebSocket");
     });
+
+    socket.on("joined_room", (room) => {
+      successSonner(`Joined room: ${room}`);
+      console.log(`Joined room: ${room}`);
+    });
     socket.on("connect_error", (err) => {
       console.error("Erro de conexão:", err);
     });
@@ -55,7 +60,7 @@ const PaymentStep = () => {
       socket.disconnect();
       console.log("Disconnect");
     };
-  }, [socket]);
+  }, []);
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col">
