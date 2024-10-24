@@ -56,7 +56,7 @@ const PaymentStep = () => {
       socket.off("message");
       socket.disconnect();
     };
-  }, []);
+  });
 
   return (
     <>

@@ -9,7 +9,7 @@ const SuccessStep = () => {
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col">
-        <h1 className="text-success font-bold text-2xl">
+        <h1 className="text-success text-center font-bold text-2xl">
           Obrigado pela sua mensagem!
         </h1>
         <p className="text-muted-foreground text-center mt-2">
