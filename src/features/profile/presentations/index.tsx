@@ -23,7 +23,7 @@ const Profile = () => {
 
   const url = import.meta.env.PROD
     ? import.meta.env.VITE_PRODUCTION_URL
-    : import.meta.env.DEV;
+    : import.meta.env.VITE_DEVELOPMENT_URL;
 
   return (
     <div className="max-w-xl ">

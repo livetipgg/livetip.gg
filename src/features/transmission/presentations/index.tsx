@@ -54,8 +54,7 @@ const TransmissionPage = () => {
 
   const url = import.meta.env.PROD
     ? import.meta.env.VITE_PRODUCTION_URL
-    : import.meta.env.DEV;
-
+    : import.meta.env.VITE_DEVELOPMENT_URL;
   return (
     <>
       <div className="w-full h-32 bg-muted/80 relative mb-10"></div>
