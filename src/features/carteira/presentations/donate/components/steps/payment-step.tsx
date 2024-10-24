@@ -37,6 +37,7 @@ const PaymentStep = () => {
     });
 
     socket.on("message", () => {
+      console.log("PAYMENT CONFIRMATION");
       successSonner("payment-confirmation");
       setPaymentDonateState((prev: IPaymentDonateState) => ({
         ...prev,
@@ -55,6 +56,10 @@ const PaymentStep = () => {
 
     return () => {
       socket.off("message");
+      socket.off("connect_error");
+      socket.off("connect");
+      socket.disconnect();
+      console.log("Desconectado do servidor WebSocket");
     };
   });
 
