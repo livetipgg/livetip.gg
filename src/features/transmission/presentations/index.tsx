@@ -52,6 +52,10 @@ const TransmissionPage = () => {
     loadTransmissionMessages();
   }, []);
 
+  const url = import.meta.env.PROD
+    ? import.meta.env.VITE_PRODUCTION_URL
+    : import.meta.env.DEV;
+
   return (
     <>
       <div className="w-full h-32 bg-muted/80 relative mb-10"></div>
@@ -86,14 +90,13 @@ const TransmissionPage = () => {
                       });
                     }}
                   >
-                    http://localhost:5173/{user.username}
+                    {url}
+                    {user.username}
                   </Button>
                   <Button
                     variant="ghost"
                     onClick={() => {
-                      navigator.clipboard.writeText(
-                        ` http://localhost:5173/${user.username}`
-                      );
+                      navigator.clipboard.writeText(`${url}${user.username}`);
 
                       successSonner("Link copiado com sucesso!");
                     }}
