@@ -129,7 +129,7 @@ const TransactionsHistory = () => {
                     ID da transação
                   </span>
                   <span className="text-md font-semibold break-all">
-                    {payment.senderId}
+                    {payment.id}
                   </span>
                 </div>
               </div>

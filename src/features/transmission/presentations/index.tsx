@@ -71,7 +71,7 @@ const TransmissionPage = () => {
       console.log("Desconectado. Tentando reconectar...");
       reconnectSocket();
     });
-  }, [socket, user, processedMessages, loadTransmissionMessages]);
+  }, []);
 
   const reconnectSocket = useCallback(() => {
     setTimeout(() => {
