@@ -4,7 +4,6 @@ import { setDocumentTitle } from "@/helpers/setDocumentTitle";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import { Copy, MailCheck, MailX, User } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/features/auth/states/atoms";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -29,7 +28,6 @@ const TransmissionPage = () => {
   const { successSonner } = useCustomSonner();
   const { loadTransmissionMessages } = useLoadTransmissionMessagesUseCase();
   const { setMessageRead, setMessageUnread } = useSetMessageReadUseCase();
-  const navigate = useNavigate();
   const today = new Date();
   const date = new Intl.DateTimeFormat("pt-BR", {
     day: "numeric",
@@ -117,9 +115,9 @@ const TransmissionPage = () => {
                     className="text-secondary"
                     variant="link"
                     onClick={() => {
-                      navigate(`/${user.username}`, {
-                        relative: "path",
-                      });
+                      navigator.clipboard.writeText(`${url}${user.username}`);
+
+                      successSonner("Link copiado com sucesso!");
                     }}
                   >
                     {url}
@@ -149,7 +147,7 @@ const TransmissionPage = () => {
 
           <div className="space-y-5 pb-10">
             <strong className="text-sm md:text-lg">
-              Mensagens da transmissão ({transmissionMessages.results.length})
+              Mensagens do dia ({transmissionMessages.results.length})
             </strong>
             <div className="flex flex-col">
               {!transmissionMessages.results.length && (

@@ -4,28 +4,18 @@ import { IMessageState } from "../contracts/IRecoilState";
 import { messageState } from "../states/atoms";
 import { MESSAGE } from "@/helpers/apiUrls";
 import { authState } from "@/features/auth/states/atoms";
-import { format } from "date-fns";
 
 export const useLoadLastMessagesUseCase = () => {
-  const [, setMessageState] = useRecoilState(messageState);
+  const [state, setMessageState] = useRecoilState(messageState);
   const { user } = useRecoilValue(authState);
   const api = useCreateApiInstance();
 
   const loadLastMessages = async () => {
-    const start = new Date();
-
-    start.setDate(start.getDate() - 1);
-
-    const end = new Date();
-    end.setDate(end.getDate() + 1);
     const params = {
-      ordered: true,
       limit: 4,
+      ordered: true,
       page: 1,
-      startDate: format(start, "yyyy-MM-dd"),
-      endDate: format(end, "yyyy-MM-dd"),
     };
-
     setMessageState((prevState: IMessageState) => ({
       ...prevState,
       controller: {
@@ -43,6 +33,8 @@ export const useLoadLastMessagesUseCase = () => {
         ...prevState,
         lastMessages: response.data,
       }));
+
+      console.log("Depois", state.lastMessages);
     } catch {
       setMessageState((prevState: IMessageState) => ({
         ...prevState,

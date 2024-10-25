@@ -30,10 +30,11 @@ export const useLoadTransmissionMessagesUseCase = () => {
     try {
       const response = await api.get(`${MESSAGE}/${user.id}`, {
         params: {
-          ordered: true,
-          startDate: format(start, "yyyy-MM-dd HH:mm:ss"),
-          endDate: format(end, "yyyy-MM-dd HH:mm:ss"),
           limit: 9999,
+          page: 1,
+          ordered: true,
+          startDate: format(start, "yyyy-MM-dd"),
+          endDate: format(end, "yyyy-MM-dd"),
         },
       });
 
