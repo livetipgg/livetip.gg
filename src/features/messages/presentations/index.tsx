@@ -10,10 +10,7 @@ import MessagesList from "./components/messages-received/messages-list";
 
 import PaginationComponent from "@/components/pagination";
 import FilterBar from "./components/filterBar";
-import { useWebSocket } from "@/config/WebSocketProvider";
 const MessagesReceived = () => {
-  const socket = useWebSocket();
-
   const setMessageState = useSetRecoilState(messageState);
   const { controller, messages } = useRecoilValue(messageState);
   const { isLoadingMessages, errorMessages } = controller;
@@ -23,22 +20,6 @@ const MessagesReceived = () => {
 
   useEffect(() => {
     loadMessages();
-  }, []);
-  useEffect(() => {
-    // Connect to the server when the component mounts
-    socket.connect();
-
-    socket.on("connect_error", (err) => {
-      console.error("Connection Error:", err);
-    });
-
-    // entrar na sala private-1
-    socket.emit("join_room", "private-1");
-
-    // Cleanup when the component unmounts
-    return () => {
-      socket.disconnect();
-    };
   }, []);
 
   return (

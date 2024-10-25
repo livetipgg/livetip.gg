@@ -59,9 +59,7 @@ const TransmissionPage = () => {
       }
     });
     return () => {
-      socket.disconnect();
       processedMessages.clear();
-      socket.off("message");
     };
   }, []);
 
@@ -149,8 +147,12 @@ const TransmissionPage = () => {
                 transmissionMessages.results.map((message) => (
                   <>
                     <div className="flex items-center justify-between mt-5">
-                      <div className="flex items-center">
-                        <div className="bg-success p-2 rounded-s-lg ">
+                      <div className="flex items-center ">
+                        <div
+                          className={`${
+                            message.read ? "bg-gray-500" : "bg-success"
+                          } p-2 rounded-s-lg `}
+                        >
                           <span className="text-white font-semibold">
                             {formatPayment({
                               amount: message.amount,
@@ -158,7 +160,11 @@ const TransmissionPage = () => {
                             })}
                           </span>
                         </div>
-                        <div className="p-2 bg-primary rounded-e-lg">
+                        <div
+                          className={`p-2 ${
+                            message.read ? "bg-gray-400" : "bg-primary"
+                          } rounded-e-lg`}
+                        >
                           <span className="font-semibold text-white">
                             {message.sender}
                           </span>
@@ -182,13 +188,19 @@ const TransmissionPage = () => {
                         title="Marcar como lido"
                       >
                         {message.read ? (
-                          <MailX className="w-4 h-4" />
+                          <div className="flex items-center gap-2">
+                            <MailX className="w-4 h-4" />
+                          </div>
                         ) : (
                           <MailCheck className="w-4 h-4" />
                         )}
                       </Button>
                     </div>
-                    <div className="rounded-lg border border-primary mt-2">
+                    <div
+                      className={`rounded-lg border ${
+                        message.read ? "" : "border-primary"
+                      }  mt-2`}
+                    >
                       <p className="p-2 flex gap-2 items-center">
                         {/* Horário */}
                         <span className="text-muted-foreground text-sm">

@@ -91,9 +91,9 @@ export const BalancePreview: React.FC = () => {
         balance={btcBalance}
         isLoading={isLoading}
         showCurrentBalance={showCurrentBalance}
-        unit=" BTC"
+        unit=" SATS"
       />
-      <BalanceItem
+      {/* <BalanceItem
         customLogo={
           <div className="flex items-center gap-2">
             <img src={pixLogo} alt="pix" className="w-4 h-4  grayscale" />
@@ -109,7 +109,7 @@ export const BalancePreview: React.FC = () => {
         balance={formatCurrencyValue(brlBalance + btcBalance)}
         isLoading={isLoading}
         showCurrentBalance={showCurrentBalance}
-      />
+      /> */}
 
       {!isLoading && (
         <BalanceToggleButton
@@ -157,7 +157,7 @@ export const BalanceMobilePreview: React.FC = () => {
         showCurrentBalance={showCurrentBalance}
         unit=" BTC"
       />
-      <BalanceItem
+      {/* <BalanceItem
         customLogo={
           <div className="flex items-center gap-2">
             <img src={pixLogo} alt="pix" className="w-4 h-4 grayscale" />
@@ -173,7 +173,7 @@ export const BalanceMobilePreview: React.FC = () => {
         balance={formatCurrencyValue(brlBalance + btcBalance)}
         isLoading={isLoading}
         showCurrentBalance={showCurrentBalance}
-      />
+      /> */}
     </div>
   );
 };

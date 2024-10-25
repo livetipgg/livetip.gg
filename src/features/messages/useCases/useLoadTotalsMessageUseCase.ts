@@ -13,8 +13,10 @@ export const useLoadTotalsMessageUseCase = () => {
 
   const start = new Date();
   start.setMonth(start.getMonth() - 1);
+  start.setDate(start.getDate() - 1);
 
   const end = new Date();
+  end.setDate(end.getDate() + 1);
 
   const loadTotalsMessage = async () => {
     setMessageState((prevState: IMessageState) => ({

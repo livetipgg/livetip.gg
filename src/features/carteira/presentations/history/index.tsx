@@ -3,7 +3,7 @@ import { SectionTitle } from "@/components/section-title";
 import { Button } from "@/components/ui/button";
 
 import { withLayout } from "@/HOC/withLayout";
-import { format, formatDate, subDays } from "date-fns";
+import { format, formatDate } from "date-fns";
 import { ArrowLeftRight, Hash, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -20,8 +20,8 @@ import PaginationComponent from "@/components/pagination";
 const TransactionsHistory = () => {
   const setPaymentState = useSetRecoilState(paymentState);
   const [date, setDate] = useState<DateRange | undefined>({
-    to: new Date(),
-    from: subDays(new Date(), 30),
+    to: undefined,
+    from: undefined,
   });
 
   const { payments, controller } = useRecoilValue(paymentState);
