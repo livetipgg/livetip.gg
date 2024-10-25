@@ -2,10 +2,12 @@ import { atom } from "recoil";
 import { IAuthState } from "../contracts/IRecoilState";
 import { initialAuthController, initialAuthUser } from "./initialValues";
 import { recoilPersist } from "recoil-persist";
-import { dataEncryptionConfig } from "@/config/dataEncryptionConfig";
 
-const { persistAtom } = recoilPersist(dataEncryptionConfig);
-
+const { persistAtom } = recoilPersist({
+  key: "recoil-persist",
+  storage: localStorage,
+  converter: JSON,
+});
 export const authState = atom<IAuthState>({
   key: "authState",
   default: {
