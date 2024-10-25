@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { setDocumentTitle } from "@/helpers/setDocumentTitle";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
-import { Copy, MailCheck, MailX, User } from "lucide-react";
+import { Copy, MailCheck, MailX, RefreshCw, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/features/auth/states/atoms";
@@ -24,7 +24,8 @@ const TransmissionPage = () => {
 
   const socket = useWebSocket();
   const { user } = useRecoilValue(authState);
-  const { transmissionMessages } = useRecoilValue(messageState);
+  const { transmissionMessages, controller } = useRecoilValue(messageState);
+  const { isLoadingTransmissionMessages } = controller;
   const { successSonner } = useCustomSonner();
   const { loadTransmissionMessages } = useLoadTransmissionMessagesUseCase();
   const { setMessageRead, setMessageUnread } = useSetMessageReadUseCase();
@@ -146,13 +147,35 @@ const TransmissionPage = () => {
           </div>
 
           <div className="space-y-5 pb-10">
-            <strong className="text-sm md:text-lg">
-              Mensagens do dia ({transmissionMessages.results.length})
-            </strong>
+            <div className="flex items-center justify-between">
+              <strong className="text-sm md:text-lg">
+                Mensagens do dia ({transmissionMessages.results.length})
+              </strong>
+
+              <Button
+                variant={"outline"}
+                className={`${
+                  isLoadingTransmissionMessages ? "text-muted-foreground" : ""
+                }`}
+                title="Atualizar"
+                onClick={() => {
+                  loadTransmissionMessages();
+                }}
+                disabled={isLoadingTransmissionMessages}
+              >
+                <span className="mr-2">Atualizar</span>
+                <RefreshCw
+                  className={`w-4 h-4 mb-0 ${
+                    isLoadingTransmissionMessages ? "animate-spin" : ""
+                  }`}
+                />
+              </Button>
+            </div>
             <div className="flex flex-col">
               {!transmissionMessages.results.length && (
                 <NoContent message="Nenhuma mensagem para mostrar" />
               )}
+
               {!!transmissionMessages.results.length &&
                 transmissionMessages.results.map((message) => (
                   <>
