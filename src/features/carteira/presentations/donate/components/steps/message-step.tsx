@@ -127,6 +127,7 @@ const MessageStep = () => {
                       ...prev,
                       content: {
                         ...prev.content,
+                        amount: "",
                         currency: paymentMethod.id,
                       },
                     }));
@@ -165,30 +166,56 @@ const MessageStep = () => {
       </div>
       <div className="flex flex-col w-full mt-2">
         <Label className="mb-2 text-muted-foreground text-xs">Valor</Label>
-        <CurrencyInput
-          className="rounded-xl"
-          customInput={Input}
-          id="input-example"
-          name="input-name"
-          placeholder="Please enter a number"
-          defaultValue={0.0}
-          decimalScale={2}
-          decimalsLimit={2}
-          value={content.amount}
-          intlConfig={{
-            locale: "pt-BR",
-            currency: "BRL",
-          }}
-          onValueChange={(e) => {
-            setPaymentDonateState((prev: IPaymentDonateState) => ({
-              ...prev,
-              content: {
-                ...prev.content,
-                amount: e,
-              },
-            }));
-          }}
-        />
+
+        {content.currency === "BRL" && (
+          <CurrencyInput
+            className="rounded-xl"
+            customInput={Input}
+            id="input-example"
+            name="input-name"
+            placeholder="R$ 0,00"
+            defaultValue={0.0}
+            decimalScale={2}
+            decimalsLimit={2}
+            value={content.amount}
+            intlConfig={{
+              locale: "pt-BR",
+              currency: "BRL",
+            }}
+            onValueChange={(e) => {
+              setPaymentDonateState((prev: IPaymentDonateState) => ({
+                ...prev,
+                content: {
+                  ...prev.content,
+                  amount: e,
+                },
+              }));
+            }}
+          />
+        )}
+
+        {content.currency === "BTC" && (
+          <CurrencyInput
+            className="rounded-xl"
+            customInput={Input}
+            id="input-example"
+            name="input-name"
+            placeholder="0"
+            defaultValue={0}
+            decimalScale={0}
+            decimalsLimit={0}
+            value={content.amount}
+            onValueChange={(e) => {
+              setPaymentDonateState((prev: IPaymentDonateState) => ({
+                ...prev,
+                content: {
+                  ...prev.content,
+                  amount: e,
+                },
+              }));
+            }}
+          />
+        )}
 
         {content.currency === "BRL" && (
           <span className="text-primary font-semibold text-xs text-right mt-2">
@@ -197,7 +224,7 @@ const MessageStep = () => {
         )}
         {content.currency === "BTC" && (
           <span className="text-primary font-semibold text-xs text-right mt-2">
-            O valor mínimo é de R$ 1,00
+            O valor mínimo é de 1 sats
           </span>
         )}
       </div>

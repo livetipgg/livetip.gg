@@ -35,10 +35,12 @@ const MessagesList: React.FC<MessagesListProps> = ({
 
   return (
     <>
-      {messages.map((message, idx) => (
-        <>
-          <MessageContainer key={idx} messages={messages} message={message} />
-        </>
+      {messages.map((message) => (
+        <MessageContainer
+          key={message._id}
+          messages={messages}
+          message={message}
+        />
       ))}
     </>
   );

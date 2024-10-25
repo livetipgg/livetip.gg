@@ -57,7 +57,7 @@ const AnalyticsCardGrid = () => {
         subtitle="Valor recebido nos últimos 30 dias"
         textColor="text-warning"
         title="Satoshi Recebido"
-        decimals={6}
+        decimals={0}
         convertToCurrency
       />
     </div>

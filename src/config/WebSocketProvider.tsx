@@ -1,6 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
 // src/WebSocketProvider.tsx
-import { useCustomSonner } from "@/hooks/useCustomSonner";
 import socket from "@/socket";
 import React, { createContext, useContext, useEffect } from "react";
 import { Socket } from "socket.io-client";
@@ -16,13 +15,11 @@ const WebSocketContext = createContext<WebSocketContextType | undefined>(
 const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { successSonner } = useCustomSonner();
   useEffect(() => {
     socket.connect();
     socket.on("connection", () => {});
 
     socket.on("joined_room", (room) => {
-      successSonner(`Joined room: ${room}`);
       console.log(`Joined room: ${room}`);
     });
 

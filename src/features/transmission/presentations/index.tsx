@@ -17,9 +17,11 @@ import { useSetMessageReadUseCase } from "@/features/messages/useCases/useSetMes
 import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useWebSocket } from "@/config/WebSocketProvider";
+import notificationAudio from "@/assets/notification-sound.wav";
 
 const TransmissionPage = () => {
   const [processedMessages, setProcessedMessages] = useState(new Set());
+  const audio = new Audio(notificationAudio);
 
   const socket = useWebSocket();
   const { user } = useRecoilValue(authState);
@@ -36,6 +38,7 @@ const TransmissionPage = () => {
   }).format(today);
 
   useEffect(() => {
+    prepareSound();
     socket.connect();
 
     socket.on("connect", () => {
@@ -55,6 +58,9 @@ const TransmissionPage = () => {
 
       if (message && message.sender && !processedMessages.has(message.id)) {
         setProcessedMessages((prev) => new Set(prev).add(message.id));
+        audio.play().catch((error) => {
+          console.error("Erro ao reproduzir som:", error);
+        });
         return successSonner(`🎉 Nova mensagem recebida`);
       }
     });
@@ -62,6 +68,12 @@ const TransmissionPage = () => {
       processedMessages.clear();
     };
   }, []);
+
+  const prepareSound = () => {
+    // Carrega o som
+    audio.load();
+    audio.volume = 0.1;
+  };
 
   useEffect(() => {
     setDocumentTitle(`Transmissão - ${date}`);

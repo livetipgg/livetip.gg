@@ -10,17 +10,17 @@ import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState"
 import QRCode from "react-qr-code";
 import socket from "@/socket";
 import { useEffect } from "react";
+import { useLoadDashboardAreaUseCase } from "@/features/dashboard/useCases/useLoadDashboardAreaUseCase";
 
 const PaymentStep = () => {
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
   const { controller, content } = useRecoilValue(paymentDonateState);
+  const { loadDashboardArea } = useLoadDashboardAreaUseCase();
   const { successSonner } = useCustomSonner();
 
   useEffect(() => {
     socket.connect();
     socket.on("connect", () => {
-      successSonner("connected");
-
       console.log("Conectado ao servidor WebSocket");
     });
 
@@ -28,7 +28,6 @@ const PaymentStep = () => {
       room: `payment-confirmation-${content.sender}`,
     });
     socket.on("joined_room", (room) => {
-      successSonner(`Joined room: ${room}`);
       console.log(`Joined room: ${room}`);
     });
     socket.on("connect_error", (err) => {
@@ -37,7 +36,6 @@ const PaymentStep = () => {
 
     socket.on("message", () => {
       console.log("PAYMENT CONFIRMATION");
-      successSonner("payment-confirmation");
       setPaymentDonateState((prev: IPaymentDonateState) => ({
         ...prev,
         content: {
@@ -51,6 +49,7 @@ const PaymentStep = () => {
           currentStep: "SUCCESS",
         },
       }));
+      loadDashboardArea();
     });
 
     return () => {
