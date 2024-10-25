@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "@/components/ui/button";
-import { setDocumentTitle } from "@/helpers/setDocumentTitle";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import { Copy, MailCheck, MailX, RefreshCw, User } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/features/auth/states/atoms";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -36,47 +35,62 @@ const TransmissionPage = () => {
     year: "numeric",
   }).format(today);
 
-  useEffect(() => {
-    prepareSound();
+  const loadAudio = () => {
+    audio.load();
+
+    audio.volume = 0.1;
+  };
+
+  // Função para reestabelecer a conexão se o socket cair
+  const connectSocket = useCallback(() => {
+    if (!socket || socket.connected) return;
+
     socket.connect();
 
     socket.on("connect", () => {
-      socket.emit(
-        "join_room",
-        {
-          room: `private-${user.id}`,
-          token: user.token,
-        },
-        () => {}
-      );
+      socket.emit("join_room", {
+        room: `private-${user.id}`,
+        token: user.token,
+      });
     });
-    socket.on("message", (response) => {
-      const message = JSON.parse(response);
 
+    socket.on("message", (response) => {
       loadTransmissionMessages();
+
+      const message = JSON.parse(response);
 
       if (message && message.sender && !processedMessages.has(message.id)) {
         setProcessedMessages((prev) => new Set(prev).add(message.id));
         audio.play().catch((error) => {
           console.error("Erro ao reproduzir som:", error);
         });
-        return successSonner(`🎉 Nova mensagem recebida`);
       }
     });
-    return () => {
-      processedMessages.clear();
-    };
-  }, []);
 
-  const prepareSound = () => {
-    // Carrega o som
-    audio.load();
-    audio.volume = 0.1;
-  };
+    socket.on("disconnect", () => {
+      console.log("Desconectado. Tentando reconectar...");
+      reconnectSocket();
+    });
+  }, [socket, user, processedMessages, loadTransmissionMessages]);
+
+  const reconnectSocket = useCallback(() => {
+    setTimeout(() => {
+      console.log("Tentando reconectar o WebSocket...");
+      connectSocket();
+    }, 5000);
+  }, [connectSocket]);
 
   useEffect(() => {
-    setDocumentTitle(`Transmissão - ${date}`);
-  }, [date]);
+    loadAudio();
+    connectSocket();
+
+    return () => {
+      if (socket) {
+        socket.disconnect();
+        console.log("Socket desconectado");
+      }
+    };
+  }, [connectSocket, socket]);
 
   useEffect(() => {
     loadTransmissionMessages();

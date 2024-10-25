@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import { authController, authState } from "@/features/auth/states/atoms";
 import notificationAudio from "@/assets/notification-sound.wav";
+import { useLoadLastMessagesUseCase } from "@/features/messages/useCases/useLoadLastMessagesUseCase";
 const Dashboard = () => {
   const { controller: balanceStateController } = useRecoilValue(balanceState);
   const { isLoading: balanceIsLoading } = balanceStateController;
@@ -24,6 +25,7 @@ const Dashboard = () => {
   const [processedMessages, setProcessedMessages] = useState(new Set());
 
   const { loadDashboardArea } = useLoadDashboardAreaUseCase();
+  const { loadLastMessages } = useLoadLastMessagesUseCase();
   const { successSonner } = useCustomSonner();
 
   const audio = new Audio(notificationAudio);
@@ -45,9 +47,9 @@ const Dashboard = () => {
         );
       });
       socket.on("message", (response) => {
-        const message = JSON.parse(response);
-        console.log("is authenticated loaddashborard area");
         loadDashboardArea();
+        loadLastMessages();
+        const message = JSON.parse(response);
 
         if (message && message.sender && !processedMessages.has(message.id)) {
           setProcessedMessages((prev) => new Set(prev).add(message.id));
@@ -60,6 +62,8 @@ const Dashboard = () => {
       });
       return () => {
         processedMessages.clear();
+        socket.disconnect();
+        socket.off("message");
       };
     }
   }, []);
@@ -69,6 +73,10 @@ const Dashboard = () => {
 
     audio.volume = 0.1;
   };
+
+  useEffect(() => {
+    loadLastMessages();
+  }, []);
   return (
     <>
       <SectionTitle
