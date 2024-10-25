@@ -17,6 +17,7 @@ export const useLoadMessagesUseCase = () => {
     limit?: number;
     page?: number;
     query?: string; // Adicionando query como opcional
+    ordered?: boolean;
   }
 
   const loadMessages = async (params?: LoadMessagesParams) => {
@@ -47,7 +48,7 @@ export const useLoadMessagesUseCase = () => {
       const queryParams: any = {
         limit: params?.limit || messagesParams.limit,
         page: params?.page || messagesParams.page,
-        ordered: true, // Se `ordered` for sempre necessário
+        ordered: params?.ordered || messagesParams.ordered || true,
         query: params?.query || messagesParams.query || null,
         startDate: messagesParams.startDate,
         endDate: messagesParams.endDate,

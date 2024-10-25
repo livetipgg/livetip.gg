@@ -13,7 +13,8 @@ export const useLoadDashboardAreaUseCase = () => {
         loadUserBalance(),
         loadTotalsMessage(),
         loadMessages({
-          limit: 4,
+          limit: 10,
+          ordered: true,
         }),
       ]);
     } catch (error) {

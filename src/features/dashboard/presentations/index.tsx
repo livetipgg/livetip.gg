@@ -12,12 +12,14 @@ import { useLoadDashboardAreaUseCase } from "../useCases/useLoadDashboardAreaUse
 import socket from "@/socket";
 import { useEffect, useState } from "react";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
-import { authState } from "@/features/auth/states/atoms";
+import { authController, authState } from "@/features/auth/states/atoms";
 import notificationAudio from "@/assets/notification-sound.wav";
 const Dashboard = () => {
   const { controller: balanceStateController } = useRecoilValue(balanceState);
   const { isLoading: balanceIsLoading } = balanceStateController;
   const { user } = useRecoilValue(authState);
+  const { isAuthenticated } = useRecoilValue(authController);
+  console.log("isAuthenticated", isAuthenticated);
   const { controller: messageStateController } = useRecoilValue(messageState);
   const { isLoadingTotals: totalsMessageIsLoading } = messageStateController;
   const [processedMessages, setProcessedMessages] = useState(new Set());
@@ -28,36 +30,39 @@ const Dashboard = () => {
   const audio = new Audio(notificationAudio);
 
   useEffect(() => {
-    prepareSound();
-    socket.connect();
+    if (isAuthenticated) {
+      prepareSound();
 
-    socket.on("connect", () => {
-      socket.emit(
-        "join_room",
-        {
-          room: `private-${user.id}`,
-          token: user.token,
-        },
-        () => {}
-      );
-    });
-    socket.on("message", (response) => {
-      const message = JSON.parse(response);
+      socket.connect();
 
-      loadDashboardArea();
+      socket.on("connect", () => {
+        socket.emit(
+          "join_room",
+          {
+            room: `private-${user.id}`,
+            token: user.token,
+          },
+          () => {}
+        );
+      });
+      socket.on("message", (response) => {
+        const message = JSON.parse(response);
+        console.log("is authenticated loaddashborard area");
+        loadDashboardArea();
 
-      if (message && message.sender && !processedMessages.has(message.id)) {
-        setProcessedMessages((prev) => new Set(prev).add(message.id));
-        audio.play().catch((error) => {
-          console.error("Erro ao reproduzir som:", error);
-        });
+        if (message && message.sender && !processedMessages.has(message.id)) {
+          setProcessedMessages((prev) => new Set(prev).add(message.id));
+          audio.play().catch((error) => {
+            console.error("Erro ao reproduzir som:", error);
+          });
 
-        return successSonner(`🎉 Nova mensagem recebida`);
-      }
-    });
-    return () => {
-      processedMessages.clear();
-    };
+          return successSonner(`🎉 Nova mensagem recebida`);
+        }
+      });
+      return () => {
+        processedMessages.clear();
+      };
+    }
   }, []);
 
   const prepareSound = () => {

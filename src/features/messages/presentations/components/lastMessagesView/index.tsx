@@ -18,7 +18,8 @@ export const LastMessagesViewList = () => {
 
   useEffect(() => {
     loadMessages({
-      limit: 4,
+      limit: 10,
+      ordered: true,
     });
   }, []);
 
@@ -44,7 +45,6 @@ export const LastMessagesViewList = () => {
       </div>
     );
   }
-
   return (
     <div className="my-10">
       <h4 className="text-xl font-semibold mb-10">Últimas mensagens</h4>

@@ -49,7 +49,6 @@ const PaymentStep = () => {
           currentStep: "SUCCESS",
         },
       }));
-      loadDashboardArea();
     });
 
     return () => {
