@@ -152,7 +152,7 @@ export const BalanceMobilePreview: React.FC = () => {
       <BalanceItem
         logo={bitcoinLogo}
         altText="bitcoin"
-        balance={btcBalance}
+        balance={parseFloat(btcBalance).toFixed(0)}
         isLoading={isLoading}
         showCurrentBalance={showCurrentBalance}
         unit=" BTC"

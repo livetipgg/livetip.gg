@@ -27,10 +27,12 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
   prefix = "",
   decimals = 0,
   error = null,
-  convertToCurrency = false,
 }) => {
   return (
-    <Card style={{ borderBottom: `4px solid ${borderColor}` }}>
+    <Card
+      style={{ borderBottom: `4px solid ${borderColor}` }}
+      className="bg-muted/40 shadow-none"
+    >
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           {isLoading && (

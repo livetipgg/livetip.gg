@@ -1,20 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import { RefreshCcw, Circle, CircleCheck, LoaderCircle } from "lucide-react";
-import pixLogo from "@/assets/pix-logo.png";
-import bitcoinLogo from "@/assets/bitcoin-logo.png";
+
+import { Circle, CircleCheck, LoaderCircle } from "lucide-react";
 import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { paymentDonateState } from "@/features/carteira/states/atoms";
@@ -27,8 +17,6 @@ const MessageStep = () => {
   const { loadingCreateQRCode } = controller;
   const { sendMessageAndCreateQRCode } = useSendMessageAndCreateQRCode();
   const MAX_LENGTH = 300;
-  const [dialogPaymentMethodsOpen, setDialogPaymentMethodsOpen] =
-    useState(false);
 
   const handleInputChange = (e: any) => {
     const textarea = e.target;
@@ -84,7 +72,50 @@ const MessageStep = () => {
         <Label className="mb-2 text-muted-foreground text-xs">
           Método de pagamento
         </Label>
-        <Dialog
+        <div className="flex flex-col w-full mt-2 gap-3">
+          {controller.paymentMethods.map((paymentMethod) => (
+            <div
+              key={paymentMethod.id}
+              onClick={() => {
+                setPaymentDonateState((prev: IPaymentDonateState) => ({
+                  ...prev,
+                  content: {
+                    ...prev.content,
+                    amount: "",
+                    currency: paymentMethod.id,
+                  },
+                }));
+              }}
+              className={`flex items-center w-full p-2 border-2 justify-between ${
+                paymentMethod.id === content.currency
+                  ? "border-success"
+                  : "border"
+              } rounded-xl cursor-pointer`}
+            >
+              <div className="flex items-center gap-2">
+                {paymentMethod.id === content.currency ? (
+                  <CircleCheck size={24} className="text-success" />
+                ) : (
+                  <Circle size={24} />
+                )}
+                <div className="flex flex-col ">
+                  <strong>{paymentMethod.name}</strong>
+                  <span className="text-muted-foreground text-xs">
+                    {paymentMethod.description}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <img
+                  className="h-6 w-6 mr-2"
+                  src={paymentMethod.icon}
+                  alt="Payment method logo"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* <Dialog
           open={dialogPaymentMethodsOpen}
           onOpenChange={setDialogPaymentMethodsOpen}
         >
@@ -162,7 +193,7 @@ const MessageStep = () => {
               ))}
             </div>
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
       </div>
       <div className="flex flex-col w-full mt-2">
         <Label className="mb-2 text-muted-foreground text-xs">Valor</Label>

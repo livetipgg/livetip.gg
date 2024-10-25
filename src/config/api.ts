@@ -37,7 +37,7 @@ const useCreateApiInstance = () => {
 
       if (error.code === "ERR_NETWORK") {
         errorSonner(
-          "A conexão com a internet não está disponível. Tente novamente mais tarde"
+          "Ocorreu um erro, por favor tente novamente ou entre em contato"
         );
       }
 

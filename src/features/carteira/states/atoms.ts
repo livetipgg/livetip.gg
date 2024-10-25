@@ -57,7 +57,7 @@ export const paymentDonateState = atom<IPaymentDonateState>({
         {
           id: "BTC",
           name: "Bitcoin",
-          description: "Pagamento por endereço de carteira",
+          description: "Pagamento via Lightning Network",
           icon: bitcoinLogo,
         },
       ],
