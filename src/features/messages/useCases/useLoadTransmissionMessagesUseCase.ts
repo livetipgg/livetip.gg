@@ -4,6 +4,7 @@ import { IMessageState } from "../contracts/IRecoilState";
 import { messageState } from "../states/atoms";
 import { MESSAGE } from "@/helpers/apiUrls";
 import { authState } from "@/features/auth/states/atoms";
+import { format } from "date-fns";
 
 export const useLoadTransmissionMessagesUseCase = () => {
   const [, setMessageState] = useRecoilState(messageState);
@@ -11,7 +12,6 @@ export const useLoadTransmissionMessagesUseCase = () => {
   const api = useCreateApiInstance();
 
   const start = new Date();
-
   start.setDate(start.getDate() - 1);
 
   const end = new Date();
@@ -31,8 +31,8 @@ export const useLoadTransmissionMessagesUseCase = () => {
       const response = await api.get(`${MESSAGE}/${user.id}`, {
         params: {
           ordered: true,
-          startDate: start,
-          endDate: end,
+          startDate: format(start, "yyyy-MM-dd HH:mm:ss"),
+          endDate: format(end, "yyyy-MM-dd HH:mm:ss"),
           limit: 9999,
         },
       });
