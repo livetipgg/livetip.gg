@@ -4,7 +4,6 @@ import { IMessageState } from "../contracts/IRecoilState";
 import { messageState } from "../states/atoms";
 import { MESSAGE } from "@/helpers/apiUrls";
 import { authState } from "@/features/auth/states/atoms";
-import { format } from "date-fns";
 
 export const useLoadTransmissionMessagesUseCase = () => {
   const [, setMessageState] = useRecoilState(messageState);
@@ -33,8 +32,6 @@ export const useLoadTransmissionMessagesUseCase = () => {
           limit: 9999,
           page: 1,
           ordered: true,
-          startDate: format(start, "yyyy-MM-dd"),
-          endDate: format(end, "yyyy-MM-dd"),
         },
       });
 
