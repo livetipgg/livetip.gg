@@ -20,7 +20,7 @@ const MessageContainer = ({ message, messages }: MessageContainerProps) => {
   return (
     <div
       className={cn(
-        "md:flex flex-col md:flex-row w-full items-start hidden md:items-center justify-between border p-4 rounded-lg mt-4 relative bg-muted/40",
+        "flex flex-col lg:flex-row w-full items-start  lg:items-center justify-between border p-4 rounded-lg mt-4 relative bg-muted/40",
         isLastMessage && messagesParams.page === 1 ? "border-success" : ""
       )}
     >

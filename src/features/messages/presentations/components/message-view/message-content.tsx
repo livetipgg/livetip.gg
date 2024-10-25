@@ -15,10 +15,15 @@ interface MessageContentProps {
 
 const MessageContent = ({ content }: MessageContentProps) => {
   return (
-    <div className="flex w-full mt-4 md:mx-10 md:my-0 items-center">
+    <div className="flex flex-1 mt-4 lg:mx-10 lg:my-0 items-center">
       <MessageSquareMore className="h-5 w-5 mr-2" />
       <p className="text-sm font-normal flex items-center">
-        {formatTextMaxCaracters(content, 100)}
+        <div className="hidden lg:flex">
+          {formatTextMaxCaracters(content, 50)}
+        </div>
+        <div className=" flex md:hidden">
+          {formatTextMaxCaracters(content, 20)}
+        </div>
         {content.length > 100 && (
           <AlertDialog>
             <AlertDialogTrigger asChild>
