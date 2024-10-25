@@ -10,8 +10,7 @@ import { LastMessagesViewList } from "@/features/messages/presentations/componen
 import AnalyticsCardGrid from "./components/analytics-card-grid";
 import { useLoadDashboardAreaUseCase } from "../useCases/useLoadDashboardAreaUseCase";
 import socket from "@/socket";
-import { useEffect, useState } from "react";
-import { useCustomSonner } from "@/hooks/useCustomSonner";
+import { useEffect } from "react";
 import { authController, authState } from "@/features/auth/states/atoms";
 import notificationAudio from "@/assets/notification-sound.wav";
 import { useLoadLastMessagesUseCase } from "@/features/messages/useCases/useLoadLastMessagesUseCase";
@@ -22,11 +21,9 @@ const Dashboard = () => {
   const { isAuthenticated } = useRecoilValue(authController);
   const { controller: messageStateController } = useRecoilValue(messageState);
   const { isLoadingTotals: totalsMessageIsLoading } = messageStateController;
-  const [processedMessages, setProcessedMessages] = useState(new Set());
 
   const { loadDashboardArea } = useLoadDashboardAreaUseCase();
   const { loadLastMessages } = useLoadLastMessagesUseCase();
-  const { successSonner } = useCustomSonner();
 
   const audio = new Audio(notificationAudio);
 
@@ -46,22 +43,10 @@ const Dashboard = () => {
           () => {}
         );
       });
-      socket.on("message", (response) => {
+      socket.on("message", () => {
         loadDashboardArea();
-        loadLastMessages();
-        const message = JSON.parse(response);
-
-        if (message && message.sender && !processedMessages.has(message.id)) {
-          setProcessedMessages((prev) => new Set(prev).add(message.id));
-          audio.play().catch((error) => {
-            console.error("Erro ao reproduzir som:", error);
-          });
-
-          return successSonner(`🎉 Nova mensagem recebida`);
-        }
       });
       return () => {
-        processedMessages.clear();
         socket.disconnect();
         socket.off("message");
       };
