@@ -22,6 +22,7 @@ const MessagesReceived = () => {
     loadMessages();
   }, []);
 
+  console.log(messages);
   return (
     <div>
       <SectionTitle title="Mensagens Recebidas" actions={[<ButtonNewLive />]} />

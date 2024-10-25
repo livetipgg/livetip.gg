@@ -4,23 +4,25 @@ import { useRecoilValue } from "recoil";
 import MessageContainer from "../message-view/message-container";
 import { NoContent } from "@/components/no-content";
 import { useEffect } from "react";
-import { useLoadLastMessagesUseCase } from "@/features/messages/useCases/useLoadLastMessagesUseCase";
 import { ErrorAlert } from "@/components/error-alert";
 import { MessageSkeleton } from "../message-view/message-skeleton";
+import { useLoadMessagesUseCase } from "@/features/messages/useCases/useLoadMessagesUseCase";
 
 export const LastMessagesViewList = () => {
-  const { controller: messageStateController, lastMessages } =
+  const { controller: messageStateController, messages } =
     useRecoilValue(messageState);
   const { isLoadingLastMessages: lastMessagesIsLoading, errorLastMessages } =
     messageStateController;
 
-  const { loadLastMessages } = useLoadLastMessagesUseCase();
+  const { loadMessages } = useLoadMessagesUseCase();
 
   useEffect(() => {
-    loadLastMessages();
+    loadMessages({
+      limit: 4,
+    });
   }, []);
 
-  if (errorLastMessages || !lastMessages)
+  if (errorLastMessages || !messages)
     return <ErrorAlert error={errorLastMessages} />;
 
   if (lastMessagesIsLoading) {
@@ -31,9 +33,9 @@ export const LastMessagesViewList = () => {
 
   if (
     !lastMessagesIsLoading &&
-    lastMessages &&
-    lastMessages.results &&
-    lastMessages.results.length === 0
+    messages &&
+    messages.results &&
+    messages.results.length === 0
   ) {
     return (
       <div className="my-10">
@@ -46,10 +48,10 @@ export const LastMessagesViewList = () => {
   return (
     <div className="my-10">
       <h4 className="text-xl font-semibold mb-10">Últimas mensagens</h4>
-      {lastMessages?.results?.map((message) => (
+      {messages.results.map((message) => (
         <MessageContainer
           key={message._id}
-          messages={lastMessages.results}
+          messages={messages.results}
           message={message}
         />
       ))}
