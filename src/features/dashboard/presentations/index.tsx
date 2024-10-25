@@ -19,7 +19,6 @@ const Dashboard = () => {
   const { isLoading: balanceIsLoading } = balanceStateController;
   const { user } = useRecoilValue(authState);
   const { isAuthenticated } = useRecoilValue(authController);
-  console.log("isAuthenticated", isAuthenticated);
   const { controller: messageStateController } = useRecoilValue(messageState);
   const { isLoadingTotals: totalsMessageIsLoading } = messageStateController;
   const [processedMessages, setProcessedMessages] = useState(new Set());
@@ -66,12 +65,10 @@ const Dashboard = () => {
   }, []);
 
   const prepareSound = () => {
-    // Carrega o som
     audio.load();
 
     audio.volume = 0.1;
   };
-
   return (
     <>
       <SectionTitle
@@ -86,7 +83,9 @@ const Dashboard = () => {
                 : ""
             }`}
             title="Atualizar"
-            onClick={loadDashboardArea}
+            onClick={() => {
+              loadDashboardArea();
+            }}
             disabled={balanceIsLoading || totalsMessageIsLoading}
           >
             <span className="mr-2">Atualizar</span>
@@ -99,6 +98,7 @@ const Dashboard = () => {
         ]}
       />
       <AnalyticsCardGrid />
+
       <LastMessagesViewList />
     </>
   );

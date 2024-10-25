@@ -33,8 +33,6 @@ const useCreateApiInstance = () => {
       return response;
     },
     (error) => {
-      console.log("ERROR", error);
-
       if (error.code === "ERR_NETWORK") {
         errorSonner(
           "Ocorreu um erro, por favor tente novamente ou entre em contato"

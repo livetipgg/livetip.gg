@@ -6,37 +6,30 @@ import { NoContent } from "@/components/no-content";
 import { useEffect } from "react";
 import { ErrorAlert } from "@/components/error-alert";
 import { MessageSkeleton } from "../message-view/message-skeleton";
-import { useLoadMessagesUseCase } from "@/features/messages/useCases/useLoadMessagesUseCase";
+import { Button } from "@/components/ui/button";
+import { RefreshCw } from "lucide-react";
+import { useLoadLastMessagesUseCase } from "@/features/messages/useCases/useLoadLastMessagesUseCase";
 
 export const LastMessagesViewList = () => {
-  const { controller: messageStateController, messages } =
+  const { controller: messageStateController, lastMessages } =
     useRecoilValue(messageState);
   const { isLoadingLastMessages: lastMessagesIsLoading, errorLastMessages } =
     messageStateController;
 
-  const { loadMessages } = useLoadMessagesUseCase();
+  const { loadLastMessages } = useLoadLastMessagesUseCase();
 
   useEffect(() => {
-    loadMessages({
-      limit: 10,
-      ordered: true,
-    });
+    loadLastMessages();
   }, []);
 
-  if (errorLastMessages || !messages)
+  if (errorLastMessages || !lastMessages)
     return <ErrorAlert error={errorLastMessages} />;
-
-  if (lastMessagesIsLoading) {
-    return Array.from({ length: 4 }).map((_, index) => (
-      <MessageSkeleton key={index} />
-    ));
-  }
 
   if (
     !lastMessagesIsLoading &&
-    messages &&
-    messages.results &&
-    messages.results.length === 0
+    lastMessages &&
+    lastMessages.results &&
+    lastMessages.results.length === 0
   ) {
     return (
       <div className="my-10">
@@ -47,14 +40,37 @@ export const LastMessagesViewList = () => {
   }
   return (
     <div className="my-10">
-      <h4 className="text-xl font-semibold mb-10">Últimas mensagens</h4>
-      {messages.results.map((message) => (
-        <MessageContainer
-          key={message._id}
-          messages={messages.results}
-          message={message}
-        />
-      ))}
+      <div className="flex items-center justify-between">
+        <h4 className="text-xl font-semibold mb-10">Últimas mensagens</h4>
+        <Button
+          variant={"outline"}
+          className={`${lastMessagesIsLoading ? "text-muted-foreground" : ""}`}
+          title="Atualizar"
+          onClick={() => {
+            loadLastMessages();
+          }}
+          disabled={lastMessagesIsLoading}
+        >
+          <span className="mr-2">Atualizar</span>
+          <RefreshCw
+            className={`w-4 h-4 mb-0 ${
+              lastMessagesIsLoading ? "animate-spin" : ""
+            }`}
+          />
+        </Button>
+      </div>
+      {!lastMessagesIsLoading &&
+        lastMessages.results.map((message) => (
+          <MessageContainer
+            key={message._id}
+            messages={lastMessages.results}
+            message={message}
+          />
+        ))}
+      {lastMessagesIsLoading &&
+        Array.from({ length: 4 }).map((_, index) => (
+          <MessageSkeleton key={index} />
+        ))}
     </div>
   );
 };

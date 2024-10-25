@@ -17,10 +17,8 @@ export const formatPayment = ({ type, amount }: IFormatPayment) => {
       currency: "BRL",
     });
   }
-  console.log("amount", amount);
   if (type === "BTC") {
     const formattedAmount = amount.toString().split(".")[0] + " SATS";
-    console.log("formattedAmount", formattedAmount);
     return formattedAmount;
   }
 };
