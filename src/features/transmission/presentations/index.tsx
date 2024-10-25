@@ -234,13 +234,15 @@ const TransmissionPage = () => {
                         message.read ? "" : "border-primary"
                       }  mt-2`}
                     >
-                      <p className="p-2 flex gap-2 items-center">
+                      <div className="p-2 flex gap-2 h-auto items-start whitespace-normal max-w-full">
                         {/* Horário */}
                         <span className="text-muted-foreground text-sm">
                           {format(message.timestamp, "HH:mm")}
                         </span>
-                        {message.content}
-                      </p>
+                        <p className="break-words max-w-full overflow-auto">
+                          {message.content}
+                        </p>
+                      </div>
                     </div>
                   </>
                 ))}

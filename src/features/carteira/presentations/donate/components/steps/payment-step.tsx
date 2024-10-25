@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatTextMaxCaracters } from "@/helpers/formatTextMaxCaracters";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import { Label } from "@/components/ui/label";
 import { paymentDonateState } from "@/features/carteira/states/atoms";
@@ -10,6 +9,9 @@ import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState"
 import QRCode from "react-qr-code";
 import socket from "@/socket";
 import { useEffect } from "react";
+import PaymentIcon from "@/components/payment-icon";
+
+import bitcoinLogo from "@/assets/bitcoin-logo.png";
 
 const PaymentStep = () => {
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
@@ -59,8 +61,19 @@ const PaymentStep = () => {
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col">
-        <QRCode value={controller.qrCode} />
-        <Label className="text-center my-4">Pix Copia e Cola</Label>
+        <div className="flex items-center mb-5 gap-2">
+          <PaymentIcon currency={content.currency} className="w-6 h-6" />
+          <span className="text-lg">
+            {content.currency === "BRL" ? "Pix" : "Satoshi"}
+          </span>
+        </div>
+        <QRCode value={controller.qrCode} imageRendering={bitcoinLogo} />
+        {content.currency === "BRL" ? (
+          <Label className="text-center my-4">Pix Copia e Cola</Label>
+        ) : (
+          <Label className="text-center my-4">Fatura Lightining</Label>
+        )}
+
         <Input
           type="text"
           value={formatTextMaxCaracters(controller.qrCode, 46)}
@@ -74,10 +87,6 @@ const PaymentStep = () => {
         >
           COPIAR CÓDIGO
         </Button>
-        <span className="flex gap-2 items-center mt-4 text-xs text-muted-foreground">
-          <InfoCircledIcon />
-          Um recibo será exibido após o pagamento.
-        </span>
       </div>
       <Button
         variant="link"
