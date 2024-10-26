@@ -16,7 +16,7 @@ const MessageStep = () => {
   const { content, controller } = useRecoilValue(paymentDonateState);
   const { loadingCreateQRCode } = controller;
   const { sendMessageAndCreateQRCode } = useSendMessageAndCreateQRCode();
-  const MAX_LENGTH = 300;
+  const MAX_LENGTH = 100;
 
   const handleInputChange = (e: any) => {
     const textarea = e.target;
@@ -36,7 +36,7 @@ const MessageStep = () => {
   return (
     <>
       <div className="flex flex-col w-full">
-        <Label className="mb-2 text-muted-foreground text-xs">
+        <Label className="mb-1 text-muted-foreground text-xs">
           Seu nome ou apelido
         </Label>
         <Input
@@ -55,7 +55,7 @@ const MessageStep = () => {
         />
       </div>
       <div className="flex flex-col w-full mt-2">
-        <Label className="mb-2 text-muted-foreground text-xs">Mensagem</Label>
+        <Label className="mb-1 text-muted-foreground text-xs">Mensagem</Label>
         <Textarea
           style={{ resize: "none", overflow: "hidden" }}
           placeholder="Escreva sua mensagem aqui"
@@ -69,7 +69,7 @@ const MessageStep = () => {
         </span>
       </div>
       <div className="flex flex-col w-full mt-2">
-        <Label className="mb-2 text-muted-foreground text-xs">
+        <Label className="mb-1 text-muted-foreground text-xs">
           Método de pagamento
         </Label>
         <div className="flex flex-col w-full mt-2 gap-3">
@@ -86,7 +86,7 @@ const MessageStep = () => {
                   },
                 }));
               }}
-              className={`flex items-center w-full p-2 border-2 justify-between ${
+              className={`flex items-center w-full p-1 border-2 justify-between ${
                 paymentMethod.id === content.currency
                   ? "border-success"
                   : "border"
@@ -94,12 +94,12 @@ const MessageStep = () => {
             >
               <div className="flex items-center gap-2">
                 {paymentMethod.id === content.currency ? (
-                  <CircleCheck size={24} className="text-success" />
+                  <CircleCheck size={16} className="text-success" />
                 ) : (
-                  <Circle size={24} />
+                  <Circle size={16} />
                 )}
                 <div className="flex flex-col ">
-                  <strong>{paymentMethod.name}</strong>
+                  <strong className="text-sm">{paymentMethod.name}</strong>
                   <span className="text-muted-foreground text-xs">
                     {paymentMethod.description}
                   </span>
@@ -196,7 +196,20 @@ const MessageStep = () => {
         </Dialog> */}
       </div>
       <div className="flex flex-col w-full mt-2">
-        <Label className="mb-2 text-muted-foreground text-xs">Valor</Label>
+        <div className="flex items-center justify-between">
+          <Label className="mb-1 text-muted-foreground text-xs">Valor</Label>
+
+          {content.currency === "BRL" && (
+            <span className="text-primary font-semibold text-xs text-right mt-2">
+              O valor mínimo é de R$ 0,01
+            </span>
+          )}
+          {content.currency === "BTC" && (
+            <span className="text-primary font-semibold text-xs text-right mt-2">
+              O valor mínimo é de 1 sats
+            </span>
+          )}
+        </div>
 
         {content.currency === "BRL" && (
           <CurrencyInput
@@ -246,17 +259,6 @@ const MessageStep = () => {
               }));
             }}
           />
-        )}
-
-        {content.currency === "BRL" && (
-          <span className="text-primary font-semibold text-xs text-right mt-2">
-            O valor mínimo é de R$ 0,01
-          </span>
-        )}
-        {content.currency === "BTC" && (
-          <span className="text-primary font-semibold text-xs text-right mt-2">
-            O valor mínimo é de 1 sats
-          </span>
         )}
       </div>
       <Button

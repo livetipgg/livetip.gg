@@ -57,6 +57,8 @@ const TransmissionPage = () => {
     socket.on("message", (response) => {
       loadTransmissionMessages();
 
+      console.log("Recebeu mensagem", response);
+
       const message = JSON.parse(response);
 
       if (message && message.sender && !processedMessages.has(message.id)) {
