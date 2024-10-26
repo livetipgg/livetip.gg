@@ -8,8 +8,8 @@ export const Header = () => {
   return (
     <>
       <div className="flex items-center gap-2 w-full bg-muted/40 ">
-        <div className="w-16 h-16 bg-white rounded-sm flex items-center justify-center  ">
-          <Avatar className="cursor-pointer w-full h-full rounded-sm">
+        <div className="w-14 h-14 bg-white  rounded-full flex items-center justify-center p-1 ">
+          <Avatar className="cursor-pointer w-full h-full  rounded-full">
             <AvatarImage
               // src="https://musicaecinema.com/wp-content/uploads/2024/02/the-office-how-to-watch.jpg"
               className="object-cover "

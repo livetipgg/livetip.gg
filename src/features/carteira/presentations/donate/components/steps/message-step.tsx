@@ -16,21 +16,23 @@ const MessageStep = () => {
   const { content, controller } = useRecoilValue(paymentDonateState);
   const { loadingCreateQRCode } = controller;
   const { sendMessageAndCreateQRCode } = useSendMessageAndCreateQRCode();
-  const MAX_LENGTH = 100;
+  const MAX_LENGTH = 200;
 
   const handleInputChange = (e: any) => {
     const textarea = e.target;
+    const minHeight = 100; // Defina o valor mínimo desejado aqui
 
     setPaymentDonateState((prev: IPaymentDonateState) => ({
       ...prev,
       content: {
         ...prev.content,
-        content: e.target.value,
+        content: textarea.value,
       },
     }));
 
+    // Respeita o valor mínimo
     textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
+    textarea.style.height = Math.max(textarea.scrollHeight, minHeight) + "px";
   };
 
   return (
@@ -61,7 +63,7 @@ const MessageStep = () => {
           placeholder="Escreva sua mensagem aqui"
           maxLength={MAX_LENGTH}
           onChange={handleInputChange}
-          className="h-auto rounded-xl max-h-60"
+          className="min-h-[100px] rounded-xl "
           value={content.content}
         />
         <span className="text-muted-foreground text-xs text-right mt-2">
@@ -115,85 +117,6 @@ const MessageStep = () => {
             </div>
           ))}
         </div>
-        {/* <Dialog
-          open={dialogPaymentMethodsOpen}
-          onOpenChange={setDialogPaymentMethodsOpen}
-        >
-          <DialogTrigger asChild>
-            <div className="w-full rounded-xl border">
-              <div className="flex items-center w-full p-2 justify-between border rounded-xl cursor-pointer">
-                <div className="flex items-center gap-2">
-                  <img
-                    className="h-6 w-6 mr-2"
-                    src={content.currency === "BRL" ? pixLogo : bitcoinLogo}
-                    alt="Payment method logo"
-                  />
-                  <strong className="text-sm">
-                    {
-                      controller.paymentMethods.find(
-                        (item) => item.id === content.currency
-                      )?.name
-                    }
-                  </strong>
-                </div>
-                <Button variant="ghost" size="icon">
-                  <RefreshCcw size={16} />
-                </Button>
-              </div>
-            </div>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Escolha a forma de pagamento:</DialogTitle>
-              <DialogDescription>
-                Você pode escolher entre PIX ou Bitcoin
-              </DialogDescription>
-            </DialogHeader>
-            <div className="flex flex-col w-full mt-2 gap-3">
-              {controller.paymentMethods.map((paymentMethod) => (
-                <div
-                  key={paymentMethod.id}
-                  onClick={() => {
-                    setPaymentDonateState((prev: IPaymentDonateState) => ({
-                      ...prev,
-                      content: {
-                        ...prev.content,
-                        amount: "",
-                        currency: paymentMethod.id,
-                      },
-                    }));
-                  }}
-                  className={`flex items-center w-full p-2 border-2 justify-between ${
-                    paymentMethod.id === content.currency
-                      ? "border-success"
-                      : "border"
-                  } rounded-xl cursor-pointer`}
-                >
-                  <div className="flex items-center gap-2">
-                    {paymentMethod.id === content.currency ? (
-                      <CircleCheck size={24} className="text-success" />
-                    ) : (
-                      <Circle size={24} />
-                    )}
-                    <div className="flex flex-col ">
-                      <strong>{paymentMethod.name}</strong>
-                      <span className="text-muted-foreground text-xs">
-                        {paymentMethod.description}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center">
-                    <img
-                      className="h-6 w-6 mr-2"
-                      src={paymentMethod.icon}
-                      alt="Payment method logo"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </DialogContent>
-        </Dialog> */}
       </div>
       <div className="flex flex-col w-full mt-2">
         <div className="flex items-center justify-between">

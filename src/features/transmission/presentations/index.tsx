@@ -233,6 +233,7 @@ const TransmissionPage = () => {
                         </div>
                       </div>
                       <Button
+                        disabled={isLoadingTransmissionMessages}
                         onClick={() => {
                           if (message.read) {
                             setMessageUnread(message._id);
@@ -244,7 +245,11 @@ const TransmissionPage = () => {
                         }}
                         variant="outline"
                         size={"icon"}
-                        title="Marcar como lido"
+                        title={
+                          message.read
+                            ? "Marcar como não lido"
+                            : "Marcar como lido"
+                        }
                       >
                         {message.read ? (
                           <div className="flex items-center gap-2">
