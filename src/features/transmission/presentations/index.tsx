@@ -16,12 +16,14 @@ import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useWebSocket } from "@/config/WebSocketProvider";
 import notificationAudio from "@/assets/notification-sound.wav";
+import { paymentDonateState } from "@/features/carteira/states/atoms";
+import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState";
 
 const TransmissionPage = () => {
   const setMessagesState = useSetRecoilState(messageState);
   const [processedMessages, setProcessedMessages] = useState(new Set());
   const audio = new Audio(notificationAudio);
-
+  const setPaymentDonateState = useSetRecoilState(paymentDonateState);
   const socket = useWebSocket();
   const { user } = useRecoilValue(authState);
   const { transmissionMessages, controller } = useRecoilValue(messageState);
@@ -44,6 +46,7 @@ const TransmissionPage = () => {
 
   // Função para reestabelecer a conexão se o socket cair
   const connectSocket = useCallback(() => {
+    console.log(socket);
     if (!socket || socket.connected) return;
 
     socket.connect();
@@ -62,17 +65,33 @@ const TransmissionPage = () => {
       console.log("teste");
       if (message && message.sender && !processedMessages.has(message.id)) {
         setProcessedMessages((prev) => new Set(prev).add(message.id));
-        console.log("transmissionMessages antes", transmissionMessages.results);
 
-        setMessagesState((prev) => ({
+        if (
+          !transmissionMessages.results.some((msg) => msg._id === message._id)
+        ) {
+          setMessagesState((prev) => ({
+            ...prev,
+            transmissionMessages: {
+              ...prev.transmissionMessages,
+              results: [message, ...prev.transmissionMessages.results],
+            },
+          }));
+        }
+
+        setPaymentDonateState((prev: IPaymentDonateState) => ({
           ...prev,
-          transmissionMessages: {
-            ...prev.transmissionMessages,
-            results: [message, ...prev.transmissionMessages.results],
+          content: {
+            amount: "",
+            content: "",
+            currency: "BRL",
+            sender: "",
+          },
+          controller: {
+            ...prev.controller,
+            currentStep: "SUCCESS",
           },
         }));
 
-        console.log("transmissionMessages", transmissionMessages.results);
         audio.play().catch((error) => {
           console.error("Erro ao reproduzir som:", error);
         });

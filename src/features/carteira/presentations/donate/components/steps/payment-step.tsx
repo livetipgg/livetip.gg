@@ -57,7 +57,7 @@ const PaymentStep = () => {
       socket.disconnect();
       console.log("Disconnect");
     };
-  }, []);
+  }, [content.sender, controller.currentStep, setPaymentDonateState]);
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col">
