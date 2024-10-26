@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import { Copy, MailCheck, MailX, RefreshCw, User } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { authState } from "@/features/auth/states/atoms";
 import { ModeToggle } from "@/components/mode-toggle";
 import { useLoadTransmissionMessagesUseCase } from "@/features/messages/useCases/useLoadTransmissionMessagesUseCase";
@@ -18,6 +18,7 @@ import { useWebSocket } from "@/config/WebSocketProvider";
 import notificationAudio from "@/assets/notification-sound.wav";
 
 const TransmissionPage = () => {
+  const setMessagesState = useSetRecoilState(messageState);
   const [processedMessages, setProcessedMessages] = useState(new Set());
   const audio = new Audio(notificationAudio);
 
@@ -55,14 +56,23 @@ const TransmissionPage = () => {
     });
 
     socket.on("message", (response) => {
-      loadTransmissionMessages();
-
-      console.log("Recebeu mensagem", response);
-
       const message = JSON.parse(response);
 
+      console.log("Recebeu mensagem", message);
+      console.log("teste");
       if (message && message.sender && !processedMessages.has(message.id)) {
         setProcessedMessages((prev) => new Set(prev).add(message.id));
+        console.log("transmissionMessages antes", transmissionMessages.results);
+
+        setMessagesState((prev) => ({
+          ...prev,
+          transmissionMessages: {
+            ...prev.transmissionMessages,
+            results: [message, ...prev.transmissionMessages.results],
+          },
+        }));
+
+        console.log("transmissionMessages", transmissionMessages.results);
         audio.play().catch((error) => {
           console.error("Erro ao reproduzir som:", error);
         });
