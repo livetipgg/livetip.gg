@@ -14,6 +14,7 @@ import { authState } from "@/features/auth/states/atoms";
 import notificationAudio from "@/assets/notification-sound.wav";
 import { useLoadLastMessagesUseCase } from "@/features/messages/useCases/useLoadLastMessagesUseCase";
 import { useWebSocket } from "@/config/WebSocketProvider";
+import { emitEvent } from "@/socket";
 const Dashboard = () => {
   const { controller: balanceStateController } = useRecoilValue(balanceState);
   const { isLoading: balanceIsLoading } = balanceStateController;
@@ -33,16 +34,12 @@ const Dashboard = () => {
 
       socket.connect();
 
-      socket.on("connect", () => {
-        socket.emit(
-          "join_room",
-          {
-            room: `private-${user.id}`,
-            token: user.token,
-          },
-          () => {}
-        );
+      emitEvent("join_room", {
+        room: `private-${user.id}`,
+        token: user.token,
       });
+      socket.on("connect", () => {});
+
       socket.on("message", () => {
         loadDashboardArea();
         loadLastMessages();

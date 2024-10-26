@@ -13,6 +13,7 @@ import PaymentIcon from "@/components/payment-icon";
 
 import bitcoinLogo from "@/assets/bitcoin-logo.png";
 import { useWebSocket } from "@/config/WebSocketProvider";
+import { emitEvent } from "@/socket";
 
 const PaymentStep = () => {
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
@@ -21,21 +22,21 @@ const PaymentStep = () => {
   const socket = useWebSocket();
   useEffect(() => {
     socket.connect();
-    socket.on("connect", () => {
-      console.log("Conectado ao servidor WebSocket");
-    });
 
-    socket.emit("join_room", {
+    emitEvent("join_room", {
       room: `payment-confirmation-${content.sender}`,
     });
-    socket.on("joined_room", (room) => {
-      console.log(`Joined room: ${room}`);
-    });
-    socket.on("connect_error", (err) => {
-      console.error("Erro de conexão:", err);
+
+    socket.on("reconnect", () => {
+      console.log("Reconexão bem-sucedida ao WebSocket");
+
+      socket.emit("join_room", {
+        room: `payment-confirmation-${content.sender}`,
+      });
     });
 
     socket.on("message", () => {
+      console.log("Payment success");
       setPaymentDonateState((prev: IPaymentDonateState) => ({
         ...prev,
         content: {
@@ -50,15 +51,11 @@ const PaymentStep = () => {
         },
       }));
     });
-
     return () => {
-      socket.off("message");
-      socket.off("connect_error");
-      socket.off("connect");
       socket.disconnect();
-      console.log("Disconnect");
     };
-  }, [controller.currentStep]);
+  }, []);
+
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col">

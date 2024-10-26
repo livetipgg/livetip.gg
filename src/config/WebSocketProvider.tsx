@@ -23,23 +23,25 @@ const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
       console.log(`Joined room: ${room}`);
     });
 
+    socket.on("message", (message) => {
+      console.log("Received message:", message);
+    });
+
     socket.on("connect_error", (err) => {
       console.error("Connection Error:", err);
     });
 
     const intervalId = setInterval(() => {
       socket.emit("heartbeat");
+      console.log("Heartbeat");
     }, 5000);
 
     return () => {
-      socket.off("joined_room");
-      socket.off("connect_error");
-      socket.off("heartbeat");
-      socket.off("connection");
       socket.off("message");
 
       clearInterval(intervalId);
       socket.disconnect();
+      console.log("Socket disconnected");
     };
   }, []);
 
