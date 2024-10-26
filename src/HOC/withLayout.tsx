@@ -8,7 +8,7 @@ export function withLayout<P extends object>(
 ) {
   return function Layout(props: P) {
     useEffect(() => {
-      setDocumentTitle(title || "LiveChat");
+      setDocumentTitle(title || "LiveTip");
     }, []);
     return (
       <RootLayout {...props}>

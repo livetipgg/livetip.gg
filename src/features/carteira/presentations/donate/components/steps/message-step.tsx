@@ -37,10 +37,10 @@ const MessageStep = () => {
     <>
       <div className="flex flex-col w-full">
         <Label className="mb-2 text-muted-foreground text-xs">
-          Seu nome de usuário
+          Seu nome ou apelido
         </Label>
         <Input
-          placeholder="Digite seu nome de usuário"
+          placeholder="Digite seu nome ou apelido"
           className="rounded-xl"
           value={content.sender}
           onChange={(e) => {
@@ -58,7 +58,7 @@ const MessageStep = () => {
         <Label className="mb-2 text-muted-foreground text-xs">Mensagem</Label>
         <Textarea
           style={{ resize: "none", overflow: "hidden" }}
-          placeholder="Type your message here."
+          placeholder="Escreva sua mensagem aqui"
           maxLength={MAX_LENGTH}
           onChange={handleInputChange}
           className="h-auto rounded-xl max-h-60"

@@ -117,6 +117,6 @@ const Profile = () => {
   );
 };
 
-const ProfilePage = withLayout(Profile, "LiveChat - Meu Perfil");
+const ProfilePage = withLayout(Profile, "LiveTip - Meu Perfil");
 
 export default ProfilePage;

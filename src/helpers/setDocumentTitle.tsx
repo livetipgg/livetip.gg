@@ -1,3 +1,3 @@
 export const setDocumentTitle = (title: string) => {
-  document.title = title || "LiveChat";
+  document.title = title || "LiveTip";
 };

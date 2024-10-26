@@ -60,7 +60,7 @@ const MessagesReceived = () => {
 
 const MessagesReceivedPage = withLayout(
   MessagesReceived,
-  "LiveChat - Mensagens Recebidas"
+  "LiveTip - Mensagens Recebidas"
 );
 
 export default MessagesReceivedPage;

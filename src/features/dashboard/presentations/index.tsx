@@ -97,6 +97,6 @@ const Dashboard = () => {
   );
 };
 
-const DashboardPage = withLayout(Dashboard, "LiveChat - Dashboard");
+const DashboardPage = withLayout(Dashboard, "LiveTip - Dashboard");
 
 export default DashboardPage;

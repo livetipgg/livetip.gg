@@ -47,7 +47,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative">
       <h4 className="absolute top-4 left-4 text-2xl font-bold text-black dark:text-white">
-        LiveChat
+        LiveTip
       </h4>
       <div className="absolute top-4 right-4">
         <ModeToggle />

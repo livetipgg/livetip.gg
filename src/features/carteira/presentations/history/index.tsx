@@ -174,5 +174,5 @@ const TransactionsHistory = () => {
 
 export const TransactionsHistoryPage = withLayout(
   TransactionsHistory,
-  "LiveChat - Histórico de Transações"
+  "LiveTip - Histórico de Transações"
 );

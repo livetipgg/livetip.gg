@@ -42,7 +42,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link to="/" className="flex items-center gap-2 font-semibold">
               <h4 className="text-2xl font-bold text-black dark:text-white">
-                LiveChat
+                LiveTip
               </h4>
             </Link>
           </div>
