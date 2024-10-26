@@ -8,6 +8,7 @@ const { persistAtom } = recoilPersist({
   storage: localStorage,
   converter: JSON,
 });
+
 export const authState = atom<IAuthState>({
   key: "authState",
   default: {
@@ -19,6 +20,4 @@ export const authState = atom<IAuthState>({
 export const authController = atom({
   key: "authController",
   default: initialAuthController,
-
-  effects_UNSTABLE: [persistAtom],
 });

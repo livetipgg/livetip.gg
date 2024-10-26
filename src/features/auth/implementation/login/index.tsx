@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRecoilValue } from "recoil";
-import { authController } from "../../states/atoms";
+import { authController, authState } from "../../states/atoms";
 
 import { useAuthLoginUseCase } from "../../useCases/useAuthLoginUseCase";
 import { Navigate } from "react-router-dom";
@@ -24,8 +24,9 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { ErrorAlert } from "@/components/error-alert";
 
 const LoginPage: React.FC = () => {
-  const { loginType, isLoading, isAuthenticated, error } =
-    useRecoilValue(authController);
+  const { loginType, isLoading, error } = useRecoilValue(authController);
+
+  const { user } = useRecoilValue(authState);
 
   const { handleLogin } = useAuthLoginUseCase();
   const form = useForm<z.infer<typeof formLoginSchema>>({
@@ -40,7 +41,7 @@ const LoginPage: React.FC = () => {
     handleLogin(values);
   }
 
-  if (isAuthenticated) {
+  if (user.token) {
     return <Navigate to="/inicio" />;
   }
 

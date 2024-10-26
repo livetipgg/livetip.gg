@@ -11,14 +11,13 @@ import AnalyticsCardGrid from "./components/analytics-card-grid";
 import { useLoadDashboardAreaUseCase } from "../useCases/useLoadDashboardAreaUseCase";
 import socket from "@/socket";
 import { useEffect } from "react";
-import { authController, authState } from "@/features/auth/states/atoms";
+import { authState } from "@/features/auth/states/atoms";
 import notificationAudio from "@/assets/notification-sound.wav";
 import { useLoadLastMessagesUseCase } from "@/features/messages/useCases/useLoadLastMessagesUseCase";
 const Dashboard = () => {
   const { controller: balanceStateController } = useRecoilValue(balanceState);
   const { isLoading: balanceIsLoading } = balanceStateController;
   const { user } = useRecoilValue(authState);
-  const { isAuthenticated } = useRecoilValue(authController);
   const { controller: messageStateController } = useRecoilValue(messageState);
   const { isLoadingTotals: totalsMessageIsLoading } = messageStateController;
 
@@ -28,7 +27,7 @@ const Dashboard = () => {
   const audio = new Audio(notificationAudio);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (user.token) {
       prepareSound();
 
       socket.connect();
