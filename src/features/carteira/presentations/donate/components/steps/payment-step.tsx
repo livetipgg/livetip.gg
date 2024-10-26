@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatTextMaxCaracters } from "@/helpers/formatTextMaxCaracters";
@@ -57,7 +58,7 @@ const PaymentStep = () => {
       socket.disconnect();
       console.log("Disconnect");
     };
-  }, [content.sender, controller.currentStep, setPaymentDonateState]);
+  }, [controller.currentStep]);
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col">

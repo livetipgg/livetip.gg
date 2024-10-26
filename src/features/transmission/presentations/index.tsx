@@ -121,7 +121,7 @@ const TransmissionPage = () => {
         console.log("Socket desconectado");
       }
     };
-  }, [connectSocket, socket]);
+  }, []);
 
   useEffect(() => {
     loadTransmissionMessages();
