@@ -44,6 +44,7 @@ const Dashboard = () => {
       });
       socket.on("message", () => {
         loadDashboardArea();
+        loadLastMessages();
       });
       return () => {
         socket.disconnect();
