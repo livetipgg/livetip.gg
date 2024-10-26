@@ -4,7 +4,7 @@ import { BadgeCheck, User } from "lucide-react";
 import { useRecoilValue } from "recoil";
 
 export const Header = () => {
-  const { receiver } = useRecoilValue(paymentDonateState);
+  const { receiver, controller } = useRecoilValue(paymentDonateState);
   return (
     <>
       <div className="flex items-center gap-2 w-full bg-muted/40 ">
@@ -24,10 +24,11 @@ export const Header = () => {
           <BadgeCheck className="w-4 h-4" fill={"#277BB8"} color="white" />
         </div>
       </div>
-
-      <div className="flex flex-col items-center justify-center mt-4">
-        <span className="text-lg font-semibold">Envie uma mensagem</span>
-      </div>
+      {controller.currentStep === "MESSAGE" && (
+        <div className="flex flex-col items-center justify-center mt-4">
+          <span className="text-lg font-semibold">Envie uma mensagem</span>
+        </div>
+      )}
     </>
   );
 };

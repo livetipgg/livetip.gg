@@ -61,7 +61,7 @@ const PaymentStep = () => {
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col">
-        <div className="flex items-center mb-5 gap-2">
+        <div className="flex items-center mb-2 gap-2">
           <PaymentIcon currency={content.currency} className="w-6 h-6" />
           <span className="text-lg">
             {content.currency === "BRL" ? "Pix" : "Satoshi"}
