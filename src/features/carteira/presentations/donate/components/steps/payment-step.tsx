@@ -8,17 +8,17 @@ import { paymentDonateState } from "@/features/carteira/states/atoms";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState";
 import QRCode from "react-qr-code";
-import socket from "@/socket";
 import { useEffect } from "react";
 import PaymentIcon from "@/components/payment-icon";
 
 import bitcoinLogo from "@/assets/bitcoin-logo.png";
+import { useWebSocket } from "@/config/WebSocketProvider";
 
 const PaymentStep = () => {
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
   const { controller, content } = useRecoilValue(paymentDonateState);
   const { successSonner } = useCustomSonner();
-
+  const socket = useWebSocket();
   useEffect(() => {
     socket.connect();
     socket.on("connect", () => {

@@ -24,7 +24,6 @@ const TransmissionPage = () => {
   const [processedMessages, setProcessedMessages] = useState(new Set());
   const audio = new Audio(notificationAudio);
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
-  const socket = useWebSocket();
   const { user } = useRecoilValue(authState);
   const { transmissionMessages, controller } = useRecoilValue(messageState);
   const { isLoadingTransmissionMessages } = controller;
@@ -43,7 +42,7 @@ const TransmissionPage = () => {
 
     audio.volume = 0.1;
   };
-
+  const socket = useWebSocket();
   // Função para reestabelecer a conexão se o socket cair
   const connectSocket = useCallback(() => {
     console.log(socket);
