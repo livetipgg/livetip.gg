@@ -62,7 +62,7 @@ const PaymentStep = () => {
         <div className="flex items-center mb-2 gap-2">
           <PaymentIcon currency={content.currency} className="w-6 h-6" />
           <span className="text-lg">
-            {content.currency === "BRL" ? "Pix" : "Satoshi"}
+            {content.currency === "BRL" ? "Pix" : "Bitcoin"}
           </span>
         </div>
         <QRCodeSVG
