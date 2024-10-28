@@ -60,7 +60,7 @@ const UserMessagePage = () => {
     );
   }
   return (
-    <div className="flex justify-center items-center min-h-screen w-full bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen w-full bg-gray-100 relative">
       <div className="bg-white rounded-2xl p-5 max-w-[320px] w-full flex items-center flex-col justify-center relative h-full max-h-screen overflow-hidden m-2">
         <Header />
         <div className="mt-2 flex items-center justify-center flex-col w-full">

@@ -25,6 +25,7 @@ import {
   BalancePreview,
 } from "../features/balance/presentations/components/balance-preview";
 import { authState } from "@/features/auth/states/atoms";
+import { Logotipo } from "./logotipo";
 interface RootLayoutProps {
   children: React.ReactNode;
 }
@@ -41,9 +42,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
         <div className="flex h-full max-h-screen flex-col gap-2  sticky top-0 z-10">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link to="/" className="flex items-center gap-2 font-semibold">
-              <h4 className="text-2xl font-bold text-black dark:text-white">
-                LiveTip
-              </h4>
+              <Logotipo classname="w-[100px]" />
             </Link>
           </div>
           <div className="flex-1">

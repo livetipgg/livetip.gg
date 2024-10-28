@@ -7,13 +7,13 @@ import { Label } from "@/components/ui/label";
 import { paymentDonateState } from "@/features/carteira/states/atoms";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState";
-import QRCode from "react-qr-code";
+// import QRCode from "react-qr-code";
 import { useEffect } from "react";
 import PaymentIcon from "@/components/payment-icon";
-
-import bitcoinLogo from "@/assets/bitcoin-logo.png";
+import iconLogo from "@/assets/icon.png";
 import { useWebSocket } from "@/config/WebSocketProvider";
 import { emitEvent } from "@/socket";
+import { QRCodeSVG } from "qrcode.react";
 
 const PaymentStep = () => {
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
@@ -65,7 +65,19 @@ const PaymentStep = () => {
             {content.currency === "BRL" ? "Pix" : "Satoshi"}
           </span>
         </div>
-        <QRCode value={controller.qrCode} imageRendering={bitcoinLogo} />
+        <QRCodeSVG
+          value={controller.qrCode}
+          size={200} // Tamanho do QR Code
+          imageSettings={{
+            src: iconLogo,
+            x: undefined,
+            y: undefined,
+            height: 40, // Altura do logo
+            width: 40, // Largura do logo
+            excavate: true, // Para recortar o QR code ao redor do logo
+          }}
+        />
+        {/* <QRCode value={controller.qrCode} imageRendering={bitcoinLogo} /> */}
         {content.currency === "BRL" ? (
           <Label className="text-center my-4">Pix Copia e Cola</Label>
         ) : (
