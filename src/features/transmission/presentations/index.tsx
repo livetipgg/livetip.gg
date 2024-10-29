@@ -18,6 +18,7 @@ import { useWebSocket } from "@/config/WebSocketProvider";
 import notificationAudio from "@/assets/notification-sound.wav";
 import { paymentDonateState } from "@/features/carteira/states/atoms";
 import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState";
+import { Logotipo } from "@/components/logotipo";
 
 const TransmissionPage = () => {
   const [processedMessages, setProcessedMessages] = useState(new Set());
@@ -132,7 +133,10 @@ const TransmissionPage = () => {
   return (
     <>
       <div className="w-full h-32 bg-muted/80 relative mb-10"></div>
-      <ModeToggle className="bg-background  absolute top-4 right-4 md:flex shadow-sm   border" />
+      <div className="absolute top-4 w-full  px-4 flex items-center justify-between">
+        <Logotipo classname="w-20" />
+        <ModeToggle className="bg-background   shadow-sm  flex md:hidden  border" />
+      </div>
       <div className="absolute w-full top-8">
         <div className="max-w-4xl h-screen m-auto p-10 ">
           <div className=" flex items-center mb-5 justify-center md:justify-between  flex-wrap">
