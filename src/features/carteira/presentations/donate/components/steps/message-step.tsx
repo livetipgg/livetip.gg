@@ -124,12 +124,12 @@ const MessageStep = () => {
 
           {content.currency === "BRL" && (
             <span className="text-primary font-semibold text-xs text-right mt-2">
-              O valor mínimo é de R$ 0,01
+              O valor mínimo é de R$ 1,00
             </span>
           )}
           {content.currency === "BTC" && (
             <span className="text-primary font-semibold text-xs text-right mt-2">
-              O valor mínimo é de 1 sats
+              O valor mínimo é de 300 sats
             </span>
           )}
         </div>
