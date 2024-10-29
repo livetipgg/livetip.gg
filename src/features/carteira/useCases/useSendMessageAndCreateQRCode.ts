@@ -24,7 +24,7 @@ export const useSendMessageAndCreateQRCode = () => {
       parseFloat(payment.content.amount) < 300 &&
       payment.content.currency === "BTC"
     ) {
-      return errorSonner("O valor mínimo é de R$ 1,00.");
+      return errorSonner("O valor mínimo é de 300 SATS.");
     }
 
     if (
