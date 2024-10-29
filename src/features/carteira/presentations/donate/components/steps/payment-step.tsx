@@ -67,7 +67,7 @@ const PaymentStep = () => {
         </div>
         <QRCodeSVG
           value={controller.qrCode}
-          size={200} // Tamanho do QR Code
+          size={280} // Tamanho do QR Code
           imageSettings={{
             src: iconLogo,
             x: undefined,

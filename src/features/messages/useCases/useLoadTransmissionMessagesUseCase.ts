@@ -11,10 +11,13 @@ export const useLoadTransmissionMessagesUseCase = () => {
   const api = useCreateApiInstance();
 
   const start = new Date();
-  start.setDate(start.getDate() - 1);
+  start.setDate(start.getDate());
+  start.setHours(0, 0, 0, 0);
 
+  // Configura a data de fim para o dia seguinte às 23:59
   const end = new Date();
   end.setDate(end.getDate() + 1);
+  end.setHours(23, 59, 59, 999);
 
   const loadTransmissionMessages = async () => {
     setMessageState((prevState: IMessageState) => ({
@@ -32,6 +35,8 @@ export const useLoadTransmissionMessagesUseCase = () => {
           limit: 9999,
           page: 1,
           ordered: true,
+          startDate: start,
+          endDate: end,
         },
       });
 
