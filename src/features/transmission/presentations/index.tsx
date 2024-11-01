@@ -251,7 +251,7 @@ const TransmissionPage = () => {
                             {message.sender}
                           </span>
                         </div>
-                        <div className="w-6 h-6 ml-2 bg-card-custom border p-1 rounded-md  -top-4 ">
+                        <div className="w-10 h-10 ml-2 bg-card-custom border p-1 rounded-md  -top-4 ">
                           <PaymentIcon currency={message.currency} />
                         </div>
                       </div>
