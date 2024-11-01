@@ -7,7 +7,7 @@ export const Header = () => {
   const { receiver, controller } = useRecoilValue(paymentDonateState);
   return (
     <>
-      <div className="flex items-center gap-2 w-full bg-muted/40 ">
+      <div className="flex items-center gap-2 w-full bg-card-custom ">
         <div className="w-14 h-14 bg-white  rounded-full flex items-center justify-center p-1 ">
           <Avatar className="cursor-pointer w-full h-full  rounded-full">
             <AvatarImage

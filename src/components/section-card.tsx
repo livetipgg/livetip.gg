@@ -9,7 +9,7 @@ export const SectionCard: React.FC<SectionCardProps> = ({
 }) => {
   return (
     <div
-      className={`border p-5 bg-muted/40 rounded-lg flex flex-col ${className}`}
+      className={`border p-5 bg-card-custom rounded-lg flex flex-col ${className}`}
     >
       {children}
     </div>

@@ -31,7 +31,7 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
   return (
     <Card
       style={{ borderBottom: `4px solid ${borderColor}` }}
-      className="bg-muted/40 shadow-none"
+      className="bg-card-custom shadow-none"
     >
       <CardHeader>
         <CardTitle className="flex items-center gap-2">

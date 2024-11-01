@@ -6,7 +6,7 @@ interface NoContentProps {
 
 export const NoContent = ({ message }: NoContentProps) => {
   return (
-    <div className="flex flex-col items-center justify-center  border border-input rounded p-2 bg-muted/40 ">
+    <div className="flex flex-col items-center justify-center  border border-input rounded p-2 bg-card-custom ">
       <div className=" text-gray-500 flex items-center gap-2">
         <Info className="h-6 w-6 text-gray-500" />
         <span className="text-sm font-medium p-0 m-0">
