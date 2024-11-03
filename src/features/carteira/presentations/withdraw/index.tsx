@@ -18,7 +18,7 @@ const Withdraw = () => {
   return (
     <div className="h-full w-full flex flex-col items-center">
       <div className="max-w-3xl w-full  mt-4">
-        <div className="border p-5 bg-muted/40 rounded-lg">
+        <div className="border p-5bg-card-custom rounded-lg">
           <div className="flex flex-col">
             <strong className="text-xl">Destino do saque</strong>
             <span className="mt-3 text-muted-foreground">
@@ -66,7 +66,7 @@ const Withdraw = () => {
             </div>
           </div>
         </div>
-        <div className="border p-5  bg-muted/40 rounded-lg mt-10">
+        <div className="border p-5  bg-card-custom rounded-lg mt-10">
           <div className="flex flex-col">
             <strong className="text-xl">Valor do saque</strong>
             <span className="mt-3 text-muted-foreground">

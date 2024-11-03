@@ -72,7 +72,7 @@ const TransactionsHistory = () => {
       <SectionTitle title="Histórico de Transações" />
 
       {/* Filtro de Data */}
-      <div className="flex justify-between items-center flex-wrap bg-muted/40 p-4">
+      <div className="flex justify-between items-center flex-wrapbg-card-custom p-4">
         <DateFilter
           date={date}
           onDateSelect={handleSetDate}
@@ -112,7 +112,7 @@ const TransactionsHistory = () => {
         !!payments.results.length &&
         payments.results.map((payment: IPayment) => (
           <div
-            className="border p-4 mt-10 bg-muted/40 flex flex-wrap items-start md:items-center justify-between gap-4 lg:gap-10 flex-col md:flex-row"
+            className="border p-4 mt-10 bg-card-custom flex flex-wrap items-start md:items-center justify-between gap-4 lg:gap-10 flex-col md:flex-row"
             key={payment.id}
           >
             <div className="flex items-start md:items-center gap-4 lg:gap-10 flex-1 flex-col md:flex-row">

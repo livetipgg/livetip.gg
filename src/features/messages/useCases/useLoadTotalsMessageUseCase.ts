@@ -21,6 +21,18 @@ export const useLoadTotalsMessageUseCase = () => {
   const loadTotalsMessage = async () => {
     setMessageState((prevState: IMessageState) => ({
       ...prevState,
+      lastMessages: {
+        ...prevState.lastMessages,
+        messages: [],
+      },
+      transmissionMessages: {
+        ...prevState.transmissionMessages,
+        results: [],
+      },
+      messages: {
+        ...prevState.messages,
+        results: [],
+      },
       controller: {
         ...prevState.controller,
         errorTotals: "",

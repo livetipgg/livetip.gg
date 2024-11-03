@@ -4,7 +4,7 @@ export const MessageSkeleton = () => {
   return (
     <div
       className={
-        "flex flex-col md:flex-row w-full items-start md:items-center justify-between border p-4 rounded-lg mt-4 relative bg-muted/40"
+        "flex flex-col md:flex-row w-full items-start md:items-center justify-between border p-4 rounded-lg mt-4 relative bg-card-custom"
       }
     >
       <Skeleton className="h-4 w-4 mb-5 md:mb-0" />

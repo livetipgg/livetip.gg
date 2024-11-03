@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatTextMaxCaracters } from "@/helpers/formatTextMaxCaracters";
@@ -6,35 +7,36 @@ import { Label } from "@/components/ui/label";
 import { paymentDonateState } from "@/features/carteira/states/atoms";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState";
-import QRCode from "react-qr-code";
-import socket from "@/socket";
+// import QRCode from "react-qr-code";
 import { useEffect } from "react";
 import PaymentIcon from "@/components/payment-icon";
-
-import bitcoinLogo from "@/assets/bitcoin-logo.png";
+import iconLogo from "@/assets/icon.png";
+import { useWebSocket } from "@/config/WebSocketProvider";
+import { emitEvent } from "@/socket";
+import { QRCodeSVG } from "qrcode.react";
 
 const PaymentStep = () => {
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
   const { controller, content } = useRecoilValue(paymentDonateState);
   const { successSonner } = useCustomSonner();
-
+  const socket = useWebSocket();
   useEffect(() => {
     socket.connect();
-    socket.on("connect", () => {
-      console.log("Conectado ao servidor WebSocket");
-    });
 
-    socket.emit("join_room", {
+    emitEvent("join_room", {
       room: `payment-confirmation-${content.sender}`,
     });
-    socket.on("joined_room", (room) => {
-      console.log(`Joined room: ${room}`);
-    });
-    socket.on("connect_error", (err) => {
-      console.error("Erro de conexão:", err);
+
+    socket.on("reconnect", () => {
+      console.log("Reconexão bem-sucedida ao WebSocket");
+
+      socket.emit("join_room", {
+        room: `payment-confirmation-${content.sender}`,
+      });
     });
 
     socket.on("message", () => {
+      console.log("Payment success");
       setPaymentDonateState((prev: IPaymentDonateState) => ({
         ...prev,
         content: {
@@ -49,25 +51,33 @@ const PaymentStep = () => {
         },
       }));
     });
-
     return () => {
-      socket.off("message");
-      socket.off("connect_error");
-      socket.off("connect");
       socket.disconnect();
-      console.log("Disconnect");
     };
-  }, [content.sender, controller.currentStep, setPaymentDonateState]);
+  }, []);
+
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col">
         <div className="flex items-center mb-2 gap-2">
           <PaymentIcon currency={content.currency} className="w-6 h-6" />
           <span className="text-lg">
-            {content.currency === "BRL" ? "Pix" : "Satoshi"}
+            {content.currency === "BRL" ? "Pix" : "Bitcoin"}
           </span>
         </div>
-        <QRCode value={controller.qrCode} imageRendering={bitcoinLogo} />
+        <QRCodeSVG
+          value={controller.qrCode}
+          size={280} // Tamanho do QR Code
+          imageSettings={{
+            src: iconLogo,
+            x: undefined,
+            y: undefined,
+            height: 40, // Altura do logo
+            width: 40, // Largura do logo
+            excavate: true, // Para recortar o QR code ao redor do logo
+          }}
+        />
+        {/* <QRCode value={controller.qrCode} imageRendering={bitcoinLogo} /> */}
         {content.currency === "BRL" ? (
           <Label className="text-center my-4">Pix Copia e Cola</Label>
         ) : (

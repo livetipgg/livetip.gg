@@ -25,6 +25,7 @@ import {
   BalancePreview,
 } from "../features/balance/presentations/components/balance-preview";
 import { authState } from "@/features/auth/states/atoms";
+import { Logotipo } from "./logotipo";
 interface RootLayoutProps {
   children: React.ReactNode;
 }
@@ -37,13 +38,11 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <div className="hidden border-r bg-muted/40 md:block  relative">
+      <div className="hidden border-r bg-card-custom md:block  relative">
         <div className="flex h-full max-h-screen flex-col gap-2  sticky top-0 z-10">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link to="/" className="flex items-center gap-2 font-semibold">
-              <h4 className="text-2xl font-bold text-black dark:text-white">
-                LiveTip
-              </h4>
+              <Logotipo classname="w-[100px]" />
             </Link>
           </div>
           <div className="flex-1">
@@ -74,7 +73,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
         </div>
       </div>
       <div className="flex flex-col">
-        <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 6 sticky top-0 z-10 backdrop-blur-xl">
+        <header className="flex h-14 items-center gap-4 border-b bg-card-custom px-4 lg:h-[60px] lg:px-6 6 sticky top-0 z-10 backdrop-blur-xl">
           <BalancePreview />
           <Sheet>
             <SheetTrigger asChild>

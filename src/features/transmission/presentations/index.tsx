@@ -18,13 +18,13 @@ import { useWebSocket } from "@/config/WebSocketProvider";
 import notificationAudio from "@/assets/notification-sound.wav";
 import { paymentDonateState } from "@/features/carteira/states/atoms";
 import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState";
+import { Logotipo } from "@/components/logotipo";
 
 const TransmissionPage = () => {
   const setMessagesState = useSetRecoilState(messageState);
   const [processedMessages, setProcessedMessages] = useState(new Set());
   const audio = new Audio(notificationAudio);
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
-  const socket = useWebSocket();
   const { user } = useRecoilValue(authState);
   const { transmissionMessages, controller } = useRecoilValue(messageState);
   const { isLoadingTransmissionMessages } = controller;
@@ -43,7 +43,7 @@ const TransmissionPage = () => {
 
     audio.volume = 0.1;
   };
-
+  const socket = useWebSocket();
   // Função para reestabelecer a conexão se o socket cair
   const connectSocket = useCallback(() => {
     console.log(socket);
@@ -121,7 +121,7 @@ const TransmissionPage = () => {
         console.log("Socket desconectado");
       }
     };
-  }, [connectSocket, socket]);
+  }, []);
 
   useEffect(() => {
     loadTransmissionMessages();
@@ -133,9 +133,13 @@ const TransmissionPage = () => {
   return (
     <>
       <div className="w-full h-32 bg-muted/80 relative mb-10"></div>
+      <div className="absolute top-4 w-full  px-4 flex items-center justify-between">
+        <Logotipo classname="w-20" />
+        <ModeToggle className="bg-background   shadow-sm  flex md:hidden  border" />
+      </div>
       <div className="absolute w-full top-8">
         <div className="max-w-4xl h-screen m-auto p-10 ">
-          <div className=" flex items-centermb-5 justify-center md:justify-between  flex-wrap">
+          <div className=" flex items-center mb-5 justify-center md:justify-between  flex-wrap">
             <div className="flex items-center justify-center flex-wrap  gap-4">
               <div className="w-28 h-28 bg-background rounded-full flex items-center justify-center  shadow-md p-1">
                 <Avatar className="cursor-pointer w-full h-full">
@@ -154,7 +158,7 @@ const TransmissionPage = () => {
                 </strong>
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-2 ">
+            <div className="md:flex items-center flex flex-wrap justify-center md:justify-normal  gap-2 ">
               <div className="max-w-fit bg-background shadow-sm">
                 <div className="border rounded flex items-center ">
                   <Button
@@ -182,7 +186,7 @@ const TransmissionPage = () => {
                   </Button>
                 </div>
               </div>
-              <div className="bg-background shadow-sm border">
+              <div className="bg-background hidden md:flex shadow-sm  w-fit border">
                 <ModeToggle />
               </div>
             </div>
@@ -247,7 +251,7 @@ const TransmissionPage = () => {
                             {message.sender}
                           </span>
                         </div>
-                        <div className="w-6 h-6 ml-2 bg-muted/40 border p-1 rounded-md  -top-4 ">
+                        <div className="w-10 h-10 ml-2 bg-card-custom border p-1 rounded-md  -top-4 ">
                           <PaymentIcon currency={message.currency} />
                         </div>
                       </div>

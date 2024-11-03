@@ -22,6 +22,7 @@ import { Navigate } from "react-router-dom";
 import ButtonLoading from "@/components/button-loader";
 import { ModeToggle } from "@/components/mode-toggle";
 import { ErrorAlert } from "@/components/error-alert";
+import { Logotipo } from "@/components/logotipo";
 
 const LoginPage: React.FC = () => {
   const { loginType, isLoading, error } = useRecoilValue(authController);
@@ -47,8 +48,8 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative">
-      <h4 className="absolute top-4 left-4 text-2xl font-bold text-black dark:text-white">
-        LiveTip
+      <h4 className="absolute top-4 left-4 ">
+        <Logotipo classname="w-[120px]" />
       </h4>
       <div className="absolute top-4 right-4">
         <ModeToggle />
@@ -60,7 +61,7 @@ const LoginPage: React.FC = () => {
               Olá!
             </h1>
             <p className="text-muted-foreground text-sm">
-              Digite seu e-mail e senha para entrar
+              Digite seu nome de usuário para entrar
             </p>
           </div>
           {loginType === "credencials" && (

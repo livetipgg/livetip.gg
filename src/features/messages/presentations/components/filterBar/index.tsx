@@ -58,7 +58,7 @@ const FilterBar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center flex-wrap bg-muted/40 p-4">
+    <div className="flex justify-between items-center flex-wrap bg-card-custom p-4">
       <div className="flex gap-4 flex-wrap flex-1">
         <SearchInput
           query={messagesParams.query}

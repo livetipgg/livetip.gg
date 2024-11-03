@@ -9,11 +9,12 @@ import { messageState } from "@/features/messages/states/atoms";
 import { LastMessagesViewList } from "@/features/messages/presentations/components/lastMessagesView";
 import AnalyticsCardGrid from "./components/analytics-card-grid";
 import { useLoadDashboardAreaUseCase } from "../useCases/useLoadDashboardAreaUseCase";
-import socket from "@/socket";
 import { useEffect } from "react";
 import { authState } from "@/features/auth/states/atoms";
 import notificationAudio from "@/assets/notification-sound.wav";
 import { useLoadLastMessagesUseCase } from "@/features/messages/useCases/useLoadLastMessagesUseCase";
+import { useWebSocket } from "@/config/WebSocketProvider";
+import { emitEvent } from "@/socket";
 const Dashboard = () => {
   const { controller: balanceStateController } = useRecoilValue(balanceState);
   const { isLoading: balanceIsLoading } = balanceStateController;
@@ -25,6 +26,7 @@ const Dashboard = () => {
   const { loadLastMessages } = useLoadLastMessagesUseCase();
 
   const audio = new Audio(notificationAudio);
+  const socket = useWebSocket();
 
   useEffect(() => {
     if (user.token) {
@@ -32,16 +34,12 @@ const Dashboard = () => {
 
       socket.connect();
 
-      socket.on("connect", () => {
-        socket.emit(
-          "join_room",
-          {
-            room: `private-${user.id}`,
-            token: user.token,
-          },
-          () => {}
-        );
+      emitEvent("join_room", {
+        room: `private-${user.id}`,
+        token: user.token,
       });
+      socket.on("connect", () => {});
+
       socket.on("message", () => {
         loadDashboardArea();
         loadLastMessages();
