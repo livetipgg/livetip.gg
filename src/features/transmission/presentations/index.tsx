@@ -21,6 +21,7 @@ import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState"
 import { Logotipo } from "@/components/logotipo";
 
 const TransmissionPage = () => {
+  const setMessagesState = useSetRecoilState(messageState);
   const [processedMessages, setProcessedMessages] = useState(new Set());
   const audio = new Audio(notificationAudio);
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
@@ -58,7 +59,6 @@ const TransmissionPage = () => {
     });
 
     socket.on("message", (response) => {
-      loadTransmissionMessages();
       const message = JSON.parse(response);
 
       console.log("Recebeu mensagem", message);
@@ -69,13 +69,13 @@ const TransmissionPage = () => {
         if (
           !transmissionMessages.results.some((msg) => msg._id === message._id)
         ) {
-          // setMessagesState((prev) => ({
-          //   ...prev,
-          //   transmissionMessages: {
-          //     ...prev.transmissionMessages,
-          //     results: [message, ...prev.transmissionMessages.results],
-          //   },
-          // }));
+          setMessagesState((prev) => ({
+            ...prev,
+            transmissionMessages: {
+              ...prev.transmissionMessages,
+              results: [message, ...prev.transmissionMessages.results],
+            },
+          }));
         }
 
         setPaymentDonateState((prev: IPaymentDonateState) => ({

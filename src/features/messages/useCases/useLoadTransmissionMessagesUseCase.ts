@@ -22,6 +22,18 @@ export const useLoadTransmissionMessagesUseCase = () => {
   const loadTransmissionMessages = async () => {
     setMessageState((prevState: IMessageState) => ({
       ...prevState,
+      lastMessages: {
+        ...prevState.lastMessages,
+        messages: [],
+      },
+      transmissionMessages: {
+        ...prevState.transmissionMessages,
+        results: [],
+      },
+      messages: {
+        ...prevState.messages,
+        results: [],
+      },
       controller: {
         ...prevState.controller,
         errorMessages: "",
