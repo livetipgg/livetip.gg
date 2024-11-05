@@ -13,14 +13,17 @@ import { Link } from "react-router-dom";
 
 export function NavMain() {
   const menuItems = useRecoilValue(filteredMenuState);
-
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>Menu</SidebarGroupLabel>
       <SidebarMenu>
         {menuItems.map((item) => (
           <Link to={item.to}>
-            <SidebarMenuItem>
+            <SidebarMenuItem
+              className={
+                item.to === window.location.pathname ? "text-secondary" : ""
+              }
+            >
               <SidebarMenuButton tooltip={item.label}>
                 {item.icon && <item.icon />}
                 <span>{item.label}</span>
