@@ -6,8 +6,10 @@ import icon from "@/assets/icon.png";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
 } from "@/components/ui/sidebar";
+import { NavUser } from "./nav-user";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -21,11 +23,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <span className="truncate font-semibold text-lg">LiveTip</span>
           </div>
         </div>
-        {/* <TeamSwitcher teams={data.teams} /> */}
       </SidebarHeader>
       <SidebarContent>
         <NavMain />
       </SidebarContent>
+      <SidebarFooter className=" flex items-center justify-center">
+        <NavUser />
+      </SidebarFooter>
     </Sidebar>
   );
 }

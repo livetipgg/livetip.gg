@@ -61,7 +61,7 @@ const BalanceToggleButton: React.FC<{
   <Button
     size="icon"
     variant={"ghost"}
-    className="w-5 h-5"
+    className="w-5 h-5 absolute top-4 right-4"
     onClick={toggleShowCurrentBalance}
   >
     {showCurrentBalance ? <EyeOff /> : <Eye />}
@@ -77,7 +77,17 @@ export const BalancePreview: React.FC = () => {
   const { brlBalance, btcBalance } = user;
 
   return (
-    <div className="hidden md:flex gap-2 items-center">
+    <div className="flex gap-2 flex-col items-stretch w-full mb-4">
+      <div className="flex items-center justify-end">
+        {!isLoading && (
+          <BalanceToggleButton
+            showCurrentBalance={showCurrentBalance}
+            toggleShowCurrentBalance={() =>
+              setShowCurrentBalance(!showCurrentBalance)
+            }
+          />
+        )}
+      </div>
       <BalanceItem
         logo={pixLogo}
         altText="pix"
@@ -94,31 +104,22 @@ export const BalancePreview: React.FC = () => {
         unit=" SATS"
       />
       {/* <BalanceItem
-        customLogo={
-          <div className="flex items-center gap-2">
-            <img src={pixLogo} alt="pix" className="w-4 h-4  grayscale" />
-            <span className="font-bold">+</span>
-            <img
-              src={bitcoinLogo}
-              alt="bitcoin"
-              className="w-4 h-4 grayscale"
-            />
-          </div>
-        }
-        altText="pix"
-        balance={formatCurrencyValue(brlBalance + btcBalance)}
-        isLoading={isLoading}
-        showCurrentBalance={showCurrentBalance}
-      /> */}
-
-      {!isLoading && (
-        <BalanceToggleButton
-          showCurrentBalance={showCurrentBalance}
-          toggleShowCurrentBalance={() =>
-            setShowCurrentBalance(!showCurrentBalance)
-          }
-        />
-      )}
+      customLogo={
+        <div className="flex items-center gap-2">
+          <img src={pixLogo} alt="pix" className="w-4 h-4 grayscale" />
+          <span className="font-bold">+</span>
+          <img
+            src={bitcoinLogo}
+            alt="bitcoin"
+            className="w-4 h-4 grayscale"
+          />
+        </div>
+      }
+      altText="pix e bitcoin"
+      balance={formatCurrencyValue(brlBalance + btcBalance)}
+      isLoading={isLoading}
+      showCurrentBalance={showCurrentBalance}
+    /> */}
     </div>
   );
 };
@@ -130,7 +131,7 @@ export const BalanceMobilePreview: React.FC = () => {
   const { user } = useRecoilValue(authState);
   const { brlBalance, btcBalance } = user;
   return (
-    <div className="flex gap-2 flex-col items-stretch ">
+    <div className="flex gap-2 flex-col items-stretch w-full ">
       <div className="flex items-center justify-end">
         {!isLoading && (
           <BalanceToggleButton
