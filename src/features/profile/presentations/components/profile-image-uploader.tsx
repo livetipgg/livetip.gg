@@ -27,33 +27,31 @@ const ProfileImageUploader: React.FC = () => {
   const { successSonner } = useCustomSonner();
 
   const handleClick = () => {
-    inputFileRef.current?.click(); // Aciona o clique do input oculto
+    inputFileRef.current?.click();
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
-      // Define a imagem para visualização
       const fileReader = new FileReader();
       fileReader.onloadend = () => {
         setImagePreview(fileReader.result as string);
       };
       fileReader.readAsDataURL(selectedFile);
 
-      // Lógica para upload
       const storageRef = ref(
         storage,
         `profile_images/${user.id}/${selectedFile.name}`
       );
       const uploadTask = uploadBytesResumable(storageRef, selectedFile);
 
-      // Monitora o progresso do upload
       uploadTask.on(
         "state_changed",
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setUploadProgress(progress);
+          console.log("Progress: " + progress);
           console.log("Upload is " + progress + "% done");
         },
         (error) => {
@@ -117,7 +115,7 @@ const ProfileImageUploader: React.FC = () => {
                     <img
                       src={imagePreview}
                       alt="Preview"
-                      className="w-32 h-32 object-contain rounded"
+                      className="w-32 h-32 object-cover rounded"
                     />
                   )}
                 </>

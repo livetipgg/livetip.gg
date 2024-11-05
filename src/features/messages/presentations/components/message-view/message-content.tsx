@@ -24,7 +24,7 @@ const MessageContent = ({ content }: MessageContentProps) => {
         <div className=" flex md:hidden">
           {formatTextMaxCaracters(content, 20)}
         </div>
-        {content.length > 100 && (
+        {content.length > 50 && (
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="link">Ver mais</Button>

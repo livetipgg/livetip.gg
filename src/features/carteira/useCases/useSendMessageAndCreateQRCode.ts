@@ -30,7 +30,7 @@ export const useSendMessageAndCreateQRCode = () => {
     if (
       parseFloat(
         payment.content.amount.replace("R$", "").replace(",", ".").trim()
-      ) < 1.0 && //+
+      ) < 0.01 && //+
       payment.content.currency === "BRL"
     ) {
       return errorSonner("O valor mínimo é de R$ 1,00.");

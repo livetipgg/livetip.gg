@@ -9,13 +9,14 @@ import { withLayout } from "@/HOC/withLayout";
 import { useProfileCancelAccount } from "../useCases/useProfileCancelAccount";
 import { useRecoilValue } from "recoil";
 import { profileState } from "../states/atoms";
-import { Copy, LoaderCircle, UserRound } from "lucide-react";
+import { Copy, LoaderCircle, Plus, UserRound, Youtube } from "lucide-react";
 import { authState } from "@/features/auth/states/atoms";
 import { useNavigate } from "react-router-dom";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 
 import ProfileImageUploader from "./components/profile-image-uploader";
 import ProfileUsernameUploader from "./components/profile-username-upload";
+import { InstagramLogoIcon } from "@radix-ui/react-icons";
 const Profile = () => {
   const { user } = useRecoilValue(authState);
   const { handleCancelAccount } = useProfileCancelAccount();
@@ -38,7 +39,7 @@ const Profile = () => {
           <div className="flex flex-col space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="">Foto de perfil</Label>
-              <ProfileImageUploader />
+              {/* <ProfileImageUploader /> */}
             </div>
             <Avatar className="cursor-pointer w-32 h-32">
               <AvatarImage src={user.avatar_url} className="object-cover" />
@@ -50,14 +51,37 @@ const Profile = () => {
           <div className="flex flex-col space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="">Nome de usuário</Label>
-              <ProfileUsernameUploader />
+              {/* <ProfileUsernameUploader /> */}
             </div>
             <Input value={`@${user.username}`} className="p-5" disabled />
           </div>
-          <div className="flex flex-col space-y-2">
-            <Label htmlFor="">Email</Label>
-            <Input value={user.email} className="p-5" disabled />
-          </div>
+          {user && user.email && (
+            <div className="flex flex-col space-y-2">
+              <Label htmlFor="">Email</Label>
+              <Input value={user.email} className="p-5" disabled />
+            </div>
+          )}
+          {/* <div className="flex flex-col space-y-2">
+            <Label htmlFor="">Redes Sociais</Label>
+            <div className="flex items-center gap-2 border rounded-md p-2">
+              <Youtube className="w-6 h-6" />
+              <span className="text-secondary ">
+                wwww.youtube.com/{user.username}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 border rounded-md p-2">
+              <InstagramLogoIcon className="w-6 h-6" />
+              <span className="text-secondary ">
+                wwww.instagram.com/{user.username}
+              </span>
+            </div>
+            <div className="flex items-center justify-end">
+              <Button className="w-fit flex " variant="secondary">
+                <Plus className="w-4 h-4 mr-2" />
+                Adicionar
+              </Button>
+            </div>
+          </div> */}
         </div>
       </SectionCard>
       <SectionCard className="mb-5">
@@ -109,7 +133,7 @@ const Profile = () => {
             onConfirm={handleCancelAccount}
           >
             <Button
-              variant="destructive"
+              variant="destructive_secondary"
               className="w-40 "
               disabled={isLoadingCancelAccount}
             >

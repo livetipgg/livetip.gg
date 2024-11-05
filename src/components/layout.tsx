@@ -18,7 +18,10 @@ import { ModeToggle } from "@/components/mode-toggle";
 import SidebarMenuItem from "@/components/sidebar-menu-item";
 import MenuItemWithSubitems from "@/components/sidebar-menu-items-with-subitems";
 import { useRecoilValue } from "recoil";
-import { menuState } from "@/features/sidebar/states/menuState";
+import {
+  filteredMenuState,
+  menuState,
+} from "@/features/sidebar/states/menuState";
 import { useAuthLogoutUseCase } from "@/features/auth/useCases/useAuthLogoutUseCase";
 import {
   BalanceMobilePreview,
@@ -31,7 +34,7 @@ interface RootLayoutProps {
 }
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
-  const menuItems = useRecoilValue(menuState);
+  const menuItems = useRecoilValue(filteredMenuState);
   const { handleLogout } = useAuthLogoutUseCase();
   const { user } = useRecoilValue(authState);
   const navigate = useNavigate();

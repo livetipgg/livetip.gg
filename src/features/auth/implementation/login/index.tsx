@@ -117,7 +117,7 @@ const LoginPage: React.FC = () => {
                 {isLoading && <ButtonLoading />}
                 {!isLoading && (
                   <Button
-                    variant={"secondary"}
+                    variant={"default"}
                     type="submit"
                     className="w-full text-white p-5"
                     onClick={form.handleSubmit(onSubmit)}

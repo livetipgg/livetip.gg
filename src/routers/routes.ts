@@ -47,6 +47,11 @@ export const routes: RoutesProps = {
     label: "Histórico de Transações",
     name: "historico-transacoes",
   },
+  Admin: {
+    path: "/admin/painel",
+    label: "Painel Admin",
+    name: "painel-admin",
+  },
 
   NotFound: {
     path: "*",
