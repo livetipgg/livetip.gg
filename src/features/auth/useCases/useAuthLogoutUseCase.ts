@@ -5,10 +5,13 @@ import { deleteHeaderToken } from "@/config/api";
 export const useAuthLogoutUseCase = () => {
   const resetAuthState = useResetRecoilState(authState);
   const resetAuthControllerState = useResetRecoilState(authController);
+
   const handleLogout = () => {
     resetAuthControllerState();
     resetAuthState();
     deleteHeaderToken();
+
+    window.location.reload();
   };
 
   return {

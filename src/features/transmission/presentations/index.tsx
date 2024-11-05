@@ -1,7 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "@/components/ui/button";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
-import { Copy, MailCheck, MailX, RefreshCw, User } from "lucide-react";
+import {
+  Copy,
+  ExternalLink,
+  MailCheck,
+  MailX,
+  RefreshCw,
+  User,
+} from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { authState } from "@/features/auth/states/atoms";
@@ -19,9 +26,15 @@ import notificationAudio from "@/assets/notification-sound.wav";
 import { paymentDonateState } from "@/features/carteira/states/atoms";
 import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState";
 import { Logotipo } from "@/components/logotipo";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const TransmissionPage = () => {
-  const setMessagesState = useSetRecoilState(messageState);
   const [processedMessages, setProcessedMessages] = useState(new Set());
   const audio = new Audio(notificationAudio);
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
@@ -61,22 +74,8 @@ const TransmissionPage = () => {
     socket.on("message", (response) => {
       const message = JSON.parse(response);
 
-      console.log("Recebeu mensagem", message);
-      console.log("teste");
       if (message && message.sender && !processedMessages.has(message.id)) {
         setProcessedMessages((prev) => new Set(prev).add(message.id));
-
-        if (
-          !transmissionMessages.results.some((msg) => msg._id === message._id)
-        ) {
-          setMessagesState((prev) => ({
-            ...prev,
-            transmissionMessages: {
-              ...prev.transmissionMessages,
-              results: [message, ...prev.transmissionMessages.results],
-            },
-          }));
-        }
 
         setPaymentDonateState((prev: IPaymentDonateState) => ({
           ...prev,
@@ -255,33 +254,103 @@ const TransmissionPage = () => {
                           <PaymentIcon currency={message.currency} />
                         </div>
                       </div>
-                      <Button
-                        disabled={isLoadingTransmissionMessages}
-                        onClick={() => {
-                          if (message.read) {
-                            setMessageUnread(message._id);
-                          }
+                      <div className="flex items-center gap-2">
+                        <Button
+                          disabled={isLoadingTransmissionMessages}
+                          onClick={() => {
+                            if (message.read) {
+                              setMessageUnread(message._id);
+                            }
 
-                          if (!message.read) {
-                            setMessageRead(message._id);
+                            if (!message.read) {
+                              setMessageRead(message._id);
+                            }
+                          }}
+                          variant="outline"
+                          size={"icon"}
+                          title={
+                            message.read
+                              ? "Marcar como não lido"
+                              : "Marcar como lido"
                           }
-                        }}
-                        variant="outline"
-                        size={"icon"}
-                        title={
-                          message.read
-                            ? "Marcar como não lido"
-                            : "Marcar como lido"
-                        }
-                      >
-                        {message.read ? (
-                          <div className="flex items-center gap-2">
-                            <MailX className="w-4 h-4" />
-                          </div>
-                        ) : (
-                          <MailCheck className="w-4 h-4" />
+                        >
+                          {message.read ? (
+                            <div className="flex items-center gap-2">
+                              <MailX className="w-4 h-4" />
+                            </div>
+                          ) : (
+                            <MailCheck className="w-4 h-4" />
+                          )}
+                        </Button>
+                        {!message.read && (
+                          <AlertDialog
+                            onOpenChange={(open) => {
+                              if (!open) {
+                                if (message.read) return;
+                                setMessageRead(message._id);
+                              }
+                            }}
+                          >
+                            <AlertDialogTrigger>
+                              <Button
+                                variant="secondary"
+                                className="flex items-center"
+                              >
+                                <span className="">Expandir</span>
+                                <ExternalLink className="w-4 ml-2  h-full" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <div>
+                                {" "}
+                                <div className="flex items-center ">
+                                  <div
+                                    className={`${
+                                      message.read
+                                        ? "bg-gray-500"
+                                        : "bg-success"
+                                    } p-2 rounded-s-lg `}
+                                  >
+                                    <span className="text-white font-semibold">
+                                      {formatPayment({
+                                        amount: message.amount,
+                                        type: message.currency,
+                                      })}
+                                    </span>
+                                  </div>
+                                  <div
+                                    className={`p-2 ${
+                                      message.read
+                                        ? "bg-gray-400"
+                                        : "bg-primary"
+                                    } rounded-e-lg`}
+                                  >
+                                    <span className="font-semibold text-white">
+                                      {message.sender}
+                                    </span>
+                                  </div>
+                                  <div className="w-10 h-10 ml-2 bg-card-custom border p-1 rounded-md  -top-4 ">
+                                    <PaymentIcon currency={message.currency} />
+                                  </div>
+                                </div>
+                              </div>
+                              <p className="break-words max-w-full overflow-auto text-lg">
+                                {message.content}
+                              </p>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel
+                                  onClick={() => {
+                                    if (message.read) return;
+                                    setMessageRead(message._id);
+                                  }}
+                                >
+                                  Voltar
+                                </AlertDialogCancel>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         )}
-                      </Button>
+                      </div>
                     </div>
                     <div
                       className={`rounded-lg border ${

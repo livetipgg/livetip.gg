@@ -1,12 +1,14 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 import { DashboardIcon } from "@radix-ui/react-icons";
-import { Landmark, MessageSquareDotIcon, UserPen } from "lucide-react";
+import { Landmark, MessageSquareDotIcon, Shield, UserPen } from "lucide-react";
+import { authState } from "@/features/auth/states/atoms";
 
 export interface MenuItem {
   label: string;
   icon: React.ElementType;
   to: string;
   subItems?: MenuItem[];
+  role?: string;
 }
 
 export const menuState = atom<MenuItem[]>({
@@ -31,6 +33,12 @@ export const menuState = atom<MenuItem[]>({
       label: "Meu Perfil",
       icon: UserPen,
       to: "/perfil",
+    },
+    {
+      label: "Painel Admin",
+      icon: Shield,
+      to: "/admin/painel",
+      role: "admin",
     },
     // {
     //   label: "Apresentação",
@@ -67,4 +75,16 @@ export const menuState = atom<MenuItem[]>({
     //   ],
     // },
   ],
+});
+
+export const filteredMenuState = selector({
+  key: "filteredMenuState",
+  get: ({ get }) => {
+    const menuItems = get(menuState);
+    const state = get(authState);
+
+    return menuItems.filter(
+      (item) => !item.role || item.role.includes(state.user.username)
+    );
+  },
 });

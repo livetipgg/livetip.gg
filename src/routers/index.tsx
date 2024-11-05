@@ -9,6 +9,7 @@ import ProfilePage from "@/features/profile/presentations";
 import TransmissionPage from "@/features/transmission/presentations";
 import { TransactionsHistoryPage } from "@/features/carteira/presentations/history";
 import UserMessagePage from "@/features/carteira/presentations/donate";
+import AdminPage from "@/features/admin/presentations";
 
 export const routers = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ export const routers = createBrowserRouter([
       {
         path: routes["Transmission"].path,
         Component: withAuth(TransmissionPage),
+      },
+      {
+        path: routes["Admin"].path,
+        Component: AdminPage,
       },
       {
         path: routes["TransactionsHistory"].path,
