@@ -18,10 +18,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import SidebarMenuItem from "@/components/sidebar-menu-item";
 import MenuItemWithSubitems from "@/components/sidebar-menu-items-with-subitems";
 import { useRecoilValue } from "recoil";
-import {
-  filteredMenuState,
-  menuState,
-} from "@/features/sidebar/states/menuState";
+import { filteredMenuState } from "@/features/sidebar/states/menuState";
 import { useAuthLogoutUseCase } from "@/features/auth/useCases/useAuthLogoutUseCase";
 import {
   BalanceMobilePreview,

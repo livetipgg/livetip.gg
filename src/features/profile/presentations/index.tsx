@@ -9,14 +9,11 @@ import { withLayout } from "@/HOC/withLayout";
 import { useProfileCancelAccount } from "../useCases/useProfileCancelAccount";
 import { useRecoilValue } from "recoil";
 import { profileState } from "../states/atoms";
-import { Copy, LoaderCircle, Plus, UserRound, Youtube } from "lucide-react";
+import { Copy, LoaderCircle, UserRound } from "lucide-react";
 import { authState } from "@/features/auth/states/atoms";
 import { useNavigate } from "react-router-dom";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 
-import ProfileImageUploader from "./components/profile-image-uploader";
-import ProfileUsernameUploader from "./components/profile-username-upload";
-import { InstagramLogoIcon } from "@radix-ui/react-icons";
 const Profile = () => {
   const { user } = useRecoilValue(authState);
   const { handleCancelAccount } = useProfileCancelAccount();
