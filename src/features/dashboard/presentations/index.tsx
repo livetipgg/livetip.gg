@@ -63,7 +63,7 @@ const Dashboard = () => {
   return (
     <>
       <SectionTitle
-        title="Dashboard"
+        title=""
         actions={[
           <ButtonNewLive />,
           <Button

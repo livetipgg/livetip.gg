@@ -69,8 +69,6 @@ const TransactionsHistory = () => {
 
   return (
     <div>
-      <SectionTitle title="Histórico de Transações" />
-
       {/* Filtro de Data */}
       <div className="flex justify-between items-center flex-wrapbg-card-custom p-4">
         <DateFilter

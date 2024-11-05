@@ -28,7 +28,6 @@ const Profile = () => {
 
   return (
     <div className="max-w-xl ">
-      <SectionTitle title="Meu Perfil" />
       {/* Dados do perfil */}
       <SectionCard className="mb-5">
         <strong>Dados do perfil</strong>

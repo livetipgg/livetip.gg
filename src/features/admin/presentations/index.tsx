@@ -16,7 +16,6 @@ import { withLayout } from "@/HOC/withLayout";
 const Admin = () => {
   return (
     <div className="max-w-xl ">
-      <SectionTitle title="Painel Admin" />
       <SectionCard>
         <strong>Criar Usuário</strong>
         <span className="my-10 text-muted-foreground">

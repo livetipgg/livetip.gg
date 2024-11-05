@@ -25,7 +25,7 @@ const MessagesReceived = () => {
   console.log(messages);
   return (
     <div>
-      <SectionTitle title="Mensagens Recebidas" actions={[<ButtonNewLive />]} />
+      <SectionTitle title="" actions={[<ButtonNewLive />]} />
       <FilterBar />
       <MessagesList
         isLoading={isLoadingMessages}
