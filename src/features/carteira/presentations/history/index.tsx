@@ -70,7 +70,7 @@ const TransactionsHistory = () => {
   return (
     <div>
       {/* Filtro de Data */}
-      <div className="flex justify-between items-center flex-wrapbg-card-custom p-4">
+      <div className="flex justify-between items-center flex-wrap bg-card-custom p-4">
         <DateFilter
           date={date}
           onDateSelect={handleSetDate}

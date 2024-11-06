@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useState } from "react";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "@/firebase/firebase";
@@ -68,6 +69,18 @@ const ProfileImageUploader: React.FC = () => {
     }
   };
 
+  const handleRemovePhoto = (e: any) => {
+    e.stopPropagation();
+    setImagePreview(null);
+    setAuthState((prevState) => ({
+      ...prevState,
+      user: {
+        ...prevState.user,
+        avatar_url: null,
+      },
+    }));
+  };
+
   return (
     <AlertDialog
       open={isOpen}
@@ -77,8 +90,13 @@ const ProfileImageUploader: React.FC = () => {
         setIsOpen(open);
       }}
     >
-      <AlertDialogTrigger className="p-0 m-0" asChild>
-        <Button variant="link">Editar</Button>
+      <AlertDialogTrigger asChild>
+        <div className="flex items-center gap-2">
+          <Button variant="secondary">Mudar foto</Button>
+          <Button variant="destructive_secondary" onClick={handleRemovePhoto}>
+            Remover foto
+          </Button>
+        </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -129,6 +147,7 @@ const ProfileImageUploader: React.FC = () => {
             Cancelar
           </Button>
           <AlertDialogAction
+            disabled={!imagePreview}
             onClick={() => {
               setIsOpen(false);
               setAuthState((prevState) => ({

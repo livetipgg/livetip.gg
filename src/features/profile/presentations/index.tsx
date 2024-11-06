@@ -35,26 +35,30 @@ const Profile = () => {
           <div className="flex flex-col space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="">Foto de perfil</Label>
-              <ProfileImageUploader />
             </div>
-            <Avatar className="cursor-pointer w-32 h-32">
-              <AvatarImage src={user.avatar_url} className="object-cover" />
-              <AvatarFallback>
-                <UserRound className="h-16 w-16 text-muted-foreground" />
-              </AvatarFallback>
-            </Avatar>
+            <div className="flex items-center justify-between">
+              <Avatar className="cursor-pointer w-28 h-28 ">
+                <AvatarImage src={user.avatar_url} className="object-cover" />
+                <AvatarFallback>
+                  <UserRound className="h-8 w-8 text-muted-foreground" />
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <ProfileImageUploader />
+              </div>
+            </div>
           </div>
           <div className="flex flex-col space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="">Nome de usuário</Label>
               {/* <ProfileUsernameUploader /> */}
             </div>
-            <Input value={`@${user.username}`} className="p-5" disabled />
+            <Input value={`${user.username}`} className="p-5 rounded-lg" />
           </div>
           {user && user.email && (
             <div className="flex flex-col space-y-2">
               <Label htmlFor="">Email</Label>
-              <Input value={user.email} className="p-5" disabled />
+              <Input value={user.email} className="p-5 rounded-lg" />
             </div>
           )}
           {/* <div className="flex flex-col space-y-2">
@@ -78,6 +82,11 @@ const Profile = () => {
               </Button>
             </div>
           </div> */}
+        </div>
+        <div className="flex items-center justify-end gap-2">
+          <Button className="w-fit flex " variant="default" disabled>
+            Salvar Alterações
+          </Button>
         </div>
       </SectionCard>
       <SectionCard className="mb-5">
