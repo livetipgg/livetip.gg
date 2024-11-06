@@ -34,7 +34,7 @@ const MessagesList: React.FC<MessagesListProps> = ({
   if (error || !messages) return <ErrorAlert error={error} />;
 
   return (
-    <>
+    <div className="mt-10">
       {messages.map((message) => (
         <MessageContainer
           key={message._id}
@@ -42,7 +42,7 @@ const MessagesList: React.FC<MessagesListProps> = ({
           message={message}
         />
       ))}
-    </>
+    </div>
   );
 };
 

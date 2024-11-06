@@ -13,7 +13,7 @@ import { NavUser } from "./nav-user";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" {...props} className="selector1">
       <SidebarHeader>
         <div className="flex items-center gap-1 h-11">
           <div className="flex aspect-square size-8   items-center justify-center rounded-lg  ">

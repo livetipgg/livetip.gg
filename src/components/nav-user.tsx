@@ -29,7 +29,7 @@ export function NavUser() {
   const { user } = useRecoilValue(authState);
   const { handleLogout } = useAuthLogoutUseCase();
   return (
-    <SidebarMenu>
+    <SidebarMenu className="selector2">
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

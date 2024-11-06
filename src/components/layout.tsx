@@ -17,7 +17,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
         <header className="flex h-16 shrink-0   sticky top-0 z-10 backdrop-blur-xl  items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 bg-card-custom border-b">
           <div className="flex items-center justify-between flex-1 px-4">
             <div className="flex items-center gap-2">
-              <SidebarTrigger className="-ml-1" />
+              <SidebarTrigger className="-ml-1 selector3" />
               <span
                 className="group-has-[[data-collapsible=icon]]/sidebar-wrapper:text-sm text-xl font-bold 
            
@@ -30,7 +30,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto h-full w-full relative lg:p-6 p-4">
+        <main className="flex-1 overflow-auto h-full w-full relative lg:p-6 p-4 ">
           {children}
         </main>
       </SidebarInset>

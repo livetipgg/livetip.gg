@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { SectionTitle } from "@/components/section-title";
 import { Button } from "@/components/ui/button";
 
 import { withLayout } from "@/HOC/withLayout";
