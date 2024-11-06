@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { useRecoilValue } from "recoil";
@@ -20,13 +19,17 @@ import { authController, authState } from "../../states/atoms";
 import { useAuthLoginUseCase } from "../../useCases/useAuthLoginUseCase";
 import { Navigate } from "react-router-dom";
 import ButtonLoading from "@/components/button-loader";
-import { ModeToggle } from "@/components/mode-toggle";
 import { ErrorAlert } from "@/components/error-alert";
+import { Eye, EyeOff } from "lucide-react";
+import AuthLayout from "../auth-layout";
+import { ModeToggle } from "@/components/mode-toggle";
 import { Logotipo } from "@/components/logotipo";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const LoginPage: React.FC = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const { loginType, isLoading, error } = useRecoilValue(authController);
-
+  const isMobile = useIsMobile();
   const { user } = useRecoilValue(authState);
 
   const { handleLogin } = useAuthLoginUseCase();
@@ -47,21 +50,18 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative">
-      <h4 className="absolute top-4 left-4 ">
-        <Logotipo classname="w-[120px]" />
-      </h4>
-      <div className="absolute top-4 right-4">
-        <ModeToggle />
-      </div>
-      <div className="flex items-center justify-center py-12">
+    <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative  px-2  ">
+      <ModeToggle className="absolute top-4 right-4" />
+      <Logotipo classname={`${isMobile ? "w-8" : "w-28"}  absolute top-4 `} />
+
+      <div className="flex items-center justify-center py-12 ">
         <div className="mx-auto grid w-[350px]  ">
-          <div className="flex justify-center items-center flex-col mb-5">
-            <h1 className="text-2xl font-bold text-black dark:text-white">
-              Olá!
+          <div className="flex  flex-col mb-5">
+            <h1 className="text-2xl font-medium mb-2 text-black dark:text-white">
+              Entrar
             </h1>
             <p className="text-muted-foreground text-sm">
-              Digite seu nome de usuário para entrar
+              Faça login com sua conta utilizando seu nome de usuario e senha
             </p>
           </div>
           {loginType === "credencials" && (
@@ -73,12 +73,11 @@ const LoginPage: React.FC = () => {
                     name="username"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Usuário</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Nome de usuario"
                             {...field}
-                            className="p-5"
+                            className="p-5 rounded-xl shadow-none bg-card-custom"
                           />
                         </FormControl>
 
@@ -93,19 +92,32 @@ const LoginPage: React.FC = () => {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Senha</FormLabel>
                         <FormControl>
-                          <Input
-                            {...field}
-                            type="password"
-                            placeholder="Informe sua senha"
-                            className="p-5"
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") {
-                                form.handleSubmit(onSubmit)();
-                              }
-                            }}
-                          />
+                          <div className="relative">
+                            <Input
+                              {...field}
+                              type={showPassword ? "text" : "password"}
+                              placeholder="Informe sua senha"
+                              className="p-5 rounded-xl shadow-none bg-card-custom"
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  form.handleSubmit(onSubmit)();
+                                }
+                              }}
+                            />
+                            <Button
+                              size="icon"
+                              variant="link"
+                              className="absolute top-1 right-2 text-foreground/40"
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              {showPassword ? (
+                                <EyeOff className="h-5 w-5" />
+                              ) : (
+                                <Eye className="h-5 w-5" />
+                              )}
+                            </Button>
+                          </div>
                         </FormControl>
 
                         <FormMessage />
@@ -114,12 +126,11 @@ const LoginPage: React.FC = () => {
                   />
                 </div>
 
-                {isLoading && <ButtonLoading />}
+                {isLoading && <ButtonLoading className="rounded-xl p-5" />}
                 {!isLoading && (
                   <Button
-                    variant={"default"}
                     type="submit"
-                    className="w-full text-white p-5"
+                    className="w-full bg-secondary text-white p-5 rounded-xl "
                     onClick={form.handleSubmit(onSubmit)}
                   >
                     Entrar
