@@ -12,7 +12,6 @@ const useCreateApiInstance = () => {
 
   const headers: any = {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
   };
 
   if (user.token) {
