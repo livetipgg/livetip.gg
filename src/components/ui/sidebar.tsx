@@ -72,6 +72,7 @@ const SidebarProvider = React.forwardRef<
   ) => {
     const isMobile = useIsMobile();
     const [openMobile, setOpenMobile] = React.useState(false);
+
     const defaultOpen = getCookieValue("sidebar:state") === "true";
 
     // This is the internal state of the sidebar.
@@ -268,7 +269,7 @@ const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
 >(({ className, onClick, ...props }, ref) => {
-  const { toggleSidebar, state } = useSidebar();
+  const { toggleSidebar } = useSidebar();
   return (
     <Button
       ref={ref}
