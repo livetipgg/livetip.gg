@@ -23,6 +23,7 @@ import { ErrorAlert } from "@/components/error-alert";
 import { Eye, EyeOff } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Logotipo } from "@/components/logotipo";
+
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const LoginPage: React.FC = () => {
