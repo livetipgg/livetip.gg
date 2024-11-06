@@ -21,7 +21,6 @@ import { Navigate } from "react-router-dom";
 import ButtonLoading from "@/components/button-loader";
 import { ErrorAlert } from "@/components/error-alert";
 import { Eye, EyeOff } from "lucide-react";
-import AuthLayout from "../auth-layout";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Logotipo } from "@/components/logotipo";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -61,7 +60,7 @@ const LoginPage: React.FC = () => {
               Entrar
             </h1>
             <p className="text-muted-foreground text-sm">
-              Faça login com sua conta utilizando seu nome de usuario e senha
+              Entre na sua conta utilizando seu nome de usuario e senha
             </p>
           </div>
           {loginType === "credencials" && (
