@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -22,10 +22,12 @@ import { CaretSortIcon } from "@radix-ui/react-icons";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/features/auth/states/atoms";
 import { BalancePreview } from "@/features/balance/presentations/components/balance-preview";
+import { useAuthLogoutUseCase } from "@/features/auth/useCases/useAuthLogoutUseCase";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { user } = useRecoilValue(authState);
+  const { handleLogout } = useAuthLogoutUseCase();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -36,8 +38,14 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar_url} alt={user.username} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarImage
+                  src={user.avatar_url}
+                  alt={user.username}
+                  className="object-cover"
+                />
+                <AvatarFallback className="rounded-lg">
+                  <User className="w-4 h-4" />
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{user.username}</span>
@@ -55,8 +63,14 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar_url} alt={user.username} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarImage
+                    src={user.avatar_url}
+                    alt={user.username}
+                    className="object-cover"
+                  />
+                  <AvatarFallback className="rounded-lg">
+                    <User className="w-4 h-4" />
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">
@@ -71,9 +85,9 @@ export function NavUser() {
               <BalancePreview />
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem className="text-danger  " onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />
-              Log out
+              Sair{" "}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

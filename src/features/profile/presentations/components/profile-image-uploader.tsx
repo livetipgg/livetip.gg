@@ -12,7 +12,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, Upload } from "lucide-react";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { authState } from "@/features/auth/states/atoms";
@@ -90,7 +90,7 @@ const ProfileImageUploader: React.FC = () => {
           <div className="flex items-center justify-center pt-4">
             <div
               onClick={handleClick} // Torna a div clicável
-              className="flex flex-col items-center justify-center w-32 h-32 border-2 border-dashed border-gray-400 cursor-pointer hover:bg-gray-100 p-1"
+              className="flex flex-col items-center justify-center w-32 h-32 border-2 border-dashed border-gray-400 cursor-pointer hover:bg-card-custom p-1"
             >
               <input
                 type="file"
@@ -106,11 +106,7 @@ const ProfileImageUploader: React.FC = () => {
                 </div>
               ) : (
                 <>
-                  {!imagePreview && (
-                    <p className="text-center">
-                      Clique aqui para carregar uma imagem
-                    </p>
-                  )}
+                  {!imagePreview && <Upload className="w-6 h-6 text-primary" />}
                   {imagePreview && (
                     <img
                       src={imagePreview}

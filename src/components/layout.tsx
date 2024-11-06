@@ -18,7 +18,11 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           <div className="flex items-center justify-between flex-1 px-4">
             <div className="flex items-center gap-2">
               <SidebarTrigger className="-ml-1" />
-              <span className="group-has-[[data-collapsible=icon]]/sidebar-wrapper:text-sm text-xl font-bold">
+              <span
+                className="group-has-[[data-collapsible=icon]]/sidebar-wrapper:text-sm text-xl font-bold 
+           
+                "
+              >
                 {getCurrentRouteLabel(location.pathname)}
               </span>
             </div>

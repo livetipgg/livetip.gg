@@ -10,15 +10,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
-import { NumericFormat } from "react-number-format";
+import { NumericFormat, PatternFormat } from "react-number-format";
 
 const Withdraw = () => {
   const [selectedKey, setSelectedKey] = useState("cpf");
 
   return (
-    <div className="h-full w-full flex flex-col items-center">
+    <div className="h-full w-full flex flex-col ">
       <div className="max-w-3xl w-full  mt-4">
-        <div className="border p-5bg-card-custom rounded-lg">
+        <div className="border p-5 bg-card-custom rounded-lg">
           <div className="flex flex-col">
             <strong className="text-xl">Destino do saque</strong>
             <span className="mt-3 text-muted-foreground">
@@ -53,14 +53,20 @@ const Withdraw = () => {
                   }
                 </Label>
                 {selectedKey === "cpf" && (
-                  <Input
+                  <PatternFormat
+                    format="###.###.###-##"
+                    mask="_"
+                    customInput={Input}
                     placeholder="Digite seu CPF"
-                    value={"999.999.999.99"}
-                    disabled
                   />
                 )}
                 {selectedKey === "cnpj" && (
-                  <Input placeholder="Digite seu CNPJ" />
+                  <PatternFormat
+                    format="##.###.###/####-##"
+                    mask="_"
+                    customInput={Input}
+                    placeholder="Digite seu CNPJ"
+                  />
                 )}
               </div>
             </div>

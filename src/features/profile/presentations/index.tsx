@@ -1,6 +1,5 @@
 import { ConfirmAlert } from "@/components/confirm-alert";
 import { SectionCard } from "@/components/section-card";
-import { SectionTitle } from "@/components/section-title";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +12,7 @@ import { Copy, LoaderCircle, UserRound } from "lucide-react";
 import { authState } from "@/features/auth/states/atoms";
 import { useNavigate } from "react-router-dom";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
+import ProfileImageUploader from "./components/profile-image-uploader";
 //  test
 const Profile = () => {
   const { user } = useRecoilValue(authState);
@@ -35,7 +35,7 @@ const Profile = () => {
           <div className="flex flex-col space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="">Foto de perfil</Label>
-              {/* <ProfileImageUploader /> */}
+              <ProfileImageUploader />
             </div>
             <Avatar className="cursor-pointer w-32 h-32">
               <AvatarImage src={user.avatar_url} className="object-cover" />

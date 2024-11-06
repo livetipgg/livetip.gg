@@ -61,7 +61,7 @@ const BalanceToggleButton: React.FC<{
   <Button
     size="icon"
     variant={"ghost"}
-    className="w-5 h-5 absolute top-4 right-4"
+    className=" p-2 absolute top-3 right-4"
     onClick={toggleShowCurrentBalance}
   >
     {showCurrentBalance ? <EyeOff /> : <Eye />}

@@ -1,6 +1,13 @@
 import { atom, selector } from "recoil";
 import { DashboardIcon } from "@radix-ui/react-icons";
-import { Landmark, MessageSquareDotIcon, Shield, UserPen } from "lucide-react";
+import {
+  ArrowLeftRight,
+  ArrowUpDown,
+  Landmark,
+  MessageSquareDotIcon,
+  Shield,
+  UserPen,
+} from "lucide-react";
 import { authState } from "@/features/auth/states/atoms";
 
 export interface MenuItem {
@@ -19,11 +26,11 @@ export const menuState = atom<MenuItem[]>({
       icon: DashboardIcon,
       to: "/inicio",
     },
-    {
-      label: "Histórico de transações",
-      icon: Landmark,
-      to: "/carteira/historico",
-    },
+    // {
+    //   label: "Histórico de transações",
+    //   icon: Landmark,
+    //   to: "/carteira/historico",
+    // },
     {
       label: "Ver mensagens recebidas",
       icon: MessageSquareDotIcon,
@@ -35,6 +42,23 @@ export const menuState = atom<MenuItem[]>({
       to: "/perfil",
     },
     {
+      label: "Financeiro",
+      icon: Landmark,
+      to: "#",
+      subItems: [
+        {
+          label: "Histórico de Transações",
+          icon: ArrowUpDown,
+          to: "/carteira/historico",
+        },
+        {
+          label: "Saque",
+          icon: ArrowLeftRight,
+          to: "/carteira/saque",
+        },
+      ],
+    },
+    {
       label: "Painel Admin",
       icon: Shield,
       to: "/admin/painel",
@@ -44,35 +68,6 @@ export const menuState = atom<MenuItem[]>({
     //   label: "Apresentação",
     //   icon: MessagesSquare,
     //   to: "/configuracoes",
-    // },
-
-    // {
-    //   label: "Financeiro",
-    //   icon: PiMoney,
-    //   to: "#",
-    //   subItems: [
-    //     {
-    //       label: "Transações",
-    //       icon: ArrowUpDown,
-    //       to: "/financeiro/transacoes",
-    //     },
-    //     {
-    //       label: "Boletos",
-    //       icon: File,
-    //       to: "/financeiro/boletos",
-    //     },
-    //     {
-    //       // Projeções
-    //       label: "Projeções",
-    //       icon: LineChart,
-    //       to: "/financeiro/projecoes",
-    //     },
-    //     {
-    //       label: "Contas bancárias",
-    //       icon: CreditCard,
-    //       to: "/financeiro/contas-bancarias",
-    //     },
-    //   ],
     // },
   ],
 });
