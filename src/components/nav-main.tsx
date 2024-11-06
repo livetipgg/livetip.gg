@@ -104,14 +104,6 @@ export function NavMain() {
                         <SidebarMenuButton
                           tooltip={item.label}
                           onClick={handleToggle}
-                          className={
-                            item.subItems.some(
-                              (subItem) =>
-                                subItem.to === window.location.pathname
-                            ) || isOpen
-                              ? "text-secondary"
-                              : ""
-                          }
                         >
                           {item.icon && <item.icon />}
                           <span>{item.label}</span>
