@@ -6,6 +6,8 @@ import {
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
@@ -28,17 +30,27 @@ const Admin = () => {
               <Button variant="secondary">Criar Novo Usuário</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
-              <div>
-                <strong>Novo Usuário</strong>
-                <div className="flex flex-col space-y-8">
-                  <div className="flex flex-col space-y-2 mt-5">
-                    <Label htmlFor="">Usuário</Label>
-                    <Input className="p-5" />
-                  </div>
-                  <div className="flex flex-col space-y-2">
-                    <Label htmlFor="">Senha</Label>
-                    <Input className="p-5" />
-                  </div>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Criar Novo Usuário</AlertDialogTitle>
+              </AlertDialogHeader>
+              <div className="flex flex-col space-y-4">
+                <div className="flex flex-col space-y-2 mt-5">
+                  <Label className="text-xs" htmlFor="">
+                    Usuário
+                  </Label>
+                  <Input
+                    className="bg-card-custom"
+                    placeholder="Digite o nome do usuário"
+                  />
+                </div>
+                <div className="flex flex-col space-y-2">
+                  <Label className="text-xs" htmlFor="">
+                    Senha
+                  </Label>
+                  <Input
+                    className="bg-card-custom"
+                    placeholder="Digite a senha do usuário"
+                  />
                 </div>
               </div>
               <AlertDialogFooter>
