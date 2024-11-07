@@ -51,6 +51,8 @@ const TransmissionPage = () => {
     year: "numeric",
   }).format(today);
 
+  window.document.title = `LiveTip - Apresentação - ${date}`;
+
   const loadAudio = () => {
     audio.load();
 
