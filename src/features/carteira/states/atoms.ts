@@ -1,5 +1,9 @@
 import { atom } from "recoil";
-import { IPaymentDonateState, IPaymentState } from "../contracts/IRecoilState";
+import {
+  IPaymentDonateState,
+  IPaymentState,
+  IWithdrawState,
+} from "../contracts/IRecoilState";
 import pixLogo from "@/assets/pix-logo.png";
 import bitcoinLogo from "@/assets/bitcoin-logo.png";
 
@@ -20,6 +24,17 @@ export const paymentState = atom<IPaymentState>({
       },
       error: "",
       isLoadingPayments: false,
+    },
+  },
+});
+
+export const withdrawState = atom<IWithdrawState>({
+  key: "withdrawState",
+  default: {
+    controller: {
+      error: "",
+      loading: false,
+      success: false,
     },
   },
 });

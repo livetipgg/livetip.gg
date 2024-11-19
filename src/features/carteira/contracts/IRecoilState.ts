@@ -56,3 +56,16 @@ export interface IPaymentState {
   };
   controller: IControllerPaymentState;
 }
+
+export interface IWithdrawBTCPayload {
+  invoice: string;
+  currency: "BTC";
+}
+
+export interface IWithdrawState {
+  controller: {
+    loading: boolean;
+    error: string;
+    success: boolean;
+  };
+}

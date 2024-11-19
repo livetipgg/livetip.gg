@@ -33,8 +33,8 @@ const Admin = () => {
               <AlertDialogHeader>
                 <AlertDialogTitle>Criar Novo Usuário</AlertDialogTitle>
               </AlertDialogHeader>
-              <div className="flex flex-col space-y-4">
-                <div className="flex flex-col space-y-2 mt-5">
+              <div className="flex items-center gap-2">
+                <div className="flex flex-col space-y-2 w-full ">
                   <Label className="text-xs" htmlFor="">
                     Usuário
                   </Label>
@@ -43,7 +43,7 @@ const Admin = () => {
                     placeholder="Digite o nome do usuário"
                   />
                 </div>
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 w-full">
                   <Label className="text-xs" htmlFor="">
                     Senha
                   </Label>
