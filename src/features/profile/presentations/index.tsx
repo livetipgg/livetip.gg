@@ -82,7 +82,10 @@ const Profile = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input className="p-5 rounded-lg" {...field} />
+                      <Input
+                        className="p-5 rounded-lg bg-background shadow-none"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
