@@ -40,7 +40,7 @@ const useCreateApiInstance = () => {
       }
 
       if (error.response.status === 401) {
-        // handleLogout();
+        handleLogout();
         errorSonner("Sessão expirada, faça login novamente");
       }
       return Promise.reject(error);
