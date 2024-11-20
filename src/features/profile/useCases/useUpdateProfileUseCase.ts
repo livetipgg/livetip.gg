@@ -2,12 +2,12 @@
 import createApiInstance from "@/config/api";
 import { authState } from "@/features/auth/states/atoms";
 import { useAuthLogoutUseCase } from "@/features/auth/useCases/useAuthLogoutUseCase";
-import { DELETE_USER } from "@/helpers/apiUrls";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import { useRecoilState } from "recoil";
 import { profileState } from "../states/atoms";
+import { IUpdateProfilePayload } from "../contracts/IRecoilState";
 
-export const useProfileCancelAccount = () => {
+export const useUpdateProfileAccount = () => {
   const api = createApiInstance();
   const [auth] = useRecoilState(authState);
   const [, setProfileState] = useRecoilState(profileState);
@@ -18,20 +18,21 @@ export const useProfileCancelAccount = () => {
 
   const { user } = auth;
 
-  const handleCancelAccount = async () => {
+  const updateProfile = async (payload: IUpdateProfilePayload) => {
     setProfileState((prev) => ({
       ...prev,
       controller: {
-        isLoadingCancelAccount: true,
-        isLoadingUpdateProfile: false,
+        ...prev.controller,
+        isLoadingUpdateProfile: true,
       },
     }));
     try {
-      const response = await api.delete(`${DELETE_USER}/${user.id}`);
+      const response = await api.patch(`/user/update/${user.id}`, payload);
 
       successSonner(
-        "Conta encerrada com sucesso, redirecionando para a página inicial"
+        "Perfil atualizado com sucesso! Faça login novamente para ver as alterações."
       );
+
       handleLogout();
 
       return response;
@@ -41,14 +42,14 @@ export const useProfileCancelAccount = () => {
       setProfileState((prev) => ({
         ...prev,
         controller: {
+          ...prev.controller,
           isLoadingUpdateProfile: false,
-          isLoadingCancelAccount: false,
         },
       }));
     }
   };
 
   return {
-    handleCancelAccount,
+    updateProfile,
   };
 };
