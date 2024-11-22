@@ -36,7 +36,7 @@ export const useUpdateProfileAccount = () => {
       return response;
     } catch (error: any) {
       console.error("error", error.response);
-      errorSonner("Erro ao atualizar o perfil: " + error.response.data);
+      errorSonner("Erro ao atualizar o perfil: " + error.response.data.message);
     } finally {
       setProfileState((prev) => ({
         ...prev,
