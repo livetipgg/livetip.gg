@@ -17,9 +17,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ViewVerticalIcon } from "@radix-ui/react-icons";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { sidebarState } from "@/atoms/sidebarState";
 
-const SIDEBAR_COOKIE_NAME = "sidebar:state";
-const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH = "16rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
@@ -45,10 +45,6 @@ function useSidebar() {
 
   return context;
 }
-function getCookieValue(name) {
-  const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
-  return match ? match[2] : null;
-}
 
 const SidebarProvider = React.forwardRef<
   HTMLDivElement,
@@ -70,10 +66,12 @@ const SidebarProvider = React.forwardRef<
     },
     ref
   ) => {
+    const { isOpen } = useRecoilValue(sidebarState);
+    const setSidebarState = useSetRecoilState(sidebarState);
     const isMobile = useIsMobile();
     const [openMobile, setOpenMobile] = React.useState(false);
 
-    const defaultOpen = getCookieValue("sidebar:state") === "true";
+    const defaultOpen = isOpen;
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
@@ -90,13 +88,19 @@ const SidebarProvider = React.forwardRef<
 
         // This sets the cookie to keep the sidebar state.
 
-        document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+        setSidebarState((prev) => ({
+          isOpen: prev.isOpen,
+        }));
       },
       [setOpenProp, open]
     );
 
     // Helper to toggle the sidebar.
     const toggleSidebar = React.useCallback(() => {
+      setSidebarState((prev) => ({
+        isOpen: !prev.isOpen,
+      }));
+
       return isMobile
         ? setOpenMobile((open) => !open)
         : setOpen((open) => !open);
