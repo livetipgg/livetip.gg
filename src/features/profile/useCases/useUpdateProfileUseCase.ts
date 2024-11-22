@@ -27,7 +27,7 @@ export const useUpdateProfileAccount = () => {
       },
     }));
     try {
-      const response = await api.patch(`/user/update/${user.id}`, payload);
+      const response = await api.patch(`/user/${user.id}`, payload);
 
       successSonner("Perfil atualizado com sucesso!");
 

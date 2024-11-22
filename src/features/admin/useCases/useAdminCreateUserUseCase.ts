@@ -22,7 +22,7 @@ export const useAdminCreateUserUseCase = () => {
     }));
 
     try {
-      const response = await api.post("/user/register", { username, password });
+      const response = await api.post("/user", { username, password });
 
       successSonner(`Usuário ${username} criado com sucesso!`);
       onSuccess();
