@@ -55,6 +55,7 @@ export const menuState = atom<MenuItem[]>({
           label: "Saque",
           icon: ArrowLeftRight,
           to: "/carteira/saque",
+          role: "admin",
         },
       ],
     },
