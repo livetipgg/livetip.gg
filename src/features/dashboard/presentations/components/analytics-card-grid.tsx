@@ -11,8 +11,7 @@ import { useLoadTotalsMessageUseCase } from "@/features/messages/useCases/useLoa
 
 const AnalyticsCardGrid = () => {
   const { controller: balanceStateController } = useRecoilValue(balanceState);
-  const { isLoading: balanceIsLoading, error: errorBalance } =
-    balanceStateController;
+  const { isLoading: balanceIsLoading } = balanceStateController;
 
   const { controller: messageStateController, totals } =
     useRecoilValue(messageState);

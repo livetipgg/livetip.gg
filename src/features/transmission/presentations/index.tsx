@@ -34,6 +34,7 @@ import {
   AlertDialogFooter,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const TransmissionPage = () => {
   const [processedMessages, setProcessedMessages] = useState(new Set());
@@ -45,6 +46,7 @@ const TransmissionPage = () => {
   const { successSonner } = useCustomSonner();
   const { loadTransmissionMessages } = useLoadTransmissionMessagesUseCase();
   const { setMessageRead, setMessageUnread } = useSetMessageReadUseCase();
+  const isMobile = useIsMobile();
   const today = new Date();
   const date = new Intl.DateTimeFormat("pt-BR", {
     day: "numeric",
@@ -294,11 +296,13 @@ const TransmissionPage = () => {
                           >
                             <AlertDialogTrigger>
                               <Button
+                                title="Expandir mensagem"
+                                size={isMobile ? "icon" : "default"}
                                 variant="secondary"
-                                className="flex items-center"
+                                className="flex items-center gap-2 "
                               >
-                                <span className="">Expandir</span>
-                                <ExternalLink className="w-4 ml-2  h-full" />
+                                {!isMobile && "Expandir"}
+                                <ExternalLink className="w-4   h-full" />
                               </Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
