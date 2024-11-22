@@ -37,7 +37,7 @@ const AnalyticsCardGrid = () => {
         title="Mensagens Recebidas"
       />
       <AnalyticsCard
-        error={errorBalance}
+        error={errorTotals}
         isLoading={balanceIsLoading}
         borderColor="hsl(var(--success))"
         endValue={totals.brlTotal}
@@ -49,7 +49,7 @@ const AnalyticsCardGrid = () => {
         decimals={2}
       />
       <AnalyticsCard
-        error={errorBalance}
+        error={errorTotals}
         isLoading={balanceIsLoading}
         borderColor="hsl(var(--warning))"
         endValue={totals.btcTotal}
