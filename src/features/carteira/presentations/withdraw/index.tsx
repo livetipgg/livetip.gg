@@ -12,18 +12,19 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { authState } from "@/features/auth/states/atoms";
-import { balanceState } from "@/features/balance/states/atoms";
 import { useState } from "react";
-import { NumericFormat, PatternFormat } from "react-number-format";
+import { PatternFormat } from "react-number-format";
 import { useRecoilValue } from "recoil";
 import { useWithdrawBtcUseCase } from "../../useCases/useWithdrawBtcUseCase";
 import { withdrawState } from "../../states/atoms";
 import { LoaderCircle } from "lucide-react";
+import InputMoney from "@/components/input-currency";
 
 const Withdraw = () => {
   const { user } = useRecoilValue(authState);
   const { controller } = useRecoilValue(withdrawState);
   const { loading } = controller;
+  const [value, setValue] = useState(0);
   const { brlBalance, btcBalance } = user;
   const [invoice, setInvoice] = useState("");
   const [selectedKey, setSelectedKey] = useState("cpf");
@@ -111,7 +112,17 @@ const Withdraw = () => {
                           Saldo disponível: R$ {brlBalance.replace(".", ",")}
                         </div>
                       </div>
-                      <NumericFormat
+
+                      <InputMoney
+                        onChange={(event) =>
+                          setValue(Number(event.target.value))
+                        }
+                        value={value}
+                        title="Preço"
+                        className=" rounded-xl shadow-none bg-none ps-1 border-none  text-sm "
+                        placeholder="Preço"
+                      />
+                      {/* <NumericFormat
                         className="p-5 rounded-xl shadow-none bg-background"
                         thousandSeparator={true}
                         decimalScale={2}
@@ -120,7 +131,7 @@ const Withdraw = () => {
                         allowNegative={false}
                         customInput={Input}
                         placeholder="R$ 0,00"
-                      />
+                      /> */}
                     </div>
                   </div>
                 </div>

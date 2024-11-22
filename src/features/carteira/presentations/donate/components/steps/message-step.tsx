@@ -11,6 +11,7 @@ import { paymentDonateState } from "@/features/carteira/states/atoms";
 import { useSendMessageAndCreateQRCode } from "@/features/carteira/useCases/useSendMessageAndCreateQRCode";
 import CurrencyInput from "react-currency-input-field";
 import ReactGA from "react-ga4";
+import InputMoney from "@/components/input-currency";
 const MessageStep = () => {
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
   const { content, controller } = useRecoilValue(paymentDonateState);
@@ -143,30 +144,47 @@ const MessageStep = () => {
         </div>
 
         {content.currency === "BRL" && (
-          <CurrencyInput
-            className="rounded-xl"
-            customInput={Input}
-            id="input-example"
-            name="input-name"
-            placeholder="R$ 0,00"
-            defaultValue={0.0}
-            decimalScale={2}
-            decimalsLimit={2}
-            value={content.amount}
-            intlConfig={{
-              locale: "pt-BR",
-              currency: "BRL",
-            }}
-            onValueChange={(e) => {
-              setPaymentDonateState((prev: IPaymentDonateState) => ({
-                ...prev,
-                content: {
-                  ...prev.content,
-                  amount: e,
-                },
-              }));
-            }}
-          />
+          <>
+            <InputMoney
+              onChange={(event) =>
+                setPaymentDonateState((prev: IPaymentDonateState) => ({
+                  ...prev,
+                  content: {
+                    ...prev.content,
+                    amount: event.target.value,
+                  },
+                }))
+              }
+              value={Number(content.amount)}
+              title="Preço"
+              className=" rounded-xl shadow-none bg-none ps-1 border-none  text-sm "
+              placeholder="Preço"
+            />
+            {/* <CurrencyInput
+              className="rounded-xl"
+              customInput={Input}
+              id="input-example"
+              name="input-name"
+              placeholder="R$ 0,00"
+              defaultValue={0.0}
+              decimalScale={2}
+              decimalsLimit={2}
+              value={content.amount}
+              intlConfig={{
+                locale: "pt-BR",
+                currency: "BRL",
+              }}
+              onValueChange={(e) => {
+                setPaymentDonateState((prev: IPaymentDonateState) => ({
+                  ...prev,
+                  content: {
+                    ...prev.content,
+                    amount: e,
+                  },
+                }));
+              }}
+            /> */}
+          </>
         )}
 
         {content.currency === "BTC" && (
