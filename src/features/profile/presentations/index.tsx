@@ -128,7 +128,7 @@ const Profile = () => {
             className="w-fit flex "
             variant="default"
             // Só habilita se tiver mudanças no estado
-            disabled={!form.formState.isDirty || isLoadingUpdateProfile}
+            disabled={isLoadingUpdateProfile}
             onClick={form.handleSubmit(onSubmit)}
           >
             {isLoadingUpdateProfile ? (

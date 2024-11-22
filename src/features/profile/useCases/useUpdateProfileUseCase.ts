@@ -27,13 +27,22 @@ export const useUpdateProfileAccount = () => {
       },
     }));
     try {
-      const response = await api.patch(`/user/${user.id}`, payload);
+      const formData = new FormData();
+
+      if (payload.photoUrl) {
+        formData.append("photo", payload.photoUrl);
+      }
+      formData.append("body", JSON.stringify(payload));
+
+      await api.patch(`/user/${user.id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       successSonner("Perfil atualizado com sucesso!");
 
       getUserInfo();
-
-      return response;
     } catch (error: any) {
       console.error("error", error.response);
       errorSonner("Erro ao atualizar o perfil: " + error.response.data.message);

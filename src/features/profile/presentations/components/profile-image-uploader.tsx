@@ -63,9 +63,9 @@ const ProfileImageUploader: React.FC = () => {
           <Button variant="secondary" className="w-full md:w-fit">
             Mudar foto
           </Button>
-          <Button variant="destructive_secondary" onClick={handleRemovePhoto}>
+          {/* <Button variant="destructive_secondary" onClick={handleRemovePhoto}>
             Remover foto
-          </Button>
+          </Button> */}
         </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
