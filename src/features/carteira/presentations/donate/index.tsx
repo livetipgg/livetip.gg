@@ -30,6 +30,8 @@ const UserMessagePage = () => {
       page: `/${userId}`,
       title: `Mensagem ${userId}`,
     });
+
+    window.document.title = `LiveTip - ${userId}`;
   }, []);
 
   useEffect(() => {
