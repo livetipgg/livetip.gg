@@ -11,14 +11,12 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { authState } from "@/features/auth/states/atoms";
+import { useRecoilValue } from "recoil";
 import { ImagePreview } from "./image-preview";
 import { useImageUploader } from "@/hooks/use-image-uploader";
 import { profileState } from "../../states/atoms";
 
 const ProfileImageUploader: React.FC = () => {
-  const setAuthState = useSetRecoilState(authState);
   const [isOpen, setIsOpen] = useState(false);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const { controller } = useRecoilValue(profileState);
@@ -46,10 +44,6 @@ const ProfileImageUploader: React.FC = () => {
   const handleRemovePhoto = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     deleteImage();
-    setAuthState((prevState) => ({
-      ...prevState,
-      user: { ...prevState.user, photoUrl: null },
-    }));
   };
   return (
     <AlertDialog
@@ -63,9 +57,9 @@ const ProfileImageUploader: React.FC = () => {
           <Button variant="secondary" className="w-full md:w-fit">
             Mudar foto
           </Button>
-          {/* <Button variant="destructive_secondary" onClick={handleRemovePhoto}>
+          <Button variant="destructive_secondary" onClick={handleRemovePhoto}>
             Remover foto
-          </Button> */}
+          </Button>
         </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
