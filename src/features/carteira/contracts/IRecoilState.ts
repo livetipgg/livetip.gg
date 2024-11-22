@@ -29,6 +29,7 @@ export interface IPaymentDonateState {
     id: number;
     username: string;
     email: string;
+    photoURL: string;
     isDeleted: boolean;
     btcBalance: string;
     brlBalance: string;
@@ -55,4 +56,17 @@ export interface IPaymentState {
     totalPages: number;
   };
   controller: IControllerPaymentState;
+}
+
+export interface IWithdrawBTCPayload {
+  invoice: string;
+  currency: "BTC";
+}
+
+export interface IWithdrawState {
+  controller: {
+    loading: boolean;
+    error: string;
+    success: boolean;
+  };
 }

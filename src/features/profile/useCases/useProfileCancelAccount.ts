@@ -22,7 +22,9 @@ export const useProfileCancelAccount = () => {
     setProfileState((prev) => ({
       ...prev,
       controller: {
+        ...prev.controller,
         isLoadingCancelAccount: true,
+        isLoadingUpdateProfile: false,
       },
     }));
     try {
@@ -40,6 +42,8 @@ export const useProfileCancelAccount = () => {
       setProfileState((prev) => ({
         ...prev,
         controller: {
+          ...prev.controller,
+          isLoadingUpdateProfile: false,
           isLoadingCancelAccount: false,
         },
       }));

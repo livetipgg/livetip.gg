@@ -1,6 +1,13 @@
 import { atom, selector } from "recoil";
 import { DashboardIcon } from "@radix-ui/react-icons";
-import { Landmark, MessageSquareDotIcon, Shield, UserPen } from "lucide-react";
+import {
+  ArrowLeftRight,
+  ArrowUpDown,
+  Landmark,
+  MessageSquareDotIcon,
+  Shield,
+  UserPen,
+} from "lucide-react";
 import { authState } from "@/features/auth/states/atoms";
 
 export interface MenuItem {
@@ -19,11 +26,11 @@ export const menuState = atom<MenuItem[]>({
       icon: DashboardIcon,
       to: "/inicio",
     },
-    {
-      label: "Histórico de transações",
-      icon: Landmark,
-      to: "/carteira/historico",
-    },
+    // {
+    //   label: "Histórico de transações",
+    //   icon: Landmark,
+    //   to: "/carteira/historico",
+    // },
     {
       label: "Ver mensagens recebidas",
       icon: MessageSquareDotIcon,
@@ -33,6 +40,24 @@ export const menuState = atom<MenuItem[]>({
       label: "Meu Perfil",
       icon: UserPen,
       to: "/perfil",
+    },
+    {
+      label: "Financeiro",
+      icon: Landmark,
+      to: "#",
+      subItems: [
+        {
+          label: "Histórico de Transações",
+          icon: ArrowUpDown,
+          to: "/carteira/historico",
+        },
+        {
+          label: "Saque",
+          icon: ArrowLeftRight,
+          to: "/carteira/saque",
+          role: "admin",
+        },
+      ],
     },
     {
       label: "Painel Admin",
@@ -45,35 +70,6 @@ export const menuState = atom<MenuItem[]>({
     //   icon: MessagesSquare,
     //   to: "/configuracoes",
     // },
-
-    // {
-    //   label: "Financeiro",
-    //   icon: PiMoney,
-    //   to: "#",
-    //   subItems: [
-    //     {
-    //       label: "Transações",
-    //       icon: ArrowUpDown,
-    //       to: "/financeiro/transacoes",
-    //     },
-    //     {
-    //       label: "Boletos",
-    //       icon: File,
-    //       to: "/financeiro/boletos",
-    //     },
-    //     {
-    //       // Projeções
-    //       label: "Projeções",
-    //       icon: LineChart,
-    //       to: "/financeiro/projecoes",
-    //     },
-    //     {
-    //       label: "Contas bancárias",
-    //       icon: CreditCard,
-    //       to: "/financeiro/contas-bancarias",
-    //     },
-    //   ],
-    // },
   ],
 });
 
@@ -83,8 +79,26 @@ export const filteredMenuState = selector({
     const menuItems = get(menuState);
     const state = get(authState);
 
-    return menuItems.filter(
-      (item) => !item.role || item.role.includes(state.user.username)
-    );
+    return menuItems
+      .map((item) => {
+        // Filtra subItems com base no role do usuário
+        const subItems = item.subItems?.filter(
+          (subItem) =>
+            !subItem.role || subItem.role.includes(state.user.username)
+        );
+
+        // Se o item não requer role ou o usuário possui o role necessário, inclui o item
+        if (!item.role || item.role.includes(state.user.username)) {
+          return { ...item, subItems };
+        }
+
+        // Caso o item principal tenha subItems acessíveis, retorna o item com esses subItems
+        if (subItems && subItems.length > 0) {
+          return { ...item, subItems };
+        }
+
+        return null; // Exclui o item se o usuário não tem permissão
+      })
+      .filter(Boolean); // Remove itens nulos
   },
 });

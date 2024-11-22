@@ -4,6 +4,7 @@ import "./index.css";
 import { ThemeProvider } from "./components/theme-provider.tsx";
 import WebSocketProvider from "./config/WebSocketProvider.tsx";
 import { RecoilRoot } from "recoil";
+import "intro.js/introjs.css";
 
 createRoot(document.getElementById("root")!).render(
   <RecoilRoot>

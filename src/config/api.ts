@@ -15,7 +15,7 @@ const useCreateApiInstance = () => {
   };
 
   if (user.token) {
-    headers.Authorization = `${user.token}`;
+    headers.Authorization = `Baerer ${user.token}`;
   }
 
   const BASE_URL = import.meta.env.VITE_API_PRODUCTION;

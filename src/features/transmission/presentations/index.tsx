@@ -51,6 +51,8 @@ const TransmissionPage = () => {
     year: "numeric",
   }).format(today);
 
+  window.document.title = `LiveTip - Apresentação - ${date}`;
+
   const loadAudio = () => {
     audio.load();
 
@@ -142,10 +144,7 @@ const TransmissionPage = () => {
             <div className="flex items-center justify-center flex-wrap  gap-4">
               <div className="w-28 h-28 bg-background rounded-full flex items-center justify-center  shadow-md p-1">
                 <Avatar className="cursor-pointer w-full h-full">
-                  <AvatarImage
-                    // src="https://musicaecinema.com/wp-content/uploads/2024/02/the-office-how-to-watch.jpg"
-                    className="object-cover"
-                  />
+                  <AvatarImage src={user.photoUrl} className="object-cover" />
                   <AvatarFallback>
                     <User className="w-10 h-10 text-gray-500" />
                   </AvatarFallback>

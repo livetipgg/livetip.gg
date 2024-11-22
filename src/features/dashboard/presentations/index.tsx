@@ -1,5 +1,4 @@
 import { ButtonNewLive } from "@/components/button-new-live";
-import { SectionTitle } from "@/components/section-title";
 import { withLayout } from "@/HOC/withLayout";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
@@ -15,6 +14,7 @@ import notificationAudio from "@/assets/notification-sound.wav";
 import { useLoadLastMessagesUseCase } from "@/features/messages/useCases/useLoadLastMessagesUseCase";
 import { useWebSocket } from "@/config/WebSocketProvider";
 import { emitEvent } from "@/socket";
+import { useIsMobile } from "@/hooks/use-mobile";
 const Dashboard = () => {
   const { controller: balanceStateController } = useRecoilValue(balanceState);
   const { isLoading: balanceIsLoading } = balanceStateController;
@@ -24,6 +24,7 @@ const Dashboard = () => {
 
   const { loadDashboardArea } = useLoadDashboardAreaUseCase();
   const { loadLastMessages } = useLoadLastMessagesUseCase();
+  const isMobile = useIsMobile();
 
   const audio = new Audio(notificationAudio);
   const socket = useWebSocket();
@@ -62,13 +63,14 @@ const Dashboard = () => {
   }, []);
   return (
     <>
-      <SectionTitle
-        title="Dashboard"
-        actions={[
-          <ButtonNewLive />,
+      <div className="flex items-center justify-between mb-4 ">
+        <h4 className="text-xl font-semibold ">Dashboard</h4>
+        <div className="flex items-center gap-2  flex-1 justify-end">
+          <ButtonNewLive />
           <Button
+            size={isMobile ? "icon" : "default"}
             variant={"outline"}
-            className={`${
+            className={` ${
               balanceIsLoading || totalsMessageIsLoading
                 ? "text-muted-foreground"
                 : ""
@@ -79,15 +81,16 @@ const Dashboard = () => {
             }}
             disabled={balanceIsLoading || totalsMessageIsLoading}
           >
-            <span className="mr-2">Atualizar</span>
+            {isMobile ? "" : <span className="mr-2">Atualizar</span>}
             <RefreshCw
               className={`w-4 h-4 mb-0 ${
                 balanceIsLoading || totalsMessageIsLoading ? "animate-spin" : ""
               }`}
             />
-          </Button>,
-        ]}
-      />
+          </Button>
+        </div>
+      </div>
+
       <AnalyticsCardGrid />
 
       <LastMessagesViewList />

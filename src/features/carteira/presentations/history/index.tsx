@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { SectionTitle } from "@/components/section-title";
 import { Button } from "@/components/ui/button";
 
 import { withLayout } from "@/HOC/withLayout";
@@ -69,10 +68,8 @@ const TransactionsHistory = () => {
 
   return (
     <div>
-      <SectionTitle title="Histórico de Transações" />
-
       {/* Filtro de Data */}
-      <div className="flex justify-between items-center flex-wrapbg-card-custom p-4">
+      <div className="flex justify-between items-center flex-wrap bg-card-custom p-4">
         <DateFilter
           date={date}
           onDateSelect={handleSetDate}

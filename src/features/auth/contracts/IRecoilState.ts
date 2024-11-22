@@ -13,7 +13,7 @@ export interface IAuthUserState {
   email: string;
   is_deleted: boolean;
   token: string;
-  avatar_url: string;
+  photoUrl: string;
 }
 
 export interface IAuthState {

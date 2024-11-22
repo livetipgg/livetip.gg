@@ -40,8 +40,8 @@ export const LastMessagesViewList = () => {
   }
   return (
     <div className="my-10">
-      <div className="flex items-center justify-between">
-        <h4 className="text-xl font-semibold mb-10">Últimas mensagens</h4>
+      <div className="flex items-center justify-between mb-10 ">
+        <h4 className="text-xl font-semibold ">Últimas mensagens</h4>
         <Button
           variant={"outline"}
           className={`${lastMessagesIsLoading ? "text-muted-foreground" : ""}`}

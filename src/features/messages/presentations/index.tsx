@@ -2,7 +2,6 @@
 import { withLayout } from "@/HOC/withLayout";
 import { useEffect } from "react";
 import { ButtonNewLive } from "@/components/button-new-live";
-import { SectionTitle } from "@/components/section-title";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { messageState } from "../states/atoms";
 import { useLoadMessagesUseCase } from "../useCases/useLoadMessagesUseCase";
@@ -25,7 +24,9 @@ const MessagesReceived = () => {
   console.log(messages);
   return (
     <div>
-      <SectionTitle title="Mensagens Recebidas" actions={[<ButtonNewLive />]} />
+      <div className="flex items-center justify-end mb-4">
+        <ButtonNewLive />
+      </div>
       <FilterBar />
       <MessagesList
         isLoading={isLoadingMessages}

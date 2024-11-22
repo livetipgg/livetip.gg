@@ -12,6 +12,8 @@ import { useLoadReceiverData } from "../../useCases/useLoadReceiverData";
 import { useParams } from "react-router-dom";
 import { ErrorAlert } from "@/components/error-alert";
 import { LoaderCircle } from "lucide-react";
+import ReactGA from "react-ga4";
+import { TRACKING_ID } from "@/App";
 
 const UserMessagePage = () => {
   const { loadReceiverData } = useLoadReceiverData();
@@ -21,6 +23,16 @@ const UserMessagePage = () => {
   const params = useParams();
   const { userId } = params;
   const { setTheme } = useTheme();
+  useEffect(() => {
+    ReactGA.initialize(TRACKING_ID);
+    ReactGA.send({
+      hitType: "pageview",
+      page: `/${userId}`,
+      title: `Mensagem ${userId}`,
+    });
+
+    window.document.title = `LiveTip - ${userId}`;
+  }, []);
 
   useEffect(() => {
     setTheme("light");

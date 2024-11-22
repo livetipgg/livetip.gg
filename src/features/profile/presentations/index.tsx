@@ -1,6 +1,5 @@
 import { ConfirmAlert } from "@/components/confirm-alert";
 import { SectionCard } from "@/components/section-card";
-import { SectionTitle } from "@/components/section-title";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,22 +12,47 @@ import { Copy, LoaderCircle, UserRound } from "lucide-react";
 import { authState } from "@/features/auth/states/atoms";
 import { useNavigate } from "react-router-dom";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
-
+import ProfileImageUploader from "./components/profile-image-uploader";
+import { FormProvider, useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { formUpdateProfileSchema } from "../schemas/formLoginSchema";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { useUpdateProfileAccount } from "../useCases/useUpdateProfileUseCase";
+//  test
 const Profile = () => {
   const { user } = useRecoilValue(authState);
   const { handleCancelAccount } = useProfileCancelAccount();
   const { controller } = useRecoilValue(profileState);
-  const { isLoadingCancelAccount } = controller;
+  const { isLoadingCancelAccount, isLoadingUpdateProfile } = controller;
   const { successSonner } = useCustomSonner();
+  const { updateProfile } = useUpdateProfileAccount();
   const navigate = useNavigate();
 
   const url = import.meta.env.PROD
     ? import.meta.env.VITE_PRODUCTION_URL
     : import.meta.env.VITE_DEVELOPMENT_URL;
 
+  const form = useForm<z.infer<typeof formUpdateProfileSchema>>({
+    resolver: zodResolver(formUpdateProfileSchema),
+    defaultValues: {
+      username: user?.username,
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formUpdateProfileSchema>) {
+    await updateProfile(values);
+  }
+
+  console.log("User photo", user.photoUrl);
+
   return (
     <div className="max-w-xl ">
-      <SectionTitle title="Meu Perfil" />
       {/* Dados do perfil */}
       <SectionCard className="mb-5">
         <strong>Dados do perfil</strong>
@@ -36,28 +60,47 @@ const Profile = () => {
           <div className="flex flex-col space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="">Foto de perfil</Label>
-              {/* <ProfileImageUploader /> */}
             </div>
-            <Avatar className="cursor-pointer w-32 h-32">
-              <AvatarImage src={user.avatar_url} className="object-cover" />
-              <AvatarFallback>
-                <UserRound className="h-16 w-16 text-muted-foreground" />
-              </AvatarFallback>
-            </Avatar>
+            <div className="flex items-center justify-between">
+              <Avatar className="cursor-pointer w-28 h-28 ">
+                <AvatarImage src={user?.photoUrl} className="object-cover" />
+                <AvatarFallback>
+                  <UserRound className="h-8 w-8 text-muted-foreground" />
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <ProfileImageUploader />
+              </div>
+            </div>
           </div>
           <div className="flex flex-col space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="">Nome de usuário</Label>
-              {/* <ProfileUsernameUploader /> */}
-            </div>
-            <Input value={`@${user.username}`} className="p-5" disabled />
+            <FormProvider {...form}>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="">Nome de usuário</Label>
+              </div>
+              <FormField
+                name="username"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className="p-5 rounded-lg bg-background shadow-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </FormProvider>
           </div>
-          {user && user.email && (
+          {/* {user && user.email && (
             <div className="flex flex-col space-y-2">
               <Label htmlFor="">Email</Label>
-              <Input value={user.email} className="p-5" disabled />
+              <Input value={user.email} className="p-5 rounded-lg" />
             </div>
-          )}
+          )} */}
           {/* <div className="flex flex-col space-y-2">
             <Label htmlFor="">Redes Sociais</Label>
             <div className="flex items-center gap-2 border rounded-md p-2">
@@ -79,6 +122,21 @@ const Profile = () => {
               </Button>
             </div>
           </div> */}
+        </div>
+        <div className="flex items-center justify-end gap-2">
+          <Button
+            className="w-fit flex "
+            variant="default"
+            // Só habilita se tiver mudanças no estado
+            disabled={isLoadingUpdateProfile}
+            onClick={form.handleSubmit(onSubmit)}
+          >
+            {isLoadingUpdateProfile ? (
+              <LoaderCircle className="w-5 h-5 animate-spin" />
+            ) : (
+              "Salvar Alterações"
+            )}
+          </Button>
         </div>
       </SectionCard>
       <SectionCard className="mb-5">
