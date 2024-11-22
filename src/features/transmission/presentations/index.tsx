@@ -61,7 +61,6 @@ const TransmissionPage = () => {
   const socket = useWebSocket();
   // Função para reestabelecer a conexão se o socket cair
   const connectSocket = useCallback(() => {
-    console.log(socket);
     if (!socket || socket.connected) return;
 
     socket.connect();
@@ -100,14 +99,12 @@ const TransmissionPage = () => {
     });
 
     socket.on("disconnect", () => {
-      console.log("Desconectado. Tentando reconectar...");
       reconnectSocket();
     });
   }, []);
 
   const reconnectSocket = useCallback(() => {
     setTimeout(() => {
-      console.log("Tentando reconectar o WebSocket...");
       connectSocket();
     }, 5000);
   }, [connectSocket]);
@@ -119,7 +116,6 @@ const TransmissionPage = () => {
     return () => {
       if (socket) {
         socket.disconnect();
-        console.log("Socket desconectado");
       }
     };
   }, []);

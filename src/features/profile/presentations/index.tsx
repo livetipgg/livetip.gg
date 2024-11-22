@@ -29,7 +29,11 @@ const Profile = () => {
   const { user } = useRecoilValue(authState);
   const { handleCancelAccount } = useProfileCancelAccount();
   const { controller } = useRecoilValue(profileState);
-  const { isLoadingCancelAccount, isLoadingUpdateProfile } = controller;
+  const {
+    isLoadingCancelAccount,
+    isLoadingUpdateProfile,
+    isLoadingUpdatePhoto,
+  } = controller;
   const { successSonner } = useCustomSonner();
   const { updateProfile } = useUpdateProfileAccount();
   const navigate = useNavigate();
@@ -49,8 +53,7 @@ const Profile = () => {
     await updateProfile(values);
   }
 
-  console.log("User photo", user.photoUrl);
-
+  console.log("Loading", isLoadingUpdatePhoto);
   return (
     <div className="max-w-xl ">
       {/* Dados do perfil */}
@@ -63,6 +66,11 @@ const Profile = () => {
             </div>
             <div className="flex items-center justify-between">
               <Avatar className="cursor-pointer w-28 h-28 ">
+                {isLoadingUpdatePhoto && (
+                  <div className="w-full h-full backdrop-blur absolute flex items-center justify-center opacity-70">
+                    <LoaderCircle className="w-5 h-5 animate-spin" />
+                  </div>
+                )}
                 <AvatarImage src={user?.photoUrl} className="object-cover" />
                 <AvatarFallback>
                   <UserRound className="h-8 w-8 text-muted-foreground" />

@@ -26,14 +26,9 @@ const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
     socket.connect();
     socket.on("connection", () => {});
 
-    socket.on("joined_room", (room) => {
-      console.log(`Joined room: ${room}`);
-    });
+    socket.on("joined_room", (room) => {});
 
     socket.on("message", (message) => {
-      console.log("Received message:", message);
-
-      console.log("Payment state:", paymentState);
       setPaymentDonateState((prev: IPaymentDonateState) => ({
         ...prev,
         content: {
@@ -51,7 +46,6 @@ const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
     socket.on("message", (message) => {
       const parsedMessage = JSON.parse(message);
-      console.log("Parsed message:", parsedMessage);
       setMessagesState((prev) => ({
         ...prev,
         transmissionMessages: {
@@ -67,7 +61,6 @@ const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const intervalId = setInterval(() => {
       socket.emit("heartbeat");
-      console.log("Heartbeat");
     }, 5000);
 
     return () => {
@@ -75,7 +68,6 @@ const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
       clearInterval(intervalId);
       socket.disconnect();
-      console.log("Socket disconnected");
     };
   }, []);
 

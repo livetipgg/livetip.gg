@@ -21,14 +21,8 @@ const ProfileImageUploader: React.FC = () => {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const { controller } = useRecoilValue(profileState);
   const { newPhotoUrl } = controller;
-  console.log("newPhotoUrl", newPhotoUrl);
-  const {
-    imagePreview,
-    uploadProgress,
-    handleFileChange,
-    deleteImage,
-    uploadImage,
-  } = useImageUploader();
+  const { imagePreview, handleFileChange, deleteImage, uploadImage } =
+    useImageUploader();
 
   const handleClick = () => {
     inputFileRef.current?.click();
@@ -70,11 +64,7 @@ const ProfileImageUploader: React.FC = () => {
             <span>Formatos permitidos: .png, .jpg, .jpeg</span>
           </AlertDialogDescription>
           <div className="flex items-center justify-center pt-4">
-            <ImagePreview
-              imagePreview={imagePreview}
-              uploadProgress={uploadProgress}
-              onClick={handleClick}
-            />
+            <ImagePreview imagePreview={imagePreview} onClick={handleClick} />
             <input
               type="file"
               ref={inputFileRef}

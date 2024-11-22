@@ -11,7 +11,6 @@ import { useProfileGetUserInfoUseCase } from "@/features/profile/useCases/usePro
 export const useImageUploader = () => {
   const { updateProfile } = useUpdateProfileAccount();
   const { user } = useRecoilValue(authState);
-  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { successSonner, errorSonner } = useCustomSonner();
   const api = useCreateApiInstance();
@@ -21,7 +20,13 @@ export const useImageUploader = () => {
   const uploadImage = async (file: File) => {
     const formData = new FormData();
     formData.append("profile_picture", file);
-
+    setNewPhotoState((prev) => ({
+      ...prev,
+      controller: {
+        ...prev.controller,
+        isLoadingUpdatePhoto: true,
+      },
+    }));
     try {
       const response = await api.patch(`/user/${user.id}`, formData, {
         headers: {
@@ -36,6 +41,14 @@ export const useImageUploader = () => {
     } catch (error) {
       console.error("Upload failed:", error);
       errorSonner("Erro ao atualizar a foto de perfil");
+    } finally {
+      setNewPhotoState((prev) => ({
+        ...prev,
+        controller: {
+          ...prev.controller,
+          isLoadingUpdatePhoto: false,
+        },
+      }));
     }
   };
 
@@ -67,7 +80,6 @@ export const useImageUploader = () => {
   };
 
   const resetImage = () => {
-    setUploadProgress(null);
     setImagePreview(null);
   };
 
@@ -77,7 +89,6 @@ export const useImageUploader = () => {
 
   return {
     imagePreview,
-    uploadProgress,
     handleFileChange,
     resetImage,
     uploadImage,

@@ -25,12 +25,10 @@ const Withdraw = () => {
   const { controller } = useRecoilValue(withdrawState);
   const { loading } = controller;
   const [value, setValue] = useState(0);
-  const { brlBalance, btcBalance } = user;
+  const { brlBalance } = user;
   const [invoice, setInvoice] = useState("");
   const [selectedKey, setSelectedKey] = useState("cpf");
   const { withdrawBTC } = useWithdrawBtcUseCase();
-  console.log("BRL Balance", brlBalance);
-  console.log("BTC Balance", btcBalance);
   return (
     <div className="h-full w-full flex flex-col ">
       <div className="max-w-3xl w-full  mt-4">

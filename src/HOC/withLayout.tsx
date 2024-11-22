@@ -7,7 +7,6 @@ export function withLayout<P extends object>(
   title?: string
 ) {
   return function Layout(props: P) {
-    console.log("Props", props);
     useEffect(() => {
       setDocumentTitle(title || "LiveTip");
     }, []);

@@ -21,7 +21,6 @@ const MessagesReceived = () => {
     loadMessages();
   }, []);
 
-  console.log(messages);
   return (
     <div>
       <div className="flex items-center justify-end mb-4">

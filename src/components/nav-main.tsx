@@ -34,8 +34,6 @@ import {
 export function NavMain() {
   const menuItems = useRecoilValue(filteredMenuState);
   const { state } = useSidebar();
-
-  console.log(state);
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Menu</SidebarGroupLabel>

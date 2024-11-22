@@ -28,15 +28,12 @@ const PaymentStep = () => {
     });
 
     socket.on("reconnect", () => {
-      console.log("Reconexão bem-sucedida ao WebSocket");
-
       socket.emit("join_room", {
         room: `payment-confirmation-${content.sender}`,
       });
     });
 
     socket.on("message", () => {
-      console.log("Payment success");
       setPaymentDonateState((prev: IPaymentDonateState) => ({
         ...prev,
         content: {
