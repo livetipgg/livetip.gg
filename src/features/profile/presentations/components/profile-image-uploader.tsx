@@ -70,7 +70,7 @@ const ProfileImageUploader: React.FC = () => {
               ref={inputFileRef}
               onChange={onFileChange}
               className="hidden"
-              accept="image/*"
+              accept="image/png, image/jpeg, image/jpg"
             />
           </div>
         </AlertDialogHeader>

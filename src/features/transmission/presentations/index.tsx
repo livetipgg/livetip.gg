@@ -359,7 +359,6 @@ const TransmissionPage = () => {
                       }  mt-2`}
                     >
                       <div className="p-2 flex gap-2 h-auto items-start whitespace-normal max-w-full">
-                        {/* Horário */}
                         <span className="text-muted-foreground text-sm">
                           {format(message.timestamp, "HH:mm")}
                         </span>
