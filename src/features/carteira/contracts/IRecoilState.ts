@@ -29,6 +29,7 @@ export interface IPaymentDonateState {
     id: number;
     username: string;
     email: string;
+    photoURL: string;
     isDeleted: boolean;
     btcBalance: string;
     brlBalance: string;

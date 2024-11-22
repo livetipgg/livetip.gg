@@ -55,6 +55,7 @@ export const paymentDonateState = atom<IPaymentDonateState>({
       email: "",
       isDeleted: false,
       btcBalance: "",
+      photoURL: "",
       brlBalance: "",
     },
 
