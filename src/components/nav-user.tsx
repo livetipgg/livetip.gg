@@ -39,7 +39,7 @@ export function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
-                  src={user.avatar_url}
+                  src={user.photoUrl}
                   alt={user.username}
                   className="object-cover"
                 />
@@ -64,7 +64,7 @@ export function NavUser() {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
-                    src={user.avatar_url}
+                    src={user.photoUrl}
                     alt={user.username}
                     className="object-cover"
                   />

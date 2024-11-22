@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import createApiInstance from "@/config/api";
 import { authState } from "@/features/auth/states/atoms";
-import { useAuthLogoutUseCase } from "@/features/auth/useCases/useAuthLogoutUseCase";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import { useRecoilState } from "recoil";
 import { profileState } from "../states/atoms";
 import { IUpdateProfilePayload } from "../contracts/IRecoilState";
+import { useProfileGetUserInfoUseCase } from "./useProfileGetUserInfoUseCase";
 
 export const useUpdateProfileAccount = () => {
   const api = createApiInstance();
   const [auth] = useRecoilState(authState);
   const [, setProfileState] = useRecoilState(profileState);
 
-  const { handleLogout } = useAuthLogoutUseCase();
+  const { getUserInfo } = useProfileGetUserInfoUseCase();
 
-  const { successSonner } = useCustomSonner();
+  const { successSonner, errorSonner } = useCustomSonner();
 
   const { user } = auth;
 
@@ -29,15 +29,14 @@ export const useUpdateProfileAccount = () => {
     try {
       const response = await api.patch(`/user/update/${user.id}`, payload);
 
-      successSonner(
-        "Perfil atualizado com sucesso! Faça login novamente para ver as alterações."
-      );
+      successSonner("Perfil atualizado com sucesso!");
 
-      handleLogout();
+      getUserInfo();
 
       return response;
     } catch (error: any) {
-      console.error("error", error.response.data.message);
+      console.error("error", error.response);
+      errorSonner("Erro ao atualizar o perfil: " + error.response.data);
     } finally {
       setProfileState((prev) => ({
         ...prev,

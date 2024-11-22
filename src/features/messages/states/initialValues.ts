@@ -18,5 +18,5 @@ export const initialAuthUser: IAuthUserState = {
   email: "",
   is_deleted: false,
   token: "",
-  avatar_url: "",
+  photoUrl: "",
 };

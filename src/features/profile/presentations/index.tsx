@@ -49,6 +49,8 @@ const Profile = () => {
     await updateProfile(values);
   }
 
+  console.log("User photo", user.photoUrl);
+
   return (
     <div className="max-w-xl ">
       {/* Dados do perfil */}
@@ -61,7 +63,7 @@ const Profile = () => {
             </div>
             <div className="flex items-center justify-between">
               <Avatar className="cursor-pointer w-28 h-28 ">
-                <AvatarImage src={user?.avatar_url} className="object-cover" />
+                <AvatarImage src={user?.photoUrl} className="object-cover" />
                 <AvatarFallback>
                   <UserRound className="h-8 w-8 text-muted-foreground" />
                 </AvatarFallback>
