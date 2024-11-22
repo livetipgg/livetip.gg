@@ -8,7 +8,7 @@ import { withLayout } from "@/HOC/withLayout";
 import { useProfileCancelAccount } from "../useCases/useProfileCancelAccount";
 import { useRecoilValue } from "recoil";
 import { profileState } from "../states/atoms";
-import { Copy, LoaderCircle, UserRound } from "lucide-react";
+import { Copy, LoaderCircle, UserRound, X } from "lucide-react";
 import { authState } from "@/features/auth/states/atoms";
 import { useNavigate } from "react-router-dom";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
@@ -24,6 +24,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useUpdateProfileAccount } from "../useCases/useUpdateProfileUseCase";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 //  test
 const Profile = () => {
   const { user } = useRecoilValue(authState);
@@ -71,7 +77,26 @@ const Profile = () => {
                     <LoaderCircle className="w-5 h-5 animate-spin" />
                   </div>
                 )}
-                <AvatarImage src={user?.photoUrl} className="object-cover" />
+                <Dialog>
+                  <DialogTrigger>
+                    <AvatarImage
+                      src={user?.photoUrl}
+                      className="object-cover"
+                    />
+                  </DialogTrigger>
+                  <DialogContent className="p-0 w-fit">
+                    <div className="relative  ">
+                      <DialogClose className="absolute right-3 top-3">
+                        <X className="w-6 h-6 " />
+                      </DialogClose>
+                      <img
+                        src={user?.photoUrl}
+                        alt="Foto de perfil"
+                        className="w-[200px] h-[200px] object-cover"
+                      />
+                    </div>
+                  </DialogContent>
+                </Dialog>
                 <AvatarFallback>
                   <UserRound className="h-8 w-8 text-muted-foreground" />
                 </AvatarFallback>
