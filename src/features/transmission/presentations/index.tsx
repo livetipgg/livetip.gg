@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import {
+  BadgeCheck,
   Copy,
   ExternalLink,
   MailCheck,
@@ -146,9 +147,14 @@ const TransmissionPage = () => {
                   </AvatarFallback>
                 </Avatar>
               </div>
-              <div className="flex flex-col  w-full md:w-fit text-center">
-                <strong className="text-xl bg-background px-4 py-2 rounded-md shadow-sm">
+              <div className="flex  w-full md:w-fit text-center">
+                <strong className="text-xl bg-background flex items-center px-4 py-2 rounded-md shadow-sm">
                   {user.username}
+                  <BadgeCheck
+                    className="w-4 h-4 ml-2"
+                    fill={"#277BB8"}
+                    color="white"
+                  />
                 </strong>
               </div>
             </div>
