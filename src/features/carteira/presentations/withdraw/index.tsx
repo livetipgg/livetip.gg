@@ -33,10 +33,14 @@ const Withdraw = () => {
     <div className="h-full w-full flex flex-col ">
       <div className="max-w-3xl w-full  mt-4">
         <div className="border p-5 bg-card-custom rounded-lg">
-          <Tabs defaultValue="pix" className="w-[400px]">
+          <Tabs defaultValue="satoshi" className="w-[400px]">
             <TabsList className="mb-5">
               <div className="flex items-center gap-2 ">
-                <TabsTrigger value="pix" className="flex items-center gap-2">
+                <TabsTrigger
+                  value="pix"
+                  className="flex items-center gap-2"
+                  disabled
+                >
                   <PaymentIcon currency="BRL" className="w-4" />
                   Pix
                 </TabsTrigger>
