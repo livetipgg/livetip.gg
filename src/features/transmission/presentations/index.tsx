@@ -307,9 +307,17 @@ const TransmissionPage = () => {
                                   <ExternalLink className="w-4   h-full" />
                                 </Button>
                               </AlertDialogTrigger>
-                              <AlertDialogContent>
+                              <AlertDialogContent
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  maxWidth: "800px",
+                                  maxHeight: "500px",
+
+                                  minWidth: "300px",
+                                }}
+                              >
                                 <div>
-                                  {" "}
                                   <div className="flex items-center ">
                                     <div
                                       className={`${
@@ -343,7 +351,7 @@ const TransmissionPage = () => {
                                     </div>
                                   </div>
                                 </div>
-                                <p className="break-words max-w-full overflow-auto text-lg">
+                                <p className="break-words max-w-full overflow-auto text-4xl">
                                   {message.content}
                                 </p>
                                 <AlertDialogFooter>
