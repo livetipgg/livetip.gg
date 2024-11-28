@@ -26,6 +26,7 @@ const BalanceItem: React.FC<{
   unit,
   customLogo,
 }) => {
+  console.log("Balance: ", balance);
   return (
     <div className="flex items-center gap-2 border border-input rounded-lg pe-2">
       <div className="bg-background p-2 rounded-lg">
@@ -98,7 +99,7 @@ export const BalancePreview: React.FC = () => {
       <BalanceItem
         logo={bitcoinLogo}
         altText="bitcoin"
-        balance={parseFloat(btcBalance).toFixed(0)}
+        balance={btcBalance ? parseFloat(btcBalance).toFixed(0) : 0}
         isLoading={isLoading}
         showCurrentBalance={showCurrentBalance}
         unit=" SATS"
