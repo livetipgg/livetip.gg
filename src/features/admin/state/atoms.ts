@@ -6,7 +6,10 @@ export const adminState = atom<IAdminState>({
   default: {
     controller: {
       isLoadingCreateUser: false,
+      isLoadingGetAllUsers: false,
+      isLoadingVirtualWithdraw: false,
       errorCreateUser: "",
     },
+    users: [],
   },
 });
