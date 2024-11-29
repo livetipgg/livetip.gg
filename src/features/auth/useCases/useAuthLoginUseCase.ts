@@ -24,6 +24,7 @@ export const useAuthLoginUseCase = () => {
         isAuthenticated: true,
         error: "",
       }));
+
       setAuth((prev) => ({
         ...prev,
 

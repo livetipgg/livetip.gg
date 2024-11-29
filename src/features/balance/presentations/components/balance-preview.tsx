@@ -76,7 +76,8 @@ export const BalancePreview: React.FC = () => {
   const { setShowCurrentBalance } = useSetShowCurrentBalanceUseCase();
   const { user } = useRecoilValue(authState);
   const { brlBalance, btcBalance } = user;
-
+  console.log("User: ", user);
+  console.log("BTC Balance: ", brlBalance);
   return (
     <div className="flex gap-2 flex-col items-stretch w-full mb-4">
       <div className="flex items-center justify-end">
@@ -99,7 +100,7 @@ export const BalancePreview: React.FC = () => {
       <BalanceItem
         logo={bitcoinLogo}
         altText="bitcoin"
-        balance={btcBalance ? parseFloat(btcBalance).toFixed(0) : 0}
+        balance={parseFloat(btcBalance).toFixed(0)}
         isLoading={isLoading}
         showCurrentBalance={showCurrentBalance}
         unit=" SATS"
