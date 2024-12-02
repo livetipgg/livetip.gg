@@ -19,4 +19,10 @@ export const initialAuthUser: IAuthUserState = {
   is_deleted: false,
   token: "",
   photoUrl: "",
+  instagramUsername: "",
+  facebookUsername: "",
+  nostrUsername: "",
+  telegramUsername: "",
+  whatsappUsername: "",
+  xUsername: "",
 };

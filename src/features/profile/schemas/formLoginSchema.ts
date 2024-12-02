@@ -7,6 +7,7 @@ export const formUpdateProfileSchema = z.object({
       message: "O username deve ter pelo menos 3 caracteres",
     })
     .optional(),
+  email: z.string().email({ message: "O email é inválido" }).optional(),
   xUsername: z.string().optional(),
   instagramUsername: z.string().optional(),
   facebookUsername: z.string().optional(),

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { authController, authState } from "../states/atoms";
 import { useRecoilState } from "recoil";
-import { GET_USER } from "@/helpers/apiUrls";
 import useCreateApiInstance from "@/config/api";
 
 export const useAuthGetUserUseCase = () => {
@@ -15,19 +14,27 @@ export const useAuthGetUserUseCase = () => {
       error: "",
     }));
     try {
-      const response = await api.post(GET_USER, id);
+      const response = await api.get(`/user/${id}`);
       setAuthController((prev: any) => ({
         ...prev,
         isLoading: false,
         isAuthenticated: true,
         error: "",
       }));
-
+      console.log("response", response);
       setAuth((prev) => ({
         ...prev,
         user: {
           ...prev.user,
-          ...response.data.user,
+          email: response.data.email,
+          instagramUsername: response.data.instagramUsername,
+          facebookUsername: response.data.facebookUsername,
+          nostrUsername: response.data.nostrUsername,
+          photoUrl: response.data.photoUrl,
+          telegramUsername: response.data.telegramUsername,
+          whatsappUsername: response.data.whatsappUsername,
+          xUsername: response.data.xUsername,
+          username: response.data.username,
         },
       }));
     } catch (error: any) {

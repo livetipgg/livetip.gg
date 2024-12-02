@@ -32,6 +32,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import SocialInputField from "./components/social-input-field";
+import { useEffect } from "react";
+import { useAuthGetUserUseCase } from "@/features/auth/useCases/useAuthGetUserUseCase";
 //  test
 const Profile = () => {
   const { user } = useRecoilValue(authState);
@@ -44,24 +46,44 @@ const Profile = () => {
   } = controller;
   const { successSonner } = useCustomSonner();
   const { updateProfile } = useUpdateProfileAccount();
+  const { fetchGetUser } = useAuthGetUserUseCase();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchGetUser(user.id);
+  }, []);
 
   const url = import.meta.env.PROD
     ? import.meta.env.VITE_PRODUCTION_URL
     : import.meta.env.VITE_DEVELOPMENT_URL;
-
   const form = useForm<z.infer<typeof formUpdateProfileSchema>>({
     resolver: zodResolver(formUpdateProfileSchema),
     defaultValues: {
-      username: user?.username,
-      facebookUsername: user?.facebookUsername || "",
-      instagramUsername: user?.instagramUsername || "",
-      nostrUsername: user?.nostrUsername || "",
-      telegramUsername: user?.telegramUsername || "",
-      whatsappUsername: user?.whatsappUsername || "",
-      xUsername: user?.xUsername || "",
+      username: user.username,
+      email: user.email || "",
+      facebookUsername: user.facebookUsername || "",
+      instagramUsername: user.instagramUsername || "",
+      nostrUsername: user.nostrUsername || "",
+      telegramUsername: user.telegramUsername || "",
+      whatsappUsername: user.whatsappUsername || "",
+      xUsername: user.xUsername || "",
     },
   });
+
+  console.log("User", user);
+  useEffect(() => {
+    form.reset({
+      username: user.username,
+      email: user.email || "",
+      facebookUsername: user.facebookUsername || "",
+      instagramUsername: user.instagramUsername || "",
+      nostrUsername: user.nostrUsername || "",
+      telegramUsername: user.telegramUsername || "",
+      whatsappUsername: user.whatsappUsername || "",
+      xUsername: user.xUsername || "",
+    });
+  }, [user]);
+
   const saveDisabled = form.formState.isSubmitting || !form.formState.isDirty;
   async function onSubmit(values: z.infer<typeof formUpdateProfileSchema>) {
     // pega só o campo que mudou de valor
@@ -132,6 +154,24 @@ const Profile = () => {
               </div>
               <FormField
                 name="username"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className="p-5 rounded-lg bg-background shadow-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center justify-between pt-4">
+                <Label htmlFor="">E-Mail</Label>
+              </div>
+              <FormField
+                name="email"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>

@@ -36,10 +36,15 @@ export const CreateUserDialog = () => {
 
   async function onSubmit(values: z.infer<typeof formAdminCreateUserSchema>) {
     try {
-      createUser(values.username, values.password, () => {
-        setDialogOpen(false);
-        form.reset();
-      });
+      createUser(
+        values.username,
+        values.password,
+        () => {
+          setDialogOpen(false);
+          form.reset();
+        },
+        values.password
+      );
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
     }

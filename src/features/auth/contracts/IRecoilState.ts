@@ -15,12 +15,12 @@ export interface IAuthUserState {
   token: string;
   photoUrl: string;
 
-  instagramUsername?: string;
-  facebookUsername?: string;
-  nostrUsername?: string;
-  telegramUsername?: string;
-  whatsappUsername?: string;
-  xUsername?: string;
+  instagramUsername: string;
+  facebookUsername: string;
+  nostrUsername: string;
+  telegramUsername: string;
+  whatsappUsername: string;
+  xUsername: string;
 }
 
 export interface IAuthState {

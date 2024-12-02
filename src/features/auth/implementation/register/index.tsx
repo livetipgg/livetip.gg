@@ -28,6 +28,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { formRegisterSchema } from "../../schemas/formRegisterSchema";
 import { useAdminCreateUserUseCase } from "@/features/admin/useCases/useAdminCreateUserUseCase";
 import { adminState } from "@/features/admin/state/atoms";
+import { useAuthLogoutUseCase } from "../../useCases/useAuthLogoutUseCase";
 
 const RegisterPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -36,6 +37,7 @@ const RegisterPage: React.FC = () => {
   const { controller } = useRecoilValue(adminState);
   const { isLoadingCreateUser, errorCreateUser } = controller;
   const { createUser } = useAdminCreateUserUseCase();
+  const { handleLogout } = useAuthLogoutUseCase();
   const form = useForm<z.infer<typeof formRegisterSchema>>({
     resolver: zodResolver(formRegisterSchema),
     defaultValues: {
@@ -53,6 +55,7 @@ const RegisterPage: React.FC = () => {
       values.username,
       values.password,
       () => {
+        handleLogout();
         navigate("/");
       },
       values.confirmPassword,
