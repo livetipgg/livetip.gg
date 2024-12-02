@@ -161,7 +161,7 @@ const RegisterPage: React.FC = () => {
                           <Input
                             {...field}
                             type={showConfirmPassword ? "text" : "password"}
-                            placeholder="Informe sua senha"
+                            placeholder="Confirme sua senha"
                             className="p-5 rounded-xl shadow-none bg-card-custom"
                             onKeyDown={(e) => {
                               if (e.key === "Enter") {
