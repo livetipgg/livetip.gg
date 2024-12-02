@@ -41,13 +41,21 @@ export const useLoadPaymentsUseCase = () => {
         }));
       }
 
-      const response = await api.get(`${PAYMENT}/${user.id}`, {
-        params: {
-          ...paymentParams,
-          limit: params?.limit || paymentParams.limit || 10,
-          page: params?.page || paymentParams.page,
-        },
-      });
+      // TODO: Essa merda n pode ficar assim mas por enquanto vai
+      const isAdmin = user.id === 3;
+
+      const response = await api.get(
+        `${!isAdmin ? "/user/payment" : "/payment"}${
+          !isAdmin ? "/" + user.id : ""
+        }`,
+        {
+          params: {
+            ...paymentParams,
+            limit: params?.limit || paymentParams.limit || 10,
+            page: params?.page || paymentParams.page,
+          },
+        }
+      );
       setPaymentState((prevState: IPaymentState) => ({
         ...prevState,
         payments: response.data,
