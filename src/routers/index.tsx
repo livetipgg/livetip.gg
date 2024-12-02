@@ -10,6 +10,7 @@ import TransmissionPage from "@/features/transmission/presentations";
 import { TransactionsHistoryPage } from "@/features/carteira/presentations/history";
 import UserMessagePage from "@/features/carteira/presentations/donate";
 import AdminPage from "@/features/admin/presentations";
+import RegisterPage from "@/features/auth/implementation/register";
 
 export const routers = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ export const routers = createBrowserRouter([
       {
         index: true,
         Component: LoginPage,
+      },
+      {
+        path: routes["Register"].path,
+        Component: RegisterPage,
       },
       {
         path: routes["Dashboard"].path,

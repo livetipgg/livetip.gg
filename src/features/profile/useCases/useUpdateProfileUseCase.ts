@@ -18,7 +18,7 @@ export const useUpdateProfileAccount = () => {
 
   const { user } = auth;
 
-  const updateProfile = async (payload: IUpdateProfilePayload) => {
+  const updateProfile = async (payload: Partial<IUpdateProfilePayload>) => {
     setProfileState((prev) => ({
       ...prev,
       controller: {
@@ -26,13 +26,17 @@ export const useUpdateProfileAccount = () => {
         isLoadingUpdateProfile: true,
       },
     }));
+
     try {
       const formData = new FormData();
 
       if (payload.photoUrl) {
         formData.append("photo", payload.photoUrl);
       }
-      formData.append("body", JSON.stringify(payload));
+
+      if (Object.keys(payload).length > 0) {
+        formData.append("body", JSON.stringify(payload));
+      }
 
       await api.patch(`/user/${user.id}`, formData, {
         headers: {
@@ -41,7 +45,6 @@ export const useUpdateProfileAccount = () => {
       });
 
       successSonner("Perfil atualizado com sucesso!");
-
       getUserInfo();
     } catch (error: any) {
       console.error("error", error.response);

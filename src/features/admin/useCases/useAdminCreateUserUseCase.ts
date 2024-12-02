@@ -10,8 +10,17 @@ export const useAdminCreateUserUseCase = () => {
   const createUser = async (
     username: string,
     password: string,
-    onSuccess: () => void
+    onSuccess: () => void,
+    confirmPassword?: string,
+    email?: string
   ) => {
+    if (password !== confirmPassword) {
+      console.log("Password", password);
+      console.log("confirmPassword", confirmPassword);
+      errorSonner("As senhas não coincidem");
+      return;
+    }
+
     setAdminState((old) => ({
       ...old,
       controller: {
@@ -22,7 +31,7 @@ export const useAdminCreateUserUseCase = () => {
     }));
 
     try {
-      const response = await api.post("/user", { username, password });
+      const response = await api.post("/user", { username, password, email });
 
       successSonner(`Usuário ${username} criado com sucesso!`);
       onSuccess();
@@ -34,7 +43,7 @@ export const useAdminCreateUserUseCase = () => {
         controller: {
           ...old.controller,
           isLoadingCreateUser: false,
-          errorCreateUser: error.message,
+          errorCreateUser: error.response.data.message,
         },
       }));
     } finally {

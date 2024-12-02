@@ -12,6 +12,11 @@ export const routes: RoutesProps = {
     label: "Login",
     name: "login",
   },
+  Register: {
+    path: "/cadastro",
+    label: "Cadastro",
+    name: "cadastro",
+  },
   Dashboard: {
     path: "/inicio",
     label: "Início",

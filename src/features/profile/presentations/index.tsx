@@ -16,6 +16,7 @@ import ProfileImageUploader from "./components/profile-image-uploader";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import nostrLogo from "@/assets/nostr.png";
 import { formUpdateProfileSchema } from "../schemas/formLoginSchema";
 import {
   FormControl,
@@ -30,6 +31,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import SocialInputField from "./components/social-input-field";
 //  test
 const Profile = () => {
   const { user } = useRecoilValue(authState);
@@ -52,20 +54,37 @@ const Profile = () => {
     resolver: zodResolver(formUpdateProfileSchema),
     defaultValues: {
       username: user?.username,
+      facebookUsername: user?.facebookUsername || "",
+      instagramUsername: user?.instagramUsername || "",
+      nostrUsername: user?.nostrUsername || "",
+      telegramUsername: user?.telegramUsername || "",
+      whatsappUsername: user?.whatsappUsername || "",
+      xUsername: user?.xUsername || "",
     },
   });
-
+  const saveDisabled = form.formState.isSubmitting || !form.formState.isDirty;
   async function onSubmit(values: z.infer<typeof formUpdateProfileSchema>) {
-    await updateProfile(values);
+    // pega só o campo que mudou de valor
+    const payload = Object.keys(values).reduce((acc, key) => {
+      if (values[key] !== user[key]) {
+        acc[key] = values[key];
+      }
+      return acc;
+    }, {} as z.infer<typeof formUpdateProfileSchema>);
+
+    if (Object.keys(payload).length === 0) {
+      return;
+    }
+
+    await updateProfile(payload);
   }
 
   console.log("Loading", isLoadingUpdatePhoto);
   return (
     <div className="max-w-xl ">
       {/* Dados do perfil */}
-      <SectionCard className="mb-5">
-        <strong>Dados do perfil</strong>
-        <div className="flex flex-col space-y-10 my-10">
+      <SectionCard title="Dados do perfil" className="mb-5">
+        <div className="flex flex-col space-y-10 ">
           <div className="flex flex-col space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="">Foto de perfil</Label>
@@ -126,42 +145,139 @@ const Profile = () => {
                   </FormItem>
                 )}
               />
+              <div className="flex items-center justify-between  pt-5">
+                <Label htmlFor="">Redes Sociais</Label>
+              </div>
+              <FormField
+                name="facebookUsername"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <SocialInputField
+                        iconUrl="facebook"
+                        inputProps={{
+                          placeholder: "Nome de usuário do Facebook",
+                          value: field.value,
+                          onChange: field.onChange,
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="xUsername"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <SocialInputField
+                        iconUrl="x"
+                        inputProps={{
+                          placeholder: "Nome de usuário do X",
+                          value: field.value,
+                          onChange: field.onChange,
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="instagramUsername"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <SocialInputField
+                        iconUrl="instagram"
+                        inputProps={{
+                          placeholder: "Nome de usuário do Instagram",
+                          value: field.value,
+                          onChange: field.onChange,
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="nostrUsername"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <SocialInputField
+                        iconComponent={
+                          <img
+                            src={nostrLogo}
+                            alt={`nostr icon`}
+                            className="w-5 h-5"
+                          />
+                        }
+                        iconUrl="nostr"
+                        inputProps={{
+                          placeholder: "Nome de usuário do Nostr",
+                          value: field.value,
+                          onChange: field.onChange,
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="telegramUsername"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <SocialInputField
+                        iconUrl="telegram"
+                        inputProps={{
+                          placeholder: "Nome de usuário do Telegram",
+                          value: field.value,
+                          onChange: field.onChange,
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="whatsappUsername"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <SocialInputField
+                        iconUrl="whatsapp"
+                        inputProps={{
+                          placeholder: "Nome de usuário do Whatsapp",
+                          value: field.value,
+                          onChange: field.onChange,
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </FormProvider>
           </div>
-          {/* {user && user.email && (
-            <div className="flex flex-col space-y-2">
-              <Label htmlFor="">Email</Label>
-              <Input value={user.email} className="p-5 rounded-lg" />
-            </div>
-          )} */}
-          {/* <div className="flex flex-col space-y-2">
-            <Label htmlFor="">Redes Sociais</Label>
-            <div className="flex items-center gap-2 border rounded-md p-2">
-              <Youtube className="w-6 h-6" />
-              <span className="text-secondary ">
-                wwww.youtube.com/{user.username}
-              </span>
-            </div>
-            <div className="flex items-center gap-2 border rounded-md p-2">
-              <InstagramLogoIcon className="w-6 h-6" />
-              <span className="text-secondary ">
-                wwww.instagram.com/{user.username}
-              </span>
-            </div>
-            <div className="flex items-center justify-end">
-              <Button className="w-fit flex " variant="secondary">
-                <Plus className="w-4 h-4 mr-2" />
-                Adicionar
-              </Button>
-            </div>
-          </div> */}
         </div>
         <div className="flex items-center justify-end gap-2">
           <Button
-            className="w-fit flex "
+            className="w-fit flex mt-4"
             variant="default"
             // Só habilita se tiver mudanças no estado
-            disabled={isLoadingUpdateProfile}
+            disabled={saveDisabled}
             onClick={form.handleSubmit(onSubmit)}
           >
             {isLoadingUpdateProfile ? (
@@ -172,9 +288,8 @@ const Profile = () => {
           </Button>
         </div>
       </SectionCard>
-      <SectionCard className="mb-5">
-        <strong>Link público</strong>
-        <div className="flex flex-col  mt-4">
+      <SectionCard className="mb-5" title="Link público">
+        <div className="flex flex-col ">
           <div className="max-w-fit bg-background shadow-sm">
             <div className="border rounded flex items-center ">
               <Button
@@ -205,8 +320,7 @@ const Profile = () => {
         </div>
       </SectionCard>
       {/* Encerrar conta */}
-      <SectionCard>
-        <strong>Encerrar conta</strong>
+      <SectionCard title="Encerrar conta">
         <span className="my-10 text-muted-foreground">
           Ao encerrar sua conta, você perderá todos os seus dados e não poderá
           mais acessar a plataforma.

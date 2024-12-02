@@ -14,6 +14,13 @@ export interface IAuthUserState {
   is_deleted: boolean;
   token: string;
   photoUrl: string;
+
+  instagramUsername?: string;
+  facebookUsername?: string;
+  nostrUsername?: string;
+  telegramUsername?: string;
+  whatsappUsername?: string;
+  xUsername?: string;
 }
 
 export interface IAuthState {

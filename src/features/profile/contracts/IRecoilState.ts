@@ -2,6 +2,12 @@ export interface IUpdateProfilePayload {
   username?: string;
   password?: string;
   photoUrl?: File;
+  xUsername?: string;
+  instagramUsername?: string;
+  facebookUsername?: string;
+  nostrUsername?: string;
+  telegramUsername?: string;
+  whatsappUsername?: string;
 }
 
 export interface IControllerProfileState {
