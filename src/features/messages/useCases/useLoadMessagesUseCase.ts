@@ -71,9 +71,14 @@ export const useLoadMessagesUseCase = () => {
         queryParams.query = params.query;
       }
 
-      const response = await api.get(`${MESSAGE}/${user.id}`, {
-        params: queryParams,
-      });
+      const isAdmin = user.id === 3;
+
+      const response = await api.get(
+        `${MESSAGE}${!isAdmin ? "/" + user.id : ""}`,
+        {
+          params: queryParams,
+        }
+      );
 
       setMessageState((prevState: IMessageState) => ({
         ...prevState,
