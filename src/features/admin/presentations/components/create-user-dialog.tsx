@@ -102,7 +102,10 @@ export const CreateUserDialog = () => {
             {errorCreateUser && <ErrorAlert error={errorCreateUser} />}
             <AlertDialogFooter className="mt-4">
               <AlertDialogCancel>Cancelar</AlertDialogCancel>
-              <AlertDialogAction type="submit" disabled={isLoadingCreateUser}>
+              <AlertDialogAction
+                type="submit"
+                disabled={isLoadingCreateUser || !form.formState.isValid}
+              >
                 {isLoadingCreateUser ? "Criando..." : "Criar"}
               </AlertDialogAction>
             </AlertDialogFooter>
