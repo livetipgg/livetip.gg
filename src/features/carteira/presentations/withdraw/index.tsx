@@ -179,15 +179,7 @@ const Withdraw = () => {
                 </span>
                 <div className="mt-10">
                   <Label>Informe o invoice criado</Label>
-                  <div className="flex items-center gap-2">
-                    <Textarea
-                      ref={textareaRef}
-                      className="p-5 rounded-xl shadow-none bg-background w-full overflow-hidden resize-none"
-                      value={invoice}
-                      onChange={handleInputChange}
-                      placeholder="Digite o invoice"
-                    />
-                    {/* Paste button */}
+                  <div className="flex justify-end gap-2 flex-wrap">
                     <Button
                       className="flex items-center gap-2"
                       variant="outline"
@@ -200,6 +192,14 @@ const Withdraw = () => {
                       <ClipboardPaste size={16} />
                       Colar
                     </Button>
+                    <Textarea
+                      ref={textareaRef}
+                      className="p-5 rounded-xl shadow-none bg-background w-full overflow-hidden resize-none"
+                      value={invoice}
+                      onChange={handleInputChange}
+                      placeholder="Digite o invoice"
+                    />
+                    {/* Paste button */}
                   </div>
                 </div>
               </div>
