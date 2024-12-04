@@ -193,7 +193,7 @@ const Withdraw = () => {
                       variant="outline"
                       onClick={() => {
                         navigator.clipboard.readText().then((text) => {
-                          setInvoice(text);
+                          handleInputChange({ target: { value: text } });
                         });
                       }}
                     >
