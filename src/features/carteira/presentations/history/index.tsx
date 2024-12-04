@@ -15,8 +15,10 @@ import { formatPayment } from "@/helpers/formatPayment";
 import DateFilter from "@/features/messages/presentations/components/messages-received/date-filter";
 import { NoContent } from "@/components/no-content";
 import PaginationComponent from "@/components/pagination";
+import { authState } from "@/features/auth/states/atoms";
 
 const TransactionsHistory = () => {
+  const { user } = useRecoilValue(authState);
   const setPaymentState = useSetRecoilState(paymentState);
   const [date, setDate] = useState<DateRange | undefined>({
     to: undefined,
@@ -66,8 +68,7 @@ const TransactionsHistory = () => {
     }));
   };
 
-  console.log("payments", payments);
-
+  const isAdmin = user.id === 3;
   return (
     <div>
       {/* Filtro de Data */}
@@ -116,10 +117,14 @@ const TransactionsHistory = () => {
           >
             <div className="flex items-start md:items-center gap-4 lg:gap-10 flex-1 flex-col md:flex-row">
               <ArrowLeftRight className="h-4 w-4" />
-              {/* Data */}
-              <span className="text-md">
-                {formatDate(payment.createdAt, "dd/MM/yyyy")}
-              </span>
+              <div className="flex flex-col">
+                {isAdmin && (
+                  <span className="font-bold">{payment.receiverName}</span>
+                )}
+                <span className="text-md">
+                  {formatDate(payment.createdAt, "dd/MM/yyyy")}
+                </span>
+              </div>
               {/* ID da transação */}
               <div className="flex items-center gap-2">
                 <Hash className="h-4 w-4" />

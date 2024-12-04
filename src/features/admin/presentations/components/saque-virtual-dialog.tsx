@@ -47,7 +47,10 @@ export const VirtualWithdrawDialog = () => {
   const { getAllUsers } = useAdminGetAllUsersUseCase();
 
   useEffect(() => {
-    getAllUsers();
+    getAllUsers({
+      limit: 100,
+      page: 1,
+    });
   }, []);
 
   const form = useForm<z.infer<typeof formAdminVirtualWithdrawSchema>>({
@@ -58,7 +61,7 @@ export const VirtualWithdrawDialog = () => {
     },
   });
 
-  const filteredUsers = users?.filter((user) =>
+  const filteredUsers = users?.results.filter((user) =>
     user.username.toLowerCase().includes(userFilter)
   );
 

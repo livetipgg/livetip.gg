@@ -57,6 +57,11 @@ export const routes: RoutesProps = {
     label: "Painel Admin",
     name: "painel-admin",
   },
+  UsersManagement: {
+    path: "/admin/usuarios",
+    label: "Gerenciar Usuários",
+    name: "gerenciar-usuarios",
+  },
 
   NotFound: {
     path: "*",

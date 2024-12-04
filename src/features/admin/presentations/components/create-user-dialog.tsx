@@ -31,7 +31,7 @@ export const CreateUserDialog = () => {
 
   const form = useForm<z.infer<typeof formAdminCreateUserSchema>>({
     resolver: zodResolver(formAdminCreateUserSchema),
-    defaultValues: { username: "", password: "" },
+    defaultValues: { username: "", password: "", email: "" },
   });
 
   async function onSubmit(values: z.infer<typeof formAdminCreateUserSchema>) {
@@ -43,7 +43,8 @@ export const CreateUserDialog = () => {
           setDialogOpen(false);
           form.reset();
         },
-        values.password
+        values.password,
+        values.email
       );
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
@@ -76,6 +77,22 @@ export const CreateUserDialog = () => {
                         {...field}
                         className="input-class"
                         placeholder="Digite o nome do usuário"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="email"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="input-class"
+                        placeholder="Digite o email do usuário"
                       />
                     </FormControl>
                     <FormMessage />

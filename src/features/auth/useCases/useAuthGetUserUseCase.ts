@@ -53,7 +53,40 @@ export const useAuthGetUserUseCase = () => {
     }
   };
 
+  const getUser = async (id: number) => {
+    setAuthController((prev: any) => ({
+      ...prev,
+      isLoading: true,
+      error: "",
+    }));
+    try {
+      const response = await api.get(`/user/${id}`);
+      setAuthController((prev: any) => ({
+        ...prev,
+        isLoading: false,
+        isAuthenticated: true,
+        error: "",
+      }));
+      console.log("response", response);
+      return response.data;
+    } catch (error: any) {
+      setAuthController((prev: any) => ({
+        ...prev,
+        error:
+          error.response.data.message ||
+          "Não foi possivel carregar os dados do usuário. Tente novamente.",
+        isLoading: false,
+      }));
+    } finally {
+      setAuthController((prev: any) => ({
+        ...prev,
+        isLoading: false,
+      }));
+    }
+  };
+
   return {
     fetchGetUser,
+    getUser,
   };
 };

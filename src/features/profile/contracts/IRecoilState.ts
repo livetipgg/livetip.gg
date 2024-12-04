@@ -3,6 +3,7 @@ export interface IUpdateProfilePayload {
   password?: string;
   photoUrl?: File;
   xUsername?: string;
+  email?: string;
   instagramUsername?: string;
   facebookUsername?: string;
   nostrUsername?: string;

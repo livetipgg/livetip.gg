@@ -16,6 +16,7 @@ export interface IPayment {
   amount: number;
   currency: "BTC" | "BRL";
   createdAt: string;
+  receiverName: string;
 }
 
 export interface IPaymentDonateState {

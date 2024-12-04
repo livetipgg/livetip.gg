@@ -61,8 +61,20 @@ export const menuState = atom<MenuItem[]>({
     {
       label: "Painel Admin",
       icon: Shield,
-      to: "/admin/painel",
+      to: "",
       role: "admin",
+      subItems: [
+        {
+          label: "Gerenciamento",
+          icon: ArrowLeftRight,
+          to: "/admin/painel",
+        },
+        {
+          label: "Gerenciar Usuários",
+          icon: ArrowLeftRight,
+          to: "/admin/usuarios",
+        },
+      ],
     },
     // {
     //   label: "Apresentação",

@@ -8,7 +8,7 @@ export const useAdminGetAllUsersUseCase = () => {
   const api = createApiInstance();
   const [, setAdminState] = useRecoilState(adminState);
 
-  const getAllUsers = async () => {
+  const getAllUsers = async (params: { limit: number; page: number }) => {
     setAdminState((prev) => ({
       ...prev,
       controller: {
@@ -17,11 +17,19 @@ export const useAdminGetAllUsersUseCase = () => {
       },
     }));
     try {
-      const response = await api.get(`/user?limit=9999`);
+      const response = await api.get(`/user`, {
+        params: {
+          limit: params.limit,
+          page: params.page,
+        },
+      });
 
       setAdminState((prev) => ({
         ...prev,
-        users: response.data,
+        users: {
+          ...prev.users,
+          results: response.data,
+        },
       }));
 
       return response.data;

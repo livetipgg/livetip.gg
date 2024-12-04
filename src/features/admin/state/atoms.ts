@@ -9,7 +9,15 @@ export const adminState = atom<IAdminState>({
       isLoadingGetAllUsers: false,
       isLoadingVirtualWithdraw: false,
       errorCreateUser: "",
+      getAllUsersParams: {
+        limit: 10,
+        page: 1,
+      },
     },
-    users: [],
+    users: {
+      results: [],
+      count: 0,
+      totalPages: 0,
+    },
   },
 });

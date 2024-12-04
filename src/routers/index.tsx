@@ -11,6 +11,7 @@ import { TransactionsHistoryPage } from "@/features/carteira/presentations/histo
 import UserMessagePage from "@/features/carteira/presentations/donate";
 import AdminPage from "@/features/admin/presentations";
 import RegisterPage from "@/features/auth/implementation/register";
+import UsersManagementPage from "@/features/admin/presentations/users-management";
 
 export const routers = createBrowserRouter([
   {
@@ -56,7 +57,10 @@ export const routers = createBrowserRouter([
         path: routes["TransactionsHistory"].path,
         Component: withAuth(TransactionsHistoryPage),
       },
-
+      {
+        path: routes["UsersManagement"].path,
+        Component: UsersManagementPage,
+      },
       {
         path: "*",
         Component: withAuth(DashboardPage),
