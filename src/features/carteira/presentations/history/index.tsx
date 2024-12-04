@@ -66,6 +66,8 @@ const TransactionsHistory = () => {
     }));
   };
 
+  console.log("payments", payments);
+
   return (
     <div>
       {/* Filtro de Data */}

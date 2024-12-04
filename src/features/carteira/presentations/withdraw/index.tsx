@@ -12,44 +12,64 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { authState } from "@/features/auth/states/atoms";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { PatternFormat } from "react-number-format";
 import { useRecoilValue } from "recoil";
-import { useWithdrawBtcUseCase } from "../../useCases/useWithdrawBtcUseCase";
 import { withdrawState } from "../../states/atoms";
-import { LoaderCircle } from "lucide-react";
+import { ClipboardPaste, LoaderCircle } from "lucide-react";
 import InputMoney from "@/components/input-currency";
+import { useWithdrawUseCase } from "../../useCases/useWithdrawBtcUseCase";
+import { Textarea } from "@/components/ui/textarea";
 
 const Withdraw = () => {
   const { user } = useRecoilValue(authState);
   const { controller } = useRecoilValue(withdrawState);
+  const [withdrawType, setWithdrawType] = useState("BTC");
+  const [pixKey, setPixKey] = useState("");
   const { loading } = controller;
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState("0");
   const { brlBalance } = user;
   const [invoice, setInvoice] = useState("");
   const [selectedKey, setSelectedKey] = useState("cpf");
-  const { withdrawBTC } = useWithdrawBtcUseCase();
+  const { withdraw } = useWithdrawUseCase();
+
+  const textareaRef = useRef(null);
+
+  const isAdmin = user.id === 3;
+  const handleInputChange = (e) => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      // Ajusta a altura para evitar acúmulo ao adicionar mais texto
+      textarea.style.height = "auto";
+      // Define a nova altura com base no conteúdo
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+    setInvoice(e.target.value);
+  };
   return (
     <div className="h-full w-full flex flex-col ">
       <div className="max-w-3xl w-full  mt-4">
         <div className="border p-5 bg-card-custom rounded-lg">
-          <Tabs defaultValue="satoshi" className="w-[400px]">
+          <Tabs defaultValue="satoshi" className="">
             <TabsList className="mb-5">
               <div className="flex items-center gap-2 ">
-                <TabsTrigger
-                  value="pix"
-                  className="flex items-center gap-2"
-                  disabled
-                >
-                  <PaymentIcon currency="BRL" className="w-4" />
-                  Pix
-                </TabsTrigger>
+                {isAdmin && (
+                  <TabsTrigger
+                    value="pix"
+                    className="flex items-center gap-2"
+                    onClick={() => setWithdrawType("BRL")}
+                  >
+                    <PaymentIcon currency="BRL" className="w-4" />
+                    Pix
+                  </TabsTrigger>
+                )}
                 <TabsTrigger
                   value="satoshi"
                   className="flex items-center gap-2"
+                  onClick={() => setWithdrawType("BTC")}
                 >
                   <PaymentIcon currency="BTC" className="w-4" />
-                  Satoshis
+                  Bitcoin
                 </TabsTrigger>
               </div>
             </TabsList>
@@ -64,16 +84,18 @@ const Withdraw = () => {
                   <Select
                     value={selectedKey}
                     defaultValue={selectedKey}
-                    onValueChange={(value) => setSelectedKey(value)}
+                    onValueChange={(value) => {
+                      setSelectedKey(value);
+                      setPixKey("");
+                    }}
                   >
                     <SelectTrigger className="p-5 rounded-xl shadow-none bg-background">
                       <SelectValue placeholder="Chave pix" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="cpf">CPF</SelectItem>
-                      <SelectItem value="cnpj">CNPJ</SelectItem>
+                      <SelectItem value="random">Chave Aleatória</SelectItem>
                       <SelectItem value="email">E-mail</SelectItem>
-                      <SelectItem value="phone">Telefone</SelectItem>
                     </SelectContent>
                   </Select>
                   <div className="mt-4">
@@ -81,9 +103,8 @@ const Withdraw = () => {
                       {
                         {
                           cpf: "CPF",
-                          cnpj: "CNPJ",
+                          random: "Chave Aleatória",
                           email: "E-mail",
-                          phone: "Telefone",
                         }[selectedKey]
                       }
                     </Label>
@@ -93,16 +114,28 @@ const Withdraw = () => {
                         format="###.###.###-##"
                         mask="_"
                         customInput={Input}
+                        value={pixKey}
+                        onChange={(e) => setPixKey(e.target.value)}
                         placeholder="Digite seu CPF"
                       />
                     )}
-                    {selectedKey === "cnpj" && (
-                      <PatternFormat
+
+                    {selectedKey === "email" && (
+                      <Input
                         className="p-5 rounded-xl shadow-none bg-background"
-                        format="##.###.###/####-##"
-                        mask="_"
-                        customInput={Input}
-                        placeholder="Digite seu CNPJ"
+                        type="email"
+                        placeholder="Digite seu e-mail"
+                        value={pixKey}
+                        onChange={(e) => setPixKey(e.target.value)}
+                      />
+                    )}
+                    {selectedKey === "random" && (
+                      <Input
+                        className="p-5 rounded-xl shadow-none bg-background"
+                        type="text"
+                        placeholder="Digite sua chave aleatória"
+                        value={pixKey}
+                        onChange={(e) => setPixKey(e.target.value)}
                       />
                     )}
                   </div>
@@ -116,10 +149,8 @@ const Withdraw = () => {
                       </div>
 
                       <InputMoney
-                        onChange={(event) =>
-                          setValue(Number(event.target.value))
-                        }
-                        value={value}
+                        onChange={(event) => setValue(event.target.value)}
+                        value={Number(value)}
                         title="Preço"
                         className=" rounded-xl shadow-none bg-none ps-1 border-none  text-sm "
                         placeholder="Preço"
@@ -139,22 +170,37 @@ const Withdraw = () => {
                 </div>
               </div>{" "}
             </TabsContent>
-            <TabsContent value="satoshi">
-              <div className="flex flex-col">
+            <TabsContent value="satoshi" className="w-full ">
+              <div className="flex flex-col w-full">
                 <strong className="text-xl">Destino do saque</strong>
-                <span className="mt-3 text-muted-foreground">
-                  Informe a invoice para transferir os satoshis.
+                <span className="mt-3 text-muted-foreground ">
+                  Informe o invoice ou a LNURL (exemplo
+                  satoshi@walletofsatoshi.com)
                 </span>
-                <div className="w-[300px] mt-10">
+                <div className="mt-10">
                   <Label>Informe o invoice criado</Label>
-
-                  <Input
-                    className="p-5 rounded-xl shadow-none bg-background"
-                    type="text"
-                    value={invoice}
-                    onChange={(e) => setInvoice(e.target.value)}
-                    placeholder="Digite o invoice"
-                  />
+                  <div className="flex items-center gap-2">
+                    <Textarea
+                      ref={textareaRef}
+                      className="p-5 rounded-xl shadow-none bg-background w-full overflow-hidden resize-none"
+                      value={invoice}
+                      onChange={handleInputChange}
+                      placeholder="Digite o invoice"
+                    />
+                    {/* Paste button */}
+                    <Button
+                      className="flex items-center gap-2"
+                      variant="outline"
+                      onClick={() => {
+                        navigator.clipboard.readText().then((text) => {
+                          setInvoice(text);
+                        });
+                      }}
+                    >
+                      <ClipboardPaste size={16} />
+                      Colar
+                    </Button>
+                  </div>
                 </div>
               </div>
             </TabsContent>
@@ -164,11 +210,22 @@ const Withdraw = () => {
         <div className="flex justify-end mt-2">
           <Button
             variant="default"
-            disabled={!invoice}
+            disabled={
+              withdrawType === "" ||
+              (withdrawType === "BRL" && (!pixKey || Number(value) <= 0)) ||
+              (withdrawType === "BTC" && invoice === "")
+            }
             onClick={() => {
-              withdrawBTC({ invoice, currency: "BTC" });
+              if (withdrawType === "BRL") {
+                withdraw({ amount: value, pixKey, currency: "BRL" });
+              }
+
+              if (withdrawType === "BTC") {
+                withdraw({ invoice, currency: "BTC" });
+              }
 
               setInvoice("");
+              setValue("0");
             }}
           >
             {loading ? (

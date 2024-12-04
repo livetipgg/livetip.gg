@@ -58,9 +58,11 @@ export interface IPaymentState {
   controller: IControllerPaymentState;
 }
 
-export interface IWithdrawBTCPayload {
-  invoice: string;
-  currency: "BTC";
+export interface IWithdrawPayload {
+  pixKey?: string;
+  amount?: string;
+  invoice?: string;
+  currency: "BTC" | "BRL";
 }
 
 export interface IWithdrawState {

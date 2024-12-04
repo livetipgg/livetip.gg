@@ -1,18 +1,27 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { IWithdrawBTCPayload } from "../contracts/IRecoilState";
 import { useGetUserBalancesUseCase } from "@/features/balance/useCases/useGetUserBalancesUseCase";
 import { withdrawState } from "../states/atoms";
 import useCreateApiInstance from "@/config/api";
 import { authState } from "@/features/auth/states/atoms";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
+import { IWithdrawPayload } from "../contracts/IRecoilState";
 
-export const useWithdrawBtcUseCase = () => {
+export const useWithdrawUseCase = () => {
   const api = useCreateApiInstance();
   const { user } = useRecoilValue(authState);
   const { loadUserBalance } = useGetUserBalancesUseCase();
   const [, setWithdrawState] = useRecoilState(withdrawState);
   const { errorSonner, successSonner } = useCustomSonner();
-  const withdrawBTC = async (payload: IWithdrawBTCPayload) => {
+  const withdraw = async (payload: IWithdrawPayload) => {
+    if (payload.pixKey) {
+      // remove / , .  - do pix key
+      payload.pixKey = payload.pixKey.replace(/[./-]/g, "");
+    }
+
+    if (payload.amount && payload.amount.startsWith("0")) {
+      payload.amount = payload.amount.slice(1);
+    }
+
     setWithdrawState((prevState) => ({
       controller: {
         ...prevState.controller,
@@ -46,5 +55,5 @@ export const useWithdrawBtcUseCase = () => {
     }
   };
 
-  return { withdrawBTC };
+  return { withdraw };
 };
