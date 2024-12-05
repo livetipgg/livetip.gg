@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { Button } from "@/components/ui/button";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -27,14 +26,16 @@ import {
 import { Plus } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 
-const form = useForm<z.infer<typeof formAdminCreateUserSchema>>({
-  resolver: zodResolver(formAdminCreateUserSchema),
-  defaultValues: { username: "", password: "", email: "" },
-});
 export const CreateUserDialog = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  const form = useForm<z.infer<typeof formAdminCreateUserSchema>>({
+    resolver: zodResolver(formAdminCreateUserSchema),
+    defaultValues: { username: "", password: "", email: "" },
+  });
+
   const mutation = useMutation({
+    mutationKey: ["admin_users"],
     mutationFn: (values: z.infer<typeof formAdminCreateUserSchema>) => {
       return createUser(
         values.username,
@@ -47,12 +48,15 @@ export const CreateUserDialog = () => {
       );
     },
   });
-  const { isPending, data } = mutation;
+  const { isPending, isError, error } = mutation;
   const { createUser } = useAdminCreateUserUseCase();
 
   async function onSubmit(values: z.infer<typeof formAdminCreateUserSchema>) {
     await mutation.mutateAsync(values);
   }
+
+  console.log("error", error);
+  console.log("isError", isError);
 
   return (
     <Sheet open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -69,8 +73,7 @@ export const CreateUserDialog = () => {
             Preencha os campos abaixo para criar um novo usuário.
           </SheetDescription>
         </SheetHeader>
-        {data && <ErrorAlert error={data.response.data.message} />}
-
+        {isError && <ErrorAlert error={error.message} />}
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="flex items-center justify-between mt-4">

@@ -43,7 +43,7 @@ export const useAdminCreateUserUseCase = () => {
           errorCreateUser: error.response.data.message,
         },
       }));
-      return error;
+      throw new Error(error.response.data.message);
     } finally {
       setAdminState((old) => ({
         ...old,
