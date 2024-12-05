@@ -41,6 +41,13 @@ export interface IMessageController {
     startDate: Date | undefined | string;
     endDate: Date | undefined | string;
   };
+
+  transmissionMessagesParams: {
+    limit: number;
+    page: number;
+    startDate: Date | undefined | string;
+    endDate: Date | undefined | string;
+  };
 }
 
 export interface IMessageState {

@@ -48,6 +48,12 @@ export const messageState = atom<IMessageState>({
         startDate: undefined,
         endDate: undefined,
       },
+      transmissionMessagesParams: {
+        limit: 10,
+        page: 1,
+        startDate: undefined,
+        endDate: undefined,
+      },
     },
   },
 });

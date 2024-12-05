@@ -35,7 +35,7 @@ export const TransmissionMessages = () => {
             <Badge variant="destructive">{unreadMessages.length}</Badge>
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="todas">
+        <TabsContent value="todas" className="pb-10">
           {!!transmissionMessages.results.length &&
             [...transmissionMessages.results]
               .sort((a, b) => Number(a.read) - Number(b.read))
@@ -46,7 +46,7 @@ export const TransmissionMessages = () => {
             <NoContent message="Nenhuma mensagem para mostrar" />
           )}
         </TabsContent>
-        <TabsContent value="lidas">
+        <TabsContent value="lidas" className="pb-10">
           {!!readMessages.length &&
             readMessages.map((message) => (
               <TransmissionMessage message={message} key={message._id} />
@@ -55,7 +55,7 @@ export const TransmissionMessages = () => {
             <NoContent message="Nenhuma mensagem lida" />
           )}
         </TabsContent>
-        <TabsContent value="nao_lidas">
+        <TabsContent value="nao_lidas" className="pb-10">
           {!!unreadMessages.length &&
             unreadMessages.map((message) => (
               <TransmissionMessage message={message} key={message._id} />
