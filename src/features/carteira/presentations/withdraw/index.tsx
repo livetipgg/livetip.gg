@@ -176,8 +176,7 @@ const Withdraw = () => {
                 <span className="mt-3 text-muted-foreground ">
                   Informe o invoice
                 </span>
-                <div className="mt-10">
-                  <Label>Informe o invoice criado</Label>
+                <div className="mt-4">
                   <div className="flex justify-end gap-2 flex-wrap">
                     <Button
                       className="flex items-center gap-2"
