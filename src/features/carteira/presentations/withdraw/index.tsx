@@ -174,8 +174,7 @@ const Withdraw = () => {
               <div className="flex flex-col w-full">
                 <strong className="text-xl">Destino do saque</strong>
                 <span className="mt-3 text-muted-foreground ">
-                  Informe o invoice ou a LNURL (exemplo
-                  satoshi@walletofsatoshi.com)
+                  Informe o invoice
                 </span>
                 <div className="mt-10">
                   <Label>Informe o invoice criado</Label>
