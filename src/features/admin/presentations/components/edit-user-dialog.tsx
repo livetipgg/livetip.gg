@@ -31,7 +31,6 @@ import { authState } from "@/features/auth/states/atoms";
 import { useRecoilValue } from "recoil";
 import { useUpdateProfileAccount } from "@/features/profile/useCases/useUpdateProfileUseCase";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
-import { adminState } from "../../state/atoms";
 import { profileState } from "@/features/profile/states/atoms";
 
 export const EditUserDialog = ({ id }: { id: number }) => {
@@ -81,6 +80,8 @@ export const EditUserDialog = ({ id }: { id: number }) => {
       }
       return acc;
     }, {} as z.infer<typeof formAdminEditUserSchema>);
+
+    console.log("Payload: " + JSON.stringify(payload));
 
     if (Object.keys(payload).length === 0) {
       successSonner("Nenhum campo foi alterado");
@@ -153,7 +154,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                 )}
               />
             </div>
-            <div className="flex items-center justify-between mt-4">
+            {/* <div className="flex items-center justify-between mt-4">
               <FormField
                 control={form.control}
                 name="photoUrl"
@@ -188,7 +189,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                   </FormItem>
                 )}
               />
-            </div>
+            </div> */}
             <div className="flex items-center flex-col mt-4">
               <FormField
                 name="facebookUsername"
@@ -244,7 +245,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                         }
                         iconUrl="nostr"
                         inputProps={{
-                          placeholder: "Nome de usuário do Nestlé",
+                          placeholder: "Nome de usuário do Nostr",
                           value: field.value,
                           onChange: field.onChange,
                         }}
