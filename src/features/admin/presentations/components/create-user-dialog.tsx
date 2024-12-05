@@ -84,15 +84,16 @@ export const CreateUserDialog = () => {
                 render={({ field }) => (
                   <FormItem className="flex w-full items-center">
                     <FormLabel className="w-1/4 text-left">Username</FormLabel>
-
-                    <FormControl className="flex-1 ml-4">
-                      <Input
-                        {...field}
-                        className="input-class"
-                        placeholder="Digite o nome do usuário"
-                      />
-                    </FormControl>
-                    <FormMessage />
+                    <div className="flex-1 flex-col ml-4">
+                      <FormControl>
+                        <Input
+                          {...field}
+                          className="input-class"
+                          placeholder="Digite o nome do usuário"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
                   </FormItem>
                 )}
               />
@@ -125,14 +126,16 @@ export const CreateUserDialog = () => {
                   <FormItem className="flex w-full items-center">
                     <FormLabel className="w-1/4 text-left">Senha</FormLabel>
 
-                    <FormControl className="flex-1 ml-4">
-                      <Input
-                        {...field}
-                        className="input-class"
-                        placeholder="Digite a senha do usuário"
-                      />
-                    </FormControl>
-                    <FormMessage />
+                    <div className="flex-1 flex-col ml-4">
+                      <FormControl>
+                        <Input
+                          {...field}
+                          className="input-class"
+                          placeholder="Digite a senha do usuário"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
                   </FormItem>
                 )}
               />
@@ -143,7 +146,7 @@ export const CreateUserDialog = () => {
           <Button
             type="button"
             onClick={form.handleSubmit(onSubmit)}
-            disabled={isLoadingCreateUser || !form.formState.isValid}
+            disabled={isLoadingCreateUser}
           >
             {isLoadingCreateUser ? "Criando..." : "Salvar"}
           </Button>
