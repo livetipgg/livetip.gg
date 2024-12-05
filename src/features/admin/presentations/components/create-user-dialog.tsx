@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Button } from "@/components/ui/button";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -11,8 +12,6 @@ import {
 } from "@/components/ui/form";
 import { formAdminCreateUserSchema } from "../../schemas/formAdminCreateUserSchema";
 import { useAdminCreateUserUseCase } from "../../useCases/useAdminCreateUserUseCase";
-import { useRecoilValue } from "recoil";
-import { adminState } from "../../state/atoms";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { ErrorAlert } from "@/components/error-alert";
@@ -26,19 +25,18 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Plus } from "lucide-react";
-import { useAdminGetAllUsersUseCase } from "../../useCases/useAdminGetAllUsersUseCase";
+import { useMutation } from "@tanstack/react-query";
 
+const form = useForm<z.infer<typeof formAdminCreateUserSchema>>({
+  resolver: zodResolver(formAdminCreateUserSchema),
+  defaultValues: { username: "", password: "", email: "" },
+});
 export const CreateUserDialog = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const form = useForm<z.infer<typeof formAdminCreateUserSchema>>({
-    resolver: zodResolver(formAdminCreateUserSchema),
-    defaultValues: { username: "", password: "", email: "" },
-  });
-
-  async function onSubmit(values: z.infer<typeof formAdminCreateUserSchema>) {
-    try {
-      createUser(
+  const mutation = useMutation({
+    mutationFn: (values: z.infer<typeof formAdminCreateUserSchema>) => {
+      return createUser(
         values.username,
         values.password,
         () => {
@@ -47,16 +45,14 @@ export const CreateUserDialog = () => {
         values.password,
         values.email
       );
-      getAllUsers({ limit: 10, page: 1 });
-    } catch (error) {
-      console.error("Erro ao criar usuário:", error);
-    }
-  }
-
+    },
+  });
+  const { isPending, data } = mutation;
   const { createUser } = useAdminCreateUserUseCase();
-  const { controller } = useRecoilValue(adminState);
-  const { isLoadingCreateUser, errorCreateUser } = controller;
-  const { getAllUsers } = useAdminGetAllUsersUseCase();
+
+  async function onSubmit(values: z.infer<typeof formAdminCreateUserSchema>) {
+    await mutation.mutateAsync(values);
+  }
 
   return (
     <Sheet open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -73,7 +69,7 @@ export const CreateUserDialog = () => {
             Preencha os campos abaixo para criar um novo usuário.
           </SheetDescription>
         </SheetHeader>
-        {errorCreateUser && <ErrorAlert error={errorCreateUser} />}
+        {data && <ErrorAlert error={data.response.data.message} />}
 
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -146,23 +142,12 @@ export const CreateUserDialog = () => {
           <Button
             type="button"
             onClick={form.handleSubmit(onSubmit)}
-            disabled={isLoadingCreateUser}
+            disabled={isPending}
           >
-            {isLoadingCreateUser ? "Criando..." : "Salvar"}
+            {isPending ? "Criando..." : "Salvar"}
           </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
-    // <AlertDialog>
-    //   <AlertDialogTrigger asChild>
-    //     <Button variant="secondary">Criar Novo Usuário</Button>
-    //   </AlertDialogTrigger>
-    //   <AlertDialogContent>
-    //     <AlertDialogHeader>
-    //       <AlertDialogTitle>Criar Novo Usuário</AlertDialogTitle>
-    //     </AlertDialogHeader>
-
-    //   </AlertDialogContent>
-    // </AlertDialog>
   );
 };

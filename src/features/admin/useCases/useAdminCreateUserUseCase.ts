@@ -35,7 +35,6 @@ export const useAdminCreateUserUseCase = () => {
       onSuccess();
       return response;
     } catch (error) {
-      errorSonner("Erro ao criar usuário");
       setAdminState((old) => ({
         ...old,
         controller: {
@@ -44,6 +43,7 @@ export const useAdminCreateUserUseCase = () => {
           errorCreateUser: error.response.data.message,
         },
       }));
+      return error;
     } finally {
       setAdminState((old) => ({
         ...old,

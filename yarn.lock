@@ -1655,6 +1655,18 @@
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.2.tgz#821f8442f4175d8f0467b9daf26e3a18e2d02af2"
   integrity sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==
 
+"@tanstack/query-core@5.62.2":
+  version "5.62.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.62.2.tgz#4eef3201422f246788fb41d01662c2dea3136d9a"
+  integrity sha512-LcwVcC5qpsDpHcqlXUUL5o9SaOBwhNkGeV+B06s0GBoyBr8FqXPuXT29XzYXR36lchhnerp6XO+CWc84/vh7Zg==
+
+"@tanstack/react-query@^5.62.2":
+  version "5.62.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.62.2.tgz#fbcb8f991ddcf484ce7968fb58bb4790d6c98cd3"
+  integrity sha512-fkTpKKfwTJtVPKVR+ag7YqFgG/7TRVVPzduPAUF9zRCiiA8Wu305u+KJl8rCrh98Qce77vzIakvtUyzWLtaPGA==
+  dependencies:
+    "@tanstack/query-core" "5.62.2"
+
 "@tanstack/react-table@^8.20.5":
   version "8.20.5"
   resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.20.5.tgz#19987d101e1ea25ef5406dce4352cab3932449d8"
