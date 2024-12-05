@@ -52,7 +52,7 @@ export const useAuthGetUserUseCase = () => {
     }
   };
 
-  const getUser = async (id: number) => {
+  const getUser = async (id: number, onSuccess?: (response: any) => void) => {
     setAuthController((prev: any) => ({
       ...prev,
       isLoading: true,
@@ -66,6 +66,7 @@ export const useAuthGetUserUseCase = () => {
         isAuthenticated: true,
         error: "",
       }));
+      onSuccess(response.data);
       return response.data;
     } catch (error: any) {
       setAuthController((prev: any) => ({

@@ -38,83 +38,13 @@ export const usersColumn: ColumnDef<any>[] = [
       );
     },
   },
-  // edit action
   {
     accessorKey: "edit",
     header: "Edit",
     cell: ({ row }) => {
-      return <EditUserDialog id={row.getValue("id")} />;
+      const userId = row.original.id; // Acesse diretamente o ID
+
+      return <EditUserDialog id={userId} key={`edit-user-${userId}`} />;
     },
   },
 ];
-
-//   {
-//     accessorKey: "name",
-//     header: "Nome",
-//     cell: ({ row }) => {
-//       return (
-//         <div className="flex flex-col">
-//           <span>{row.getValue("name")}</span>
-//         </div>
-//       );
-//     },
-//   },
-
-//   {
-//     accessorKey: "date",
-//     header: "Date",
-//     cell: ({ row }) => {
-//       const date: string = row.getValue("date");
-//       return <span>{format(date, "dd/MM/yyyy HH:mm")}</span>;
-//     },
-//   },
-// ];
-
-// {
-//   accessorKey: "value",
-//   header: "Value",
-//   cell: ({ row }) => {
-//     const type = row.original.type;
-//     const value: number = row.getValue("value");
-//     return (
-//       <div>
-//         {type === "income" ? (
-//           <span className="text-green-500">
-//             {value.toLocaleString("pt-BR", {
-//               style: "currency",
-//               currency: "BRL",
-//             })}
-//           </span>
-//         ) : (
-//           <span className="text-red-500">
-//             -
-//             {value.toLocaleString("pt-BR", {
-//               style: "currency",
-//               currency: "BRL",
-//             })}
-//           </span>
-//         )}
-//       </div>
-//     );
-//   },
-// },
-// {
-//   accessorKey: "name",
-//   header: "Nome",
-//   cell: ({ row }) => {
-//     return (
-//       <div className="flex flex-col">
-//         <span>{row.getValue("name")}</span>
-//       </div>
-//     );
-//   },
-// },
-
-// {
-//   accessorKey: "date",
-//   header: "Date",
-//   cell: ({ row }) => {
-//     const date: string = row.getValue("date");
-//     return <span>{format(date, "dd/MM/yyyy HH:mm")}</span>;
-//   },
-// },
