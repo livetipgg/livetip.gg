@@ -1,13 +1,3 @@
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,6 +7,7 @@ import {
   FormItem,
   FormControl,
   FormMessage,
+  FormLabel,
 } from "@/components/ui/form";
 import { formAdminCreateUserSchema } from "../../schemas/formAdminCreateUserSchema";
 import { useAdminCreateUserUseCase } from "../../useCases/useAdminCreateUserUseCase";
@@ -25,9 +16,20 @@ import { adminState } from "../../state/atoms";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { ErrorAlert } from "@/components/error-alert";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Plus } from "lucide-react";
+import { useAdminGetAllUsersUseCase } from "../../useCases/useAdminGetAllUsersUseCase";
 
 export const CreateUserDialog = () => {
-  const [, setDialogOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formAdminCreateUserSchema>>({
     resolver: zodResolver(formAdminCreateUserSchema),
@@ -40,12 +42,12 @@ export const CreateUserDialog = () => {
         values.username,
         values.password,
         () => {
-          setDialogOpen(false);
           form.reset();
         },
         values.password,
         values.email
       );
+      getAllUsers({ limit: 10, page: 1 });
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
     }
@@ -54,25 +56,36 @@ export const CreateUserDialog = () => {
   const { createUser } = useAdminCreateUserUseCase();
   const { controller } = useRecoilValue(adminState);
   const { isLoadingCreateUser, errorCreateUser } = controller;
+  const { getAllUsers } = useAdminGetAllUsersUseCase();
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="secondary">Criar Novo Usuário</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Criar Novo Usuário</AlertDialogTitle>
-        </AlertDialogHeader>
+    <Sheet open={dialogOpen} onOpenChange={setDialogOpen}>
+      <SheetTrigger asChild>
+        <Button>
+          <Plus size={16} className="mr-2" />
+          Criar Novo Usuário
+        </Button>
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Criar Usuário</SheetTitle>
+          <SheetDescription>
+            Preencha os campos abaixo para criar um novo usuário.
+          </SheetDescription>
+        </SheetHeader>
+        {errorCreateUser && <ErrorAlert error={errorCreateUser} />}
+
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between mt-4">
               <FormField
                 name="username"
                 control={form.control}
                 render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
+                  <FormItem className="flex w-full items-center">
+                    <FormLabel className="w-1/4 text-left">Username</FormLabel>
+
+                    <FormControl className="flex-1 ml-4">
                       <Input
                         {...field}
                         className="input-class"
@@ -83,12 +96,16 @@ export const CreateUserDialog = () => {
                   </FormItem>
                 )}
               />
+            </div>
+            <div className="flex items-center justify-between mt-4">
               <FormField
                 name="email"
                 control={form.control}
                 render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
+                  <FormItem className="flex w-full items-center">
+                    <FormLabel className="w-1/4 text-left">Email</FormLabel>
+
+                    <FormControl className="flex-1 ml-4">
                       <Input
                         {...field}
                         className="input-class"
@@ -99,12 +116,16 @@ export const CreateUserDialog = () => {
                   </FormItem>
                 )}
               />
+            </div>
+            <div className="flex items-center justify-between mt-4">
               <FormField
                 name="password"
                 control={form.control}
                 render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
+                  <FormItem className="flex w-full items-center">
+                    <FormLabel className="w-1/4 text-left">Senha</FormLabel>
+
+                    <FormControl className="flex-1 ml-4">
                       <Input
                         {...field}
                         className="input-class"
@@ -116,19 +137,29 @@ export const CreateUserDialog = () => {
                 )}
               />
             </div>
-            {errorCreateUser && <ErrorAlert error={errorCreateUser} />}
-            <AlertDialogFooter className="mt-4">
-              <AlertDialogCancel>Cancelar</AlertDialogCancel>
-              <AlertDialogAction
-                type="submit"
-                disabled={isLoadingCreateUser || !form.formState.isValid}
-              >
-                {isLoadingCreateUser ? "Criando..." : "Criar"}
-              </AlertDialogAction>
-            </AlertDialogFooter>
           </form>
         </FormProvider>
-      </AlertDialogContent>
-    </AlertDialog>
+        <SheetFooter className="mt-4">
+          <Button
+            type="button"
+            onClick={form.handleSubmit(onSubmit)}
+            disabled={isLoadingCreateUser || !form.formState.isValid}
+          >
+            {isLoadingCreateUser ? "Criando..." : "Salvar"}
+          </Button>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+    // <AlertDialog>
+    //   <AlertDialogTrigger asChild>
+    //     <Button variant="secondary">Criar Novo Usuário</Button>
+    //   </AlertDialogTrigger>
+    //   <AlertDialogContent>
+    //     <AlertDialogHeader>
+    //       <AlertDialogTitle>Criar Novo Usuário</AlertDialogTitle>
+    //     </AlertDialogHeader>
+
+    //   </AlertDialogContent>
+    // </AlertDialog>
   );
 };

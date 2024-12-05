@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { adminState } from "../../state/atoms";
 import PaginationComponent from "@/components/pagination";
+import { CreateUserDialog } from "../components/create-user-dialog";
 
 const UsersManagement = () => {
   const { getAllUsers } = useAdminGetAllUsersUseCase();
@@ -22,6 +23,9 @@ const UsersManagement = () => {
 
   return (
     <div>
+      <div className="mb-4 flex items-center justify-end">
+        <CreateUserDialog />
+      </div>
       <DataTable columns={usersColumn} data={users.results} />
       <PaginationComponent
         currentPage={getAllUsersParams.page}
