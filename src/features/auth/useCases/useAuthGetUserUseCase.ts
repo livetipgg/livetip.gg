@@ -21,7 +21,6 @@ export const useAuthGetUserUseCase = () => {
         isAuthenticated: true,
         error: "",
       }));
-      console.log("response", response);
       setAuth((prev) => ({
         ...prev,
         user: {
@@ -67,7 +66,6 @@ export const useAuthGetUserUseCase = () => {
         isAuthenticated: true,
         error: "",
       }));
-      console.log("response", response);
       return response.data;
     } catch (error: any) {
       setAuthController((prev: any) => ({

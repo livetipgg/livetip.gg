@@ -26,7 +26,6 @@ const BalanceItem: React.FC<{
   unit,
   customLogo,
 }) => {
-  console.log("Balance: ", balance);
   return (
     <div className="flex items-center gap-2 border border-input rounded-lg pe-2">
       <div className="bg-background p-2 rounded-lg">
@@ -76,8 +75,6 @@ export const BalancePreview: React.FC = () => {
   const { setShowCurrentBalance } = useSetShowCurrentBalanceUseCase();
   const { user } = useRecoilValue(authState);
   const { brlBalance, btcBalance } = user;
-  console.log("User: ", user);
-  console.log("BTC Balance: ", brlBalance);
   return (
     <div className="flex gap-2 flex-col items-stretch w-full mb-4">
       <div className="flex items-center justify-end">

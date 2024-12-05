@@ -15,8 +15,6 @@ export const useAdminCreateUserUseCase = () => {
     email?: string
   ) => {
     if (password !== confirmPassword) {
-      console.log("Password", password);
-      console.log("confirmPassword", confirmPassword);
       errorSonner("As senhas não coincidem");
       return;
     }
@@ -37,7 +35,6 @@ export const useAdminCreateUserUseCase = () => {
       onSuccess();
       return response;
     } catch (error) {
-      errorSonner("Erro ao criar usuário");
       setAdminState((old) => ({
         ...old,
         controller: {
@@ -46,6 +43,7 @@ export const useAdminCreateUserUseCase = () => {
           errorCreateUser: error.response.data.message,
         },
       }));
+      throw new Error(error.response.data.message);
     } finally {
       setAdminState((old) => ({
         ...old,

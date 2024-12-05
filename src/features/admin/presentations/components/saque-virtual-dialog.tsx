@@ -79,7 +79,6 @@ export const VirtualWithdrawDialog = () => {
       }
     );
   }
-  console.log("form valid", form.getValues());
   return (
     <Dialog
       open={dialogOpen}
@@ -115,7 +114,6 @@ export const VirtualWithdrawDialog = () => {
                     className="w-full flex gap-2 items-center"
                     onClick={(e) => {
                       form.setValue("userId", user.id);
-                      console.log("values", form.getValues());
                       setSelectedUser(user);
                       e.preventDefault();
                     }}
@@ -194,7 +192,6 @@ export const VirtualWithdrawDialog = () => {
                       decimalsLimit={0}
                       value={field.value}
                       onValueChange={(e) => {
-                        console.log("e", e);
                         field.onChange(e);
                       }}
                     />

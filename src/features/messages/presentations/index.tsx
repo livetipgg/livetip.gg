@@ -18,7 +18,6 @@ const MessagesReceived = () => {
   const { messagesParams } = controller;
 
   const { loadMessages } = useLoadMessagesUseCase();
-  console.log("User", user);
   useEffect(() => {
     loadMessages();
   }, []);

@@ -174,12 +174,22 @@ const Withdraw = () => {
               <div className="flex flex-col w-full">
                 <strong className="text-xl">Destino do saque</strong>
                 <span className="mt-3 text-muted-foreground ">
-                  Informe o invoice ou a LNURL (exemplo
-                  satoshi@walletofsatoshi.com)
+                  Informe o invoice
                 </span>
-                <div className="mt-10">
-                  <Label>Informe o invoice criado</Label>
-                  <div className="flex items-center gap-2">
+                <div className="mt-4">
+                  <div className="flex justify-end gap-2 flex-wrap">
+                    <Button
+                      className="flex items-center gap-2"
+                      variant="outline"
+                      onClick={() => {
+                        navigator.clipboard.readText().then((text) => {
+                          handleInputChange({ target: { value: text } });
+                        });
+                      }}
+                    >
+                      <ClipboardPaste size={16} />
+                      Colar
+                    </Button>
                     <Textarea
                       ref={textareaRef}
                       className="p-5 rounded-xl shadow-none bg-background w-full overflow-hidden resize-none"
@@ -188,18 +198,6 @@ const Withdraw = () => {
                       placeholder="Digite o invoice"
                     />
                     {/* Paste button */}
-                    <Button
-                      className="flex items-center gap-2"
-                      variant="outline"
-                      onClick={() => {
-                        navigator.clipboard.readText().then((text) => {
-                          setInvoice(text);
-                        });
-                      }}
-                    >
-                      <ClipboardPaste size={16} />
-                      Colar
-                    </Button>
                   </div>
                 </div>
               </div>

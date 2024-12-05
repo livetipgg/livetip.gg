@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FormProvider, useForm } from "react-hook-form";
-import { formLoginSchema } from "../../schemas/formLoginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -14,10 +13,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRecoilValue } from "recoil";
-import { authController, authState } from "../../states/atoms";
 
-import { useAuthLoginUseCase } from "../../useCases/useAuthLoginUseCase";
-import { Navigate, redirect, useNavigate, useRoutes } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ButtonLoading from "@/components/button-loader";
 import { ErrorAlert } from "@/components/error-alert";
 import { Eye, EyeOff } from "lucide-react";

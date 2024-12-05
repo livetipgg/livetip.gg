@@ -26,10 +26,7 @@ export const useAdminGetAllUsersUseCase = () => {
 
       setAdminState((prev) => ({
         ...prev,
-        users: {
-          ...prev.users,
-          results: response.data,
-        },
+        users: response.data,
       }));
 
       return response.data;
