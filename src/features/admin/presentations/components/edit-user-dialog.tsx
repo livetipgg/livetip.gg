@@ -35,6 +35,7 @@ import { profileState } from "@/features/profile/states/atoms";
 
 export const EditUserDialog = ({ id }: { id: number }) => {
   const { user } = useRecoilValue(authState);
+  const [selectedUser, setSelectedUser] = useState<any>(null);
   const { controller } = useRecoilValue(profileState);
   const { isLoadingUpdateProfile } = controller;
   const [, setDialogOpen] = useState(false);
@@ -72,16 +73,12 @@ export const EditUserDialog = ({ id }: { id: number }) => {
   const { successSonner } = useCustomSonner();
 
   async function onSubmit(values: z.infer<typeof formAdminEditUserSchema>) {
-    // pega só o campo que mudou de valor
-
-    const payload = Object.keys(values).reduce((acc, key) => {
-      if (values[key] !== user[key]) {
-        acc[key] = values[key];
+    const payload = Object.entries(values).reduce((acc, [key, value]) => {
+      if (value !== selectedUser[key]) {
+        acc[key] = value;
       }
       return acc;
-    }, {} as z.infer<typeof formAdminEditUserSchema>);
-
-    console.log("Payload: " + JSON.stringify(payload));
+    }, {});
 
     if (Object.keys(payload).length === 0) {
       successSonner("Nenhum campo foi alterado");
@@ -99,6 +96,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
           size="icon"
           onClick={() => {
             getUser(id).then((user) => {
+              setSelectedUser(user);
               form.reset({
                 username: user.username,
                 email: user.email,
