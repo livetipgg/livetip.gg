@@ -69,7 +69,6 @@ export const useSendMessageAndCreateQRCode = () => {
         },
       }));
     } catch (err) {
-      console.log("error", err);
       errorSonner(
         "Ocorreu um erro ao enviar a mensagem: " + err.response.data.message
       );

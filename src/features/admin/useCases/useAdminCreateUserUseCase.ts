@@ -15,8 +15,6 @@ export const useAdminCreateUserUseCase = () => {
     email?: string
   ) => {
     if (password !== confirmPassword) {
-      console.log("Password", password);
-      console.log("confirmPassword", confirmPassword);
       errorSonner("As senhas não coincidem");
       return;
     }

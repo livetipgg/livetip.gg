@@ -70,7 +70,6 @@ const Profile = () => {
     },
   });
 
-  console.log("User", user);
   useEffect(() => {
     form.reset({
       username: user.username,
@@ -101,7 +100,6 @@ const Profile = () => {
     await updateProfile(payload);
   }
 
-  console.log("Loading", isLoadingUpdatePhoto);
   return (
     <div className="max-w-xl ">
       {/* Dados do perfil */}
