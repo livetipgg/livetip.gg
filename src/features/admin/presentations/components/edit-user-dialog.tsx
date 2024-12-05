@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import nostrLogo from "@/assets/nostr.png";
 
-import { Pen, Upload } from "lucide-react";
+import { Pen } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -27,19 +28,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import SocialInputField from "@/features/profile/presentations/components/social-input-field";
-import { authState } from "@/features/auth/states/atoms";
 import { useRecoilValue } from "recoil";
 import { useUpdateProfileAccount } from "@/features/profile/useCases/useUpdateProfileUseCase";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import { profileState } from "@/features/profile/states/atoms";
+import { useAdminGetAllUsersUseCase } from "../../useCases/useAdminGetAllUsersUseCase";
 
 export const EditUserDialog = ({ id }: { id: number }) => {
-  const { user } = useRecoilValue(authState);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const { controller } = useRecoilValue(profileState);
   const { isLoadingUpdateProfile } = controller;
-  const [, setDialogOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const { getUser } = useAuthGetUserUseCase();
+  const { getAllUsers } = useAdminGetAllUsersUseCase();
   const { updateProfile } = useUpdateProfileAccount();
 
   const form = useForm<z.infer<typeof formAdminEditUserSchema>>({
@@ -57,18 +58,18 @@ export const EditUserDialog = ({ id }: { id: number }) => {
     },
   });
 
-  const inputFileRef = useRef<HTMLInputElement>(null);
+  // const inputFileRef = useRef<HTMLInputElement>(null);
 
-  const handleClick = () => {
-    inputFileRef.current?.click();
-  };
+  // const handleClick = () => {
+  //   inputFileRef.current?.click();
+  // };
 
-  const onFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0];
-    if (selectedFile) {
-      form.setValue("photoUrl", URL.createObjectURL(selectedFile));
-    }
-  };
+  // const onFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const selectedFile = event.target.files?.[0];
+  //   if (selectedFile) {
+  //     form.setValue("photoUrl", URL.createObjectURL(selectedFile));
+  //   }
+  // };
 
   const { successSonner } = useCustomSonner();
 
@@ -86,10 +87,16 @@ export const EditUserDialog = ({ id }: { id: number }) => {
     }
 
     await updateProfile(payload, id);
+    await getAllUsers({
+      limit: 10,
+      page: 1,
+    });
+    setDialogOpen(false);
+    form.reset();
   }
 
   return (
-    <Sheet>
+    <Sheet open={dialogOpen} onOpenChange={setDialogOpen}>
       <SheetTrigger asChild>
         <Button
           variant="outline"
@@ -101,12 +108,12 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                 username: user.username,
                 email: user.email,
                 photoUrl: user.photoUrl,
-                facebookUsername: user.facebookUsername,
-                instagramUsername: user.instagramUsername,
-                nostrUsername: user.nostrUsername,
-                telegramUsername: user.telegramUsername,
-                whatsappUsername: user.whatsappUsername,
-                xUsername: user.xUsername,
+                facebookUsername: user.facebookUsername || "",
+                instagramUsername: user.instagramUsername || "",
+                nostrUsername: user.nostrUsername || "",
+                telegramUsername: user.telegramUsername || "",
+                whatsappUsername: user.whatsappUsername || "",
+                xUsername: user.xUsername || "",
               });
               setDialogOpen(true);
             });
