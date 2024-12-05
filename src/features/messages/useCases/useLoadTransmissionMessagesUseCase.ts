@@ -28,7 +28,6 @@ export const useLoadTransmissionMessagesUseCase = () => {
       },
       transmissionMessages: {
         ...prevState.transmissionMessages,
-        results: [],
       },
       messages: {
         ...prevState.messages,
@@ -44,7 +43,7 @@ export const useLoadTransmissionMessagesUseCase = () => {
     try {
       const response = await api.get(`${MESSAGE}/${user.id}`, {
         params: {
-          limit: 9999,
+          limit: 100,
           page: 1,
           ordered: true,
           startDate: start,
