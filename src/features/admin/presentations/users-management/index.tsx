@@ -17,7 +17,7 @@ const UsersManagement = () => {
   const setAdminState = useSetRecoilState(adminState);
 
   const { isPending, data } = useQuery({
-    queryKey: ["admin_users"],
+    queryKey: ["admin_users", page],
     queryFn: () =>
       getAllUsers({
         limit: 10,
@@ -33,7 +33,7 @@ const UsersManagement = () => {
       <div className="mb-4 flex items-center justify-end">
         <CreateUserDialog />
       </div>
-      <DataTable columns={usersColumn} data={data} />
+      <DataTable columns={usersColumn} data={data.results} />
       <PaginationComponent
         currentPage={getAllUsersParams.page}
         totalPages={data.totalPages}
