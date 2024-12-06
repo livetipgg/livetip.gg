@@ -17,7 +17,7 @@ import { useRecoilValue } from "recoil";
 import { authController, authState } from "../../states/atoms";
 
 import { useAuthLoginUseCase } from "../../useCases/useAuthLoginUseCase";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import ButtonLoading from "@/components/button-loader";
 import { ErrorAlert } from "@/components/error-alert";
 import { Eye, EyeOff } from "lucide-react";
@@ -50,11 +50,11 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative  px-2  ">
+    <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative  px-2  flex-col ">
       <ModeToggle className="absolute top-4 right-4" />
       <Logotipo classname={`${isMobile ? "w-8" : "w-28"}  absolute top-4 `} />
 
-      <div className="flex items-center justify-center py-12 ">
+      <div className="flex items-center justify-center pb-4 ">
         <div className="mx-auto grid w-[350px]  ">
           <div className="flex  flex-col mb-5">
             <h1 className="text-2xl font-medium mb-2 text-black dark:text-white">
@@ -142,6 +142,12 @@ const LoginPage: React.FC = () => {
           )}
         </div>
       </div>
+      <span className="text-muted-foreground text-sm mt-2">
+        Ainda não possui uma conta?{" "}
+        <Link to={"/cadastro"} className="text-secondary hover:underline">
+          Cadastre-se agora
+        </Link>
+      </span>
     </div>
   );
 };
