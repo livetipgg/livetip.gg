@@ -49,10 +49,6 @@ const UsersManagement = () => {
               },
             },
           }));
-          getAllUsers({
-            page,
-            limit: 10,
-          });
 
           window.scrollTo({ top: 0, behavior: "smooth" });
         }}

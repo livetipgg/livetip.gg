@@ -34,6 +34,7 @@ import {
 import SocialInputField from "./components/social-input-field";
 import { useEffect } from "react";
 import { useAuthGetUserUseCase } from "@/features/auth/useCases/useAuthGetUserUseCase";
+import { useProfileGetUserInfoUseCase } from "../useCases/useProfileGetUserInfoUseCase";
 //  test
 const Profile = () => {
   const { user } = useRecoilValue(authState);
@@ -48,7 +49,7 @@ const Profile = () => {
   const { updateProfile } = useUpdateProfileAccount();
   const { fetchGetUser } = useAuthGetUserUseCase();
   const navigate = useNavigate();
-
+  const { getUserInfo } = useProfileGetUserInfoUseCase();
   useEffect(() => {
     fetchGetUser(user.id);
   }, []);
@@ -97,7 +98,9 @@ const Profile = () => {
       return;
     }
 
-    await updateProfile(payload);
+    await updateProfile(payload, user.id, () => {
+      getUserInfo();
+    });
   }
 
   return (

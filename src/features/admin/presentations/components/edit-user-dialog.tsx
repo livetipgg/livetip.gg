@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import nostrLogo from "@/assets/nostr.png";
 
-import { Pen } from "lucide-react";
+import { LoaderCircle, Pen, Upload } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -32,16 +32,24 @@ import { useRecoilValue } from "recoil";
 import { useUpdateProfileAccount } from "@/features/profile/useCases/useUpdateProfileUseCase";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import { profileState } from "@/features/profile/states/atoms";
-import { useAdminGetAllUsersUseCase } from "../../useCases/useAdminGetAllUsersUseCase";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { adminState } from "../../state/atoms";
+import { authController } from "@/features/auth/states/atoms";
 
 export const EditUserDialog = ({ id }: { id: number }) => {
+  const queryClient = useQueryClient(); // Acesse o queryClient do React Query
+  const { isLoading } = useRecoilValue(authController);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const { controller } = useRecoilValue(profileState);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { isLoadingUpdateProfile } = controller;
   const [dialogOpen, setDialogOpen] = useState(false);
   const { getUser } = useAuthGetUserUseCase();
-  const { getAllUsers } = useAdminGetAllUsersUseCase();
   const { updateProfile } = useUpdateProfileAccount();
+  const { controller: adminController } = useRecoilValue(adminState);
+  const { getAllUsersParams } = adminController;
+  const [auxId, setAuxId] = useState(null);
+  const { page } = getAllUsersParams;
 
   const form = useForm<z.infer<typeof formAdminEditUserSchema>>({
     resolver: zodResolver(formAdminEditUserSchema),
@@ -58,21 +66,33 @@ export const EditUserDialog = ({ id }: { id: number }) => {
     },
   });
 
-  // const inputFileRef = useRef<HTMLInputElement>(null);
+  const inputFileRef = useRef<HTMLInputElement>(null);
 
-  // const handleClick = () => {
-  //   inputFileRef.current?.click();
-  // };
+  const handleClick = () => {
+    inputFileRef.current?.click();
+  };
 
-  // const onFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const selectedFile = event.target.files?.[0];
-  //   if (selectedFile) {
-  //     form.setValue("photoUrl", URL.createObjectURL(selectedFile));
-  //   }
-  // };
+  const onFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      setImagePreview(URL.createObjectURL(selectedFile));
+      form.setValue("photoUrl", selectedFile);
+    }
+  };
 
   const { successSonner } = useCustomSonner();
+  const mutation = useMutation({
+    mutationKey: ["admin_users"],
+    mutationFn: (values: z.infer<typeof formAdminEditUserSchema>) => {
+      return updateProfile(values, id, () => {
+        setSelectedUser(null);
 
+        queryClient.invalidateQueries({
+          queryKey: ["admin_users", page],
+        });
+      });
+    },
+  });
   async function onSubmit(values: z.infer<typeof formAdminEditUserSchema>) {
     const payload = Object.entries(values).reduce((acc, [key, value]) => {
       if (value !== selectedUser[key]) {
@@ -86,23 +106,32 @@ export const EditUserDialog = ({ id }: { id: number }) => {
       return;
     }
 
-    await updateProfile(payload, id);
-    await getAllUsers({
-      limit: 10,
-      page: 1,
-    });
-    setDialogOpen(false);
-    form.reset();
+    await mutation.mutateAsync(payload);
   }
 
+  const editDisabled = isLoading && auxId === id;
+
   return (
-    <Sheet open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Sheet
+      open={dialogOpen}
+      onOpenChange={(open) => {
+        setDialogOpen(open);
+        if (!open) {
+          setAuxId(null);
+          setSelectedUser(null);
+          form.reset();
+        }
+      }}
+    >
       <SheetTrigger asChild>
         <Button
-          variant="outline"
+          disabled={editDisabled}
+          variant="secondary"
           size="icon"
-          onClick={() => {
-            getUser(id).then((user) => {
+          onClick={(e) => {
+            setAuxId(id);
+            e.preventDefault();
+            getUser(id, (user) => {
               setSelectedUser(user);
               form.reset({
                 username: user.username,
@@ -115,11 +144,16 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                 whatsappUsername: user.whatsappUsername || "",
                 xUsername: user.xUsername || "",
               });
+              setImagePreview(user.photoUrl);
               setDialogOpen(true);
             });
           }}
         >
-          <Pen size={16} />
+          {editDisabled ? (
+            <LoaderCircle size={16} className="animate-spin" />
+          ) : (
+            <Pen size={16} />
+          )}
         </Button>
       </SheetTrigger>
       <SheetContent>
@@ -159,7 +193,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                 )}
               />
             </div>
-            {/* <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center justify-between mt-4">
               <FormField
                 control={form.control}
                 name="photoUrl"
@@ -176,7 +210,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                         )}
                         {field.value && (
                           <img
-                            src={field.value}
+                            src={imagePreview}
                             alt="Preview"
                             className="w-32 h-32 object-cover rounded"
                           />
@@ -194,7 +228,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                   </FormItem>
                 )}
               />
-            </div> */}
+            </div>
             <div className="flex items-center flex-col mt-4">
               <FormField
                 name="facebookUsername"

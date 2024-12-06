@@ -24,9 +24,10 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Plus } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const CreateUserDialog = () => {
+  const queryClient = useQueryClient();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formAdminCreateUserSchema>>({
@@ -47,16 +48,19 @@ export const CreateUserDialog = () => {
         values.email
       );
     },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["admin_users"],
+      });
+    },
   });
+
   const { isPending, isError, error } = mutation;
   const { createUser } = useAdminCreateUserUseCase();
 
   async function onSubmit(values: z.infer<typeof formAdminCreateUserSchema>) {
     await mutation.mutateAsync(values);
   }
-
-  console.log("error", error);
-  console.log("isError", isError);
 
   return (
     <Sheet open={dialogOpen} onOpenChange={setDialogOpen}>
