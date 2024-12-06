@@ -17,6 +17,7 @@ export const useLoadReceiverData = () => {
         currency: "BRL",
       },
       receiver: {
+        ...prev.receiver,
         id: 0,
         username: "",
         email: "",
