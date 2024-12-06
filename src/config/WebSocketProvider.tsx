@@ -61,7 +61,7 @@ const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const intervalId = setInterval(() => {
       socket.emit("heartbeat");
-    }, 5000);
+    }, 35000);
 
     return () => {
       socket.off("message");

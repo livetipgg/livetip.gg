@@ -7,6 +7,7 @@ export interface IControllerPaymentState {
     endDate: Date | undefined | string;
     limit: number;
     page: number;
+    userId: number | null;
   };
 }
 

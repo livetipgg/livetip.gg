@@ -21,6 +21,7 @@ export const paymentState = atom<IPaymentState>({
         startDate: undefined,
         limit: 0,
         page: 1,
+        userId: null,
       },
       error: "",
       isLoadingPayments: false,

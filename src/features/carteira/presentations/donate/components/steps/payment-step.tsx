@@ -69,12 +69,11 @@ const PaymentStep = () => {
             src: iconLogo,
             x: undefined,
             y: undefined,
-            height: 40, // Altura do logo
-            width: 40, // Largura do logo
-            excavate: true, // Para recortar o QR code ao redor do logo
+            height: 40,
+            width: 40,
+            excavate: true,
           }}
         />
-        {/* <QRCode value={controller.qrCode} imageRendering={bitcoinLogo} /> */}
         {content.currency === "BRL" ? (
           <Label className="text-center my-4">Pix Copia e Cola</Label>
         ) : (
