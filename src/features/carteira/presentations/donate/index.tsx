@@ -10,7 +10,6 @@ import MessageStep from "./components/steps/message-step";
 import { Header } from "./components/header";
 import { useLoadReceiverData } from "../../useCases/useLoadReceiverData";
 import { useParams } from "react-router-dom";
-import { ErrorAlert } from "@/components/error-alert";
 import ReactGA from "react-ga4";
 import { TRACKING_ID } from "@/App";
 import { GlobalLoader } from "@/components/global-loader";
