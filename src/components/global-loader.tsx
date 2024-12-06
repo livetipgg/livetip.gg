@@ -11,9 +11,6 @@ export const GlobalLoader = () => {
           height={50}
           className=" animate-bounce"
         />
-        <span>
-          <p>Carregando...</p>
-        </span>
       </div>
     </div>
   );

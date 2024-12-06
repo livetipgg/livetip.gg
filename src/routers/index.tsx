@@ -12,6 +12,7 @@ import UserMessagePage from "@/features/carteira/presentations/donate";
 import AdminPage from "@/features/admin/presentations";
 import RegisterPage from "@/features/auth/implementation/register";
 import UsersManagementPage from "@/features/admin/presentations/users-management";
+import { NotFoundPage } from "@/features/not-found-page";
 
 export const routers = createBrowserRouter([
   {
@@ -63,7 +64,7 @@ export const routers = createBrowserRouter([
       },
       {
         path: "*",
-        Component: withAuth(DashboardPage),
+        Component: NotFoundPage,
       },
     ],
   },
