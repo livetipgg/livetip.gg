@@ -93,21 +93,23 @@ const TransactionsHistory = () => {
             onDateSelect={handleSetDate}
             onClear={clearDate}
           />
-          <SelectUserCombobox
-            onClear={clearUserId}
-            onUserSelect={async (user) => {
-              await setPaymentState((prevState) => ({
-                ...prevState,
-                controller: {
-                  ...prevState.controller,
-                  params: {
-                    ...prevState.controller.params,
-                    userId: user,
+          {isAdmin && (
+            <SelectUserCombobox
+              onClear={clearUserId}
+              onUserSelect={async (user) => {
+                await setPaymentState((prevState) => ({
+                  ...prevState,
+                  controller: {
+                    ...prevState.controller,
+                    params: {
+                      ...prevState.controller.params,
+                      userId: user,
+                    },
                   },
-                },
-              }));
-            }}
-          />
+                }));
+              }}
+            />
+          )}
         </div>
         <Button
           variant="default"
