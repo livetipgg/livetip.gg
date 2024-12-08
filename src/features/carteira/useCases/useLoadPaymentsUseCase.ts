@@ -45,7 +45,7 @@ export const useLoadPaymentsUseCase = () => {
       const isAdmin = user.id === 3;
 
       const response = await api.get(
-        `${!isAdmin ? "/user/payment" : "/payment"}${
+        `${!isAdmin ? "/user/transaction" : "/transaction"}${
           !isAdmin ? "/" + user.id : ""
         }`,
         {
