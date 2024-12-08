@@ -55,7 +55,7 @@ const LoginPage: React.FC = () => {
       <Logotipo classname={`${isMobile ? "w-8" : "w-28"}  absolute top-4 `} />
 
       <div className="flex items-center justify-center pb-4 ">
-        <div className="mx-auto grid w-[450px]  ">
+        <div className="mx-auto grid w-full max-w-[450px]  ">
           <div className="flex  flex-col mb-5">
             <h1 className="text-2xl font-medium mb-2 text-black dark:text-white">
               Entrar
