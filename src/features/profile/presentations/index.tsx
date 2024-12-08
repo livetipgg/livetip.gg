@@ -334,7 +334,7 @@ const Profile = () => {
           <div className="max-w-fit bg-background shadow-sm">
             <div className="border rounded flex items-center ">
               <Button
-                className="text-secondary"
+                className="text-primary"
                 variant="link"
                 onClick={() => {
                   navigate(`/${user.username}`, {

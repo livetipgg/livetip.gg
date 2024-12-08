@@ -1,4 +1,4 @@
-import icon from "@/assets/icon.png";
+import icon from "@/assets/icon.svg";
 
 export const GlobalLoader = () => {
   return (

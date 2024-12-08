@@ -10,7 +10,7 @@ import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState"
 // import QRCode from "react-qr-code";
 import { useEffect } from "react";
 import PaymentIcon from "@/components/payment-icon";
-import iconLogo from "@/assets/icon.png";
+import iconLogo from "@/assets/icon.svg";
 import { useWebSocket } from "@/config/WebSocketProvider";
 import { emitEvent } from "@/socket";
 import { QRCodeSVG } from "qrcode.react";

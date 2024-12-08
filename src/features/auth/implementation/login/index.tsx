@@ -55,7 +55,7 @@ const LoginPage: React.FC = () => {
       <Logotipo classname={`${isMobile ? "w-8" : "w-28"}  absolute top-4 `} />
 
       <div className="flex items-center justify-center pb-4 ">
-        <div className="mx-auto grid w-[350px]  ">
+        <div className="mx-auto grid w-[450px]  ">
           <div className="flex  flex-col mb-5">
             <h1 className="text-2xl font-medium mb-2 text-black dark:text-white">
               Entrar
@@ -77,7 +77,7 @@ const LoginPage: React.FC = () => {
                           <Input
                             placeholder="Nome de usuario"
                             {...field}
-                            className="p-5 rounded-xl shadow-none bg-card-custom"
+                            className="p-6 rounded-xl shadow-none border-gray-300 dark:bg-card-custom dark:border-input"
                           />
                         </FormControl>
 
@@ -98,7 +98,7 @@ const LoginPage: React.FC = () => {
                               {...field}
                               type={showPassword ? "text" : "password"}
                               placeholder="Informe sua senha"
-                              className="p-5 rounded-xl shadow-none bg-card-custom"
+                              className="p-6 rounded-xl shadow-none border-gray-300 dark:bg-card-custom dark:border-input"
                               onKeyDown={(e) => {
                                 if (e.key === "Enter") {
                                   form.handleSubmit(onSubmit)();
@@ -108,7 +108,7 @@ const LoginPage: React.FC = () => {
                             <Button
                               size="icon"
                               variant="link"
-                              className="absolute top-1 right-2 text-foreground/40"
+                              className="absolute top-2 right-2 text-foreground/40"
                               onClick={() => setShowPassword(!showPassword)}
                             >
                               {showPassword ? (
@@ -130,7 +130,7 @@ const LoginPage: React.FC = () => {
                 {!isLoading && (
                   <Button
                     type="submit"
-                    className="w-full bg-secondary text-white p-5 rounded-xl "
+                    className="p-6 rounded-xl hover:bg-secondary"
                     onClick={form.handleSubmit(onSubmit)}
                   >
                     Entrar
@@ -144,7 +144,7 @@ const LoginPage: React.FC = () => {
       </div>
       <span className="text-muted-foreground text-sm mt-2">
         Ainda não possui uma conta?{" "}
-        <Link to={"/cadastro"} className="text-secondary hover:underline">
+        <Link to={"/cadastro"} className="text-primary hover:underline">
           Cadastre-se agora
         </Link>
       </span>

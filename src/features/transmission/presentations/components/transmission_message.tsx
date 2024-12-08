@@ -39,7 +39,7 @@ export const TransmissionMessage = ({ message }: { message: IMessage }) => {
           </div>
           <div
             className={`p-2 ${
-              message.read ? "bg-gray-400" : "bg-primary"
+              message.read ? "bg-gray-400" : "bg-blue-600"
             } rounded-e-lg`}
           >
             <span className="font-semibold text-white">{message.sender}</span>
@@ -85,7 +85,7 @@ export const TransmissionMessage = ({ message }: { message: IMessage }) => {
                 <Button
                   title="Expandir mensagem"
                   size={isMobile ? "icon" : "default"}
-                  variant="secondary"
+                  variant="link"
                   className="flex items-center gap-2 "
                 >
                   {!isMobile && "Expandir"}
@@ -130,7 +130,7 @@ export const TransmissionMessage = ({ message }: { message: IMessage }) => {
                     </div>
                   </div>
                 </div>
-                <p className="break-words max-w-full overflow-auto text-4xl flex-1">
+                <p className="break-words  max-w-full overflow-auto text-4xl flex-1">
                   {message.content}
                 </p>
                 <AlertDialogFooter className="flex items-end">
@@ -150,7 +150,7 @@ export const TransmissionMessage = ({ message }: { message: IMessage }) => {
       </div>
       <div
         className={`rounded-lg border ${
-          message.read ? "" : "border-primary"
+          message.read ? "" : "border-muted/60"
         }  mt-2`}
       >
         <div className="p-2 flex gap-2 h-auto items-start whitespace-normal max-w-full">
