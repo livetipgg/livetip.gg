@@ -7,7 +7,7 @@ export const ButtonNewLive = () => {
   return (
     <Button
       size={isMobile ? "icon" : "default"}
-      variant="destructive"
+      variant="secondary"
       className={`${isMobile ? "" : "w-full  md:w-auto"}`}
       onClick={() => {
         window.open(`/transmissao`, "_blank");
