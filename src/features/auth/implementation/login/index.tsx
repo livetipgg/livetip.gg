@@ -126,7 +126,7 @@ const LoginPage: React.FC = () => {
                   />
                 </div>
 
-                {isLoading && <ButtonLoading className="rounded-xl p-5" />}
+                {isLoading && <ButtonLoading className="rounded-xl p-6" />}
                 {!isLoading && (
                   <Button
                     type="submit"

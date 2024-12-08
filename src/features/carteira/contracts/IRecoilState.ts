@@ -18,6 +18,7 @@ export interface IPayment {
   currency: "BTC" | "BRL";
   createdAt: string;
   receiverName: string;
+  transactionType: "payment" | "withdraw";
 }
 
 export interface IPaymentDonateState {
