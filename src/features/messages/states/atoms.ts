@@ -40,6 +40,7 @@ export const messageState = atom<IMessageState>({
         limit: 10,
         page: 1,
         ordered: true,
+        userId: null,
       },
 
       lastMessagesParams: {
