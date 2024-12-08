@@ -36,6 +36,14 @@ export interface IPaymentDonateState {
     isDeleted: boolean;
     btcBalance: string;
     brlBalance: string;
+    youtubeUsername: string;
+    twitchUsername: string;
+    instagramUsername: string;
+    facebookUsername: string;
+    nostrUsername: string;
+    telegramUsername: string;
+    whatsappUsername: string;
+    xUsername: string;
   };
   controller: {
     loadingReceiverData: boolean;

@@ -58,6 +58,14 @@ export const paymentDonateState = atom<IPaymentDonateState>({
       btcBalance: "",
       photoURL: "",
       brlBalance: "",
+      instagramUsername: "",
+      facebookUsername: "",
+      nostrUsername: "",
+      telegramUsername: "",
+      whatsappUsername: "",
+      xUsername: "",
+      youtubeUsername: "",
+      twitchUsername: "",
     },
 
     controller: {

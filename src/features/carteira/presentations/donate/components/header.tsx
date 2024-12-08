@@ -2,9 +2,56 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { paymentDonateState } from "@/features/carteira/states/atoms";
 import { BadgeCheck, User } from "lucide-react";
 import { useRecoilValue } from "recoil";
+import nostrLogo from "@/assets/nostr.png";
 
+const socialLinks = [
+  {
+    field: "instagramUsername",
+    icon: "instagram",
+    urlBase: "https://www.instagram.com/",
+  },
+  {
+    field: "facebookUsername",
+    icon: "facebook",
+    urlBase: "https://www.facebook.com/",
+  },
+  {
+    field: "nostrUsername",
+    icon: null,
+    iconComponent: (
+      <img src={nostrLogo} alt={`nostr icon`} className="w-5 h-5" />
+    ),
+    urlBase: "https://njump.me/",
+  },
+  {
+    field: "telegramUsername",
+    icon: "telegram",
+    urlBase: "https://t.me/",
+  },
+  {
+    field: "whatsappUsername",
+    icon: "whatsapp",
+    urlBase: "https://wa.me/",
+  },
+  {
+    field: "xUsername",
+    icon: "x",
+    urlBase: "https://x.com/",
+  },
+  {
+    field: "youtubeUsername",
+    icon: "youTube",
+    urlBase: "https://www.youtube.com/user/",
+  },
+  {
+    field: "twitchUsername",
+    icon: "twitch",
+    urlBase: "https://www.twitch.tv/",
+  },
+];
 export const Header = () => {
   const { receiver, controller } = useRecoilValue(paymentDonateState);
+
   return (
     <>
       <div className="flex items-center gap-2 w-full  ">
@@ -22,9 +69,36 @@ export const Header = () => {
         </div>
       </div>
       {controller.currentStep === "MESSAGE" && (
-        <div className="flex flex-col items-center justify-center mt-4">
-          <span className="text-lg font-semibold">Envie uma mensagem</span>
-        </div>
+        <>
+          <div className="flex items-center gap-2 justify-start">
+            {socialLinks.map((link) => {
+              if (receiver[link.field]) {
+                return (
+                  <a
+                    key={link.field}
+                    href={`${link.urlBase}${receiver[link.field]}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-blue-500"
+                  >
+                    {link.icon ? (
+                      <img
+                        src={`https://cdn.simpleicons.org/${link.icon}`}
+                        alt={`${link.field} icon`}
+                        className="w-5 h-5"
+                      />
+                    ) : (
+                      link.iconComponent
+                    )}
+                  </a>
+                );
+              }
+            })}
+          </div>
+          <div className="flex flex-col items-center justify-center mt-4">
+            <span className="text-lg font-semibold">Envie uma mensagem</span>
+          </div>
+        </>
       )}
     </>
   );

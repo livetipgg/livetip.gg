@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 import { withLayout } from "@/HOC/withLayout";
 import { format, formatDate } from "date-fns";
-import { ArrowDown, ArrowLeftRight, Hash, Search } from "lucide-react";
+import { Hash, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useLoadPaymentsUseCase } from "../../useCases/useLoadPaymentsUseCase";
