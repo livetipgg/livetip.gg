@@ -63,6 +63,8 @@ export const EditUserDialog = ({ id }: { id: number }) => {
       telegramUsername: "",
       whatsappUsername: "",
       xUsername: "",
+      youtubeUsername: "",
+      twitchUsername: "",
     },
   });
 
@@ -126,7 +128,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
       <SheetTrigger asChild>
         <Button
           disabled={editDisabled}
-          variant="secondary"
+          variant="link"
           size="icon"
           onClick={(e) => {
             setAuxId(id);
@@ -143,6 +145,8 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                 telegramUsername: user.telegramUsername || "",
                 whatsappUsername: user.whatsappUsername || "",
                 xUsername: user.xUsername || "",
+                youtubeUsername: user.youtubeUsername || "",
+                twitchUsername: user.twitchUsername || "",
               });
               setImagePreview(user.photoUrl);
               setDialogOpen(true);
@@ -156,7 +160,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="w-full md:max-w-[400px]">
         <SheetHeader>
           <SheetTitle>Editar Usuário</SheetTitle>
           <SheetDescription>Edite as informações do usuário</SheetDescription>
@@ -231,15 +235,36 @@ export const EditUserDialog = ({ id }: { id: number }) => {
             </div>
             <div className="flex items-center flex-col mt-4">
               <FormField
-                name="facebookUsername"
+                name="youtubeUsername"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormControl>
                       <SocialInputField
-                        iconUrl="facebook"
+                        iconUrl="youtube"
                         inputProps={{
-                          placeholder: "Nome de usuário do Facebook",
+                          placeholder:
+                            "Nome de usuário do Youtube (Ex: /satoshinakamoto)",
+                          value: field.value,
+                          onChange: field.onChange,
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="twitchUsername"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormControl>
+                      <SocialInputField
+                        iconUrl="twitch"
+                        inputProps={{
+                          placeholder:
+                            "Nome de usuário da Twitch (Ex: /satoshinakamoto)",
                           value: field.value,
                           onChange: field.onChange,
                         }}
@@ -258,7 +283,28 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                       <SocialInputField
                         iconUrl="instagram"
                         inputProps={{
-                          placeholder: "Nome de usuário do Instagram",
+                          placeholder:
+                            "Nome de usuário do Instagram (Ex: @satoshinakamoto)",
+                          value: field.value,
+                          onChange: field.onChange,
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="facebookUsername"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormControl>
+                      <SocialInputField
+                        iconUrl="facebook"
+                        inputProps={{
+                          placeholder:
+                            "Nome de usuário do Facebook (Ex: /satoshinakamoto)",
                           value: field.value,
                           onChange: field.onChange,
                         }}
@@ -284,7 +330,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                         }
                         iconUrl="nostr"
                         inputProps={{
-                          placeholder: "Nome de usuário do Nostr",
+                          placeholder: "Insira sua Npub",
                           value: field.value,
                           onChange: field.onChange,
                         }}
@@ -303,7 +349,8 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                       <SocialInputField
                         iconUrl="telegram"
                         inputProps={{
-                          placeholder: "Nome de usuário do Telegram",
+                          placeholder:
+                            "Nome de usuário do Telegram (Ex: @satoshinakamoto)",
                           value: field.value,
                           onChange: field.onChange,
                         }}
@@ -322,7 +369,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                       <SocialInputField
                         iconUrl="whatsapp"
                         inputProps={{
-                          placeholder: "Nome de usuário do WhatsApp",
+                          placeholder: "Número do WhatsApp",
                           value: field.value,
                           onChange: field.onChange,
                         }}
@@ -341,7 +388,8 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                       <SocialInputField
                         iconUrl="x"
                         inputProps={{
-                          placeholder: "Nome de usuário do X",
+                          placeholder:
+                            "Nome de usuário do X (Ex: @satoshinakamoto)",
                           value: field.value,
                           onChange: field.onChange,
                         }}

@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { NavMain } from "@/components/nav-main";
 import icon from "@/assets/icon.svg";
+import iconPng from "@/assets/icon.png";
 import logotipo_white from "@/assets/logotipo_white.svg";
 
 import {
@@ -19,7 +20,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props} className="selector1">
       <SidebarHeader>
-        {state !== "collapsed" ? (
+        <Link to="/" className="flex items-center">
+          <div className="flex  items-center size-8 aspect-square  rounded-lg    ">
+            <img src={iconPng} alt="logo" />
+          </div>
+          <span className="ml-2 text-primary font-bold text-lg">LiveTip</span>
+        </Link>
+        {/* {state !== "collapsed" ? (
           <Link to="/" className="flex items-center">
             <div className="flex  items-center h-11  rounded-lg    ">
               <img src={logotipo_white} alt="logo" className="w-32" />
@@ -31,7 +38,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <img src={icon} alt="logo" />
             </div>
           </Link>
-        )}
+        )} */}
       </SidebarHeader>
       <SidebarContent>
         <NavMain />

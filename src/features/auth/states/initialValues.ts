@@ -25,4 +25,7 @@ export const initialAuthUser: IAuthUserState = {
   telegramUsername: "",
   whatsappUsername: "",
   xUsername: "",
+
+  youtubeUsername: "",
+  twitchUsername: "",
 };

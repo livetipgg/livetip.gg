@@ -20,7 +20,7 @@ export const NotFoundPage = () => {
         </p>
       </div>
       <Button
-        variant="secondary"
+        variant="default"
         onClick={() => {
           window.location.href = "/inicio";
         }}

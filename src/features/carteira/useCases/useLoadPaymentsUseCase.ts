@@ -46,7 +46,7 @@ export const useLoadPaymentsUseCase = () => {
       console.log("params: ", paymentParams);
 
       const response = await api.get(
-        `${!isAdmin ? "/user/payment" : "/payment"}${
+        `${!isAdmin ? "/user/transaction" : "/transaction"}${
           !isAdmin ? "/" + user.id : ""
         }`,
         {
