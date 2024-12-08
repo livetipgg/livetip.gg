@@ -59,7 +59,7 @@ export function SelectUserCombobox({ onUserSelect }: UserFilterProps) {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[300px] justify-between"
+            className="max-w-[300px] w-full justify-between"
           >
             <div className="flex items-center gap-2">
               {value && (
