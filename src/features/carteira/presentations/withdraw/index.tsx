@@ -94,8 +94,10 @@ const Withdraw = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="cpf">CPF</SelectItem>
+                      <SelectItem value="cnpj">CNPJ</SelectItem>
                       <SelectItem value="random">Chave Aleatória</SelectItem>
                       <SelectItem value="email">E-mail</SelectItem>
+                      <SelectItem value="telefone">Telefone</SelectItem>
                     </SelectContent>
                   </Select>
                   <div className="mt-4">
@@ -105,6 +107,8 @@ const Withdraw = () => {
                           cpf: "CPF",
                           random: "Chave Aleatória",
                           email: "E-mail",
+                          telefone: "Telefone",
+                          cnpj: "CNPJ",
                         }[selectedKey]
                       }
                     </Label>
@@ -136,6 +140,29 @@ const Withdraw = () => {
                         placeholder="Digite sua chave aleatória"
                         value={pixKey}
                         onChange={(e) => setPixKey(e.target.value)}
+                      />
+                    )}
+                    {selectedKey === "telefone" && (
+                      <PatternFormat
+                        key="telefone"
+                        className="p-5 rounded-xl shadow-none bg-background"
+                        format="(##) #####-####"
+                        mask="_"
+                        customInput={Input}
+                        value={pixKey}
+                        onChange={(e) => setPixKey(e.target.value)}
+                        placeholder="Digite seu telefone"
+                      />
+                    )}
+                    {selectedKey === "cnpj" && (
+                      <PatternFormat
+                        className="p-5 rounded-xl shadow-none bg-background"
+                        format="##.###.###/####-##"
+                        mask="_"
+                        customInput={Input}
+                        value={pixKey}
+                        onChange={(e) => setPixKey(e.target.value)}
+                        placeholder="Digite seu CNPJ"
                       />
                     )}
                   </div>
