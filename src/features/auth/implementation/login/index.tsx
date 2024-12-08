@@ -50,12 +50,12 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative  px-2  flex-col ">
+    <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative  px-2  flex-col bg-[#f5f5f5] dark:bg-background ">
       <ModeToggle className="absolute top-4 right-4" />
       <Logotipo classname={`${isMobile ? "w-8" : "w-28"}  absolute top-4 `} />
 
-      <div className="flex items-center justify-center pb-4 ">
-        <div className="mx-auto grid w-full max-w-[450px]  ">
+      <div className="flex items-center justify-center pb-4 w-full ">
+        <div className="mx-auto grid  max-w-[450px]  w-full">
           <div className="flex  flex-col mb-5">
             <h1 className="text-2xl font-medium mb-2 text-black dark:text-white">
               Entrar
@@ -66,7 +66,7 @@ const LoginPage: React.FC = () => {
           </div>
           {loginType === "credencials" && (
             <FormProvider {...form}>
-              <div className="grid gap-4">
+              <div className="grid gap-4 w-full">
                 <div className="grid gap-2">
                   <FormField
                     control={form.control}
@@ -77,7 +77,7 @@ const LoginPage: React.FC = () => {
                           <Input
                             placeholder="Nome de usuario"
                             {...field}
-                            className="p-6 rounded-xl shadow-none border-gray-300 dark:bg-card-custom dark:border-input"
+                            className="p-6 rounded-xl shadow-none border-gray-300 bg-white dark:bg-card-custom dark:border-input"
                           />
                         </FormControl>
 
@@ -98,7 +98,7 @@ const LoginPage: React.FC = () => {
                               {...field}
                               type={showPassword ? "text" : "password"}
                               placeholder="Informe sua senha"
-                              className="p-6 rounded-xl shadow-none border-gray-300 dark:bg-card-custom dark:border-input"
+                              className="p-6 rounded-xl shadow-none border-gray-300 bg-white dark:bg-card-custom dark:border-input"
                               onKeyDown={(e) => {
                                 if (e.key === "Enter") {
                                   form.handleSubmit(onSubmit)();
