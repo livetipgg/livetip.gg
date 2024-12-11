@@ -70,7 +70,7 @@ export const Header = () => {
       </div>
       {controller.currentStep === "MESSAGE" && (
         <>
-          <div className="flex items-center gap-2 justify-start">
+          <div className="flex items-center my-2 w-full gap-2 justify-start">
             {socialLinks.map((link) => {
               if (receiver[link.field]) {
                 return (
