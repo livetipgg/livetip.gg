@@ -14,6 +14,7 @@ import ReactGA from "react-ga4";
 import { TRACKING_ID } from "@/App";
 import { GlobalLoader } from "@/components/global-loader";
 import { NotFoundPage } from "@/features/not-found-page";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const UserMessagePage = () => {
   const { loadReceiverData } = useLoadReceiverData();
@@ -35,7 +36,7 @@ const UserMessagePage = () => {
   }, []);
 
   useEffect(() => {
-    setTheme("light");
+    setTheme("dark");
 
     if (userId) {
       loadReceiverData(userId);
@@ -58,8 +59,9 @@ const UserMessagePage = () => {
     return <NotFoundPage />;
   }
   return (
-    <div className="flex justify-center items-center min-h-screen w-full bg-gray-100 relative">
-      <div className="bg-white rounded-2xl p-5 max-w-[320px] w-full flex items-center flex-col justify-center relative h-full max-h-screen overflow-hidden m-2">
+    <div className="flex justify-center items-center min-h-screen w-full bg-background relative">
+      <ModeToggle className="absolute top-10 " />
+      <div className="bg-card-custom rounded-2xl p-5 max-w-[320px] w-full border flex items-center flex-col justify-center relative h-full max-h-screen overflow-hidden m-2">
         <Header />
         <div className="mt-2 flex items-center justify-center flex-col w-full">
           {controller.currentStep === "MESSAGE" && <MessageStep />}

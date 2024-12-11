@@ -2,7 +2,7 @@
 // src/socket.ts
 import { io, Socket } from "socket.io-client";
 
-const URL = "wss://live-pix-service-dot-livechat-437913.uc.r.appspot.com";
+const URL = "wss://api.livetip.gg";
 
 // Cria uma instância de socket
 const socket: Socket = io(URL, {

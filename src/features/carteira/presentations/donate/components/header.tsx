@@ -55,7 +55,7 @@ export const Header = () => {
   return (
     <>
       <div className="flex items-center gap-2 w-full  ">
-        <div className="w-14 h-14 bg-white  rounded-full flex items-center justify-center p-1 ">
+        <div className="w-14 h-14  border  rounded-full flex items-center justify-center p-1 ">
           <Avatar className="cursor-pointer w-full h-full  rounded-full">
             <AvatarImage src={receiver.photoURL} className="object-cover " />
             <AvatarFallback className="rounded-sm">
