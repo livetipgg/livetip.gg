@@ -20,7 +20,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <div className="flex  items-center size-8 aspect-square  rounded-lg    ">
             <img src={iconPng} alt="logo" />
           </div>
-          <span className="ml-2 text-primary font-bold text-lg">LiveTip</span>
+          <span className="ml-2 text-primary font-bold text-2xl">LiveTip</span>
         </Link>
       </SidebarHeader>
       <SidebarContent>
