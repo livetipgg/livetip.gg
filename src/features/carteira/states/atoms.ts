@@ -21,6 +21,7 @@ export const paymentState = atom<IPaymentState>({
         startDate: undefined,
         limit: 0,
         page: 1,
+        userId: null,
       },
       error: "",
       isLoadingPayments: false,
@@ -57,6 +58,14 @@ export const paymentDonateState = atom<IPaymentDonateState>({
       btcBalance: "",
       photoURL: "",
       brlBalance: "",
+      instagramUsername: "",
+      facebookUsername: "",
+      nostrUsername: "",
+      telegramUsername: "",
+      whatsappUsername: "",
+      xUsername: "",
+      youtubeUsername: "",
+      twitchUsername: "",
     },
 
     controller: {

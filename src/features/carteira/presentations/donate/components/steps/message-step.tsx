@@ -12,6 +12,7 @@ import { useSendMessageAndCreateQRCode } from "@/features/carteira/useCases/useS
 import CurrencyInput from "react-currency-input-field";
 import ReactGA from "react-ga4";
 import InputMoney from "@/components/input-currency";
+
 const MessageStep = () => {
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
   const { content, controller } = useRecoilValue(paymentDonateState);

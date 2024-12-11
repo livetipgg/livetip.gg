@@ -7,6 +7,7 @@ export interface IControllerPaymentState {
     endDate: Date | undefined | string;
     limit: number;
     page: number;
+    userId: number | null;
   };
 }
 
@@ -17,6 +18,7 @@ export interface IPayment {
   currency: "BTC" | "BRL";
   createdAt: string;
   receiverName: string;
+  transactionType: "payment" | "withdraw";
 }
 
 export interface IPaymentDonateState {
@@ -34,6 +36,14 @@ export interface IPaymentDonateState {
     isDeleted: boolean;
     btcBalance: string;
     brlBalance: string;
+    youtubeUsername: string;
+    twitchUsername: string;
+    instagramUsername: string;
+    facebookUsername: string;
+    nostrUsername: string;
+    telegramUsername: string;
+    whatsappUsername: string;
+    xUsername: string;
   };
   controller: {
     loadingReceiverData: boolean;

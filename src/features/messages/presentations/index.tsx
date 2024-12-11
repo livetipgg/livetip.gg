@@ -9,10 +9,8 @@ import MessagesList from "./components/messages-received/messages-list";
 
 import PaginationComponent from "@/components/pagination";
 import FilterBar from "./components/filterBar";
-import { authState } from "@/features/auth/states/atoms";
 const MessagesReceived = () => {
   const setMessageState = useSetRecoilState(messageState);
-  const { user } = useRecoilValue(authState);
   const { controller, messages } = useRecoilValue(messageState);
   const { isLoadingMessages, errorMessages } = controller;
   const { messagesParams } = controller;

@@ -62,6 +62,8 @@ const Profile = () => {
     defaultValues: {
       username: user.username,
       email: user.email || "",
+      youtubeUsername: user.youtubeUsername || "",
+      twitchUsername: user.twitchUsername || "",
       facebookUsername: user.facebookUsername || "",
       instagramUsername: user.instagramUsername || "",
       nostrUsername: user.nostrUsername || "",
@@ -81,6 +83,8 @@ const Profile = () => {
       telegramUsername: user.telegramUsername || "",
       whatsappUsername: user.whatsappUsername || "",
       xUsername: user.xUsername || "",
+      youtubeUsername: user.youtubeUsername || "",
+      twitchUsername: user.twitchUsername || "",
     });
   }, [user]);
 
@@ -190,6 +194,46 @@ const Profile = () => {
                 <Label htmlFor="">Redes Sociais</Label>
               </div>
               <FormField
+                name="youtubeUsername"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <SocialInputField
+                        iconUrl="youtube"
+                        inputProps={{
+                          placeholder:
+                            "Nome de usuário do Youtube (Ex: /satoshinakamoto)",
+                          value: field.value,
+                          onChange: field.onChange,
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="twitchUsername"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <SocialInputField
+                        iconUrl="twitch"
+                        inputProps={{
+                          placeholder:
+                            "Nome de usuário da Twitch (Ex: /satoshinakamoto)",
+                          value: field.value,
+                          onChange: field.onChange,
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
                 name="facebookUsername"
                 control={form.control}
                 render={({ field }) => (
@@ -198,7 +242,8 @@ const Profile = () => {
                       <SocialInputField
                         iconUrl="facebook"
                         inputProps={{
-                          placeholder: "Nome de usuário do Facebook",
+                          placeholder:
+                            "Nome de usuário do Facebook (Ex: /satoshinakamoto)",
                           value: field.value,
                           onChange: field.onChange,
                         }}
@@ -217,7 +262,8 @@ const Profile = () => {
                       <SocialInputField
                         iconUrl="x"
                         inputProps={{
-                          placeholder: "Nome de usuário do X",
+                          placeholder:
+                            "Nome de usuário do X (Ex: @satoshinakamoto)",
                           value: field.value,
                           onChange: field.onChange,
                         }}
@@ -236,7 +282,8 @@ const Profile = () => {
                       <SocialInputField
                         iconUrl="instagram"
                         inputProps={{
-                          placeholder: "Nome de usuário do Instagram",
+                          placeholder:
+                            "Nome de usuário do Instagram (Ex: @satoshinakamoto)",
                           value: field.value,
                           onChange: field.onChange,
                         }}
@@ -262,7 +309,7 @@ const Profile = () => {
                         }
                         iconUrl="nostr"
                         inputProps={{
-                          placeholder: "Nome de usuário do Nostr",
+                          placeholder: "Insira sua Npub",
                           value: field.value,
                           onChange: field.onChange,
                         }}
@@ -281,7 +328,8 @@ const Profile = () => {
                       <SocialInputField
                         iconUrl="telegram"
                         inputProps={{
-                          placeholder: "Nome de usuário do Telegram",
+                          placeholder:
+                            "Nome de usuário do Telegram (Ex: @satoshinakamoto)",
                           value: field.value,
                           onChange: field.onChange,
                         }}
@@ -300,7 +348,7 @@ const Profile = () => {
                       <SocialInputField
                         iconUrl="whatsapp"
                         inputProps={{
-                          placeholder: "Nome de usuário do Whatsapp",
+                          placeholder: "Número do WhatsApp",
                           value: field.value,
                           onChange: field.onChange,
                         }}
@@ -334,7 +382,7 @@ const Profile = () => {
           <div className="max-w-fit bg-background shadow-sm">
             <div className="border rounded flex items-center ">
               <Button
-                className="text-secondary"
+                className="text-primary"
                 variant="link"
                 onClick={() => {
                   navigate(`/${user.username}`, {

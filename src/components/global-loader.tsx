@@ -1,4 +1,4 @@
-import icon from "@/assets/icon.png";
+import icon from "@/assets/icon.svg";
 
 export const GlobalLoader = () => {
   return (
@@ -7,8 +7,8 @@ export const GlobalLoader = () => {
         <img
           src={icon}
           alt="Loading..."
-          width={50}
-          height={50}
+          width={100}
+          height={100}
           className=" animate-bounce"
         />
       </div>

@@ -87,7 +87,7 @@ export const VirtualWithdrawDialog = () => {
       }}
     >
       <DialogTrigger asChild>
-        <Button variant="secondary">Realizar Saque Virtual</Button>
+        <Button variant="default">Realizar Saque Virtual</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

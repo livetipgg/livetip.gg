@@ -15,6 +15,8 @@ export interface IAuthUserState {
   token: string;
   photoUrl: string;
 
+  youtubeUsername: string;
+  twitchUsername: string;
   instagramUsername: string;
   facebookUsername: string;
   nostrUsername: string;

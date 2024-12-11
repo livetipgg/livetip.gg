@@ -14,8 +14,8 @@ export const useWithdrawUseCase = () => {
   const { errorSonner, successSonner } = useCustomSonner();
   const withdraw = async (payload: IWithdrawPayload) => {
     if (payload.pixKey) {
-      // remove / , .  - do pix key
-      payload.pixKey = payload.pixKey.replace(/[./-]/g, "");
+      // remove / , .  - e () e espaços " "
+      payload.pixKey = payload.pixKey.replace(/[^\d]/g, "");
     }
 
     if (payload.amount && payload.amount.startsWith("0")) {

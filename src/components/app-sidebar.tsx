@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { NavMain } from "@/components/nav-main";
-import icon from "@/assets/icon.png";
+import iconPng from "@/assets/icon.png";
 
 import {
   Sidebar,
@@ -16,16 +16,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props} className="selector1">
       <SidebarHeader>
-        <div className="flex items-center gap-1 h-11">
-          <Link to="/" className="flex items-center">
-            <div className="flex aspect-square size-8   items-center justify-center rounded-lg  ">
-              <img src={icon} alt="Logotipo" className="size-6" />
-            </div>
-            <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-semibold text-lg">LiveTip</span>
-            </div>
-          </Link>
-        </div>
+        <Link to="/" className="flex items-center">
+          <div className="flex  items-center size-8 aspect-square  rounded-lg    ">
+            <img src={iconPng} alt="logo" />
+          </div>
+          <span className="ml-2 text-primary font-bold text-lg">LiveTip</span>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <NavMain />

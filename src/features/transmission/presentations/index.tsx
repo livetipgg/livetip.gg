@@ -104,8 +104,8 @@ const TransmissionPage = () => {
   return (
     <>
       <div className="w-full h-32 bg-muted/80 relative mb-10"></div>
-      <div className="absolute top-4 w-full  px-4 flex items-center justify-between">
-        <Logotipo classname="w-20" />
+      <div className="absolute top-0 w-full  px-4 flex items-center justify-between">
+        <Logotipo classname="w-32" />
         <ModeToggle className="bg-background   shadow-sm  flex md:hidden  border" />
       </div>
       <div className="absolute w-full top-8">

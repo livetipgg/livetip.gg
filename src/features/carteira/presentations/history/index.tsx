@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 import { withLayout } from "@/HOC/withLayout";
 import { format, formatDate } from "date-fns";
-import { ArrowLeftRight, Hash, Search } from "lucide-react";
+import { Hash, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useLoadPaymentsUseCase } from "../../useCases/useLoadPaymentsUseCase";
@@ -16,6 +16,8 @@ import DateFilter from "@/features/messages/presentations/components/messages-re
 import { NoContent } from "@/components/no-content";
 import PaginationComponent from "@/components/pagination";
 import { authState } from "@/features/auth/states/atoms";
+import { SelectUserCombobox } from "@/components/select-user-combobox";
+import { DoubleArrowDownIcon, DoubleArrowUpIcon } from "@radix-ui/react-icons";
 
 const TransactionsHistory = () => {
   const { user } = useRecoilValue(authState);
@@ -68,16 +70,48 @@ const TransactionsHistory = () => {
     }));
   };
 
+  const clearUserId = () => {
+    setPaymentState((prevState) => ({
+      ...prevState,
+      controller: {
+        ...prevState.controller,
+        params: {
+          ...prevState.controller.params,
+          userId: null,
+        },
+      },
+    }));
+  };
+
   const isAdmin = user.id === 3;
+
   return (
     <div>
-      {/* Filtro de Data */}
       <div className="flex justify-between items-center flex-wrap bg-card-custom p-4">
-        <DateFilter
-          date={date}
-          onDateSelect={handleSetDate}
-          onClear={clearDate}
-        />
+        <div className="flex items-center flex-1 flex-wrap gap-2">
+          <DateFilter
+            date={date}
+            onDateSelect={handleSetDate}
+            onClear={clearDate}
+          />
+          {isAdmin && (
+            <SelectUserCombobox
+              onClear={clearUserId}
+              onUserSelect={async (user) => {
+                await setPaymentState((prevState) => ({
+                  ...prevState,
+                  controller: {
+                    ...prevState.controller,
+                    params: {
+                      ...prevState.controller.params,
+                      userId: user,
+                    },
+                  },
+                }));
+              }}
+            />
+          )}
+        </div>
         <Button
           variant="default"
           className="w-full lg:w-auto mt-4 lg:mt-0"
@@ -116,7 +150,15 @@ const TransactionsHistory = () => {
             key={payment.id}
           >
             <div className="flex items-start md:items-center gap-4 lg:gap-10 flex-1 flex-col md:flex-row">
-              <ArrowLeftRight className="h-4 w-4" />
+              {payment.transactionType === "payment" ? (
+                <div className="p-1 w-6 h-6 rounded border flex items-center justify-center bg-green-400/20 border-green-700 text-green-700">
+                  <DoubleArrowDownIcon className="h-4 w-4" />
+                </div>
+              ) : (
+                <div className="p-1 w-6 h-6 rounded border flex items-center justify-center bg-red-400/20 border-red-700 text-red-700">
+                  <DoubleArrowUpIcon className="h-4 w-4" />
+                </div>
+              )}
               <div className="flex flex-col">
                 {isAdmin && (
                   <span className="font-bold">{payment.receiverName}</span>

@@ -48,7 +48,7 @@ const ProfileImageUploader: React.FC = () => {
     >
       <AlertDialogTrigger asChild>
         <div className="flex items-center gap-2 flex-col md:flex-row">
-          <Button variant="secondary" className="w-full md:w-fit">
+          <Button variant="link" className="w-full md:w-fit">
             Mudar foto
           </Button>
           <Button variant="destructive_secondary" onClick={handleRemovePhoto}>

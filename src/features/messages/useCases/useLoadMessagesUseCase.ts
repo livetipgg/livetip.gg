@@ -64,6 +64,7 @@ export const useLoadMessagesUseCase = () => {
         query: params?.query || messagesParams.query || null,
         startDate: messagesParams.startDate,
         endDate: messagesParams.endDate,
+        userId: messagesParams.userId,
       };
 
       // Adicionar `query` apenas se ela existir e não for vazia

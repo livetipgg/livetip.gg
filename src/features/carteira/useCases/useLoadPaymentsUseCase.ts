@@ -2,7 +2,6 @@ import useCreateApiInstance from "@/config/api";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { IPaymentState } from "../contracts/IRecoilState";
 import { paymentState } from "../states/atoms";
-import { PAYMENT } from "@/helpers/apiUrls";
 import { authState } from "@/features/auth/states/atoms";
 
 export const useLoadPaymentsUseCase = () => {
@@ -15,6 +14,7 @@ export const useLoadPaymentsUseCase = () => {
   interface LoadPaymentsParams {
     limit?: number;
     page?: number;
+    userId?: number;
   }
 
   const loadPayments = async (params?: LoadPaymentsParams) => {
@@ -43,6 +43,7 @@ export const useLoadPaymentsUseCase = () => {
 
       // TODO: Essa merda n pode ficar assim mas por enquanto vai
       const isAdmin = user.id === 3;
+      console.log("params: ", paymentParams);
 
       const response = await api.get(
         `${!isAdmin ? "/user/transaction" : "/transaction"}${

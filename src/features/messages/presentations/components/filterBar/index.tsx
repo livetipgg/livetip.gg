@@ -8,8 +8,11 @@ import { messageState } from "@/features/messages/states/atoms";
 import React from "react";
 import { useLoadMessagesUseCase } from "@/features/messages/useCases/useLoadMessagesUseCase";
 import { format } from "date-fns";
+import { SelectUserCombobox } from "@/components/select-user-combobox";
+import { authState } from "@/features/auth/states/atoms";
 
 const FilterBar = () => {
+  const { user } = useRecoilValue(authState);
   const setMessageState = useSetRecoilState(messageState);
   const { controller } = useRecoilValue(messageState);
   const { messagesParams, isLoadingMessages } = controller;
@@ -37,6 +40,8 @@ const FilterBar = () => {
       },
     }));
   };
+
+  const isAdmin = user.id === 3;
 
   const handleSetDate = (date: DateRange) => {
     setDate(date);
@@ -87,6 +92,23 @@ const FilterBar = () => {
           onDateSelect={handleSetDate}
           onClear={clearDate}
         />
+
+        {isAdmin && (
+          <SelectUserCombobox
+            onUserSelect={(user) => {
+              setMessageState((prevState) => ({
+                ...prevState,
+                controller: {
+                  ...prevState.controller,
+                  messagesParams: {
+                    ...prevState.controller.messagesParams,
+                    userId: user,
+                  },
+                },
+              }));
+            }}
+          />
+        )}
       </div>
 
       <Button

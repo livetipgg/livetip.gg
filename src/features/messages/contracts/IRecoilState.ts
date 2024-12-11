@@ -33,6 +33,7 @@ export interface IMessageController {
     limit: number;
     page: number;
     ordered: boolean;
+    userId: number | null;
   };
 
   lastMessagesParams: {

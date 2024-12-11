@@ -1,9 +1,9 @@
 // src/layouts/AuthLayout.tsx
 
 import React from "react";
-import logotipoWhite from "@/assets/logotipo_white.png";
+import logotipoWhite from "@/assets/logotipo_white.svg";
 import background from "@/assets/background.png";
-import icon from "@/assets/icon.png";
+import icon from "@/assets/icon.svg";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ModeToggle } from "@/components/mode-toggle";
 
