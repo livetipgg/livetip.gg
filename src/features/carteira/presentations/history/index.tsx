@@ -22,12 +22,16 @@ import { DoubleArrowDownIcon, DoubleArrowUpIcon } from "@radix-ui/react-icons";
 const TransactionsHistory = () => {
   const { user } = useRecoilValue(authState);
   const setPaymentState = useSetRecoilState(paymentState);
+  const { payments, controller } = useRecoilValue(paymentState);
   const [date, setDate] = useState<DateRange | undefined>({
-    to: undefined,
-    from: undefined,
+    to: controller.params.startDate
+      ? new Date(controller.params.startDate)
+      : undefined,
+    from: controller.params.endDate
+      ? new Date(controller.params.endDate)
+      : undefined,
   });
 
-  const { payments, controller } = useRecoilValue(paymentState);
   const { isLoadingPayments } = controller;
   const { loadPayments } = useLoadPaymentsUseCase();
 
@@ -96,6 +100,7 @@ const TransactionsHistory = () => {
           />
           {isAdmin && (
             <SelectUserCombobox
+              userSelected={controller.params.userId}
               onClear={clearUserId}
               onUserSelect={async (user) => {
                 await setPaymentState((prevState) => ({

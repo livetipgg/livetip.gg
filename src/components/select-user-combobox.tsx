@@ -26,12 +26,16 @@ import { adminState } from "@/features/admin/state/atoms";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface UserFilterProps {
+  userSelected: any;
   onUserSelect: (value: any) => void;
   onClear?: () => void;
 }
-export function SelectUserCombobox({ onUserSelect }: UserFilterProps) {
+export function SelectUserCombobox({
+  onUserSelect,
+  userSelected,
+}: UserFilterProps) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = React.useState(userSelected);
 
   const { getAllUsers } = useAdminGetAllUsersUseCase();
   const { controller } = useRecoilValue(adminState);
