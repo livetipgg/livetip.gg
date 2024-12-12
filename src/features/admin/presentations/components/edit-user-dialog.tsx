@@ -160,7 +160,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent className="w-full md:max-w-[400px]">
+      <SheetContent className="w-full md:max-w-[400px] overflow-auto">
         <SheetHeader>
           <SheetTitle>Editar Usuário</SheetTitle>
           <SheetDescription>Edite as informações do usuário</SheetDescription>
