@@ -18,6 +18,7 @@ import PaginationComponent from "@/components/pagination";
 import { authState } from "@/features/auth/states/atoms";
 import { SelectUserCombobox } from "@/components/select-user-combobox";
 import { DoubleArrowDownIcon, DoubleArrowUpIcon } from "@radix-ui/react-icons";
+import { cn } from "@/lib/utils";
 
 const TransactionsHistory = () => {
   const { user } = useRecoilValue(authState);
@@ -187,12 +188,28 @@ const TransactionsHistory = () => {
             </div>
             <div className="flex items-center gap-2">
               <PaymentIcon currency={payment.currency} className="h-5 w-5" />
-              <span className="text-lg font-bold">
-                {formatPayment({
-                  amount: payment.amount,
-                  type: payment.currency,
-                })}
-              </span>
+              <div>
+                {payment.transactionType === "payment" ? (
+                  ""
+                ) : (
+                  <span className="text-lg font-bold text-red-700 dark:text-red-400 mr-1">
+                    -
+                  </span>
+                )}
+                <span
+                  className={cn(
+                    "text-lg font-bold",
+                    payment.transactionType === "payment"
+                      ? "text-green-700 dark:text-green-400"
+                      : "text-red-700 dark:text-red-400"
+                  )}
+                >
+                  {formatPayment({
+                    amount: payment.amount,
+                    type: payment.currency,
+                  })}
+                </span>
+              </div>
             </div>
           </div>
         ))}
