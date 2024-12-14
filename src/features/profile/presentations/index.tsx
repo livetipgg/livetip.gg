@@ -166,7 +166,7 @@ const Profile = () => {
                 <span className="font-bold">QR Code </span>
                 <Button
                   size="icon"
-                  className="w-fit h-fit"
+                  className="w-fit h-fit p-1"
                   onClick={downloadQRCode}
                 >
                   <Download size={16} />
