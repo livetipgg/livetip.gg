@@ -3,6 +3,8 @@ import { paymentDonateState } from "@/features/carteira/states/atoms";
 import { BadgeCheck, User } from "lucide-react";
 import { useRecoilValue } from "recoil";
 import nostrLogo from "@/assets/nostr.png";
+import { cn } from "@/lib/utils";
+import { useTheme } from "@/components/theme-provider";
 
 const socialLinks = [
   {
@@ -51,10 +53,10 @@ const socialLinks = [
 ];
 export const Header = () => {
   const { receiver, controller } = useRecoilValue(paymentDonateState);
-
+  const { theme } = useTheme();
   return (
     <>
-      <div className="flex items-center gap-2 w-full  ">
+      <div className="flex items-center justify-center gap-2 w-full  ">
         <div className="w-14 h-14  border  rounded-full flex items-center justify-center p-1 ">
           <Avatar className="cursor-pointer w-full h-full  rounded-full">
             <AvatarImage src={receiver.photoURL} className="object-cover " />
@@ -70,7 +72,7 @@ export const Header = () => {
       </div>
       {controller.currentStep === "MESSAGE" && (
         <>
-          <div className="flex items-center my-2 w-full gap-2 justify-start">
+          <div className="flex items-center my-2 w-full gap-2 justify-center">
             {socialLinks.map((link) => {
               if (receiver[link.field]) {
                 return (
@@ -85,7 +87,12 @@ export const Header = () => {
                       <img
                         src={`https://cdn.simpleicons.org/${link.icon}`}
                         alt={`${link.field} icon`}
-                        className="w-5 h-5"
+                        className={cn(
+                          "w-5 h-5",
+                          link.field === "xUsername" && theme === "dark"
+                            ? "filter invert"
+                            : ""
+                        )}
                       />
                     ) : (
                       link.iconComponent

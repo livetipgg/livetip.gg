@@ -36,7 +36,7 @@ const UserMessagePage = () => {
   }, []);
 
   useEffect(() => {
-    setTheme("dark");
+    setTheme("system");
 
     if (userId) {
       loadReceiverData(userId);
@@ -60,8 +60,8 @@ const UserMessagePage = () => {
   }
   return (
     <div className="flex justify-center items-center min-h-screen w-full bg-background relative">
-      <ModeToggle className="absolute top-10 " />
-      <div className="bg-card-custom rounded-2xl p-5 max-w-[320px] w-full border flex items-center flex-col justify-center relative h-full max-h-screen overflow-hidden m-2">
+      <div className="bg-card-custom rounded-2xl p-5 max-w-[320px] w-full border flex items-center flex-col justify-center  h-full max-h-screen overflow-hidden m-2 relative">
+        <ModeToggle className="absolute top-1 right-1 " />
         <Header />
         <div className="mt-2 flex items-center justify-center flex-col w-full">
           {controller.currentStep === "MESSAGE" && <MessageStep />}
