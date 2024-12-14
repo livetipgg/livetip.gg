@@ -6,7 +6,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -21,7 +20,6 @@ import {
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/features/auth/states/atoms";
-import { BalancePreview } from "@/features/balance/presentations/components/balance-preview";
 import { useAuthLogoutUseCase } from "@/features/auth/useCases/useAuthLogoutUseCase";
 
 export function NavUser() {
@@ -80,10 +78,6 @@ export function NavUser() {
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <BalancePreview />
-            </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-danger  " onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />

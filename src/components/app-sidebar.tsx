@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 import { NavUser } from "./nav-user";
 import { Link } from "react-router-dom";
+import { NavBalance } from "./nav-balance";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -24,6 +25,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </Link>
       </SidebarHeader>
       <SidebarContent>
+        <NavBalance />
+
         <NavMain />
       </SidebarContent>
       <SidebarFooter className=" flex items-center justify-center">
