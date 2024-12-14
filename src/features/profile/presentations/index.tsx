@@ -467,37 +467,7 @@ const Profile = () => {
           </Button>
         </div>
       </SectionCard>
-      <SectionCard className="mb-5" title="Link público">
-        <div className="flex flex-col ">
-          <div className="max-w-fit bg-background shadow-sm">
-            <div className="border rounded flex items-center ">
-              <Button
-                className="text-primary"
-                variant="link"
-                onClick={() => {
-                  navigate(`/${user.username}`, {
-                    relative: "path",
-                  });
-                }}
-              >
-                {url}
-                {user.username}
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  navigator.clipboard.writeText(` ${url}${user.username}`);
 
-                  successSonner("Link copiado com sucesso!");
-                }}
-              >
-                <Copy className="w-4 h-4 mr-2" />
-                Copiar
-              </Button>
-            </div>
-          </div>
-        </div>
-      </SectionCard>
       {/* Encerrar conta */}
       <SectionCard title="Encerrar conta">
         <span className="my-10 text-muted-foreground">
