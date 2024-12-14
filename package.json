@@ -36,6 +36,7 @@
     "crypto-js": "^4.2.0",
     "date-fns": "^4.1.0",
     "firebase": "^11.0.1",
+    "html-to-image": "^1.11.11",
     "intro.js": "^7.2.0",
     "intro.js-react": "^1.0.0",
     "loadash": "^1.0.0",
