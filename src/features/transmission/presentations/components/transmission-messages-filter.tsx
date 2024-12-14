@@ -52,11 +52,13 @@ export const TransmissionMessagesFilter = () => {
 
   return (
     <div className="space-y-5 pb-10">
-      <div className="flex items-center justify-between">
-        <DateFilter date={date} onDateSelect={handleSetDate} />
+      <div className="flex items-center gap-2  justify-between flex-wrap">
+        <div className="w-full md:w-fit">
+          <DateFilter date={date} onDateSelect={handleSetDate} />
+        </div>
         <Button
           variant={"outline"}
-          className={`${
+          className={`w-full md:w-fit ${
             isLoadingTransmissionMessages ? "text-muted-foreground" : ""
           }`}
           title="Atualizar"

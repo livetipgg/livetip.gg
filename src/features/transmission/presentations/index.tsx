@@ -15,12 +15,15 @@ import { Logotipo } from "@/components/logotipo";
 import { TransmissionUserHeader } from "./components/transmission-user-header";
 import { TransmissionMessages } from "./components/transmission-messages";
 import { TransmissionMessagesFilter } from "./components/transmission-messages-filter";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { UserQrCode } from "@/components/user-qrcode";
 
 const TransmissionPage = () => {
   const [processedMessages, setProcessedMessages] = useState(new Set());
   const audio = new Audio(notificationAudio);
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
   const { user } = useRecoilValue(authState);
+  const isMobile = useIsMobile();
   const { loadTransmissionMessages } = useLoadTransmissionMessagesUseCase();
   const today = new Date();
   const date = new Intl.DateTimeFormat("pt-BR", {
@@ -104,6 +107,12 @@ const TransmissionPage = () => {
   return (
     <>
       <div className="w-full h-32 bg-muted/80 relative mb-10"></div>
+      {!isMobile && (
+        <UserQrCode
+          user={user}
+          className="fixed top-1 right-1 xl:top-10 xl:right-10  z-[9999]"
+        />
+      )}
       <div className="absolute top-0 w-full  px-4 flex items-center justify-between">
         <Logotipo classname="w-32" />
         <ModeToggle className="bg-background   shadow-sm  flex md:hidden  border" />
