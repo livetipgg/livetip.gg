@@ -129,76 +129,6 @@ const Profile = () => {
 
   return (
     <div className="max-w-xl ">
-      <SectionCard className="mb-5" title="Link público">
-        <div className="flex flex-col ">
-          <div className="max-w-fit bg-background shadow-sm">
-            <div className="border rounded flex items-center ">
-              <Button
-                className="text-primary"
-                variant="link"
-                onClick={() => {
-                  navigate(`/${user.username}`, {
-                    relative: "path",
-                  });
-                }}
-              >
-                {url}
-                {user.username}
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  navigator.clipboard.writeText(` ${url}${user.username}`);
-
-                  successSonner("Link copiado com sucesso!");
-                }}
-              >
-                <Copy className="w-4 h-4 mr-2" />
-                Copiar
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className=" mt-4 space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <span className="font-bold">QR Code </span>
-                <Button
-                  size="icon"
-                  className="w-fit h-fit p-1"
-                  onClick={downloadQRCode}
-                >
-                  <Download size={16} />
-                </Button>
-              </div>
-              <div ref={qrRef} className="p-1">
-                <div className="bg-primary mb-10 p-4 rounded-xl h-[260px] w-[200px] flex flex-col items-center justify-center">
-                  <span className="text-white font-bold ">
-                    livetip.gg/{user.username}
-                  </span>
-                  <QRCodeSVG
-                    className="bg-white p-1 w-fit h-[180px] rounded-lg"
-                    value={`${url}${user.username}`}
-                    size={180}
-                    imageSettings={{
-                      src: iconLogo,
-                      x: undefined,
-                      y: undefined,
-                      height: 30,
-                      width: 44,
-                      excavate: true,
-                    }}
-                  />
-                  <span className="text-white font-bold text-center text-sm mt-2 ">
-                    leia o código com a câmera do celular.
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </SectionCard>
       {/* Dados do perfil */}
       <SectionCard title="Dados do perfil" className="mb-5">
         <div className="flex flex-col space-y-10 ">
@@ -465,6 +395,77 @@ const Profile = () => {
               "Salvar Alterações"
             )}
           </Button>
+        </div>
+      </SectionCard>
+
+      <SectionCard className="mb-5" title="Link público">
+        <div className="flex flex-col ">
+          <div className="max-w-fit bg-background shadow-sm">
+            <div className="border rounded flex items-center ">
+              <Button
+                className="text-primary"
+                variant="link"
+                onClick={() => {
+                  navigate(`/${user.username}`, {
+                    relative: "path",
+                  });
+                }}
+              >
+                {url}
+                {user.username}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  navigator.clipboard.writeText(` ${url}${user.username}`);
+
+                  successSonner("Link copiado com sucesso!");
+                }}
+              >
+                <Copy className="w-4 h-4 mr-2" />
+                Copiar
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className=" mt-4 space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="font-bold">QR Code </span>
+                <Button
+                  size="icon"
+                  className="w-fit h-fit p-1"
+                  onClick={downloadQRCode}
+                >
+                  <Download size={16} />
+                </Button>
+              </div>
+              <div ref={qrRef} className="p-1">
+                <div className="bg-primary mb-10 p-4 rounded-xl h-[260px] w-[200px] flex flex-col items-center justify-center">
+                  <span className="text-white font-bold ">
+                    livetip.gg/{user.username}
+                  </span>
+                  <QRCodeSVG
+                    className="bg-white p-1 w-fit h-[180px] rounded-lg"
+                    value={`${url}${user.username}`}
+                    size={180}
+                    imageSettings={{
+                      src: iconLogo,
+                      x: undefined,
+                      y: undefined,
+                      height: 30,
+                      width: 44,
+                      excavate: true,
+                    }}
+                  />
+                  <span className="text-white font-bold text-center text-sm mt-2 ">
+                    leia o código com a câmera do celular.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </SectionCard>
 
