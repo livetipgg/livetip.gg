@@ -31,25 +31,29 @@ export const NavBalance = () => {
     <SidebarGroup>
       <SidebarMenu className="selector2">
         <SidebarMenuItem>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <SidebarMenuButton size="lg">
-                <Button
-                  className="flex items-center flex-col text-xs"
-                  size="icon"
-                >
-                  <PiggyBank size={18} />
-                </Button>
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              side={isMobile ? "bottom" : "right"}
-              sideOffset={4}
-              className="w-[250px]"
-            >
-              <BalancePreview />
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {isMobile ? (
+            <BalancePreview />
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton size="lg">
+                  <Button
+                    className="flex items-center flex-col text-xs"
+                    size="icon"
+                  >
+                    <PiggyBank size={18} />
+                  </Button>
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side={isMobile ? "bottom" : "right"}
+                sideOffset={4}
+                className="w-[250px]"
+              >
+                <BalancePreview />
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>

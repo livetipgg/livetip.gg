@@ -96,16 +96,19 @@ export const BalancePreview: React.FC = () => {
   const { brlBalance, btcBalance } = user;
   return (
     <div className="flex gap-2 flex-col items-stretch w-full ">
-      <div className=" p-2 absolute top-0 right-0 flex items-center gap-1">
-        {!isLoading && (
-          <BalanceToggleButton
-            showCurrentBalance={showCurrentBalance}
-            toggleShowCurrentBalance={() =>
-              setShowCurrentBalance(!showCurrentBalance)
-            }
-          />
-        )}
-        <BalanceLoadBalance />
+      <div className="px-1 flex items-center justify-between">
+        <span className="font-xs font-medium ">Saldo</span>
+        <div className="flex items-center gap-1">
+          {!isLoading && (
+            <BalanceToggleButton
+              showCurrentBalance={showCurrentBalance}
+              toggleShowCurrentBalance={() =>
+                setShowCurrentBalance(!showCurrentBalance)
+              }
+            />
+          )}
+          <BalanceLoadBalance />
+        </div>
       </div>
       <BalanceItem
         logo={pixLogo}
