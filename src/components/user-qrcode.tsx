@@ -16,7 +16,7 @@ export const UserQrCode = ({ user, className }: UserQrCodeProps) => {
   return (
     <div
       className={cn(
-        "bg-primary mb-10 p-1 xl:p-4 rounded-xl h-fit xl:h-[260px] w-fit xl:w-[200px] flex flex-col items-center justify-center",
+        "bg-primary shadow-lg mb-10 p-1 xl:p-4 rounded-xl h-fit xl:h-[260px] w-fit xl:w-[200px] flex flex-col items-center justify-center",
         className
       )}
     >

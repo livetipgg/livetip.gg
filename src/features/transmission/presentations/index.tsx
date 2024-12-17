@@ -110,7 +110,7 @@ const TransmissionPage = () => {
       {!isMobile && (
         <UserQrCode
           user={user}
-          className="fixed top-1 right-1 xl:top-10 xl:right-10  z-[9999]"
+          className="fixed top-1 right-1 xl:top-10 xl:right-10  z-[9999] "
         />
       )}
       <div className="absolute top-0 w-full  px-4 flex items-center justify-between">
