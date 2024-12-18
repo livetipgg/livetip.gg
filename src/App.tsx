@@ -4,7 +4,6 @@ import { Toaster } from "./components/ui/sonner";
 import { useEffect } from "react";
 import ReactGA from "react-ga4";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const TRACKING_ID = "GTM-KJ7V6D8J";
 function App() {
@@ -16,7 +15,6 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={routers} />
-      <SpeedInsights />
       <Toaster />
     </QueryClientProvider>
   );
