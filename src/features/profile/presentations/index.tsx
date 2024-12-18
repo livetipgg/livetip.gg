@@ -112,6 +112,8 @@ const Profile = () => {
   }
   const qrRef = useRef(null);
 
+  console.log("QRCODE", `https://livetip.gg/${user.username}`);
+
   const downloadQRCode = () => {
     if (qrRef.current) {
       toPng(qrRef.current, { cacheBust: false, pixelRatio: 2 })
@@ -443,12 +445,12 @@ const Profile = () => {
               </div>
               <div ref={qrRef} className="p-1">
                 <div className="bg-primary mb-10 p-4 rounded-xl h-[260px] w-[200px] flex flex-col items-center justify-center">
-                  <span className="text-white font-bold ">
+                  <span className="text-white text-sm font-bold mb-2 ">
                     livetip.gg/{user.username}
                   </span>
                   <QRCodeSVG
                     className="bg-white p-1 w-fit h-[180px] rounded-lg"
-                    value={`${url}${user.username}`}
+                    value={`https://livetip.gg/${user.username}`}
                     size={180}
                     imageSettings={{
                       src: iconLogo,
