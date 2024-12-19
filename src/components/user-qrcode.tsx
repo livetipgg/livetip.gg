@@ -26,6 +26,9 @@ export const UserQrCode = ({ user, className }: UserQrCodeProps) => {
         logoHeight={20}
         removeQrCodeBehindLogo
         bgColor="#ffffff"
+        style={{
+          borderRadius: "10px",
+        }}
       />
       <span className="text-white font-bold text-center text-sm mt-2  hidden xl:flex">
         leia o código com a câmera do celular.
