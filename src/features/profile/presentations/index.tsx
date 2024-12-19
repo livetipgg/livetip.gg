@@ -452,6 +452,9 @@ const Profile = () => {
                     <QRCode
                       value={`https://livetip.gg/${user.username}`}
                       size={160}
+                      style={{
+                        borderRadius: "10px",
+                      }}
                       logoImage={iconLogo}
                       logoHeight={20}
                       removeQrCodeBehindLogo

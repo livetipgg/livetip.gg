@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { QRCodeSVG } from "qrcode.react";
 import iconLogo from "@/assets/icon.png";
 import { cn } from "@/lib/utils";
+import { QRCode } from "react-qrcode-logo";
 
 type UserQrCodeProps = {
   className?: string;
@@ -9,10 +9,6 @@ type UserQrCodeProps = {
 };
 
 export const UserQrCode = ({ user, className }: UserQrCodeProps) => {
-  const url = import.meta.env.PROD
-    ? import.meta.env.VITE_PRODUCTION_URL
-    : import.meta.env.VITE_DEVELOPMENT_URL;
-
   return (
     <div
       className={cn(
@@ -23,18 +19,13 @@ export const UserQrCode = ({ user, className }: UserQrCodeProps) => {
       <span className="text-white font-bold hidden xl:flex">
         livetip.gg/{user.username}
       </span>
-      <QRCodeSVG
-        className="bg-white p-1 w-fit h-32 xl:h-[180px] rounded-lg"
-        value={`${url}${user.username}`}
-        size={180}
-        imageSettings={{
-          src: iconLogo,
-          x: undefined,
-          y: undefined,
-          height: 30,
-          width: 44,
-          excavate: true,
-        }}
+      <QRCode
+        value={`https://livetip.gg/${user.username}`}
+        size={160}
+        logoImage={iconLogo}
+        logoHeight={20}
+        removeQrCodeBehindLogo
+        bgColor="#ffffff"
       />
       <span className="text-white font-bold text-center text-sm mt-2  hidden xl:flex">
         leia o código com a câmera do celular.
