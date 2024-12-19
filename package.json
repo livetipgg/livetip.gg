@@ -61,6 +61,7 @@
     "react-maskedinput": "^4.0.1",
     "react-number-format": "^5.4.2",
     "react-qr-code": "^2.0.15",
+    "react-qrcode-logo": "^3.0.0",
     "react-router-dom": "^6.26.2",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",

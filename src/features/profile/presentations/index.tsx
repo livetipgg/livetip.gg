@@ -38,7 +38,7 @@ import SocialInputField from "./components/social-input-field";
 import { useEffect, useRef } from "react";
 import { useAuthGetUserUseCase } from "@/features/auth/useCases/useAuthGetUserUseCase";
 import { useProfileGetUserInfoUseCase } from "../useCases/useProfileGetUserInfoUseCase";
-import { QRCodeSVG } from "qrcode.react";
+import { QRCode } from "react-qrcode-logo";
 
 const Profile = () => {
   const { user } = useRecoilValue(authState);
@@ -444,23 +444,21 @@ const Profile = () => {
                 </Button>
               </div>
               <div ref={qrRef} className="p-1">
-                <div className="bg-primary mb-10 p-4 rounded-xl h-[260px] w-[200px] flex flex-col items-center justify-center">
+                <div className="bg-primary mb-10 p-4 rounded-xl h-[280px] w-[200px] flex flex-col items-center justify-center ">
                   <span className="text-white text-sm font-bold mb-2 ">
                     livetip.gg/{user.username}
                   </span>
-                  <QRCodeSVG
-                    className="bg-white p-1 w-fit h-[180px] rounded-lg"
-                    value={`https://livetip.gg/${user.username}`}
-                    size={180}
-                    imageSettings={{
-                      src: iconLogo,
-                      x: undefined,
-                      y: undefined,
-                      height: 30,
-                      width: 44,
-                      excavate: true,
-                    }}
-                  />
+                  <div className="rounded-lg">
+                    <QRCode
+                      value={`https://livetip.gg/${user.username}`}
+                      size={160}
+                      logoImage={iconLogo}
+                      logoHeight={20}
+                      removeQrCodeBehindLogo
+                      bgColor="#ffffff"
+                    />
+                  </div>
+
                   <span className="text-white font-bold text-center text-sm mt-2 ">
                     leia o código com a câmera do celular.
                   </span>
