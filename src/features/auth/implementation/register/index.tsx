@@ -64,7 +64,7 @@ const RegisterPage: React.FC = () => {
   return (
     <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative  px-2  ">
       <ModeToggle className="absolute top-4 right-4" />
-      <Logotipo classname={`${isMobile ? "w-8" : "w-28"}  absolute top-4 `} />
+      <Logotipo classname={`w-28  absolute top-4 `} />
 
       <div className="flex items-center justify-center py-12 ">
         <div className="mx-auto grid w-[350px]  ">
