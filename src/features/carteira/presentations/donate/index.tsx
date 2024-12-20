@@ -36,7 +36,7 @@ const UserMessagePage = () => {
   }, []);
 
   useEffect(() => {
-    setTheme("system");
+    setTheme("light");
 
     if (userId) {
       loadReceiverData(userId);
