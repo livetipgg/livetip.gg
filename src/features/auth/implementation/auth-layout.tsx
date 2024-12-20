@@ -34,6 +34,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
           <div className="flex items-center justify-center py-12  ">
             {children}
           </div>
+          teste
         </div>
       </div>
     </div>

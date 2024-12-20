@@ -26,6 +26,8 @@ import { Logotipo } from "@/components/logotipo";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 
+import { HelpButton } from "../components/help-button";
+
 const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { loginType, isLoading, error } = useRecoilValue(authController);
@@ -53,7 +55,6 @@ const LoginPage: React.FC = () => {
     <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative  px-2  flex-col bg-[#f5f5f5] dark:bg-background ">
       <ModeToggle className="absolute top-4 right-4" />
       <Logotipo classname={`${isMobile ? "w-8" : "w-28"}  absolute top-4 `} />
-
       <div className="flex items-center justify-center pb-4 w-full ">
         <div className="mx-auto grid  max-w-[450px]  w-full">
           <div className="flex  flex-col mb-5">
@@ -148,6 +149,7 @@ const LoginPage: React.FC = () => {
           Cadastre-se agora
         </Link>
       </span>
+      <HelpButton />
     </div>
   );
 };

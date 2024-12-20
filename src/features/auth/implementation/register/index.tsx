@@ -26,6 +26,7 @@ import { formRegisterSchema } from "../../schemas/formRegisterSchema";
 import { useAdminCreateUserUseCase } from "@/features/admin/useCases/useAdminCreateUserUseCase";
 import { adminState } from "@/features/admin/state/atoms";
 import { useAuthLogoutUseCase } from "../../useCases/useAuthLogoutUseCase";
+import { HelpButton } from "../components/help-button";
 
 const RegisterPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -208,6 +209,7 @@ const RegisterPage: React.FC = () => {
             {errorCreateUser && <ErrorAlert error={errorCreateUser} />}
           </FormProvider>
         </div>
+        <HelpButton />
       </div>
     </div>
   );
