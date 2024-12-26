@@ -204,7 +204,13 @@ const Withdraw = () => {
                   Informe o invoice
                 </span>
                 <div className="mt-4">
-                  <div className="flex justify-end gap-2 flex-wrap">
+                  <div className="flex justify-between gap-2 flex-wrap">
+                    <span className="text-sm font-semibold text-muted-foreground">
+                      Saldo disponível:{" "}
+                      <strong className="text-primary">
+                        {user.btcBalance} SATS
+                      </strong>
+                    </span>
                     <Button
                       className="flex items-center gap-2"
                       variant="outline"
