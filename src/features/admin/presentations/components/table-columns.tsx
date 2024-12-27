@@ -158,6 +158,7 @@ export const usersColumn: ColumnDef<any>[] = [
             onConfirm={() => handleCancelAccount(userId)}
           >
             <Button
+              title="Encerrar conta"
               size="icon"
               variant="link"
               disabled={isLoadingCancelAccount}
