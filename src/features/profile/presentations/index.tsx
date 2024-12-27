@@ -523,7 +523,7 @@ const Profile = () => {
             confirmText="Encerrar conta"
             cancelText="Voltar"
             disabled={isLoadingCancelAccount}
-            onConfirm={handleCancelAccount}
+            onConfirm={() => handleCancelAccount(user.id)}
           >
             <Button
               variant="destructive_secondary"

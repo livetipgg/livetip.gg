@@ -1,13 +1,19 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ColumnDef } from "@tanstack/react-table";
-import { User } from "lucide-react";
+import { Ban, LoaderCircle, User } from "lucide-react";
 import { EditUserDialog } from "./edit-user-dialog";
 import moment from "moment";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { VirtualWithdrawDialog } from "./saque-virtual-dialog";
+import { ConfirmAlert } from "@/components/confirm-alert";
+import { useProfileCancelAccount } from "@/features/profile/useCases/useProfileCancelAccount";
+import { useRecoilValue } from "recoil";
+import { profileState } from "@/features/profile/states/atoms";
+import { Button } from "@/components/ui/button";
 
 export const usersColumn: ColumnDef<any>[] = [
   {
@@ -132,6 +138,9 @@ export const usersColumn: ColumnDef<any>[] = [
     header: "Ações",
     cell: ({ row }) => {
       const userId = row.original.id; // Acesse diretamente o ID
+      const { handleCancelAccount } = useProfileCancelAccount();
+      const { controller } = useRecoilValue(profileState);
+      const { isLoadingCancelAccount } = controller;
 
       return (
         <div className="flex items-center gap-2">
@@ -140,6 +149,26 @@ export const usersColumn: ColumnDef<any>[] = [
             id={userId}
             key={`virtual-withdraw-user-${userId}`}
           />
+          <ConfirmAlert
+            title="Encerrar conta"
+            description="Tem certeza que deseja encerrar essa conta? Essa ação não poderá ser desfeita."
+            confirmText="Encerrar conta"
+            cancelText="Voltar"
+            disabled={isLoadingCancelAccount}
+            onConfirm={() => handleCancelAccount(userId)}
+          >
+            <Button
+              size="icon"
+              variant="link"
+              disabled={isLoadingCancelAccount}
+            >
+              {isLoadingCancelAccount ? (
+                <LoaderCircle className="w-5 h-5 animate-spin" />
+              ) : (
+                <Ban size={16} />
+              )}
+            </Button>
+          </ConfirmAlert>
         </div>
       );
     },
