@@ -14,6 +14,7 @@ export const formAdminEditUserSchema = z.object({
   whatsappUsername: z.string().optional(),
   youtubeUsername: z.string().optional(),
   twitchUsername: z.string().optional(),
+  tax_value: z.string().optional(),
 });
 
 export type IFormAdminEditUserInputs = z.infer<typeof formAdminEditUserSchema>;

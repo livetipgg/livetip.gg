@@ -76,14 +76,20 @@ export const usersColumn: ColumnDef<any>[] = [
   },
   // updated_at
   {
-    accessorKey: "updated_at",
-    header: "Data de atualização",
+    accessorKey: "tax_value",
+    header: "Taxa",
     cell: ({ row }) => {
-      const updatedAt = row.getValue("updated_at");
+      const tax_value = row.original.config.tax_value;
       return (
         <div>
           <span className="font-semibold text-md">
-            {updatedAt ? moment(updatedAt).format("DD/MM/YYYY HH:MM") : "-"}
+            {tax_value ? (
+              <Badge className="bg-blue-500/20 text-blue-500 border-blue-500 rounded-xl">
+                {tax_value}%
+              </Badge>
+            ) : (
+              "-"
+            )}
           </span>
         </div>
       );

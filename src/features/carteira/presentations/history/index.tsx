@@ -143,7 +143,7 @@ const TransactionsHistory = () => {
         </Button>
       </div>
       {isAdmin && (
-        <div className="flex  mt-2">
+        <div className="flex  mt-2 ">
           <HistoryTotalsItem data={payments.includes} />
         </div>
       )}
