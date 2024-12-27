@@ -47,7 +47,7 @@ export function SelectUserCombobox({
     queryFn: () =>
       getAllUsers({
         limit: 100,
-        page,
+        page: 1,
       }),
   });
 

@@ -13,6 +13,7 @@ import AdminPage from "@/features/admin/presentations";
 import RegisterPage from "@/features/auth/implementation/register";
 import UsersManagementPage from "@/features/admin/presentations/users-management";
 import { NotFoundPage } from "@/features/not-found-page";
+import { TransmissionExpandedPage } from "@/features/transmission/presentations/expanded";
 
 export const routers = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export const routers = createBrowserRouter([
       {
         path: routes["Transmission"].path,
         Component: withAuth(TransmissionPage),
+      },
+      {
+        path: routes["TransmissionExpanded"].path,
+        Component: withAuth(TransmissionExpandedPage),
       },
       {
         path: routes["Admin"].path,
