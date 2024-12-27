@@ -60,7 +60,11 @@ export const TransmissionExpandedPage = () => {
       controller.transmissionMessagesParams.endDate
     ) {
       loadTransmissionMessages();
-      setCurrentMessage(transmissionMessages.results[currentIndex]);
+      // filtra pelas não lidas
+      const filteredMessages = transmissionMessages.results.filter(
+        (message) => !message.read
+      );
+      setCurrentMessage(filteredMessages[currentIndex]);
     }
   }, [
     controller.transmissionMessagesParams.startDate,
@@ -79,7 +83,7 @@ export const TransmissionExpandedPage = () => {
     <div className="flex flex-col justify-center h-screen w-screen items-center">
       <Logotipo classname="w-32 absolute top-0" />
       {currentMessage && (
-        <div className="flex flex-col justify-between  border p-4  shadow-lg  max-w-md relative h-[200px] w-[400px] rounded-xl">
+        <div className="flex flex-col justify-between  border p-4  shadow-lg  max-w-md relative h-[300px] w-[400px] rounded-xl">
           <BorderBeam colorFrom="#FD451C" colorTo="#fd451c24" borderWidth={2} />
 
           <div className="flex items-center ">
