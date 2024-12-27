@@ -60,11 +60,8 @@ export const TransmissionExpandedPage = () => {
       controller.transmissionMessagesParams.endDate
     ) {
       loadTransmissionMessages();
-      // filtra pelas não lidas
-      const filteredMessages = transmissionMessages.results.filter(
-        (message) => !message.read
-      );
-      setCurrentMessage(filteredMessages[currentIndex]);
+
+      setCurrentMessage(transmissionMessages.results[currentIndex]);
     }
   }, [
     controller.transmissionMessagesParams.startDate,
