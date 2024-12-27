@@ -258,7 +258,7 @@ const Profile = () => {
               <Input
                 className="p-5 rounded-lg bg-background shadow-none"
                 disabled
-                value={`${user.config.tax_value}%`}
+                value={`${user.tax_value}%`}
               />
               <div className="flex items-center justify-between pt-4">
                 <Label htmlFor="">Nova Senha</Label>
