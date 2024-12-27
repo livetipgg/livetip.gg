@@ -72,6 +72,7 @@ export const TransmissionMessage = ({ message }: { message: IMessage }) => {
               <MailCheck className="w-4 h-4" />
             )}
           </Button>
+
           {!message.read && (
             <AlertDialog
               onOpenChange={(open) => {

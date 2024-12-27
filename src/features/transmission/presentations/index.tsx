@@ -17,9 +17,14 @@ import { TransmissionMessages } from "./components/transmission-messages";
 import { TransmissionMessagesFilter } from "./components/transmission-messages-filter";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { UserQrCode } from "@/components/user-qrcode";
+import { ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { messageState } from "@/features/messages/states/atoms";
+import { format } from "date-fns";
 
 const TransmissionPage = () => {
   const [processedMessages, setProcessedMessages] = useState(new Set());
+  const { controller, transmissionMessages } = useRecoilValue(messageState);
   const audio = new Audio(notificationAudio);
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
   const { user } = useRecoilValue(authState);
@@ -120,6 +125,46 @@ const TransmissionPage = () => {
       <div className="absolute w-full top-8">
         <div className="max-w-4xl h-screen m-auto p-10 ">
           <TransmissionUserHeader user={user} />
+          {!!transmissionMessages.results.length && (
+            <div className="flex items-center justify-end ">
+              <Button
+                onClick={() => {
+                  const start = new Date();
+                  start.setDate(start.getDate());
+                  start.setHours(0, 0, 0, 0);
+
+                  const end = new Date();
+                  end.setDate(end.getDate() + 1);
+                  end.setHours(23, 59, 59, 999);
+
+                  const startDate =
+                    controller.transmissionMessagesParams.startDate ||
+                    format(start, "yyyy-MM-dd");
+                  const endDate =
+                    controller.transmissionMessagesParams.endDate ||
+                    format(end, "yyyy-MM-dd");
+
+                  // Constroi a URL com os parâmetros
+                  const url = new URL(
+                    `${window.location.origin}/transmissao/expanded`
+                  );
+                  url.searchParams.append("startDate", startDate.toString());
+                  url.searchParams.append("endDate", endDate.toString());
+
+                  // Abre a URL em uma nova aba
+                  window.open(url.toString(), "_blank");
+                }}
+                title="Expandir mensagem"
+                size={isMobile ? "icon" : "default"}
+                variant="link"
+                className="flex items-center gap-2"
+              >
+                {!isMobile && "Expandir mensagens"}
+                <ExternalLink className="w-4 h-full" />
+              </Button>
+            </div>
+          )}
+
           <TransmissionMessagesFilter />
           <TransmissionMessages />
         </div>
