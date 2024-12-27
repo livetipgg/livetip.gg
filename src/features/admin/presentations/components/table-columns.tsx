@@ -95,25 +95,33 @@ export const usersColumn: ColumnDef<any>[] = [
     cell: ({ row }) => {
       const badgeConfig = {
         admin: {
-          color: "bg-red-500",
+          bgColor: "bg-red-500/20",
+          textColor: "text-red-500",
+          borderColor: "border-red-500",
           text: "Admin",
         },
         livetip: {
-          color: "bg-orange-500",
+          bgColor: "bg-orange-500/20",
+          textColor: "text-orange-500",
+          borderColor: "border-orange-500",
           text: "LiveTip",
         },
       };
 
-      const createdBy =
-        (row.getValue("created_by") as keyof typeof badgeConfig) || "livetip";
+      const createdBy = row.getValue("created_by") as keyof typeof badgeConfig;
       return (
         <div>
           <span className="font-semibold text-md">
             {createdBy ? (
               <Badge
-                className={cn(badgeConfig[createdBy]?.color, "text-white")}
+                className={cn(
+                  badgeConfig[createdBy]?.bgColor,
+                  badgeConfig[createdBy]?.textColor,
+                  badgeConfig[createdBy]?.borderColor,
+                  "rounded-xl"
+                )}
               >
-                {createdBy}
+                {badgeConfig[createdBy]?.text}
               </Badge>
             ) : (
               "-"
