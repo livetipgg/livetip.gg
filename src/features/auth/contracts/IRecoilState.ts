@@ -26,9 +26,7 @@ export interface IAuthUserState {
   whatsappUsername: string;
   xUsername: string;
 
-  config: {
-    tax_value: string;
-  };
+  tax_value: string;
 }
 
 export interface IAuthState {
