@@ -4,6 +4,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { User } from "lucide-react";
 import { EditUserDialog } from "./edit-user-dialog";
 import moment from "moment";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 export const usersColumn: ColumnDef<any>[] = [
   {
@@ -44,10 +46,11 @@ export const usersColumn: ColumnDef<any>[] = [
     accessorKey: "created_at",
     header: "Data de Criação",
     cell: ({ row }) => {
+      const createdAt = row.getValue("created_at");
       return (
         <div>
           <span className="font-semibold text-md">
-            {row.getValue("created_at") || "-"}
+            {createdAt ? moment(createdAt).format("DD/MM/YYYY HH:MM") : "-"}
           </span>
         </div>
       );
@@ -62,7 +65,38 @@ export const usersColumn: ColumnDef<any>[] = [
       return (
         <div>
           <span className="font-semibold text-md">
-            {updatedAt ? moment(updatedAt).format("DD/MM/YYYY") : "-"}
+            {updatedAt ? moment(updatedAt).format("DD/MM/YYYY HH:MM") : "-"}
+          </span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "created_by",
+    header: "Origem",
+    cell: ({ row }) => {
+      const badgeConfig = {
+        admin: {
+          color: "bg-red-500",
+          text: "Admin",
+        },
+        livetip: {
+          color: "bg-green-500",
+          text: "LiveTip",
+        },
+      };
+
+      const createdBy = row.getValue("created_by") as keyof typeof badgeConfig;
+      return (
+        <div>
+          <span className="font-semibold text-md">
+            {createdBy ? (
+              <Badge className={cn(badgeConfig[createdBy].color, "text-white")}>
+                {createdBy}
+              </Badge>
+            ) : (
+              "-"
+            )}
           </span>
         </div>
       );
