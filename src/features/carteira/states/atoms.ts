@@ -11,6 +11,7 @@ export const paymentState = atom<IPaymentState>({
   key: "paymentState",
   default: {
     payments: {
+      includes: [],
       results: [],
       count: 0,
       totalPages: 0,

@@ -62,6 +62,11 @@ export interface IPaymentDonateState {
 
 export interface IPaymentState {
   payments: {
+    includes: {
+      currency: "BRL" | "BTC";
+      sum: string;
+      transaction_type: "payment" | "withdraw";
+    }[];
     results: IPayment[];
     count: number;
     totalPages: number;
