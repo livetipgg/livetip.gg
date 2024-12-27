@@ -99,12 +99,13 @@ export const usersColumn: ColumnDef<any>[] = [
           text: "Admin",
         },
         livetip: {
-          color: "bg-green-500",
+          color: "bg-orange-500",
           text: "LiveTip",
         },
       };
 
-      const createdBy = row.getValue("created_by") as keyof typeof badgeConfig;
+      const createdBy =
+        (row.getValue("created_by") as keyof typeof badgeConfig) || "livetip";
       return (
         <div>
           <span className="font-semibold text-md">
