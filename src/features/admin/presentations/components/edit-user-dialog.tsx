@@ -68,6 +68,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
       youtubeUsername: "",
       twitchUsername: "",
       tax_value: "",
+      password: "",
     },
   });
 
@@ -153,6 +154,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                 youtubeUsername: user.youtubeUsername || "",
                 twitchUsername: user.twitchUsername || "",
                 tax_value: user.config.tax_value || "",
+                password: "",
               });
               setImagePreview(user.photoUrl);
               setDialogOpen(true);
@@ -276,6 +278,23 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                 render={({ field }) => (
                   <FormItem className="flex w-full items-center">
                     <FormLabel className="w-1/4 text-left">Taxa</FormLabel>
+                    <FormControl className="flex-1 ml-4">
+                      <Input {...field} type="number" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center justify-between mt-4">
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="flex w-full items-center">
+                    <FormLabel className="w-1/4 text-left">
+                      Nova Senha
+                    </FormLabel>
                     <FormControl className="flex-1 ml-4">
                       <Input {...field} type="number" />
                     </FormControl>

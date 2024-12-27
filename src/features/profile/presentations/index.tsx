@@ -76,6 +76,7 @@ const Profile = () => {
       telegramUsername: user.telegramUsername || "",
       whatsappUsername: user.whatsappUsername || "",
       xUsername: user.xUsername || "",
+      password: "",
     },
   });
 
@@ -93,6 +94,7 @@ const Profile = () => {
       xUsername: user.xUsername || "",
       youtubeUsername: user.youtubeUsername || "",
       twitchUsername: user.twitchUsername || "",
+      password: "",
     });
   }, [user]);
 
@@ -257,6 +259,24 @@ const Profile = () => {
                 className="p-5 rounded-lg bg-background shadow-none"
                 disabled
                 value={`${user.config.tax_value}%`}
+              />
+              <div className="flex items-center justify-between pt-4">
+                <Label htmlFor="">Nova Senha</Label>
+              </div>
+              <FormField
+                name="password"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className="p-5 rounded-lg bg-background shadow-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
               <div className="flex items-center justify-between  pt-5">
                 <Label htmlFor="">Redes Sociais</Label>
