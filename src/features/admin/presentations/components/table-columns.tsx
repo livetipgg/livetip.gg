@@ -6,6 +6,7 @@ import { EditUserDialog } from "./edit-user-dialog";
 import moment from "moment";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
 
 export const usersColumn: ColumnDef<any>[] = [
   {
@@ -110,6 +111,17 @@ export const usersColumn: ColumnDef<any>[] = [
               "-"
             )}
           </span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "isVerified",
+    header: "Verificado",
+    cell: ({ row }) => {
+      return (
+        <div>
+          <Switch id="verified" disabled />
         </div>
       );
     },
