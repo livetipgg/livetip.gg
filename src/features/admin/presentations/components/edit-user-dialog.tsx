@@ -55,6 +55,8 @@ export const EditUserDialog = ({ id }: { id: number }) => {
     resolver: zodResolver(formAdminEditUserSchema),
     defaultValues: {
       username: "",
+      first_name: "",
+      last_name: "",
       email: "",
       photoUrl: null,
       facebookUsername: "",
@@ -137,6 +139,8 @@ export const EditUserDialog = ({ id }: { id: number }) => {
               setSelectedUser(user);
               form.reset({
                 username: user.username,
+                first_name: user.first_name || "",
+                last_name: user.last_name || "",
                 email: user.email,
                 photoUrl: user.photoUrl,
                 facebookUsername: user.facebookUsername || "",
@@ -174,6 +178,36 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                 render={({ field }) => (
                   <FormItem className="flex w-full items-center">
                     <FormLabel className="w-1/4 text-left">Username</FormLabel>
+                    <FormControl className="flex-1 ml-4">
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <FormField
+                control={form.control}
+                name="first_name"
+                render={({ field }) => (
+                  <FormItem className="flex w-full items-center">
+                    <FormLabel className="w-1/4 text-left">Nome</FormLabel>
+                    <FormControl className="flex-1 ml-4">
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <FormField
+                control={form.control}
+                name="last_name"
+                render={({ field }) => (
+                  <FormItem className="flex w-full items-center">
+                    <FormLabel className="w-1/4 text-left">Sobrenome</FormLabel>
                     <FormControl className="flex-1 ml-4">
                       <Input {...field} />
                     </FormControl>

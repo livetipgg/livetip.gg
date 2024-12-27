@@ -2,6 +2,8 @@ import { z } from "zod";
 
 export const formAdminEditUserSchema = z.object({
   username: z.string(),
+  first_name: z.string().optional(),
+  last_name: z.string().optional(),
   email: z.string(),
   photoUrl: z.any(),
   xUsername: z.string(),
