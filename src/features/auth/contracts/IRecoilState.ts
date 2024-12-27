@@ -25,6 +25,10 @@ export interface IAuthUserState {
   telegramUsername: string;
   whatsappUsername: string;
   xUsername: string;
+
+  config: {
+    tax_value: string;
+  };
 }
 
 export interface IAuthState {

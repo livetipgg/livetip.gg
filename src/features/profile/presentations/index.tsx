@@ -250,6 +250,14 @@ const Profile = () => {
                   </FormItem>
                 )}
               />
+              <div className="flex items-center justify-between pt-4">
+                <Label htmlFor="">Taxa</Label>
+              </div>
+              <Input
+                className="p-5 rounded-lg bg-background shadow-none"
+                disabled
+                value={`${user.config.tax_value}%`}
+              />
               <div className="flex items-center justify-between  pt-5">
                 <Label htmlFor="">Redes Sociais</Label>
               </div>
