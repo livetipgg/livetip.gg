@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ColumnDef } from "@tanstack/react-table";
 import { User } from "lucide-react";
 import { EditUserDialog } from "./edit-user-dialog";
+import moment from "moment";
 
 export const usersColumn: ColumnDef<any>[] = [
   {
@@ -34,6 +35,35 @@ export const usersColumn: ColumnDef<any>[] = [
             </AvatarFallback>
           </Avatar>
           <span className=" text-md">{row.getValue("username")}</span>
+        </div>
+      );
+    },
+  },
+  // created_at
+  {
+    accessorKey: "created_at",
+    header: "Data de Criação",
+    cell: ({ row }) => {
+      return (
+        <div>
+          <span className="font-semibold text-md">
+            {row.getValue("created_at") || "-"}
+          </span>
+        </div>
+      );
+    },
+  },
+  // updated_at
+  {
+    accessorKey: "updated_at",
+    header: "Data de atualização",
+    cell: ({ row }) => {
+      const updatedAt = row.getValue("updated_at");
+      return (
+        <div>
+          <span className="font-semibold text-md">
+            {updatedAt ? moment(updatedAt).format("DD/MM/YYYY") : "-"}
+          </span>
         </div>
       );
     },
