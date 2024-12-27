@@ -79,7 +79,7 @@ export const usersColumn: ColumnDef<any>[] = [
     accessorKey: "tax_value",
     header: "Taxa",
     cell: ({ row }) => {
-      const tax_value = row.original.config.tax_value;
+      const tax_value = row.original.tax_value;
       return (
         <div>
           <span className="font-semibold text-md">

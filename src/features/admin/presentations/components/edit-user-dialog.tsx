@@ -153,7 +153,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                 xUsername: user.xUsername || "",
                 youtubeUsername: user.youtubeUsername || "",
                 twitchUsername: user.twitchUsername || "",
-                tax_value: user.config.tax_value || "",
+                tax_value: user.tax_value || "",
                 password: "",
               });
               setImagePreview(user.photoUrl);
