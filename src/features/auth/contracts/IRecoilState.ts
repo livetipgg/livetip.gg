@@ -8,6 +8,8 @@ export interface IControllerAuthState {
 export interface IAuthUserState {
   id: number | null;
   username: string;
+  first_name?: string;
+  last_name?: string;
   brlBalance: string;
   btcBalance: string;
   email: string;

@@ -65,6 +65,8 @@ const Profile = () => {
     resolver: zodResolver(formUpdateProfileSchema),
     defaultValues: {
       username: user.username,
+      first_name: user.first_name || "",
+      last_name: user.last_name || "",
       email: user.email || "",
       youtubeUsername: user.youtubeUsername || "",
       twitchUsername: user.twitchUsername || "",
@@ -81,6 +83,8 @@ const Profile = () => {
     form.reset({
       username: user.username,
       email: user.email || "",
+      first_name: user.first_name || "",
+      last_name: user.last_name || "",
       facebookUsername: user.facebookUsername || "",
       instagramUsername: user.instagramUsername || "",
       nostrUsername: user.nostrUsername || "",
@@ -111,8 +115,6 @@ const Profile = () => {
     });
   }
   const qrRef = useRef(null);
-
-  console.log("QRCODE", `https://livetip.gg/${user.username}`);
 
   const downloadQRCode = () => {
     if (qrRef.current) {
@@ -181,6 +183,42 @@ const Profile = () => {
               </div>
               <FormField
                 name="username"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className="p-5 rounded-lg bg-background shadow-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center justify-between">
+                <Label htmlFor="">Nome</Label>
+              </div>
+              <FormField
+                name="first_name"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className="p-5 rounded-lg bg-background shadow-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center justify-between">
+                <Label htmlFor="">Sobrenome</Label>
+              </div>
+              <FormField
+                name="last_name"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>

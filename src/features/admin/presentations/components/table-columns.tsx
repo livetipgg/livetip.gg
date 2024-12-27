@@ -24,6 +24,9 @@ export const usersColumn: ColumnDef<any>[] = [
     header: "Username",
     cell: ({ row }) => {
       const photoURL = row.original.photoURL;
+      const firstName = row.original.first_name;
+      const lastName = row.original.last_name;
+
       return (
         <div className="flex items-center gap-2">
           <Avatar className="h-8 w-8 rounded-full">
@@ -36,7 +39,14 @@ export const usersColumn: ColumnDef<any>[] = [
               <User className="w-4 h-4" />
             </AvatarFallback>
           </Avatar>
-          <span className=" text-md">{row.getValue("username")}</span>
+          <div className="flex flex-col">
+            <span className="font-semibold text-md ">
+              {row.getValue("username")}
+            </span>
+            <span className="font-medium text-sm text-gray-500">
+              {firstName} {lastName}
+            </span>
+          </div>
         </div>
       );
     },
@@ -91,7 +101,9 @@ export const usersColumn: ColumnDef<any>[] = [
         <div>
           <span className="font-semibold text-md">
             {createdBy ? (
-              <Badge className={cn(badgeConfig[createdBy].color, "text-white")}>
+              <Badge
+                className={cn(badgeConfig[createdBy]?.color, "text-white")}
+              >
                 {createdBy}
               </Badge>
             ) : (
