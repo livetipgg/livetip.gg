@@ -296,7 +296,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                       Nova Senha
                     </FormLabel>
                     <FormControl className="flex-1 ml-4">
-                      <Input {...field} type="number" />
+                      <Input {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
