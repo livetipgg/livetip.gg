@@ -7,6 +7,7 @@ import moment from "moment";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
+import { VirtualWithdrawDialog } from "./saque-virtual-dialog";
 
 export const usersColumn: ColumnDef<any>[] = [
   {
@@ -118,7 +119,7 @@ export const usersColumn: ColumnDef<any>[] = [
   {
     accessorKey: "isVerified",
     header: "Verificado",
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div>
           <Switch id="verified" disabled />
@@ -127,12 +128,20 @@ export const usersColumn: ColumnDef<any>[] = [
     },
   },
   {
-    accessorKey: "edit",
-    header: "Edit",
+    accessorKey: "actions",
+    header: "Ações",
     cell: ({ row }) => {
       const userId = row.original.id; // Acesse diretamente o ID
 
-      return <EditUserDialog id={userId} key={`edit-user-${userId}`} />;
+      return (
+        <div className="flex items-center gap-2">
+          <EditUserDialog id={userId} key={`edit-user-${userId}`} />
+          <VirtualWithdrawDialog
+            id={userId}
+            key={`virtual-withdraw-user-${userId}`}
+          />
+        </div>
+      );
     },
   },
 ];
