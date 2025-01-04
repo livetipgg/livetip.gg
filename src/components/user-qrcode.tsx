@@ -17,7 +17,7 @@ export const UserQrCode = ({ user, className }: UserQrCodeProps) => {
       )}
     >
       <span className="text-white font-bold hidden xl:flex">
-        livetip.gg/{user.username}
+        app.livetip.gg/{user.username}
       </span>
       <QRCode
         value={`https://app.livetip.gg/${user.username}`}

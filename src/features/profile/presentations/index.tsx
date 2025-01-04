@@ -112,8 +112,6 @@ const Profile = () => {
   }
   const qrRef = useRef(null);
 
-  console.log("QRCODE", `https://livetip.gg/${user.username}`);
-
   const downloadQRCode = () => {
     if (qrRef.current) {
       toPng(qrRef.current, { cacheBust: false, pixelRatio: 2 })
