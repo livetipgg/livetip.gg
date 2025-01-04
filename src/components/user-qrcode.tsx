@@ -17,10 +17,10 @@ export const UserQrCode = ({ user, className }: UserQrCodeProps) => {
       )}
     >
       <span className="text-white font-bold hidden xl:flex">
-        app.livetip.gg/{user.username}
+        livetip.gg/{user.username}
       </span>
       <QRCode
-        value={`https://app.livetip.gg/${user.username}`}
+        value={`https://livetip.gg/${user.username}`}
         size={160}
         logoImage={iconLogo}
         logoHeight={20}
