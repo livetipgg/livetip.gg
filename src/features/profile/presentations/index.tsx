@@ -450,7 +450,7 @@ const Profile = () => {
                   </span>
                   <div className="rounded-lg">
                     <QRCode
-                      value={`https://livetip.gg/${user.username}`}
+                      value={`https://app.livetip.gg/${user.username}`}
                       size={160}
                       style={{
                         borderRadius: "10px",
