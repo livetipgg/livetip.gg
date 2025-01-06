@@ -28,4 +28,5 @@ export const initialAuthUser: IAuthUserState = {
 
   youtubeUsername: "",
   twitchUsername: "",
+  tax_value: "",
 };

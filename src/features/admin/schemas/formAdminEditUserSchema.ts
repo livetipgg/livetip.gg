@@ -2,6 +2,8 @@ import { z } from "zod";
 
 export const formAdminEditUserSchema = z.object({
   username: z.string(),
+  first_name: z.string().optional(),
+  last_name: z.string().optional(),
   email: z.string(),
   photoUrl: z.any(),
   xUsername: z.string(),
@@ -12,6 +14,8 @@ export const formAdminEditUserSchema = z.object({
   whatsappUsername: z.string().optional(),
   youtubeUsername: z.string().optional(),
   twitchUsername: z.string().optional(),
+  tax_value: z.string().optional(),
+  password: z.string().optional(),
 });
 
 export type IFormAdminEditUserInputs = z.infer<typeof formAdminEditUserSchema>;

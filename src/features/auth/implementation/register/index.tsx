@@ -21,7 +21,6 @@ import { Eye, EyeOff } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Logotipo } from "@/components/logotipo";
 
-import { useIsMobile } from "@/hooks/use-mobile";
 import { formRegisterSchema } from "../../schemas/formRegisterSchema";
 import { useAdminCreateUserUseCase } from "@/features/admin/useCases/useAdminCreateUserUseCase";
 import { adminState } from "@/features/admin/state/atoms";
@@ -31,7 +30,6 @@ import { HelpButton } from "../components/help-button";
 const RegisterPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const isMobile = useIsMobile();
   const { controller } = useRecoilValue(adminState);
   const { isLoadingCreateUser, errorCreateUser } = controller;
   const { createUser } = useAdminCreateUserUseCase();
@@ -40,6 +38,8 @@ const RegisterPage: React.FC = () => {
     resolver: zodResolver(formRegisterSchema),
     defaultValues: {
       username: "",
+      first_name: "",
+      last_name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -57,7 +57,9 @@ const RegisterPage: React.FC = () => {
         navigate("/");
       },
       values.confirmPassword,
-      values.email
+      values.email,
+      values.first_name,
+      values.last_name
     );
   }
 
@@ -85,6 +87,44 @@ const RegisterPage: React.FC = () => {
                       <FormControl>
                         <Input
                           placeholder="Nome de usuario"
+                          {...field}
+                          className="p-5 rounded-xl shadow-none bg-card-custom"
+                        />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid gap-2">
+                <FormField
+                  control={form.control}
+                  name="first_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Nome"
+                          {...field}
+                          className="p-5 rounded-xl shadow-none bg-card-custom"
+                        />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid gap-2">
+                <FormField
+                  control={form.control}
+                  name="last_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Sobrenome"
                           {...field}
                           className="p-5 rounded-xl shadow-none bg-card-custom"
                         />

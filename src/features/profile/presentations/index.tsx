@@ -12,7 +12,7 @@ import { useRecoilValue } from "recoil";
 import { profileState } from "../states/atoms";
 import { Copy, Download, LoaderCircle, UserRound, X } from "lucide-react";
 import { authState } from "@/features/auth/states/atoms";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import ProfileImageUploader from "./components/profile-image-uploader";
 import { FormProvider, useForm } from "react-hook-form";
@@ -65,6 +65,8 @@ const Profile = () => {
     resolver: zodResolver(formUpdateProfileSchema),
     defaultValues: {
       username: user.username,
+      first_name: user.first_name || "",
+      last_name: user.last_name || "",
       email: user.email || "",
       youtubeUsername: user.youtubeUsername || "",
       twitchUsername: user.twitchUsername || "",
@@ -74,6 +76,7 @@ const Profile = () => {
       telegramUsername: user.telegramUsername || "",
       whatsappUsername: user.whatsappUsername || "",
       xUsername: user.xUsername || "",
+      password: "",
     },
   });
 
@@ -81,6 +84,8 @@ const Profile = () => {
     form.reset({
       username: user.username,
       email: user.email || "",
+      first_name: user.first_name || "",
+      last_name: user.last_name || "",
       facebookUsername: user.facebookUsername || "",
       instagramUsername: user.instagramUsername || "",
       nostrUsername: user.nostrUsername || "",
@@ -89,6 +94,7 @@ const Profile = () => {
       xUsername: user.xUsername || "",
       youtubeUsername: user.youtubeUsername || "",
       twitchUsername: user.twitchUsername || "",
+      password: "",
     });
   }, [user]);
 
@@ -192,11 +198,73 @@ const Profile = () => {
                   </FormItem>
                 )}
               />
+              <div className="flex items-center justify-between">
+                <Label htmlFor="">Nome</Label>
+              </div>
+              <FormField
+                name="first_name"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className="p-5 rounded-lg bg-background shadow-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center justify-between">
+                <Label htmlFor="">Sobrenome</Label>
+              </div>
+              <FormField
+                name="last_name"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className="p-5 rounded-lg bg-background shadow-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <div className="flex items-center justify-between pt-4">
                 <Label htmlFor="">E-Mail</Label>
               </div>
               <FormField
                 name="email"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className="p-5 rounded-lg bg-background shadow-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center justify-between pt-4">
+                <Label htmlFor="">Taxa</Label>
+              </div>
+              <Input
+                className="p-5 rounded-lg bg-background shadow-none"
+                disabled
+                value={`${user.tax_value}%`}
+              />
+              <div className="flex items-center justify-between pt-4">
+                <Label htmlFor="">Nova Senha</Label>
+              </div>
+              <FormField
+                name="password"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
@@ -402,18 +470,16 @@ const Profile = () => {
         <div className="flex flex-col ">
           <div className="max-w-fit bg-background shadow-sm">
             <div className="border rounded flex items-center ">
-              <Button
+              <Link
+                to={`/${user.username}`}
+                target="_blank"
                 className="text-primary"
-                variant="link"
-                onClick={() => {
-                  navigate(`/${user.username}`, {
-                    relative: "path",
-                  });
-                }}
               >
-                {url}
-                {user.username}
-              </Button>
+                <span className="flex items-center text-sm font-medium ml-4">
+                  {url}
+                  {user.username}
+                </span>
+              </Link>
               <Button
                 variant="ghost"
                 onClick={() => {
@@ -483,7 +549,7 @@ const Profile = () => {
             confirmText="Encerrar conta"
             cancelText="Voltar"
             disabled={isLoadingCancelAccount}
-            onConfirm={handleCancelAccount}
+            onConfirm={() => handleCancelAccount(user.id)}
           >
             <Button
               variant="destructive_secondary"

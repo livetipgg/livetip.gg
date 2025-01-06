@@ -67,7 +67,9 @@ export const Header = () => {
         </div>
         <div className="flex items-center gap-2">
           <strong className="text-xl">{receiver.username}</strong>
-          <BadgeCheck className="w-4 h-4" fill={"#277BB8"} color="white" />
+          {receiver.is_verified && (
+            <BadgeCheck className="w-4 h-4" fill={"#277BB8"} color="white" />
+          )}
         </div>
       </div>
       {controller.currentStep === "MESSAGE" && (

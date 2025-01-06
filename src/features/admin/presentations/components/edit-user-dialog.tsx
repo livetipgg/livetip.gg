@@ -37,7 +37,7 @@ import { adminState } from "../../state/atoms";
 import { authController } from "@/features/auth/states/atoms";
 
 export const EditUserDialog = ({ id }: { id: number }) => {
-  const queryClient = useQueryClient(); // Acesse o queryClient do React Query
+  const queryClient = useQueryClient();
   const { isLoading } = useRecoilValue(authController);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const { controller } = useRecoilValue(profileState);
@@ -55,6 +55,8 @@ export const EditUserDialog = ({ id }: { id: number }) => {
     resolver: zodResolver(formAdminEditUserSchema),
     defaultValues: {
       username: "",
+      first_name: "",
+      last_name: "",
       email: "",
       photoUrl: null,
       facebookUsername: "",
@@ -65,6 +67,8 @@ export const EditUserDialog = ({ id }: { id: number }) => {
       xUsername: "",
       youtubeUsername: "",
       twitchUsername: "",
+      tax_value: "",
+      password: "",
     },
   });
 
@@ -137,6 +141,8 @@ export const EditUserDialog = ({ id }: { id: number }) => {
               setSelectedUser(user);
               form.reset({
                 username: user.username,
+                first_name: user.first_name || "",
+                last_name: user.last_name || "",
                 email: user.email,
                 photoUrl: user.photoUrl,
                 facebookUsername: user.facebookUsername || "",
@@ -147,6 +153,8 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                 xUsername: user.xUsername || "",
                 youtubeUsername: user.youtubeUsername || "",
                 twitchUsername: user.twitchUsername || "",
+                tax_value: user.tax_value || "",
+                password: "",
               });
               setImagePreview(user.photoUrl);
               setDialogOpen(true);
@@ -174,6 +182,36 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                 render={({ field }) => (
                   <FormItem className="flex w-full items-center">
                     <FormLabel className="w-1/4 text-left">Username</FormLabel>
+                    <FormControl className="flex-1 ml-4">
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <FormField
+                control={form.control}
+                name="first_name"
+                render={({ field }) => (
+                  <FormItem className="flex w-full items-center">
+                    <FormLabel className="w-1/4 text-left">Nome</FormLabel>
+                    <FormControl className="flex-1 ml-4">
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <FormField
+                control={form.control}
+                name="last_name"
+                render={({ field }) => (
+                  <FormItem className="flex w-full items-center">
+                    <FormLabel className="w-1/4 text-left">Sobrenome</FormLabel>
                     <FormControl className="flex-1 ml-4">
                       <Input {...field} />
                     </FormControl>
@@ -227,6 +265,38 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                           accept="image/png, image/jpeg, image/jpg"
                         />
                       </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center justify-between mt-4">
+              <FormField
+                control={form.control}
+                name="tax_value"
+                render={({ field }) => (
+                  <FormItem className="flex w-full items-center">
+                    <FormLabel className="w-1/4 text-left">Taxa</FormLabel>
+                    <FormControl className="flex-1 ml-4">
+                      <Input {...field} type="number" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center justify-between mt-4">
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="flex w-full items-center">
+                    <FormLabel className="w-1/4 text-left">
+                      Nova Senha
+                    </FormLabel>
+                    <FormControl className="flex-1 ml-4">
+                      <Input {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

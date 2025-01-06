@@ -32,7 +32,13 @@ export const CreateUserDialog = () => {
 
   const form = useForm<z.infer<typeof formAdminCreateUserSchema>>({
     resolver: zodResolver(formAdminCreateUserSchema),
-    defaultValues: { username: "", password: "", email: "" },
+    defaultValues: {
+      username: "",
+      password: "",
+      email: "",
+      first_name: "",
+      last_name: "",
+    },
   });
 
   const mutation = useMutation({
@@ -41,11 +47,20 @@ export const CreateUserDialog = () => {
       return createUser(
         values.username,
         values.password,
+
         () => {
-          form.reset();
+          form.reset({
+            username: "",
+            password: "",
+            email: "",
+            first_name: "",
+            last_name: "",
+          });
         },
         values.password,
-        values.email
+        values.email,
+        values.first_name,
+        values.last_name
       );
     },
     onSuccess: async () => {
@@ -87,6 +102,48 @@ export const CreateUserDialog = () => {
                 render={({ field }) => (
                   <FormItem className="flex w-full items-center">
                     <FormLabel className="w-1/4 text-left">Username</FormLabel>
+                    <div className="flex-1 flex-col ml-4">
+                      <FormControl>
+                        <Input
+                          {...field}
+                          className="input-class"
+                          placeholder="Digite o nome do usuário"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center justify-between mt-4">
+              <FormField
+                name="first_name"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className="flex w-full items-center">
+                    <FormLabel className="w-1/4 text-left">Nome</FormLabel>
+                    <div className="flex-1 flex-col ml-4">
+                      <FormControl>
+                        <Input
+                          {...field}
+                          className="input-class"
+                          placeholder="Digite o nome do usuário"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center justify-between mt-4">
+              <FormField
+                name="last_name"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className="flex w-full items-center">
+                    <FormLabel className="w-1/4 text-left">Sobrenome</FormLabel>
                     <div className="flex-1 flex-col ml-4">
                       <FormControl>
                         <Input

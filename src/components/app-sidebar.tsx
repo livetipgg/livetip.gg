@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { NavMain } from "@/components/nav-main";
-import iconPng from "@/assets/icon.png";
 
 import {
   Sidebar,
@@ -12,16 +11,14 @@ import {
 import { NavUser } from "./nav-user";
 import { Link } from "react-router-dom";
 import { NavBalance } from "./nav-balance";
+import { SidebarDynamicLogo } from "./sidebar-dynamic-logo";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props} className="selector1">
       <SidebarHeader>
         <Link to="/" className="flex items-center">
-          <div className="flex  items-center size-8 aspect-square  rounded-lg    ">
-            <img src={iconPng} alt="logo" />
-          </div>
-          <span className="ml-2 text-primary font-bold text-2xl">LiveTip</span>
+          <SidebarDynamicLogo />
         </Link>
       </SidebarHeader>
       <SidebarContent>

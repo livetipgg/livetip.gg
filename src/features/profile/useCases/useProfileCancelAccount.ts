@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import createApiInstance from "@/config/api";
-import { authState } from "@/features/auth/states/atoms";
 import { useAuthLogoutUseCase } from "@/features/auth/useCases/useAuthLogoutUseCase";
 import { DELETE_USER } from "@/helpers/apiUrls";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
@@ -9,16 +8,13 @@ import { profileState } from "../states/atoms";
 
 export const useProfileCancelAccount = () => {
   const api = createApiInstance();
-  const [auth] = useRecoilState(authState);
   const [, setProfileState] = useRecoilState(profileState);
 
   const { handleLogout } = useAuthLogoutUseCase();
 
   const { successSonner } = useCustomSonner();
 
-  const { user } = auth;
-
-  const handleCancelAccount = async () => {
+  const handleCancelAccount = async (id: number) => {
     setProfileState((prev) => ({
       ...prev,
       controller: {
@@ -28,7 +24,7 @@ export const useProfileCancelAccount = () => {
       },
     }));
     try {
-      const response = await api.delete(`${DELETE_USER}/${user.id}`);
+      const response = await api.delete(`${DELETE_USER}/${id}`);
 
       successSonner(
         "Conta encerrada com sucesso, redirecionando para a página inicial"

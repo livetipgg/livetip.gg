@@ -1,29 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogDescription,
-  DialogClose,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 import { useRecoilValue } from "recoil";
 import { adminState } from "../../state/atoms";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Label } from "@/components/ui/label";
 
-import { useAdminGetAllUsersUseCase } from "../../useCases/useAdminGetAllUsersUseCase";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PaymentIcon from "@/components/payment-icon";
 import InputMoney from "@/components/input-currency";
 import CurrencyInput from "react-currency-input-field";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FormProvider, useForm } from "react-hook-form";
 import { formAdminVirtualWithdrawSchema } from "../../schemas/formAdminVirtualWithdrawSchema";
 import { z } from "zod";
@@ -31,27 +17,33 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormField } from "@/components/ui/form";
 import { useAdminVirtualWithdrawUseCase } from "../../useCases/useAdminVirtualWithdrawUseCase";
 
-import { Check } from "lucide-react";
+import { HandCoins, LoaderCircle } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { useAuthGetUserUseCase } from "@/features/auth/useCases/useAuthGetUserUseCase";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { formatPayment } from "@/helpers/formatPayment";
+import { authController } from "@/features/auth/states/atoms";
 
-export const VirtualWithdrawDialog = () => {
+export const VirtualWithdrawDialog = ({ id }: { id: number }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [userFilter, setUserFilter] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
+  const { isLoading } = useRecoilValue(authController);
+
   const [activeCurrencyMethod, setActiveCurrencyMethod] = useState("BRL");
   const { virtualWithdraw } = useAdminVirtualWithdrawUseCase();
-  const { controller, users } = useRecoilValue(adminState);
+  const { controller } = useRecoilValue(adminState);
   const { isLoadingVirtualWithdraw } = controller;
-  const { getAllUsers } = useAdminGetAllUsersUseCase();
-
-  useEffect(() => {
-    getAllUsers({
-      limit: 100,
-      page: 1,
-    });
-  }, []);
+  const { getUser } = useAuthGetUserUseCase();
+  const [auxId, setAuxId] = useState(null);
+  const disabled = isLoading && auxId === id;
 
   const form = useForm<z.infer<typeof formAdminVirtualWithdrawSchema>>({
     resolver: zodResolver(formAdminVirtualWithdrawSchema),
@@ -61,16 +53,13 @@ export const VirtualWithdrawDialog = () => {
     },
   });
 
-  const filteredUsers = users?.results.filter((user) =>
-    user.username.toLowerCase().includes(userFilter)
-  );
-
   async function onSubmit(e) {
     e.preventDefault();
 
     virtualWithdraw(
       {
-        ...form.getValues(),
+        userId: auxId,
+        amount: form.getValues("amount"),
         currency: activeCurrencyMethod,
       },
       () => {
@@ -80,62 +69,73 @@ export const VirtualWithdrawDialog = () => {
     );
   }
   return (
-    <Dialog
+    <Sheet
       open={dialogOpen}
-      onOpenChange={(value) => {
-        setDialogOpen(value);
+      onOpenChange={(open) => {
+        setDialogOpen(open);
+        if (!open) {
+          setAuxId(null);
+          setSelectedUser(null);
+          form.reset();
+        }
       }}
     >
-      <DialogTrigger asChild>
-        <Button variant="default">Realizar Saque Virtual</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Saque Virtual</DialogTitle>
-          <DialogDescription>
+      <SheetTrigger asChild>
+        <Button
+          disabled={disabled}
+          title="Realizar saque virtual"
+          variant="link"
+          size="icon"
+          onClick={(e) => {
+            setAuxId(id);
+            e.preventDefault();
+            getUser(id, (user) => {
+              setSelectedUser(user);
+              setDialogOpen(true);
+            });
+          }}
+        >
+          {disabled ? (
+            <LoaderCircle size={16} className="animate-spin" />
+          ) : (
+            <HandCoins size={16} />
+          )}
+        </Button>
+      </SheetTrigger>
+      <SheetContent className="w-full md:max-w-[400px] overflow-auto">
+        <SheetHeader>
+          <SheetTitle>Saque Virtual</SheetTitle>
+          <SheetDescription>
             Realize um saque virtual para um usuário. Atualize a quantidade e
             escolha o método de pagamento.
-          </DialogDescription>
-        </DialogHeader>
+          </SheetDescription>
+        </SheetHeader>
+        <div className="mt-4 border rounded-xl bg-card-custom p-2">
+          <span className="text-sm  font-medium">Saldo disponível</span>
+          <div className="flex items-center flex-1 mt-2">
+            <div className="flex items-center gap-2 flex-1">
+              <PaymentIcon currency="BRL" className="w-6 h-6" />
+              <span className="font-medium">
+                {formatPayment({
+                  amount: parseFloat(selectedUser?.brlBalance),
+                  type: "BRL",
+                })}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 flex-1">
+              <PaymentIcon currency="BTC" className="w-6 h-6" />
+              <span className="font-medium">
+                {formatPayment({
+                  amount: parseFloat(selectedUser?.btcBalance),
+                  type: "BTC",
+                })}
+              </span>
+            </div>
+          </div>
+        </div>
         <FormProvider {...form}>
           <form className="flex flex-col">
-            <Label>Usuário</Label>
-            <Input
-              placeholder="Usuário"
-              onChange={(e) => setUserFilter(e.target.value)}
-              className="bg-card-custom rounded-xl   text-sm"
-            />
-            <ScrollArea className="max-h-[200px] overflow-y-auto mt-4">
-              {filteredUsers &&
-                filteredUsers.map((user) => (
-                  <Button
-                    key={user.id}
-                    variant="ghost"
-                    className="w-full flex gap-2 items-center"
-                    onClick={(e) => {
-                      form.setValue("userId", user.id);
-                      setSelectedUser(user);
-                      e.preventDefault();
-                    }}
-                  >
-                    <Avatar className="w-6 h-6">
-                      <AvatarImage src={user.photoURL} />
-                      <AvatarFallback>{user.username[0]}</AvatarFallback>
-                    </Avatar>
-                    {user.username}
-                    <Check
-                      className={cn(
-                        "ml-auto",
-                        selectedUser?.id === user.id
-                          ? "opacity-100"
-                          : "opacity-0"
-                      )}
-                    />
-                  </Button>
-                ))}
-            </ScrollArea>
-
-            <Tabs defaultValue={"pix"} className="w-[400px]">
+            <Tabs defaultValue={"pix"}>
               <TabsList className="mt-5">
                 <div className="flex items-center gap-2 ">
                   <TabsTrigger
@@ -201,14 +201,13 @@ export const VirtualWithdrawDialog = () => {
             </Tabs>
           </form>
         </FormProvider>
-        <DialogFooter>
-          <DialogClose>Cancelar</DialogClose>
+        <SheetFooter className="mt-4">
           <Button onClick={onSubmit} disabled={isLoadingVirtualWithdraw}>
             {isLoadingVirtualWithdraw ? "Sacando..." : "Sacar"}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 };
 {

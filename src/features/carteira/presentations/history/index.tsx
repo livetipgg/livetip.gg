@@ -19,6 +19,7 @@ import { authState } from "@/features/auth/states/atoms";
 import { SelectUserCombobox } from "@/components/select-user-combobox";
 import { DoubleArrowDownIcon, DoubleArrowUpIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
+import { HistoryTotalsItem } from "./components/history-totals-item";
 
 const TransactionsHistory = () => {
   const { user } = useRecoilValue(authState);
@@ -141,6 +142,11 @@ const TransactionsHistory = () => {
           Filtrar
         </Button>
       </div>
+      {isAdmin && (
+        <div className="flex  mt-2 ">
+          <HistoryTotalsItem data={payments.includes} />
+        </div>
+      )}
 
       {!isLoadingPayments && !payments.results.length && (
         <div className="mt-10">

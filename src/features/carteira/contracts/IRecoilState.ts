@@ -31,6 +31,7 @@ export interface IPaymentDonateState {
   receiver: {
     id: number;
     username: string;
+    is_verified: boolean;
     email: string;
     photoURL: string;
     isDeleted: boolean;
@@ -62,6 +63,11 @@ export interface IPaymentDonateState {
 
 export interface IPaymentState {
   payments: {
+    includes: {
+      currency: "BRL" | "BTC";
+      sum: string;
+      transaction_type: "payment" | "withdraw";
+    }[];
     results: IPayment[];
     count: number;
     totalPages: number;

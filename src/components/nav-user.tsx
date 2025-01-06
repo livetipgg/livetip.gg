@@ -21,7 +21,7 @@ import { CaretSortIcon } from "@radix-ui/react-icons";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/features/auth/states/atoms";
 import { useAuthLogoutUseCase } from "@/features/auth/useCases/useAuthLogoutUseCase";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -72,12 +72,15 @@ export function NavUser() {
                     <User className="w-4 h-4" />
                   </AvatarFallback>
                 </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
+                <Link
+                  to={"/perfil"}
+                  className="grid flex-1 text-left text-sm leading-tight"
+                >
                   <span className="truncate font-semibold">
                     {user.username}
                   </span>
                   <span className="truncate text-xs">{user.email}</span>
-                </div>
+                </Link>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
