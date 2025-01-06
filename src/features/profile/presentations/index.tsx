@@ -398,7 +398,7 @@ const Profile = () => {
         </div>
       </SectionCard>
 
-      <SectionCard className="mb-5" title="Link público">
+      <SectionCard className="mb-5" title="Link de Doação">
         <div className="flex flex-col ">
           <div className="max-w-fit bg-background shadow-sm">
             <div className="border rounded flex items-center ">

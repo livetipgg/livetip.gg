@@ -21,11 +21,13 @@ import { CaretSortIcon } from "@radix-ui/react-icons";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/features/auth/states/atoms";
 import { useAuthLogoutUseCase } from "@/features/auth/useCases/useAuthLogoutUseCase";
+import { useNavigate } from "react-router-dom";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { user } = useRecoilValue(authState);
   const { handleLogout } = useAuthLogoutUseCase();
+  const navigate = useNavigate();
   return (
     <SidebarMenu className="selector2">
       <SidebarMenuItem>
@@ -78,6 +80,15 @@ export function NavUser() {
                 </div>
               </div>
             </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                navigate("/perfil");
+              }}
+            >
+              <User className="w-4 h-4 mr-2" />
+              Meu Perfil{" "}
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-danger  " onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />
