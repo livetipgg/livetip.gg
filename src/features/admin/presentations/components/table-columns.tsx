@@ -11,9 +11,11 @@ import { Switch } from "@/components/ui/switch";
 import { VirtualWithdrawDialog } from "./saque-virtual-dialog";
 import { ConfirmAlert } from "@/components/confirm-alert";
 import { useProfileCancelAccount } from "@/features/profile/useCases/useProfileCancelAccount";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { profileState } from "@/features/profile/states/atoms";
 import { Button } from "@/components/ui/button";
+import { useAdminToggleUserIsVerified } from "../../useCases/useAdminToggleUserIsVerified";
+import { adminState } from "../../state/atoms";
 
 export const usersColumn: ColumnDef<any>[] = [
   {
@@ -140,10 +142,37 @@ export const usersColumn: ColumnDef<any>[] = [
   {
     accessorKey: "isVerified",
     header: "Verificado",
-    cell: () => {
+    cell: ({ row }) => {
+      const { toggleUserIsVerified } = useAdminToggleUserIsVerified();
+      const isVerified = row.original.is_verified;
+      const userId = row.original.id;
+      const [, setGetAllUsersState] = useRecoilState(adminState);
+
       return (
         <div>
-          <Switch id="verified" disabled />
+          <Switch
+            onCheckedChange={() => {
+              setGetAllUsersState((prev) => ({
+                ...prev,
+                users: {
+                  ...prev.users,
+                  results: prev.users.results.map((user) => {
+                    if (user.id === userId) {
+                      return {
+                        ...user,
+                        is_verified: !user.is_verified,
+                      };
+                    }
+                    return user;
+                  }),
+                },
+              }));
+
+              toggleUserIsVerified(userId, isVerified);
+            }}
+            id="verified"
+            checked={isVerified}
+          />
         </div>
       );
     },

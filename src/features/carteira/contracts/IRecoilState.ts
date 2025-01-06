@@ -31,6 +31,7 @@ export interface IPaymentDonateState {
   receiver: {
     id: number;
     username: string;
+    is_verified: boolean;
     email: string;
     photoURL: string;
     isDeleted: boolean;

@@ -1,19 +1,8 @@
-import { SectionCard } from "@/components/section-card";
-
 import { withLayout } from "@/HOC/withLayout";
-
-import { VirtualWithdrawDialog } from "./components/saque-virtual-dialog";
 
 const Admin = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3   auto-rows-max gap-2 lg:gap-5 flex-1">
-      <SectionCard
-        title="Saque Virtual"
-        description="  Clique no botão para criar efetuar um saque virtual de algum usuário."
-      >
-        <VirtualWithdrawDialog />
-      </SectionCard>
-    </div>
+    <div className="grid grid-cols-1 md:grid-cols-3   auto-rows-max gap-2 lg:gap-5 flex-1"></div>
   );
 };
 
