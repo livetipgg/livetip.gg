@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ColumnDef } from "@tanstack/react-table";
-import { Ban, LoaderCircle, User } from "lucide-react";
+import { BadgeCheck, Ban, LoaderCircle, User } from "lucide-react";
 import { EditUserDialog } from "./edit-user-dialog";
 import moment from "moment";
 import { cn } from "@/lib/utils";
@@ -50,8 +50,15 @@ export const usersColumn: ColumnDef<any>[] = [
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <span className="font-semibold text-md ">
+            <span className="font-semibold text-md flex items-center ">
               {row.getValue("username")}
+              {row.original.is_verified && (
+                <BadgeCheck
+                  className="w-4 h-4"
+                  fill={"#277BB8"}
+                  color="white"
+                />
+              )}
             </span>
             <span className="font-medium text-sm text-gray-500">
               {firstName} {lastName}
