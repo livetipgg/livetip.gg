@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { useRecoilValue } from "recoil";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ButtonLoading from "@/components/button-loader";
 import { ErrorAlert } from "@/components/error-alert";
 import { Eye, EyeOff } from "lucide-react";
@@ -208,7 +208,14 @@ const RegisterPage: React.FC = () => {
             </div>
             {errorCreateUser && <ErrorAlert error={errorCreateUser} />}
           </FormProvider>
+          <span className="text-muted-foreground text-sm mt-4 text-center">
+            Já tem uma conta?{" "}
+            <Link to={"/cadastro"} className="text-primary hover:underline">
+              Entrar
+            </Link>
+          </span>
         </div>
+
         <HelpButton />
       </div>
     </div>
