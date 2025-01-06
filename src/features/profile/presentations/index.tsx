@@ -12,7 +12,7 @@ import { useRecoilValue } from "recoil";
 import { profileState } from "../states/atoms";
 import { Copy, Download, LoaderCircle, UserRound, X } from "lucide-react";
 import { authState } from "@/features/auth/states/atoms";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import ProfileImageUploader from "./components/profile-image-uploader";
 import { FormProvider, useForm } from "react-hook-form";
@@ -470,18 +470,16 @@ const Profile = () => {
         <div className="flex flex-col ">
           <div className="max-w-fit bg-background shadow-sm">
             <div className="border rounded flex items-center ">
-              <Button
+              <Link
+                to={`/${user.username}`}
+                target="_blank"
                 className="text-primary"
-                variant="link"
-                onClick={() => {
-                  navigate(`/${user.username}`, {
-                    relative: "path",
-                  });
-                }}
               >
-                {url}
-                {user.username}
-              </Button>
+                <span className="flex items-center text-sm font-medium ml-4">
+                  {url}
+                  {user.username}
+                </span>
+              </Link>
               <Button
                 variant="ghost"
                 onClick={() => {
