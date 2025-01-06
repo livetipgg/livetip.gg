@@ -6,9 +6,9 @@ export const formRegisterSchema = z.object({
     .min(3, {
       message: "O username é obrigatório e deve ter pelo menos 3 caracteres",
     })
-    .regex(/^[a-zA-Z0-9._-]+$/, {
+    .regex(/^[a-zA-Z0-9]+$/, {
       message:
-        "O username só pode conter letras, números, '.', '-' e '_'. Não pode conter espaços ou acentos.",
+        "O username só pode conter letras, números. Não pode conter espaços, símbolos ou acentos.",
     }),
   email: z.string().email({ message: "O email é inválido" }),
   password: z.string().min(6, {
