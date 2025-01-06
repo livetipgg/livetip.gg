@@ -12,7 +12,7 @@ import { useRecoilValue } from "recoil";
 import { profileState } from "../states/atoms";
 import { Copy, Download, LoaderCircle, UserRound, X } from "lucide-react";
 import { authState } from "@/features/auth/states/atoms";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import ProfileImageUploader from "./components/profile-image-uploader";
 import { FormProvider, useForm } from "react-hook-form";
@@ -52,7 +52,6 @@ const Profile = () => {
   const { successSonner } = useCustomSonner();
   const { updateProfile } = useUpdateProfileAccount();
   const { fetchGetUser } = useAuthGetUserUseCase();
-  const navigate = useNavigate();
   const { getUserInfo } = useProfileGetUserInfoUseCase();
   useEffect(() => {
     fetchGetUser(user.id);
