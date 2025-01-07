@@ -35,7 +35,7 @@ const Withdraw = () => {
 
   const textareaRef = useRef(null);
 
-  const isAdmin = user.id === 3;
+  const isAdmin = user.id === 3 || user.id === 5;
   const handleInputChange = (e) => {
     const textarea = textareaRef.current;
     if (textarea) {
