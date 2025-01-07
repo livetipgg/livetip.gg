@@ -8,7 +8,6 @@ import { withAuth } from "@/HOC/withAuth";
 import ProfilePage from "@/features/profile/presentations";
 import TransmissionPage from "@/features/transmission/presentations";
 import { TransactionsHistoryPage } from "@/features/carteira/presentations/history";
-import UserMessagePage from "@/features/carteira/presentations/donate";
 import AdminPage from "@/features/admin/presentations";
 import RegisterPage from "@/features/auth/implementation/register";
 import UsersManagementPage from "@/features/admin/presentations/users-management";
@@ -43,10 +42,7 @@ export const routers = createBrowserRouter([
         path: routes["Profile"].path,
         Component: withAuth(ProfilePage),
       },
-      {
-        path: routes["UserMessage"].path,
-        Component: UserMessagePage,
-      },
+
       {
         path: routes["Transmission"].path,
         Component: withAuth(TransmissionPage),
