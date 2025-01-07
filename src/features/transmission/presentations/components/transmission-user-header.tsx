@@ -22,11 +22,13 @@ export const TransmissionUserHeader = ({ user }) => {
         <div className="flex  w-full md:w-fit text-center">
           <strong className="text-xl bg-background flex items-center px-4 py-2 rounded-md shadow-sm">
             {user.username}
-            <BadgeCheck
-              className="w-4 h-4 ml-2"
-              fill={"#277BB8"}
-              color="white"
-            />
+            {user.is_verified && (
+              <BadgeCheck
+                className="w-4 h-4 ml-2"
+                fill={"#277BB8"}
+                color="white"
+              />
+            )}
           </strong>
         </div>
       </div>
