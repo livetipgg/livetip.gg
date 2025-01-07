@@ -8,6 +8,7 @@ import PaginationComponent from "@/components/pagination";
 import { CreateUserDialog } from "../components/create-user-dialog";
 import { useQuery } from "@tanstack/react-query";
 import { GlobalLoader } from "@/components/global-loader";
+import { Input } from "@/components/ui/input";
 
 const UsersManagement = () => {
   const { getAllUsers } = useAdminGetAllUsersUseCase();
@@ -30,7 +31,23 @@ const UsersManagement = () => {
   }
   return (
     <div>
-      <div className="mb-4 flex items-center justify-end">
+      <div className="mb-4 flex items-center justify-between">
+        <Input
+          className="max-w-[300px] shadow-none border-muted-foreground/40 rounded-lg"
+          placeholder="Pesquise pelo nome, email ou username..."
+          onChange={(e) => {
+            setAdminState((prevState) => ({
+              ...prevState,
+              controller: {
+                ...prevState.controller,
+                getAllUsersParams: {
+                  ...prevState.controller.getAllUsersParams,
+                  search: e.target.value,
+                },
+              },
+            }));
+          }}
+        />
         <CreateUserDialog />
       </div>
       <DataTable columns={usersColumn} data={data.results} />
