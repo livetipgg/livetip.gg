@@ -26,6 +26,7 @@ import InputMoney from "@/components/input-currency";
 import { useWithdrawUseCase } from "../../useCases/useWithdrawBtcUseCase";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { HelpButton } from "@/features/auth/implementation/components/help-button";
 
 const Withdraw = () => {
   const { user } = useRecoilValue(authState);
@@ -55,14 +56,18 @@ const Withdraw = () => {
   return (
     <div className="h-full w-full flex flex-col ">
       {!isAdmin && (
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Atenção</AlertTitle>
-          <AlertDescription>
-            O saque de PIX está indisponível no momento. Para fazer retiradas em
-            BRL, entre em contato diretamente com o suporte.
-          </AlertDescription>
-        </Alert>
+        <>
+          <HelpButton />
+
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Atenção</AlertTitle>
+            <AlertDescription>
+              O saque de PIX está indisponível no momento. Para fazer retiradas
+              em BRL, entre em contato diretamente com o suporte.
+            </AlertDescription>
+          </Alert>
+        </>
       )}
 
       <div className="max-w-3xl w-full  mt-4">
