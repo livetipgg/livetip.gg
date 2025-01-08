@@ -92,6 +92,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
     mutationFn: (values: z.infer<typeof formAdminEditUserSchema>) => {
       return updateProfile(values, id, () => {
         setSelectedUser(null);
+        setDialogOpen(false);
 
         queryClient.invalidateQueries({
           queryKey: ["admin_users", page],
@@ -101,7 +102,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
   });
   async function onSubmit(values: z.infer<typeof formAdminEditUserSchema>) {
     const payload = Object.entries(values).reduce((acc, [key, value]) => {
-      if (value !== selectedUser[key]) {
+      if (value !== selectedUser[key] && value !== "") {
         acc[key] = value;
       }
       return acc;
