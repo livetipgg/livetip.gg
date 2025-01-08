@@ -99,10 +99,14 @@ const Profile = () => {
 
   const saveDisabled = form.formState.isSubmitting || !form.formState.isDirty;
   async function onSubmit(values: z.infer<typeof formUpdateProfileSchema>) {
-    // pega só o campo que mudou de valor
+    // Pega apenas os campos que mudaram de valor e que não estão vazios
     const payload = Object.keys(values).reduce((acc, key) => {
-      if (values[key] !== user[key]) {
-        acc[key] = values[key];
+      const value = values[key];
+      const userValue = user[key];
+
+      // Verifica se o campo mudou e não é uma string vazia
+      if (value !== userValue && value !== "") {
+        acc[key] = value;
       }
       return acc;
     }, {} as z.infer<typeof formUpdateProfileSchema>);
@@ -111,10 +115,12 @@ const Profile = () => {
       return;
     }
 
+    console.log("payload", payload);
     await updateProfile(payload, user.id, () => {
       getUserInfo();
     });
   }
+
   const qrRef = useRef(null);
 
   const downloadQRCode = () => {
