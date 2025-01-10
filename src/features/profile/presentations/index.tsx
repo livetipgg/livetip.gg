@@ -35,10 +35,23 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import SocialInputField from "./components/social-input-field";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuthGetUserUseCase } from "@/features/auth/useCases/useAuthGetUserUseCase";
 import { useProfileGetUserInfoUseCase } from "../useCases/useProfileGetUserInfoUseCase";
 import { QRCode } from "react-qrcode-logo";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+} from "@/components/ui/sidebar";
+import { TabsSettingsRoot } from "./components/settings/tabs-settings-root";
 
 const Profile = () => {
   const { user } = useRecoilValue(authState);
@@ -134,9 +147,9 @@ const Profile = () => {
   };
 
   return (
-    <div className="max-w-xl ">
-      {/* Dados do perfil */}
-      <SectionCard title="Dados do perfil" className="mb-5">
+    <div className="">
+      <TabsSettingsRoot />
+      {/* <SectionCard title="Dados do perfil" className="mb-5">
         <div className="flex flex-col space-y-10 ">
           <div className="flex flex-col space-y-2">
             <div className="flex items-center justify-between">
@@ -453,7 +466,6 @@ const Profile = () => {
           <Button
             className="w-fit flex mt-4"
             variant="default"
-            // Só habilita se tiver mudanças no estado
             disabled={saveDisabled}
             onClick={form.handleSubmit(onSubmit)}
           >
@@ -536,7 +548,6 @@ const Profile = () => {
         </div>
       </SectionCard>
 
-      {/* Encerrar conta */}
       <SectionCard title="Encerrar conta">
         <span className="my-10 text-muted-foreground">
           Ao encerrar sua conta, você perderá todos os seus dados e não poderá
@@ -564,7 +575,7 @@ const Profile = () => {
             </Button>
           </ConfirmAlert>
         </div>
-      </SectionCard>
+      </SectionCard> */}
     </div>
   );
 };
