@@ -12,6 +12,7 @@ export interface IAdminControllerState {
   getAllUsersParams: {
     limit: number;
     page: number;
+    search: string;
   };
   isLoadingCreateUser: boolean;
   isLoadingVirtualWithdraw: boolean;

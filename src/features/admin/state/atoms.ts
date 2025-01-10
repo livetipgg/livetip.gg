@@ -12,6 +12,7 @@ export const adminState = atom<IAdminState>({
       getAllUsersParams: {
         limit: 10,
         page: 1,
+        search: "",
       },
     },
     users: {

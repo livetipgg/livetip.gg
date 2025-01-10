@@ -82,6 +82,7 @@ export function NavUser() {
                 </Link>
               </div>
             </DropdownMenuLabel>
+
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-danger  " onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />

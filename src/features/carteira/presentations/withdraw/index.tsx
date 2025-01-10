@@ -16,10 +16,17 @@ import { useRef, useState } from "react";
 import { PatternFormat } from "react-number-format";
 import { useRecoilValue } from "recoil";
 import { withdrawState } from "../../states/atoms";
-import { ClipboardPaste, LoaderCircle } from "lucide-react";
+import {
+  AlertCircle,
+  ClipboardPaste,
+  LoaderCircle,
+  Terminal,
+} from "lucide-react";
 import InputMoney from "@/components/input-currency";
 import { useWithdrawUseCase } from "../../useCases/useWithdrawBtcUseCase";
 import { Textarea } from "@/components/ui/textarea";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { HelpButton } from "@/features/auth/implementation/components/help-button";
 
 const Withdraw = () => {
   const { user } = useRecoilValue(authState);
@@ -35,7 +42,7 @@ const Withdraw = () => {
 
   const textareaRef = useRef(null);
 
-  const isAdmin = user.id === 3;
+  const isAdmin = user.id === 3 || user.id === 5;
   const handleInputChange = (e) => {
     const textarea = textareaRef.current;
     if (textarea) {
@@ -48,19 +55,37 @@ const Withdraw = () => {
   };
   return (
     <div className="h-full w-full flex flex-col ">
+      {!isAdmin && (
+        <>
+          <HelpButton />
+
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Atenção</AlertTitle>
+            <AlertDescription>
+              O saque de PIX está indisponível no momento. Para fazer retiradas
+              em BRL, entre em contato diretamente com o suporte.
+            </AlertDescription>
+          </Alert>
+        </>
+      )}
+
       <div className="max-w-3xl w-full  mt-4">
         <div className="border p-5 bg-card-custom rounded-lg">
           <Tabs defaultValue="satoshi" className="">
             <TabsList className="mb-5">
               <div className="flex items-center gap-2 ">
-                <TabsTrigger
-                  value="pix"
-                  className="flex items-center gap-2"
-                  onClick={() => setWithdrawType("BRL")}
-                >
-                  <PaymentIcon currency="BRL" className="w-4" />
-                  Pix
-                </TabsTrigger>
+                {isAdmin && (
+                  <TabsTrigger
+                    value="pix"
+                    className="flex items-center gap-2"
+                    onClick={() => setWithdrawType("BRL")}
+                  >
+                    <PaymentIcon currency="BRL" className="w-4" />
+                    Pix
+                  </TabsTrigger>
+                )}
+
                 <TabsTrigger
                   value="satoshi"
                   className="flex items-center gap-2"

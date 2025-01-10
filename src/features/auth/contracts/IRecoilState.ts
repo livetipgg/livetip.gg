@@ -27,6 +27,7 @@ export interface IAuthUserState {
   xUsername: string;
 
   tax_value: string;
+  is_verified: boolean;
 }
 
 export interface IAuthState {

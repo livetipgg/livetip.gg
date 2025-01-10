@@ -46,7 +46,7 @@ export function SelectUserCombobox({
     queryKey: ["admin_users", page],
     queryFn: () =>
       getAllUsers({
-        limit: 100,
+        limit: 9999,
         page: 1,
       }),
   });

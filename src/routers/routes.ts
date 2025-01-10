@@ -27,11 +27,7 @@ export const routes: RoutesProps = {
     label: "Mensagens Recebidas",
     name: "mensagens-recebidas",
   },
-  UserMessage: {
-    path: "/:userId",
-    label: "Mensagem Usuário",
-    name: "mensagem-usuario",
-  },
+
   Withdraw: {
     path: "/carteira/saque",
     label: "Saque",

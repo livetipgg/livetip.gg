@@ -8,7 +8,7 @@ export const formUpdateProfileSchema = z.object({
     })
     .optional(),
   first_name: z.string().optional(),
-  password: z.string().min(6).optional(),
+  password: z.string().optional(),
   last_name: z.string().optional(),
   email: z.string().email({ message: "O email é inválido" }).optional(),
   youtubeUsername: z.string().optional(),

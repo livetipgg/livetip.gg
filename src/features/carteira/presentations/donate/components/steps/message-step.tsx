@@ -30,7 +30,7 @@ const MessageStep = () => {
 
   const handleInputChange = (e: any) => {
     const textarea = e.target;
-    const minHeight = 100; // Defina o valor mínimo desejado aqui
+    const minHeight = 100;
 
     setPaymentDonateState((prev: IPaymentDonateState) => ({
       ...prev,

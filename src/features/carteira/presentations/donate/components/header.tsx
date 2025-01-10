@@ -43,7 +43,7 @@ const socialLinks = [
   {
     field: "youtubeUsername",
     icon: "youTube",
-    urlBase: "https://www.youtube.com/user/",
+    urlBase: "https://www.youtube.com/",
   },
   {
     field: "twitchUsername",

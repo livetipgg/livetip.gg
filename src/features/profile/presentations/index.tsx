@@ -12,7 +12,7 @@ import { useRecoilValue } from "recoil";
 import { profileState } from "../states/atoms";
 import { Copy, Download, LoaderCircle, UserRound, X } from "lucide-react";
 import { authState } from "@/features/auth/states/atoms";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useCustomSonner } from "@/hooks/useCustomSonner";
 import ProfileImageUploader from "./components/profile-image-uploader";
 import { FormProvider, useForm } from "react-hook-form";
@@ -65,7 +65,6 @@ const Profile = () => {
   const { successSonner } = useCustomSonner();
   const { updateProfile } = useUpdateProfileAccount();
   const { fetchGetUser } = useAuthGetUserUseCase();
-  const navigate = useNavigate();
   const { getUserInfo } = useProfileGetUserInfoUseCase();
   useEffect(() => {
     fetchGetUser(user.id);
@@ -113,10 +112,14 @@ const Profile = () => {
 
   const saveDisabled = form.formState.isSubmitting || !form.formState.isDirty;
   async function onSubmit(values: z.infer<typeof formUpdateProfileSchema>) {
-    // pega só o campo que mudou de valor
+    // Pega apenas os campos que mudaram de valor e que não estão vazios
     const payload = Object.keys(values).reduce((acc, key) => {
-      if (values[key] !== user[key]) {
-        acc[key] = values[key];
+      const value = values[key];
+      const userValue = user[key];
+
+      // Verifica se o campo mudou e não é uma string vazia
+      if (value !== userValue && value !== "") {
+        acc[key] = value;
       }
       return acc;
     }, {} as z.infer<typeof formUpdateProfileSchema>);
@@ -125,10 +128,12 @@ const Profile = () => {
       return;
     }
 
+    console.log("payload", payload);
     await updateProfile(payload, user.id, () => {
       getUserInfo();
     });
   }
+
   const qrRef = useRef(null);
 
   const downloadQRCode = () => {
@@ -478,7 +483,7 @@ const Profile = () => {
         </div>
       </SectionCard>
 
-      <SectionCard className="mb-5" title="Link público">
+      <SectionCard className="mb-5" title="Link de Doação">
         <div className="flex flex-col ">
           <div className="max-w-fit bg-background shadow-sm">
             <div className="border rounded flex items-center ">
