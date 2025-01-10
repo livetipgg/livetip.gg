@@ -54,8 +54,9 @@ export const EditUserBlock = () => {
   const saveDisabled = form.formState.isSubmitting || !form.formState.isDirty;
   async function onSubmit(values: z.infer<typeof formUpdateProfileSchema>) {
     // pega só o campo que mudou de valor
+    console.log("values", values);
     const payload = Object.keys(values).reduce((acc, key) => {
-      if (values[key] !== user[key]) {
+      if (values[key] !== user[key] && values[key] !== "") {
         acc[key] = values[key];
       }
       return acc;
