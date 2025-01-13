@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { EditUserBlock } from "./user-edit/edit-user-block";
+import { UpdateUserPasswordBlock } from "./update-password/update-password";
 
 const tabsItems = [
   {
@@ -8,8 +9,8 @@ const tabsItems = [
     label: "Meu Perfil",
   },
   {
-    value: "my_settings",
-    label: "Configurações",
+    value: "my_password",
+    label: "Minha Senha",
   },
 ];
 
@@ -17,8 +18,8 @@ export const TabsSettingsRoot = () => {
   const [activeTab, setActiveTab] = useState("my_profile");
 
   return (
-    <div className="rounded border flex">
-      <div className="flex flex-col rounded bg-card-custom py-6 px-2 border-r">
+    <div className="rounded border flex flex-col w-full lg:flex-row">
+      <div className="flex flex-col rounded bg-card-custom py-6 px-2 border-r lg:max-w-[200px] w-full">
         {tabsItems.map((tab) => (
           <button
             key={tab.value}
@@ -40,10 +41,10 @@ export const TabsSettingsRoot = () => {
           <EditUserBlock />
         </TabContentContainer>
       )}
-      {activeTab === "my_settings" && (
+      {activeTab === "my_password" && (
         <TabContentContainer>
           <TabHeader item={tabsItems[1]} />
-          <div>My Settings</div>
+          <UpdateUserPasswordBlock />
         </TabContentContainer>
       )}
     </div>

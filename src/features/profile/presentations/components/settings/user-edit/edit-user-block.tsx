@@ -14,17 +14,13 @@ import { FormProvider, useForm } from "react-hook-form";
 import { formUpdateProfileSchema } from "@/features/profile/schemas/formLoginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, LoaderCircle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { useUpdateProfileAccount } from "@/features/profile/useCases/useUpdateProfileUseCase";
 import { useProfileGetUserInfoUseCase } from "@/features/profile/useCases/useProfileGetUserInfoUseCase";
 import { profileState } from "@/features/profile/states/atoms";
 
 export const EditUserBlock = () => {
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
   const { updateProfile } = useUpdateProfileAccount();
   const { getUserInfo } = useProfileGetUserInfoUseCase();
   const { controller } = useRecoilValue(profileState);
@@ -53,10 +49,10 @@ export const EditUserBlock = () => {
 
   const saveDisabled = form.formState.isSubmitting || !form.formState.isDirty;
   async function onSubmit(values: z.infer<typeof formUpdateProfileSchema>) {
-    // pega só o campo que mudou de valor
     console.log("values", values);
     const payload = Object.keys(values).reduce((acc, key) => {
-      if (values[key] !== user[key] && values[key] !== "") {
+      if (values[key] !== user[key] && values["password"] !== " ") {
+        console.log("key", key);
         acc[key] = values[key];
       }
       return acc;
@@ -65,9 +61,9 @@ export const EditUserBlock = () => {
     if (Object.keys(payload).length === 0) {
       return;
     }
-
     await updateProfile(payload, user.id, () => {
       getUserInfo();
+      form.reset();
     });
   }
 
@@ -165,133 +161,6 @@ export const EditUserBlock = () => {
                         className="p-5 rounded-lg bg-background shadow-none"
                         {...field}
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-        </TabContentBlock>
-        <TabContentBlock>
-          {/* Email */}
-          <div className="flex flex-col">
-            <span className="font-medium text-sm">Senha</span>
-            <span className="text-muted-foreground text-sm">
-              Altere sua senha.
-            </span>
-          </div>
-          {/* current passowrd, new password, confirmNewPassword */}
-          <div className="flex flex-1 gap-2 flex-col md:flex-row">
-            <div className="flex flex-col flex-1 gap-1">
-              <Label htmlFor="" className="text-muted-foreground">
-                Senha Atual
-              </Label>
-              <FormField
-                name="password"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          {...field}
-                          type={showCurrentPassword ? "text" : "password"}
-                          className="p-5 rounded-lg bg-background shadow-none"
-                        />
-                        <Button
-                          size="icon"
-                          variant="link"
-                          className="absolute top-1 right-2 text-foreground/40"
-                          onClick={() => {
-                            console.log(
-                              "showCurrentPassword",
-                              showCurrentPassword
-                            );
-                            setShowCurrentPassword(!showCurrentPassword);
-                          }}
-                        >
-                          {showCurrentPassword ? (
-                            <EyeOff className="h-5 w-5" />
-                          ) : (
-                            <Eye className="h-5 w-5" />
-                          )}
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex flex-col flex-1 gap-1">
-              <Label htmlFor="" className="text-muted-foreground">
-                Nova Senha
-              </Label>
-              <FormField
-                name="password"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          {...field}
-                          type={showNewPassword ? "text" : "password"}
-                          className="p-5 rounded-lg bg-background shadow-none"
-                        />
-                        <Button
-                          size="icon"
-                          variant="link"
-                          className="absolute top-1 right-2 text-foreground/40"
-                          onClick={() => {
-                            setShowNewPassword(!showNewPassword);
-                          }}
-                        >
-                          {showNewPassword ? (
-                            <EyeOff className="h-5 w-5" />
-                          ) : (
-                            <Eye className="h-5 w-5" />
-                          )}
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex flex-col flex-1 gap-1">
-              <Label htmlFor="" className="text-muted-foreground">
-                Confirmar Nova Senha
-              </Label>
-              <FormField
-                name="password"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          {...field}
-                          type={showConfirmNewPassword ? "text" : "password"}
-                          className="p-5 rounded-lg bg-background shadow-none"
-                        />
-                        <Button
-                          size="icon"
-                          variant="link"
-                          className="absolute top-1 right-2 text-foreground/40"
-                          onClick={() => {
-                            setShowConfirmNewPassword(!showConfirmNewPassword);
-                          }}
-                        >
-                          {showConfirmNewPassword ? (
-                            <EyeOff className="h-5 w-5" />
-                          ) : (
-                            <Eye className="h-5 w-5" />
-                          )}
-                        </Button>
-                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
