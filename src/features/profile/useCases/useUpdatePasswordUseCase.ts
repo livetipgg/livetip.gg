@@ -33,15 +33,7 @@ export const useUpdatePasswordUseCase = () => {
     }));
 
     try {
-      const formData = new FormData();
-
-      formData.append("body", JSON.stringify(payload));
-
-      await api.patch(`/user/${id || user.id}/password`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await api.patch(`/user/${id || user.id}/password`, payload);
 
       onSuccess();
     } catch (error: any) {
