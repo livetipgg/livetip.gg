@@ -35,6 +35,7 @@ import { profileState } from "@/features/profile/states/atoms";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { adminState } from "../../state/atoms";
 import { authController } from "@/features/auth/states/atoms";
+import webLogo from "@/assets/web.png";
 
 export const EditUserDialog = ({ id }: { id: number }) => {
   const queryClient = useQueryClient();
@@ -69,6 +70,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
       twitchUsername: "",
       tax_value: "",
       password: "",
+      websiteLink: "",
     },
   });
 
@@ -155,6 +157,7 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                 youtubeUsername: user.youtubeUsername || "",
                 twitchUsername: user.twitchUsername || "",
                 tax_value: user.tax_value || "",
+                websiteLink: user.websiteLink || "",
                 password: "",
               });
               setImagePreview(user.photoUrl);
@@ -461,6 +464,32 @@ export const EditUserDialog = ({ id }: { id: number }) => {
                         inputProps={{
                           placeholder:
                             "Nome de usuário do X (Ex: @satoshinakamoto)",
+                          value: field.value,
+                          onChange: field.onChange,
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="websiteLink"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormControl>
+                      <SocialInputField
+                        iconUrl="x"
+                        iconComponent={
+                          <img
+                            src={webLogo}
+                            alt={`icon`}
+                            className="w-5 h-5 object-contain"
+                          />
+                        }
+                        inputProps={{
+                          placeholder: "Link",
                           value: field.value,
                           onChange: field.onChange,
                         }}

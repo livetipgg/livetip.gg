@@ -16,6 +16,7 @@ export const formAdminEditUserSchema = z.object({
   twitchUsername: z.string().optional(),
   tax_value: z.string().optional(),
   password: z.string().optional(),
+  websiteLink: z.string().optional(),
 });
 
 export type IFormAdminEditUserInputs = z.infer<typeof formAdminEditUserSchema>;
