@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { authState } from "@/features/auth/states/atoms";
 import { useRecoilValue } from "recoil";
 import { EditUserPhotoBlock } from "./components/edit-user-photo-block";
@@ -21,6 +22,65 @@ import { useProfileGetUserInfoUseCase } from "@/features/profile/useCases/usePro
 import { profileState } from "@/features/profile/states/atoms";
 import SocialInputField from "../../social-input-field";
 import nostrLogo from "@/assets/nostr.png";
+import { useEffect } from "react";
+
+const socialFields: Array<{
+  name:
+    | "youtubeUsername"
+    | "twitchUsername"
+    | "facebookUsername"
+    | "instagramUsername"
+    | "nostrUsername"
+    | "telegramUsername"
+    | "whatsappUsername";
+  label: string;
+  placeholder: string;
+  icon?: string;
+  iconComponent?: JSX.Element;
+}> = [
+  {
+    name: "youtubeUsername",
+    label: "YouTube",
+    placeholder: "Nome de usuário do YouTube",
+    icon: "youtube",
+  },
+  {
+    name: "twitchUsername",
+    label: "Twitch",
+    placeholder: "Nome de usuário da Twitch",
+    icon: "twitch",
+  },
+  {
+    name: "facebookUsername",
+    label: "Facebook",
+    placeholder: "Nome de usuário do Facebook",
+    icon: "facebook",
+  },
+  {
+    name: "instagramUsername",
+    label: "Instagram",
+    placeholder: "Nome de usuário do Instagram",
+    icon: "instagram",
+  },
+  {
+    name: "nostrUsername",
+    label: "Nostr",
+    placeholder: "Insira sua Npub",
+    iconComponent: <img src={nostrLogo} alt="nostr" className="w-5 h-5" />,
+  },
+  {
+    name: "telegramUsername",
+    label: "Telegram",
+    placeholder: "Nome de usuário do Telegram",
+    icon: "telegram",
+  },
+  {
+    name: "whatsappUsername",
+    label: "WhatsApp",
+    placeholder: "Número do WhatsApp",
+    icon: "whatsapp",
+  },
+];
 
 export const EditUserBlock = () => {
   const { updateProfile } = useUpdateProfileAccount();
@@ -34,36 +94,70 @@ export const EditUserBlock = () => {
     resolver: zodResolver(formUpdateProfileSchema),
     defaultValues: {
       username: user.username,
-      first_name: user.first_name || "",
-      last_name: user.last_name || "",
-      email: user.email || "",
-      youtubeUsername: user.youtubeUsername || "",
-      twitchUsername: user.twitchUsername || "",
-      facebookUsername: user.facebookUsername || "",
-      instagramUsername: user.instagramUsername || "",
-      nostrUsername: user.nostrUsername || "",
-      telegramUsername: user.telegramUsername || "",
-      whatsappUsername: user.whatsappUsername || "",
-      xUsername: user.xUsername || "",
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      youtubeUsername: user.youtubeUsername,
+      twitchUsername: user.twitchUsername,
+      facebookUsername: user.facebookUsername,
+      instagramUsername: user.instagramUsername,
+      nostrUsername: user.nostrUsername,
+      telegramUsername: user.telegramUsername,
+      whatsappUsername: user.whatsappUsername,
+      xUsername: user.xUsername,
       password: "",
     },
   });
 
+  useEffect(() => {
+    console.log("user", user);
+    form.reset({
+      username: user.username,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      youtubeUsername: user.youtubeUsername,
+      twitchUsername: user.twitchUsername,
+      facebookUsername: user.facebookUsername,
+      instagramUsername: user.instagramUsername,
+      nostrUsername: user.nostrUsername,
+      telegramUsername: user.telegramUsername,
+      whatsappUsername: user.whatsappUsername,
+      xUsername: user.xUsername,
+      password: "",
+    });
+  }, [user]);
+
   const saveDisabled = form.formState.isSubmitting || !form.formState.isDirty;
-  async function onSubmit(values: z.infer<typeof formUpdateProfileSchema>) {
-    console.log("values", values);
-    const payload = Object.keys(values).reduce((acc, key) => {
-      if (values[key] !== user[key]) {
-        console.log("key", key);
-        acc[key] = values[key];
+
+  const processFormPayload = (
+    values: z.infer<typeof formUpdateProfileSchema>,
+    user: any
+  ) => {
+    return Object.entries(values).reduce((acc, [key, value]) => {
+      const userValue = user[key];
+      if (key === "password") {
+        if (value && value !== userValue) acc[key] = value;
+      } else if (value !== userValue) {
+        acc[key] = value;
       }
       return acc;
-    }, {} as z.infer<typeof formUpdateProfileSchema>);
+    }, {});
+  };
 
-    await updateProfile(payload, user.id, () => {
-      getUserInfo();
-      form.reset();
-    });
+  async function onSubmit(values: z.infer<typeof formUpdateProfileSchema>) {
+    const payload = processFormPayload(values, user);
+
+    if (Object.keys(payload).length === 0) return;
+
+    try {
+      await updateProfile(payload, user.id, () => {
+        getUserInfo();
+        form.reset();
+      });
+    } catch (error) {
+      console.error("Erro ao atualizar o perfil:", error);
+    }
   }
 
   return (
@@ -170,171 +264,29 @@ export const EditUserBlock = () => {
         </TabContentBlock>
         <TabContentBlock>
           <span className="font-medium text-sm">Redes Sociais</span>
-          <FormField
-            name="youtubeUsername"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <SocialInputField
-                    iconUrl="youtube"
-                    inputProps={{
-                      placeholder:
-                        "Nome de usuário do Youtube (Ex: /satoshinakamoto)",
-                      value: field.value,
-                      onChange: field.onChange,
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="twitchUsername"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <SocialInputField
-                    iconUrl="twitch"
-                    inputProps={{
-                      placeholder:
-                        "Nome de usuário da Twitch (Ex: /satoshinakamoto)",
-                      value: field.value,
-                      onChange: field.onChange,
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="facebookUsername"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <SocialInputField
-                    iconUrl="facebook"
-                    inputProps={{
-                      placeholder:
-                        "Nome de usuário do Facebook (Ex: /satoshinakamoto)",
-                      value: field.value,
-                      onChange: field.onChange,
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="xUsername"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <SocialInputField
-                    iconUrl="x"
-                    inputProps={{
-                      placeholder:
-                        "Nome de usuário do X (Ex: @satoshinakamoto)",
-                      value: field.value,
-                      onChange: field.onChange,
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="instagramUsername"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <SocialInputField
-                    iconUrl="instagram"
-                    inputProps={{
-                      placeholder:
-                        "Nome de usuário do Instagram (Ex: @satoshinakamoto)",
-                      value: field.value,
-                      onChange: field.onChange,
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="nostrUsername"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <SocialInputField
-                    iconComponent={
-                      <img
-                        src={nostrLogo}
-                        alt={`nostr icon`}
-                        className="w-5 h-5"
-                      />
-                    }
-                    iconUrl="nostr"
-                    inputProps={{
-                      placeholder: "Insira sua Npub",
-                      value: field.value,
-                      onChange: field.onChange,
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="telegramUsername"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <SocialInputField
-                    iconUrl="telegram"
-                    inputProps={{
-                      placeholder:
-                        "Nome de usuário do Telegram (Ex: @satoshinakamoto)",
-                      value: field.value,
-                      onChange: field.onChange,
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="whatsappUsername"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <SocialInputField
-                    iconUrl="whatsapp"
-                    inputProps={{
-                      placeholder: "Número do WhatsApp",
-                      value: field.value,
-                      onChange: field.onChange,
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {socialFields.map(({ name, placeholder, icon, iconComponent }) => (
+            <FormField
+              key={name}
+              name={name}
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <SocialInputField
+                      iconUrl={icon}
+                      iconComponent={iconComponent}
+                      inputProps={{
+                        placeholder,
+                        value: field.value,
+                        onChange: field.onChange,
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
         </TabContentBlock>
         <TabContentBlock>
           <div className="flex items-center justify-end gap-2">

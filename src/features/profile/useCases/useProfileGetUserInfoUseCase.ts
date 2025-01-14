@@ -24,6 +24,8 @@ export const useProfileGetUserInfoUseCase = () => {
         },
       }));
 
+      console.log("user", user);
+
       return response.data;
     } catch (error: any) {
       console.error("error", error.response.data.message);
