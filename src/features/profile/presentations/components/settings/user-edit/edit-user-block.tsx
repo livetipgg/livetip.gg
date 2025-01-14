@@ -19,6 +19,8 @@ import { LoaderCircle } from "lucide-react";
 import { useUpdateProfileAccount } from "@/features/profile/useCases/useUpdateProfileUseCase";
 import { useProfileGetUserInfoUseCase } from "@/features/profile/useCases/useProfileGetUserInfoUseCase";
 import { profileState } from "@/features/profile/states/atoms";
+import SocialInputField from "../../social-input-field";
+import nostrLogo from "@/assets/nostr.png";
 
 export const EditUserBlock = () => {
   const { updateProfile } = useUpdateProfileAccount();
@@ -51,16 +53,13 @@ export const EditUserBlock = () => {
   async function onSubmit(values: z.infer<typeof formUpdateProfileSchema>) {
     console.log("values", values);
     const payload = Object.keys(values).reduce((acc, key) => {
-      if (values[key] !== user[key] && values["password"] !== " ") {
+      if (values[key] !== user[key]) {
         console.log("key", key);
         acc[key] = values[key];
       }
       return acc;
     }, {} as z.infer<typeof formUpdateProfileSchema>);
 
-    if (Object.keys(payload).length === 0) {
-      return;
-    }
     await updateProfile(payload, user.id, () => {
       getUserInfo();
       form.reset();
@@ -168,6 +167,174 @@ export const EditUserBlock = () => {
               />
             </div>
           </div>
+        </TabContentBlock>
+        <TabContentBlock>
+          <span className="font-medium text-sm">Redes Sociais</span>
+          <FormField
+            name="youtubeUsername"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <SocialInputField
+                    iconUrl="youtube"
+                    inputProps={{
+                      placeholder:
+                        "Nome de usuário do Youtube (Ex: /satoshinakamoto)",
+                      value: field.value,
+                      onChange: field.onChange,
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="twitchUsername"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <SocialInputField
+                    iconUrl="twitch"
+                    inputProps={{
+                      placeholder:
+                        "Nome de usuário da Twitch (Ex: /satoshinakamoto)",
+                      value: field.value,
+                      onChange: field.onChange,
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="facebookUsername"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <SocialInputField
+                    iconUrl="facebook"
+                    inputProps={{
+                      placeholder:
+                        "Nome de usuário do Facebook (Ex: /satoshinakamoto)",
+                      value: field.value,
+                      onChange: field.onChange,
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="xUsername"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <SocialInputField
+                    iconUrl="x"
+                    inputProps={{
+                      placeholder:
+                        "Nome de usuário do X (Ex: @satoshinakamoto)",
+                      value: field.value,
+                      onChange: field.onChange,
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="instagramUsername"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <SocialInputField
+                    iconUrl="instagram"
+                    inputProps={{
+                      placeholder:
+                        "Nome de usuário do Instagram (Ex: @satoshinakamoto)",
+                      value: field.value,
+                      onChange: field.onChange,
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="nostrUsername"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <SocialInputField
+                    iconComponent={
+                      <img
+                        src={nostrLogo}
+                        alt={`nostr icon`}
+                        className="w-5 h-5"
+                      />
+                    }
+                    iconUrl="nostr"
+                    inputProps={{
+                      placeholder: "Insira sua Npub",
+                      value: field.value,
+                      onChange: field.onChange,
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="telegramUsername"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <SocialInputField
+                    iconUrl="telegram"
+                    inputProps={{
+                      placeholder:
+                        "Nome de usuário do Telegram (Ex: @satoshinakamoto)",
+                      value: field.value,
+                      onChange: field.onChange,
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="whatsappUsername"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <SocialInputField
+                    iconUrl="whatsapp"
+                    inputProps={{
+                      placeholder: "Número do WhatsApp",
+                      value: field.value,
+                      onChange: field.onChange,
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </TabContentBlock>
         <TabContentBlock>
           <div className="flex items-center justify-end gap-2">

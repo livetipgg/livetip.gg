@@ -12,6 +12,10 @@ const tabsItems = [
     value: "my_password",
     label: "Minha Senha",
   },
+  {
+    value: "bank_accounts",
+    label: "Contas Bancárias",
+  },
 ];
 
 export const TabsSettingsRoot = () => {
@@ -45,6 +49,11 @@ export const TabsSettingsRoot = () => {
         <TabContentContainer>
           <TabHeader item={tabsItems[1]} />
           <UpdateUserPasswordBlock />
+        </TabContentContainer>
+      )}
+      {activeTab === "bank_accounts" && (
+        <TabContentContainer>
+          <TabHeader item={tabsItems[2]} />
         </TabContentContainer>
       )}
     </div>
