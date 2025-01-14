@@ -4,7 +4,6 @@ import logotipo from "@/assets/logotipoOrange.svg";
 export const SidebarDynamicLogo = () => {
   const { state, isMobile } = useSidebar();
   const isCollapsed = state === "collapsed";
-  console.log("isCollapsed", isCollapsed);
   if (isCollapsed && !isMobile) {
     return (
       <div className="flex items-center size-8">

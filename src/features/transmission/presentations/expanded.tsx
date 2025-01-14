@@ -24,7 +24,6 @@ export const TransmissionExpandedPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
-    console.log("currentMessage", currentMessage);
     if (!currentMessage.read) {
       setMessageRead(currentMessage._id);
     }

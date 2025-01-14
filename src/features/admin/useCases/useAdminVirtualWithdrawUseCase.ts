@@ -33,7 +33,6 @@ export const useAdminVirtualWithdrawUseCase = () => {
       onSuccess();
       return response;
     } catch (error) {
-      console.log(error);
       errorSonner("Erro ao realizar saque");
     } finally {
       setAdminState((old) => ({

@@ -43,7 +43,6 @@ export const useLoadPaymentsUseCase = () => {
 
       // TODO: Essa merda n pode ficar assim mas por enquanto vai
       const isAdmin = user.id === 3;
-      console.log("params: ", paymentParams);
 
       const response = await api.get(
         `${!isAdmin ? "/user/transaction" : "/transaction"}${

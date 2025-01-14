@@ -126,7 +126,6 @@ export const EditUserBlock = () => {
   });
 
   useEffect(() => {
-    console.log("user", user);
     form.reset({
       username: user.username,
       first_name: user.first_name,

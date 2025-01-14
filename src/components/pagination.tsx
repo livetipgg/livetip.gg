@@ -90,7 +90,7 @@ const PaginationComponent = ({
           Anterior
         </Button>
 
-        <div className="flex items-center gap-1">{renderPageNumbers()}</div>
+        {/* <div className="flex items-center gap-1">{renderPageNumbers()}</div> */}
 
         <Button
           onClick={handleNextPage}
