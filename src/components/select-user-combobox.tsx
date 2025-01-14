@@ -24,6 +24,7 @@ import { useAdminGetAllUsersUseCase } from "@/features/admin/useCases/useAdminGe
 import { useRecoilValue } from "recoil";
 import { adminState } from "@/features/admin/state/atoms";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { GlobalLoader } from "./global-loader";
 
 interface UserFilterProps {
   userSelected: any;
@@ -51,8 +52,8 @@ export function SelectUserCombobox({
       }),
   });
 
-  if (isPending) {
-    return null;
+  if (isPending || !data || !data.results) {
+    return <GlobalLoader />;
   }
 
   return (

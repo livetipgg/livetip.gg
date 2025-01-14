@@ -64,7 +64,7 @@ const UsersManagement = () => {
         />
         <CreateUserDialog />
       </div>
-      <div className="max-w-[340px] sm:max-w-full overflow-x-auto">
+      <div className="max-w-[360px] sm:max-w-full overflow-x-auto">
         <DataTable columns={usersColumn} data={data.results} />
       </div>
 
