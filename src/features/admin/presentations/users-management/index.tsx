@@ -50,9 +50,9 @@ const UsersManagement = () => {
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-4 flex items-start gap-2 justify-between md:flex-row md:items-center flex-col">
         <Input
-          className="max-w-[300px] shadow-none border-muted-foreground/40 rounded-lg"
+          className="md:max-w-[300px] shadow-none border-muted-foreground/40 rounded-lg"
           placeholder="Pesquise pelo nome, email ou username..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
@@ -64,7 +64,10 @@ const UsersManagement = () => {
         />
         <CreateUserDialog />
       </div>
-      <DataTable columns={usersColumn} data={data.results} />
+      <div className="max-w-[340px] sm:max-w-full overflow-x-auto">
+        <DataTable columns={usersColumn} data={data.results} />
+      </div>
+
       <PaginationComponent
         currentPage={getAllUsersParams.page}
         totalPages={data.totalPages}

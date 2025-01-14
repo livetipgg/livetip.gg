@@ -80,7 +80,7 @@ export const CreateUserDialog = () => {
   return (
     <Sheet open={dialogOpen} onOpenChange={setDialogOpen}>
       <SheetTrigger asChild>
-        <Button>
+        <Button className="w-full md:w-fit">
           <Plus size={16} className="mr-2" />
           Criar Novo Usuário
         </Button>

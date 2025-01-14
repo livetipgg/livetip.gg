@@ -27,7 +27,7 @@ export const HistoryTotalsItem = ({ data }: HistoryTotalsItemProps) => {
               <PaymentIcon currency="BRL" className="w-6 h-6" />
               <span className="font-medium">Transações em BRL</span>
             </div>
-            <div className="flex items-center gap-4 ">
+            <div className="flex items-start md:items-center md:flex-row gap-4 flex-col ">
               {brlItems.map((item, index) => (
                 <div
                   key={index}
@@ -82,7 +82,7 @@ export const HistoryTotalsItem = ({ data }: HistoryTotalsItemProps) => {
               <PaymentIcon currency="BTC" className="w-6 h-6" />
               <span className="font-medium">Transações em BTC</span>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-start md:items-center md:flex-row gap-4 flex-col ">
               {btcItems.map((item, index) => (
                 <div
                   key={index}
