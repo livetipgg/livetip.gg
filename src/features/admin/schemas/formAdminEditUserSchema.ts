@@ -4,7 +4,7 @@ export const formAdminEditUserSchema = z.object({
   username: z.string(),
   first_name: z.string().optional(),
   last_name: z.string().optional(),
-  email: z.string(),
+  email: z.string().optional(),
   photoUrl: z.any(),
   xUsername: z.string(),
   instagramUsername: z.string().optional(),

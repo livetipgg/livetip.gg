@@ -40,6 +40,7 @@ import { useAuthGetUserUseCase } from "@/features/auth/useCases/useAuthGetUserUs
 import { useProfileGetUserInfoUseCase } from "../useCases/useProfileGetUserInfoUseCase";
 import { QRCode } from "react-qrcode-logo";
 import webLogo from "@/assets/web.png";
+import { TabsSettingsRoot } from "./components/settings/tabs-settings-root";
 
 const Profile = () => {
   const { user } = useRecoilValue(authState);

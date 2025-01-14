@@ -23,6 +23,7 @@ import { profileState } from "@/features/profile/states/atoms";
 import SocialInputField from "../../social-input-field";
 import nostrLogo from "@/assets/nostr.png";
 import { useEffect } from "react";
+import webLogo from "@/assets/web.png";
 
 const socialFields: Array<{
   name:
@@ -30,9 +31,11 @@ const socialFields: Array<{
     | "twitchUsername"
     | "facebookUsername"
     | "instagramUsername"
+    | "xUsername"
     | "nostrUsername"
     | "telegramUsername"
-    | "whatsappUsername";
+    | "whatsappUsername"
+    | "websiteLink";
   label: string;
   placeholder: string;
   icon?: string;
@@ -49,6 +52,12 @@ const socialFields: Array<{
     label: "Twitch",
     placeholder: "Nome de usuário da Twitch",
     icon: "twitch",
+  },
+  {
+    name: "xUsername",
+    label: "X",
+    placeholder: "Nome de usuário do X",
+    icon: "x",
   },
   {
     name: "facebookUsername",
@@ -80,6 +89,12 @@ const socialFields: Array<{
     placeholder: "Número do WhatsApp",
     icon: "whatsapp",
   },
+  {
+    name: "websiteLink",
+    label: "Web",
+    placeholder: "Insira sua URL",
+    iconComponent: <img src={webLogo} alt="web" className="w-5 h-5" />,
+  },
 ];
 
 export const EditUserBlock = () => {
@@ -105,6 +120,7 @@ export const EditUserBlock = () => {
       telegramUsername: user.telegramUsername,
       whatsappUsername: user.whatsappUsername,
       xUsername: user.xUsername,
+      websiteLink: user.websiteLink,
       password: "",
     },
   });
@@ -124,6 +140,7 @@ export const EditUserBlock = () => {
       telegramUsername: user.telegramUsername,
       whatsappUsername: user.whatsappUsername,
       xUsername: user.xUsername,
+      websiteLink: user.websiteLink,
       password: "",
     });
   }, [user]);
