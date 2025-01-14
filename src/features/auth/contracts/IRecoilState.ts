@@ -25,6 +25,7 @@ export interface IAuthUserState {
   telegramUsername: string;
   whatsappUsername: string;
   xUsername: string;
+  websiteLink: string;
 
   tax_value: string;
   is_verified: boolean;

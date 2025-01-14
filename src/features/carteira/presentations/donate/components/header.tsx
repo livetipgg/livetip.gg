@@ -3,6 +3,7 @@ import { paymentDonateState } from "@/features/carteira/states/atoms";
 import { BadgeCheck, User } from "lucide-react";
 import { useRecoilValue } from "recoil";
 import nostrLogo from "@/assets/nostr.png";
+import webLogo from "@/assets/web.png";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/theme-provider";
 
@@ -49,6 +50,14 @@ const socialLinks = [
     field: "twitchUsername",
     icon: "twitch",
     urlBase: "https://www.twitch.tv/",
+  },
+  {
+    field: "websiteLink",
+    icon: "twitch",
+    urlBase: "",
+    iconComponent: (
+      <img src={webLogo} alt={`webLogo icon`} className="w-5 h-5" />
+    ),
   },
 ];
 export const Header = () => {

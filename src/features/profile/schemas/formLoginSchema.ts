@@ -19,6 +19,7 @@ export const formUpdateProfileSchema = z.object({
   nostrUsername: z.string().optional(),
   telegramUsername: z.string().optional(),
   whatsappUsername: z.string().optional(),
+  websiteLink: z.string().optional(),
 });
 
 export type IFormUpdateProfileInputs = z.infer<typeof formUpdateProfileSchema>;

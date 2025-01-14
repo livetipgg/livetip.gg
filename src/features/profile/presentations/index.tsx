@@ -39,19 +39,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuthGetUserUseCase } from "@/features/auth/useCases/useAuthGetUserUseCase";
 import { useProfileGetUserInfoUseCase } from "../useCases/useProfileGetUserInfoUseCase";
 import { QRCode } from "react-qrcode-logo";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cn } from "@/lib/utils";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-} from "@/components/ui/sidebar";
-import { TabsSettingsRoot } from "./components/settings/tabs-settings-root";
+import webLogo from "@/assets/web.png";
 
 const Profile = () => {
   const { user } = useRecoilValue(authState);
@@ -88,6 +76,7 @@ const Profile = () => {
       telegramUsername: user.telegramUsername || "",
       whatsappUsername: user.whatsappUsername || "",
       xUsername: user.xUsername || "",
+      websiteLink: user.websiteLink || "",
       password: "",
     },
   });
@@ -107,6 +96,7 @@ const Profile = () => {
       youtubeUsername: user.youtubeUsername || "",
       twitchUsername: user.twitchUsername || "",
       password: "",
+      websiteLink: user.websiteLink || "",
     });
   }, [user]);
 
@@ -128,7 +118,6 @@ const Profile = () => {
       return;
     }
 
-    console.log("payload", payload);
     await updateProfile(payload, user.id, () => {
       getUserInfo();
     });
@@ -455,6 +444,32 @@ const Profile = () => {
                         iconUrl="whatsapp"
                         inputProps={{
                           placeholder: "Número do WhatsApp",
+                          value: field.value,
+                          onChange: field.onChange,
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="websiteLink"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <SocialInputField
+                        iconUrl=""
+                        iconComponent={
+                          <img
+                            src={webLogo}
+                            alt={`icon`}
+                            className="w-5 h-5 object-contain"
+                          />
+                        }
+                        inputProps={{
+                          placeholder: "Link",
                           value: field.value,
                           onChange: field.onChange,
                         }}
