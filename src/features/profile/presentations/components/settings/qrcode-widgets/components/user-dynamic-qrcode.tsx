@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import iconLogo from "@/assets/icon.png";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { toPng } from "html-to-image";
 import { useRef } from "react";
@@ -17,6 +18,7 @@ export const UserDynamicQrcode = ({
   className,
   config,
 }: UserQrCodeProps) => {
+  const isMobile = useIsMobile();
   const { showLink, showMessage } = config;
   const qrRef = useRef<HTMLDivElement>(null);
   const downloadQRCode = () => {
@@ -39,12 +41,12 @@ export const UserDynamicQrcode = ({
       <div
         ref={qrRef}
         className={cn(
-          "bg-primary shadow-lg  p-1 xl:p-1 rounded-xl h-fit xl:max-h-[260px] w-fit xl:max-w-[200px] flex flex-col items-center justify-center",
+          "bg-primary shadow-lg  p-1 xl:p-1 rounded-xl h-fit xl:max-h-[260px] w-fit max-w-[200px] flex flex-col items-center justify-center",
           className
         )}
       >
         {showLink && (
-          <span className="text-white font-bold hidden xl:flex">
+          <span className="text-white font-bold flex">
             livetip.gg/{user.username}
           </span>
         )}
@@ -61,7 +63,7 @@ export const UserDynamicQrcode = ({
           }}
         />
         {showMessage && (
-          <span className="text-white font-bold text-center text-sm mt-2  hidden xl:flex">
+          <span className="text-white font-bold text-center text-sm mt-2  flex">
             leia o código com a câmera do celular.
           </span>
         )}

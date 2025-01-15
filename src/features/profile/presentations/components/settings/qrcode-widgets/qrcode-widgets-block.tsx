@@ -16,37 +16,35 @@ export const QRCodeWidgetsBlock = () => {
 
   return (
     <TabContentBlock>
-      <div className="grid md:grid-cols-4 gap-4">
-        <div className="col-span-3 gap-4">
+      <div className="flex flex-wrap gap-4">
+        <div className="flex-1 flex flex-col gap-4">
           {/* Configs */}
-          <div className="flex flex-col gap-2">
-            <ConfigContainer
-              title="Exibir link da página no topo"
-              description="Mostrar o link da sua página de doação no topo do QRCode."
-              icon={<Link size={24} />}
-              onSwitch={() => {
-                setConfig((prev) => ({
-                  ...prev,
-                  showLink: !prev.showLink,
-                }));
-              }}
-              checked={config.showLink}
-            />
-            <ConfigContainer
-              title="Exibir mensagem embaixo"
-              description="Mostrar a mensagem personalizada embaixo do QRCode."
-              icon={<MessageCircle size={24} />}
-              onSwitch={() => {
-                setConfig((prev) => ({
-                  ...prev,
-                  showMessage: !prev.showMessage,
-                }));
-              }}
-              checked={config.showMessage}
-            />
-          </div>
+          <ConfigContainer
+            title="Exibir link da página no topo"
+            description="Mostrar o link da sua página de doação no topo do QRCode."
+            icon={<Link size={24} />}
+            onSwitch={() => {
+              setConfig((prev) => ({
+                ...prev,
+                showLink: !prev.showLink,
+              }));
+            }}
+            checked={config.showLink}
+          />
+          <ConfigContainer
+            title="Exibir mensagem embaixo"
+            description="Mostrar a mensagem personalizada embaixo do QRCode."
+            icon={<MessageCircle size={24} />}
+            onSwitch={() => {
+              setConfig((prev) => ({
+                ...prev,
+                showMessage: !prev.showMessage,
+              }));
+            }}
+            checked={config.showMessage}
+          />
         </div>
-        <div className="bg-card-custom rounded border p-4">
+        <div className="flex-none w-full xl:w-1/3 bg-card-custom rounded border p-4">
           <div className="flex flex-col mt-5">
             <span className="font-bold text-sm">Widget QRcode</span>
             <span className="font-normal text-sm mt-4">
@@ -54,7 +52,7 @@ export const QRCodeWidgetsBlock = () => {
               página.
             </span>
           </div>
-          <div className="p-10 my-4 flex items-center justify-center bg-background rounded border">
+          <div className="p-1 md:p-10 my-4 flex items-center justify-center bg-background rounded border">
             <UserDynamicQrcode user={user} config={config} />
           </div>
         </div>
@@ -65,12 +63,12 @@ export const QRCodeWidgetsBlock = () => {
 
 const ConfigContainer = ({ title, description, icon, onSwitch, checked }) => {
   return (
-    <div className="flex items-center justify-between bg-card-custom rounded border p-4">
+    <div className="flex flex-col md:flex-row items-center justify-between bg-card-custom rounded border p-4">
       <div className="flex items-start gap-3">
         {icon && <div>{icon}</div>}
         <div className="flex flex-col">
           <span className="font-bold">{title}</span>
-          <span>{description}</span>
+          <span className="text-sm md:text-md">{description}</span>
         </div>
       </div>
       <Switch onCheckedChange={onSwitch} checked={checked} />
