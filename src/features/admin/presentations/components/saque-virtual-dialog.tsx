@@ -110,6 +110,12 @@ export const VirtualWithdrawDialog = ({ id }: { id: number }) => {
             escolha o método de pagamento.
           </SheetDescription>
         </SheetHeader>
+        <div className="mt-4 flex gap-2">
+          <span>Produtor:</span>
+          <span className="font-medium">
+            {selectedUser?.username || "Usuário não encontrado"}
+          </span>
+        </div>
         <div className="mt-4 border rounded-xl bg-card-custom p-2">
           <span className="text-sm  font-medium">Saldo disponível</span>
           <div className="flex items-center flex-1 mt-2">
