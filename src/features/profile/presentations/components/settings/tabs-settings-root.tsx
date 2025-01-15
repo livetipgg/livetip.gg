@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { EditUserBlock } from "./user-edit/edit-user-block";
 import { UpdateUserPasswordBlock } from "./update-password/update-password";
+import { QRCodeWidgetsBlock } from "./qrcode-widgets/qrcode-widgets-block";
 
 const tabsItems = [
   {
@@ -13,8 +14,8 @@ const tabsItems = [
     label: "Minha Senha",
   },
   {
-    value: "bank_accounts",
-    label: "Contas Bancárias",
+    value: "qrcode_widgets",
+    label: "QRCode e widgets",
   },
 ];
 
@@ -51,9 +52,10 @@ export const TabsSettingsRoot = () => {
           <UpdateUserPasswordBlock />
         </TabContentContainer>
       )}
-      {activeTab === "bank_accounts" && (
+      {activeTab === "qrcode_widgets" && (
         <TabContentContainer>
           <TabHeader item={tabsItems[2]} />
+          <QRCodeWidgetsBlock />
         </TabContentContainer>
       )}
     </div>
