@@ -1,6 +1,7 @@
 // src/layouts/AuthLayout.tsx
 
 import React from "react";
+import logotipo from "@/assets/logotipoOrange.svg";
 import logotipoWhite from "@/assets/logowhite.svg";
 import icon from "@/assets/icon.svg";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -29,10 +30,18 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
           </h1>
         </div>
       </div>
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 bg-[#f5f5f5] dark:bg-background">
+      <div className="mx-auto flex w-screen flex-col justify-center space-y-6 bg-[#f5f5f5] dark:bg-background">
         <div className="w-full h-screen flex items-center justify-center overflow-hidden relative">
           <ModeToggle className="absolute top-4 right-4" />
           <div className="flex items-center justify-center py-12  ">
+            {isMobile && (
+              <img
+                src={logotipo}
+                alt="Logotipo"
+                className="absolute top-10 z-20 w-20"
+              />
+            )}
+
             {children}
           </div>
         </div>
