@@ -24,6 +24,7 @@ import SocialInputField from "../../social-input-field";
 import nostrLogo from "@/assets/nostr.png";
 import { useEffect } from "react";
 import webLogo from "@/assets/web.png";
+import { ErrorAlert } from "@/components/error-alert";
 
 const socialFields: Array<{
   name:
@@ -289,6 +290,9 @@ export const EditUserBlock = () => {
           </div>
         </TabContentBlock>
         <TabContentBlock>
+          <ErrorAlert
+            error={`Atenção! Antes de salvar, verifique se as redes sociais estão sendo direcionadas corretamente no botão "Ver Link"`}
+          />
           <span className="font-medium text-sm">Redes Sociais</span>
           {socialFields.map(
             ({ name, placeholder, icon, iconComponent, urlBase }) => (
