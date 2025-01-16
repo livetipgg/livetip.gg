@@ -25,7 +25,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
           />
         </div>
         <div className="relative  mt-auto  z-20 flex  justify-end h-full flex-col ">
-          <h1 className="text-6xl font-bold">
+          <h1 className="text-5xl font-bold">
             Receba doações instantâneas via PIX e Bitcoin.
           </h1>
         </div>
