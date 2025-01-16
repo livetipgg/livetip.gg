@@ -16,7 +16,7 @@ const SocialInputField: React.FC<SocialInputFieldProps> = ({
   inputProps,
 }) => {
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col space-y-2 flex-1">
       <Label htmlFor={inputProps?.id || ""}>{label}</Label>
       <div className="flex items-center bg-background rounded-xl border">
         <div className="flex items-center p-3 rounded-bl-xl rounded-tl-xl bg-[#f3f3f3] dark:bg-[#212736] justify-center">

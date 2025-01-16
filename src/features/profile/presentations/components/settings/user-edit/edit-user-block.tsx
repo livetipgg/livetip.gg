@@ -40,60 +40,70 @@ const socialFields: Array<{
   placeholder: string;
   icon?: string;
   iconComponent?: JSX.Element;
+  urlBase?: string;
 }> = [
   {
     name: "youtubeUsername",
     label: "YouTube",
     placeholder: "Nome de usuário do YouTube",
     icon: "youtube",
+    urlBase: "https://www.youtube.com/",
   },
   {
     name: "twitchUsername",
     label: "Twitch",
     placeholder: "Nome de usuário da Twitch",
     icon: "twitch",
+    urlBase: "https://www.twitch.tv/",
   },
   {
     name: "xUsername",
     label: "X",
     placeholder: "Nome de usuário do X",
     icon: "x",
+    urlBase: "https://x.com/",
   },
   {
     name: "facebookUsername",
     label: "Facebook",
     placeholder: "Nome de usuário do Facebook",
     icon: "facebook",
+    urlBase: "https://www.facebook.com/",
   },
   {
     name: "instagramUsername",
     label: "Instagram",
     placeholder: "Nome de usuário do Instagram",
     icon: "instagram",
+    urlBase: "https://www.instagram.com/",
   },
   {
     name: "nostrUsername",
     label: "Nostr",
     placeholder: "Insira sua Npub",
     iconComponent: <img src={nostrLogo} alt="nostr" className="w-5 h-5" />,
+    urlBase: "https://njump.me/",
   },
   {
     name: "telegramUsername",
     label: "Telegram",
     placeholder: "Nome de usuário do Telegram",
     icon: "telegram",
+    urlBase: "https://t.me/",
   },
   {
     name: "whatsappUsername",
     label: "WhatsApp",
     placeholder: "Número do WhatsApp",
     icon: "whatsapp",
+    urlBase: "https://wa.me/",
   },
   {
     name: "websiteLink",
     label: "Web",
     placeholder: "Insira sua URL",
     iconComponent: <img src={webLogo} alt="web" className="w-5 h-5" />,
+    urlBase: "",
   },
 ];
 
@@ -280,29 +290,46 @@ export const EditUserBlock = () => {
         </TabContentBlock>
         <TabContentBlock>
           <span className="font-medium text-sm">Redes Sociais</span>
-          {socialFields.map(({ name, placeholder, icon, iconComponent }) => (
-            <FormField
-              key={name}
-              name={name}
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <SocialInputField
-                      iconUrl={icon}
-                      iconComponent={iconComponent}
-                      inputProps={{
-                        placeholder,
-                        value: field.value,
-                        onChange: field.onChange,
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
+          {socialFields.map(
+            ({ name, placeholder, icon, iconComponent, urlBase }) => (
+              <FormField
+                key={name}
+                name={name}
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <div className="flex items-center gap-2 flex-1">
+                        <SocialInputField
+                          iconUrl={icon}
+                          iconComponent={iconComponent}
+                          inputProps={{
+                            placeholder,
+                            value: field.value,
+                            onChange: field.onChange,
+                          }}
+                        />
+                        <Button
+                          className="p-2"
+                          variant="outline"
+                          onClick={() => {
+                            const fullUrl = urlBase
+                              ? `${urlBase}${field.value}`
+                              : field.value;
+                            window.open(fullUrl, "_blank");
+                          }}
+                          disabled={!field.value} // Disable if the input is empty
+                        >
+                          Ver Link
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )
+          )}
         </TabContentBlock>
         <TabContentBlock>
           <div className="flex items-center justify-end gap-2">
