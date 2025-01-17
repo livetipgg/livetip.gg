@@ -18,7 +18,7 @@ const MessageContent = ({ content }: MessageContentProps) => {
     <div className="flex flex-1 mt-4 lg:mx-10 lg:my-0 items-center">
       <MessageSquareMore className="h-5 w-5 mr-2" />
       <p className="text-sm font-normal flex items-center">
-        <div className="hidden lg:flex">
+        <div className="hidden md:flex">
           {formatTextMaxCaracters(content, 50)}
         </div>
         <div className=" flex md:hidden">
