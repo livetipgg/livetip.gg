@@ -73,7 +73,7 @@ const RegisterPage: React.FC = () => {
     );
   }
 
-  const [registerSteps, setRegisterSteps] = useState("VERIFY_EMAIL");
+  const [registerSteps, setRegisterSteps] = useState("USER_DATA");
   return (
     <AuthLayout>
       <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative  px-2  ">
