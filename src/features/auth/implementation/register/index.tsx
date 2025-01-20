@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,12 +18,9 @@ import { Link, useNavigate } from "react-router-dom";
 import ButtonLoading from "@/components/button-loader";
 import { ErrorAlert } from "@/components/error-alert";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
-import { ModeToggle } from "@/components/mode-toggle";
-import { Logotipo } from "@/components/logotipo";
 import {
   InputOTP,
   InputOTPGroup,
-  InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
@@ -34,10 +31,11 @@ import { adminState } from "@/features/admin/state/atoms";
 import { useAuthLogoutUseCase } from "../../useCases/useAuthLogoutUseCase";
 import { HelpButton } from "../components/help-button";
 import AuthLayout from "../auth-layout";
-import { set } from "date-fns";
+import Countdown from "react-countdown";
 
 const RegisterPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [resendCodeCountdown, setResendCoderesendCodeCountdown] = useState(0);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { controller } = useRecoilValue(adminState);
   const { isLoadingCreateUser, errorCreateUser } = controller;
@@ -73,7 +71,18 @@ const RegisterPage: React.FC = () => {
     );
   }
 
+  // atualiza o contador de reenvio de código
+  useEffect(() => {
+    if (resendCodeCountdown > 0) {
+      const interval = setInterval(() => {
+        setResendCoderesendCodeCountdown((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [resendCodeCountdown]);
+
   const [registerSteps, setRegisterSteps] = useState("USER_DATA");
+
   return (
     <AuthLayout>
       <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative  px-2  ">
@@ -113,6 +122,18 @@ const RegisterPage: React.FC = () => {
                         <InputOTPSlot index={5} />
                       </InputOTPGroup>
                     </InputOTP>
+                    <Button
+                      variant="link"
+                      disabled={resendCodeCountdown > 0}
+                      className="text-primary w-full gap-2"
+                      onClick={() => setResendCoderesendCodeCountdown(60)}
+                    >
+                      Reenviar Código
+                      {resendCodeCountdown > 0 && (
+                        <span>({resendCodeCountdown}s)</span>
+                      )}
+                    </Button>
+
                     <Button
                       className="p-6 rounded-xl mt-4 hover:bg-secondary flex-1 w-full"
                       disabled={otp.length < 6}
@@ -300,8 +321,8 @@ const RegisterPage: React.FC = () => {
                         type="submit"
                         className="p-6 rounded-xl hover:bg-secondary"
                         onClick={() => {
-                          form.handleSubmit(onSubmit);
-                          // setRegisterSteps("VERIFY_EMAIL");
+                          // form.handleSubmit(onSubmit);
+                          setRegisterSteps("VERIFY_EMAIL");
                         }}
                       >
                         Criar Conta
