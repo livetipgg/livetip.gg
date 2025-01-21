@@ -30,4 +30,8 @@ export const initialAuthUser: IAuthUserState = {
   twitchUsername: "",
   tax_value: "",
   is_verified: false,
+  websiteLink: "",
+  first_name: "",
+  last_name: "",
+  emailVerifiedAt: "",
 };

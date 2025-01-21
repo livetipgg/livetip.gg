@@ -24,6 +24,8 @@ import SocialInputField from "../../social-input-field";
 import nostrLogo from "@/assets/nostr.png";
 import { useEffect } from "react";
 import webLogo from "@/assets/web.png";
+import { VerifyEmailDialog } from "./components/verify-email-dialog";
+import { ErrorAlert } from "@/components/error-alert";
 
 const socialFields: Array<{
   name:
@@ -264,12 +266,17 @@ export const EditUserBlock = () => {
         </TabContentBlock>
         <TabContentBlock>
           {/* Email */}
-          <span className="font-medium text-sm">Email</span>
+          <div className="flex items-center justify-between">
+            <span className="font-medium text-sm">Email</span>
+            <VerifyEmailDialog />
+          </div>
+
           <div className="flex flex-1 gap-2 flex-col md:flex-row">
             <div className="flex flex-col flex-1 gap-1">
               <Label htmlFor="" className="text-muted-foreground">
                 Email
               </Label>
+
               <FormField
                 name="email"
                 control={form.control}
