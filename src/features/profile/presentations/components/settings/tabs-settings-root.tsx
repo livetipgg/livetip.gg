@@ -3,6 +3,9 @@ import { useState } from "react";
 import { EditUserBlock } from "./user-edit/edit-user-block";
 import { UpdateUserPasswordBlock } from "./update-password/update-password";
 import { QRCodeWidgetsBlock } from "./qrcode-widgets/qrcode-widgets-block";
+import { authState } from "@/features/auth/states/atoms";
+import { useRecoilValue } from "recoil";
+import { AlertCircle } from "lucide-react";
 
 const tabsItems = [
   {
@@ -21,6 +24,7 @@ const tabsItems = [
 
 export const TabsSettingsRoot = () => {
   const [activeTab, setActiveTab] = useState("my_profile");
+  const { user } = useRecoilValue(authState);
 
   return (
     <div className="rounded border flex flex-col w-full lg:flex-row">
@@ -30,19 +34,22 @@ export const TabsSettingsRoot = () => {
             key={tab.value}
             onClick={() => setActiveTab(tab.value)}
             className={cn(
-              "px-4 py-2   text-sm font-medium flex justify-start border border-none",
+              "px-4 py-2   text-sm font-medium flex justify-between border border-none items-center",
               activeTab === tab.value
                 ? " text-primary bg-[#FE4E01]/10 rounded-full border border-primary"
                 : "text-foreground"
             )}
           >
             {tab.label}
+            {tab.value === "my_profile" && !user.emailVerifiedAt && (
+              <AlertCircle className="w-4 h-4 text-yellow-500 ml-2" />
+            )}
           </button>
         ))}
       </div>
       {activeTab === "my_profile" && (
         <TabContentContainer>
-          <TabHeader item={tabsItems[0]} />
+          <TabHeader item={tabsItems[0]} showAlert={!user.emailVerifiedAt} />
           <EditUserBlock />
         </TabContentContainer>
       )}
