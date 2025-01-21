@@ -1,12 +1,3 @@
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { WarningAlert } from "@/components/warning-alert";
 import { authState } from "@/features/auth/states/atoms";
 import { Clock, X } from "lucide-react";
@@ -16,9 +7,9 @@ import { AddBankAccountDialog } from "./add-bank-account-dialog";
 
 export const PixWithdraw = () => {
   const { user } = useRecoilValue(authState);
-  const [bankAccountStatus, setBankAccountStatus] = useState<
-    "pending" | "failed" | "sucsess" | null
-  >(null);
+  const [bankAccountStatus] = useState<"pending" | "failed" | "sucsess" | null>(
+    null
+  );
 
   const canWithdrawPix = user.emailVerifiedAt;
 

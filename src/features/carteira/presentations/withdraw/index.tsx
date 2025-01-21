@@ -1,28 +1,13 @@
 import { withLayout } from "@/HOC/withLayout";
 import PaymentIcon from "@/components/payment-icon";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { authState } from "@/features/auth/states/atoms";
 import { useRef, useState } from "react";
-import { PatternFormat } from "react-number-format";
 import { useRecoilValue } from "recoil";
 import { withdrawState } from "../../states/atoms";
-import {
-  AlertCircle,
-  ClipboardPaste,
-  LoaderCircle,
-  Terminal,
-} from "lucide-react";
-import InputMoney from "@/components/input-currency";
+import { AlertCircle, ClipboardPaste, LoaderCircle } from "lucide-react";
 import { useWithdrawUseCase } from "../../useCases/useWithdrawBtcUseCase";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -33,17 +18,12 @@ const Withdraw = () => {
   const { user } = useRecoilValue(authState);
   const { controller } = useRecoilValue(withdrawState);
   const [withdrawType, setWithdrawType] = useState("BTC");
-  const [pixKey, setPixKey] = useState("");
   const { loading } = controller;
-  const [value, setValue] = useState("0");
-  const { brlBalance } = user;
+  const [, setValue] = useState("0");
   const [invoice, setInvoice] = useState("");
-  const [selectedKey, setSelectedKey] = useState("cpf");
   const { withdraw } = useWithdrawUseCase();
 
   const textareaRef = useRef(null);
-
-  const canWithdrawPix = user.emailVerifiedAt;
 
   const isAdmin = user.id === 3 || user.id === 5;
   const handleInputChange = (e) => {
@@ -143,15 +123,9 @@ const Withdraw = () => {
           <Button
             variant="default"
             disabled={
-              withdrawType === "" ||
-              (withdrawType === "BRL" && (!pixKey || Number(value) <= 0)) ||
-              (withdrawType === "BTC" && invoice === "")
+              withdrawType === "" || (withdrawType === "BTC" && invoice === "")
             }
             onClick={() => {
-              if (withdrawType === "BRL") {
-                withdraw({ amount: value, pixKey, currency: "BRL" });
-              }
-
               if (withdrawType === "BTC") {
                 withdraw({ invoice, currency: "BTC" });
               }
