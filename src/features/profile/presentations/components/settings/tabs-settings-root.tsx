@@ -49,7 +49,7 @@ export const TabsSettingsRoot = () => {
       </div>
       {activeTab === "my_profile" && (
         <TabContentContainer>
-          <TabHeader item={tabsItems[0]} showAlert={!user.emailVerifiedAt} />
+          <TabHeader item={tabsItems[0]} />
           <EditUserBlock />
         </TabContentContainer>
       )}
