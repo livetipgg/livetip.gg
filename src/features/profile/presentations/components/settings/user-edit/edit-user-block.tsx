@@ -207,7 +207,7 @@ export const EditUserBlock = () => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        className="p-5 rounded-lg bg-background shadow-none"
+                        className="p-5 rounded-lg bg-card-custom shadow-none"
                         {...field}
                       />
                     </FormControl>
@@ -227,7 +227,7 @@ export const EditUserBlock = () => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        className="p-5 rounded-lg bg-background shadow-none"
+                        className="p-5 rounded-lg bg-card-custom shadow-none"
                         {...field}
                       />
                     </FormControl>
@@ -252,7 +252,7 @@ export const EditUserBlock = () => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        className="p-5 rounded-lg bg-background shadow-none"
+                        className="p-5 rounded-lg bg-card-custom shadow-none"
                         {...field}
                       />
                     </FormControl>
@@ -283,7 +283,7 @@ export const EditUserBlock = () => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        className="p-5 rounded-lg bg-background shadow-none"
+                        className="p-5 rounded-lg shadow-none bg-card-custom"
                         {...field}
                       />
                     </FormControl>

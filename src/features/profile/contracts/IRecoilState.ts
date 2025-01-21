@@ -14,6 +14,7 @@ export interface IUpdateProfilePayload {
 export interface IControllerProfileState {
   isLoadingCancelAccount: boolean;
   isLoadingUpdateProfile: boolean;
+  isLoadingSendCodeToEmail: boolean;
   isLoadingUpdatePhoto: boolean;
 
   newPhotoUrl: File | null;
