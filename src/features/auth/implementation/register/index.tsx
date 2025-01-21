@@ -31,10 +31,12 @@ import { adminState } from "@/features/admin/state/atoms";
 import { useAuthLogoutUseCase } from "../../useCases/useAuthLogoutUseCase";
 import { HelpButton } from "../components/help-button";
 import AuthLayout from "../auth-layout";
+import { useProfileVerifyEmailUseCase } from "@/features/profile/useCases/useProfileVerifyEmailUseCase";
+import { profileState } from "@/features/profile/states/atoms";
 
 const RegisterPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [resendCodeCountdown, setResendCoderesendCodeCountdown] = useState(0);
+  const [resendCodeCountdown, setResendCoderesendCodeCountdown] = useState(60);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { controller } = useRecoilValue(adminState);
   const { isLoadingCreateUser, errorCreateUser } = controller;
@@ -66,7 +68,8 @@ const RegisterPage: React.FC = () => {
       values.confirmPassword,
       values.email,
       values.first_name,
-      values.last_name
+      values.last_name,
+      otp
     );
   }
 
@@ -82,6 +85,9 @@ const RegisterPage: React.FC = () => {
 
   const [registerSteps, setRegisterSteps] = useState("USER_DATA");
 
+  const { sendCodeToEmail } = useProfileVerifyEmailUseCase();
+  const { controller: profileController } = useRecoilValue(profileState);
+  const { isLoadingSendCodeToEmail } = profileController;
   return (
     <AuthLayout>
       <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative  px-2  ">
@@ -125,7 +131,11 @@ const RegisterPage: React.FC = () => {
                       variant="link"
                       disabled={resendCodeCountdown > 0}
                       className="text-primary w-full gap-2"
-                      onClick={() => setResendCoderesendCodeCountdown(60)}
+                      onClick={() => {
+                        sendCodeToEmail(form.watch("email"), () => {
+                          setResendCoderesendCodeCountdown(60);
+                        });
+                      }}
                     >
                       Reenviar Código
                       {resendCodeCountdown > 0 && (
@@ -133,12 +143,20 @@ const RegisterPage: React.FC = () => {
                       )}
                     </Button>
 
-                    <Button
-                      className="p-6 rounded-xl mt-4 hover:bg-secondary flex-1 w-full"
-                      disabled={otp.length < 6}
-                    >
-                      Confirmar
-                    </Button>
+                    {isLoadingCreateUser && (
+                      <ButtonLoading className="rounded-xl p-5" />
+                    )}
+
+                    {!isLoadingCreateUser && (
+                      <Button
+                        className="p-6 rounded-xl mt-4 hover:bg-secondary flex-1 w-full"
+                        disabled={otp.length < 6}
+                        onClick={form.handleSubmit(onSubmit)}
+                      >
+                        Confirmar
+                      </Button>
+                    )}
+                    {errorCreateUser && <ErrorAlert error={errorCreateUser} />}
                   </div>
                 </div>
               </div>
@@ -312,16 +330,19 @@ const RegisterPage: React.FC = () => {
                       />
                     </div>
 
-                    {isLoadingCreateUser && (
+                    {isLoadingSendCodeToEmail && (
                       <ButtonLoading className="rounded-xl p-5" />
                     )}
-                    {!isLoadingCreateUser && (
+                    {!isLoadingSendCodeToEmail && (
                       <Button
                         type="submit"
+                        disabled={!form.formState.isValid}
                         className="p-6 rounded-xl hover:bg-secondary"
                         onClick={() => {
-                          // form.handleSubmit(onSubmit);
-                          setRegisterSteps("VERIFY_EMAIL");
+                          sendCodeToEmail(form.watch("email"), () => {
+                            setRegisterSteps("VERIFY_EMAIL");
+                            setOtp("");
+                          });
                         }}
                       >
                         Criar Conta

@@ -9,7 +9,7 @@ export const useProfileVerifyEmailUseCase = () => {
   const [, setProfileState] = useRecoilState(profileState);
   const api = useCreateApiInstance();
   const { successSonner, errorSonner } = useCustomSonner();
-  const sendCodeToEmail = async () => {
+  const sendCodeToEmail = async (email?: string, onSuccess?: VoidFunction) => {
     setProfileState((prev) => ({
       ...prev,
       controller: {
@@ -19,9 +19,10 @@ export const useProfileVerifyEmailUseCase = () => {
     }));
     try {
       const response = await api.post("/user/verify-email", {
-        email: user.email,
+        email: email || user.email,
       });
 
+      onSuccess();
       return response.data;
     } catch (error) {
       return error.response.data;

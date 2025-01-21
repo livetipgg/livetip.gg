@@ -16,7 +16,8 @@ export const useAdminCreateUserUseCase = () => {
     confirmPassword?: string,
     email?: string,
     first_name?: string,
-    last_name?: string
+    last_name?: string,
+    otp?: string
   ) => {
     if (password !== confirmPassword) {
       errorSonner("As senhas não coincidem");
@@ -39,6 +40,7 @@ export const useAdminCreateUserUseCase = () => {
         email,
         first_name,
         last_name,
+        verificationCode: otp,
       });
 
       successSonner(`Usuário ${username} criado com sucesso!`);
