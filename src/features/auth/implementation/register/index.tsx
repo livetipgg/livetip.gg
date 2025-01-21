@@ -31,7 +31,6 @@ import { adminState } from "@/features/admin/state/atoms";
 import { useAuthLogoutUseCase } from "../../useCases/useAuthLogoutUseCase";
 import { HelpButton } from "../components/help-button";
 import AuthLayout from "../auth-layout";
-import Countdown from "react-countdown";
 
 const RegisterPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
