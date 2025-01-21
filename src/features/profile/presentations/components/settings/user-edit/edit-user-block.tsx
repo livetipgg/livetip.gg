@@ -25,7 +25,6 @@ import nostrLogo from "@/assets/nostr.png";
 import { useEffect } from "react";
 import webLogo from "@/assets/web.png";
 import { VerifyEmailDialog } from "./components/verify-email-dialog";
-import { ErrorAlert } from "@/components/error-alert";
 
 const socialFields: Array<{
   name:
