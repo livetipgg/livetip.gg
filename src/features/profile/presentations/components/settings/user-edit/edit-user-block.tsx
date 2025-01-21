@@ -25,6 +25,7 @@ import nostrLogo from "@/assets/nostr.png";
 import { useEffect } from "react";
 import webLogo from "@/assets/web.png";
 import { VerifyEmailDialog } from "./components/verify-email-dialog";
+import { WarningAlert } from "@/components/warning-alert";
 
 const socialFields: Array<{
   name:
@@ -189,6 +190,9 @@ export const EditUserBlock = () => {
 
   return (
     <div>
+      {!user.emailVerifiedAt && (
+        <WarningAlert error="Atenção! Você precisa verificar seu email para poder realizar saques." />
+      )}
       <TabContentBlock>
         <EditUserPhotoBlock user={user} />
       </TabContentBlock>
@@ -267,7 +271,7 @@ export const EditUserBlock = () => {
           {/* Email */}
           <div className="flex items-center justify-between">
             <span className="font-medium text-sm">Email</span>
-            <VerifyEmailDialog />
+            {!user.emailVerifiedAt && <VerifyEmailDialog />}
           </div>
 
           <div className="flex flex-1 gap-2 flex-col md:flex-row">
