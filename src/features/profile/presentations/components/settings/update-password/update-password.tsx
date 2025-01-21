@@ -84,7 +84,7 @@ export const UpdateUserPasswordBlock = () => {
                         <Input
                           {...field}
                           type={showCurrentPassword ? "text" : "password"}
-                          className="p-5 rounded-lg bg-background shadow-none"
+                          className="p-5 rounded-lg bg-card-custom shadow-none"
                         />
                         <Button
                           size="icon"
@@ -121,7 +121,7 @@ export const UpdateUserPasswordBlock = () => {
                         <Input
                           {...field}
                           type={showNewPassword ? "text" : "password"}
-                          className="p-5 rounded-lg bg-background shadow-none"
+                          className="p-5 rounded-lg bg-card-custom shadow-none"
                         />
                         <Button
                           size="icon"
@@ -158,7 +158,7 @@ export const UpdateUserPasswordBlock = () => {
                         <Input
                           {...field}
                           type={showConfirmNewPassword ? "text" : "password"}
-                          className="p-5 rounded-lg bg-background shadow-none"
+                          className="p-5 rounded-lg bg-card-custom shadow-none"
                         />
                         <Button
                           size="icon"

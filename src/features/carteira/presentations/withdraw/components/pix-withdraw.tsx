@@ -12,12 +12,13 @@ import { authState } from "@/features/auth/states/atoms";
 import { Clock, X } from "lucide-react";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
+import { AddBankAccountDialog } from "./add-bank-account-dialog";
 
 export const PixWithdraw = () => {
   const { user } = useRecoilValue(authState);
   const [bankAccountStatus, setBankAccountStatus] = useState<
     "pending" | "failed" | "sucsess" | null
-  >("pending");
+  >(null);
 
   const canWithdrawPix = user.emailVerifiedAt;
 
@@ -65,20 +66,7 @@ export const PixWithdraw = () => {
               saques pix.
             </span>
           </div>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button className="w-fit">Adicionar conta bancária</Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Cadastre uma conta bancária</SheetTitle>
-                <SheetDescription>
-                  Você precisa ter uma conta bancária cadastrada para realizar
-                  saques pix.
-                </SheetDescription>
-              </SheetHeader>
-            </SheetContent>
-          </Sheet>
+          <AddBankAccountDialog />
         </div>
       )}
 
