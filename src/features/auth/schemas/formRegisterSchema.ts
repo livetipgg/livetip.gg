@@ -17,6 +17,12 @@ export const formRegisterSchema = z.object({
   confirmPassword: z
     .string()
     .min(6, { message: "A confirmação da senha é obrigatória" }),
+  first_name: z.string().min(3, {
+    message: "O primeiro nome é obrigatório e deve ter pelo menos 3 caracteres",
+  }),
+  last_name: z.string().min(3, {
+    message: "O último nome é obrigatório e deve ter pelo menos 3 caracteres",
+  }),
 });
 
 export type IFormRegisterInputs = z.infer<typeof formRegisterSchema>;
