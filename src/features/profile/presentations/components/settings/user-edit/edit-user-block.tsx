@@ -25,6 +25,8 @@ import nostrLogo from "@/assets/nostr.png";
 import { useEffect } from "react";
 import webLogo from "@/assets/web.png";
 import { ErrorAlert } from "@/components/error-alert";
+import { VerifyEmailDialog } from "./components/verify-email-dialog";
+import { WarningAlert } from "@/components/warning-alert";
 
 const socialFields: Array<{
   name:
@@ -189,6 +191,9 @@ export const EditUserBlock = () => {
 
   return (
     <div>
+      {!user.emailVerifiedAt && (
+        <WarningAlert error="Atenção! Você precisa verificar seu email para poder realizar saques." />
+      )}
       <TabContentBlock>
         <EditUserPhotoBlock user={user} />
       </TabContentBlock>
@@ -207,7 +212,7 @@ export const EditUserBlock = () => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        className="p-5 rounded-lg bg-background shadow-none"
+                        className="p-5 rounded-lg bg-card-custom shadow-none"
                         {...field}
                       />
                     </FormControl>
@@ -227,7 +232,7 @@ export const EditUserBlock = () => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        className="p-5 rounded-lg bg-background shadow-none"
+                        className="p-5 rounded-lg bg-card-custom shadow-none"
                         {...field}
                       />
                     </FormControl>
@@ -252,7 +257,7 @@ export const EditUserBlock = () => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        className="p-5 rounded-lg bg-background shadow-none"
+                        className="p-5 rounded-lg bg-card-custom shadow-none"
                         {...field}
                       />
                     </FormControl>
@@ -265,12 +270,17 @@ export const EditUserBlock = () => {
         </TabContentBlock>
         <TabContentBlock>
           {/* Email */}
-          <span className="font-medium text-sm">Email</span>
+          <div className="flex items-center justify-between">
+            <span className="font-medium text-sm">Email</span>
+            {!user.emailVerifiedAt && <VerifyEmailDialog />}
+          </div>
+
           <div className="flex flex-1 gap-2 flex-col md:flex-row">
             <div className="flex flex-col flex-1 gap-1">
               <Label htmlFor="" className="text-muted-foreground">
                 Email
               </Label>
+
               <FormField
                 name="email"
                 control={form.control}
@@ -278,7 +288,7 @@ export const EditUserBlock = () => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        className="p-5 rounded-lg bg-background shadow-none"
+                        className="p-5 rounded-lg shadow-none bg-card-custom"
                         {...field}
                       />
                     </FormControl>

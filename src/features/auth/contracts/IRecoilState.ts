@@ -29,6 +29,7 @@ export interface IAuthUserState {
 
   tax_value: string;
   is_verified: boolean;
+  emailVerifiedAt: string;
 }
 
 export interface IAuthState {
