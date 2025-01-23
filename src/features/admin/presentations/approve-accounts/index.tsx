@@ -102,7 +102,7 @@ const ApproveAccounts = () => {
   const failedUsers = data.filter((user) => user.status === "failed");
 
   return (
-    <AdminPage>
+    <div>
       <Tabs defaultValue="pending" className="px-0 mx-0">
         <TabsList className="mb-5  w-full flex-col md:flex-row  bg-transparent h-fit">
           <TabsTrigger
@@ -220,7 +220,7 @@ const ApproveAccounts = () => {
           )}
         </TabsContent>
       </Tabs>
-    </AdminPage>
+    </div>
   );
 };
 

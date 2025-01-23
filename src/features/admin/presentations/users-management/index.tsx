@@ -51,7 +51,7 @@ const UsersManagement = () => {
   }
 
   return (
-    <AdminPage>
+    <div>
       <div className="mb-4 flex items-start gap-2 justify-between md:flex-row md:items-center flex-col">
         <Input
           className="md:max-w-[300px] shadow-none border-muted-foreground/40 rounded-lg"
@@ -97,7 +97,7 @@ const UsersManagement = () => {
           />
         </>
       )}
-    </AdminPage>
+    </div>
   );
 };
 
