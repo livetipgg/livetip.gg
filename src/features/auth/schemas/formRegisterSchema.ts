@@ -6,6 +6,9 @@ export const formRegisterSchema = z.object({
     .min(3, {
       message: "O username é obrigatório e deve ter pelo menos 3 caracteres",
     })
+    .max(30, {
+      message: "O username deve ter no máximo 30 caracteres",
+    })
     .regex(/^[a-z0-9]+$/, {
       message:
         "O username só pode conter letras minúsculas e números. Não pode conter espaços, símbolos ou acentos.",
