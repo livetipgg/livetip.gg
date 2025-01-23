@@ -1,3 +1,4 @@
+import { NoContent } from "@/components/no-content";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -95,6 +96,10 @@ const ApproveAccounts = () => {
     (user) => user.status === "approved"
   ).length;
   const numberOfFailed = data.filter((user) => user.status === "failed").length;
+
+  const pendingUsers = data.filter((user) => user.status === "pending");
+  const approvedUsers = data.filter((user) => user.status === "approved");
+  const failedUsers = data.filter((user) => user.status === "failed");
 
   return (
     <div>
@@ -204,8 +209,16 @@ const ApproveAccounts = () => {
             ))}
           </div>
         </TabsContent>
-        <TabsContent value="approve"></TabsContent>
-        <TabsContent value="failed"></TabsContent>
+        <TabsContent value="approve">
+          {!approvedUsers.length && (
+            <NoContent message="Nenhum usuário aprovado" />
+          )}
+        </TabsContent>
+        <TabsContent value="failed">
+          {!failedUsers.length && (
+            <NoContent message="Nenhum usuário reprovado" />
+          )}
+        </TabsContent>
       </Tabs>
     </div>
   );
