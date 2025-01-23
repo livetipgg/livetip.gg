@@ -88,6 +88,14 @@ const ApproveAccounts = () => {
     },
   ];
 
+  const numberOfPending = data.filter(
+    (user) => user.status === "pending"
+  ).length;
+  const numberOfApproved = data.filter(
+    (user) => user.status === "approved"
+  ).length;
+  const numberOfFailed = data.filter((user) => user.status === "failed").length;
+
   return (
     <div>
       <Tabs defaultValue="pending" className="px-0 mx-0">
@@ -98,6 +106,9 @@ const ApproveAccounts = () => {
           >
             <Clock className="h-5 w-5" />
             <span className="text-xl">Pendentes</span>
+            <span className="data-[state=active]:text-orange-400  font-bold data-[state=active]:border-orange-400 data-[state=active]:bg-orange-400/20  w-6 h-6 flex items-center justify-center rounded-full ">
+              {numberOfPending}
+            </span>
           </TabsTrigger>
 
           <TabsTrigger
@@ -106,6 +117,9 @@ const ApproveAccounts = () => {
           >
             <Check className="h-5 w-5" />
             <span className="text-xl">Aprovados</span>
+            <span className="data-[state=active]:text-green-400   font-bold data-[state=active]:border-green-400 data-[state=active]:bg-green-400/20  w-6 h-6 flex items-center justify-center rounded-full ">
+              {numberOfApproved}
+            </span>
           </TabsTrigger>
           <TabsTrigger
             value="failed"
@@ -113,6 +127,9 @@ const ApproveAccounts = () => {
           >
             <XCircle className="h-5 w-5" />
             <span className="text-xl">Reprovados</span>
+            <span className="data-[state=active]:text-red-400  font-bold data-[state=active]:border-red-400 data-[state=active]:bg-red-400/20  w-6 h-6 flex items-center justify-center rounded-full ">
+              {numberOfFailed}
+            </span>
           </TabsTrigger>
         </TabsList>
         <TabsContent value="pending">
