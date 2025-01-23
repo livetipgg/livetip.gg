@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { withLayout } from "@/HOC/withLayout";
 import { Check, Clock, X, XCircle } from "lucide-react";
+import AdminPage from "..";
 
 const ApproveAccounts = () => {
   // const { isPending, data } = useQuery({
@@ -97,12 +98,11 @@ const ApproveAccounts = () => {
   ).length;
   const numberOfFailed = data.filter((user) => user.status === "failed").length;
 
-  const pendingUsers = data.filter((user) => user.status === "pending");
   const approvedUsers = data.filter((user) => user.status === "approved");
   const failedUsers = data.filter((user) => user.status === "failed");
 
   return (
-    <div>
+    <AdminPage>
       <Tabs defaultValue="pending" className="px-0 mx-0">
         <TabsList className="mb-5  w-full flex-col md:flex-row  bg-transparent h-fit">
           <TabsTrigger
@@ -220,7 +220,7 @@ const ApproveAccounts = () => {
           )}
         </TabsContent>
       </Tabs>
-    </div>
+    </AdminPage>
   );
 };
 

@@ -10,6 +10,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useAdminGetAllUsersUseCase } from "../../useCases/useAdminGetAllUsersUseCase";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { adminState } from "../../state/atoms";
+import AdminPage from "..";
+import { NoContent } from "@/components/no-content";
 
 const UsersManagement = () => {
   const { getAllUsers } = useAdminGetAllUsersUseCase();
@@ -49,7 +51,7 @@ const UsersManagement = () => {
   }
 
   return (
-    <div>
+    <AdminPage>
       <div className="mb-4 flex items-start gap-2 justify-between md:flex-row md:items-center flex-col">
         <Input
           className="md:max-w-[300px] shadow-none border-muted-foreground/40 rounded-lg"
@@ -64,30 +66,38 @@ const UsersManagement = () => {
         />
         <CreateUserDialog />
       </div>
-      <div className="max-w-[360px] sm:max-w-full overflow-x-auto">
-        <DataTable columns={usersColumn} data={data.results} />
-      </div>
+      {data.results.length === 0 && (
+        <div className="mt-10">
+          <NoContent message="Nenhum usuário para mostrar" />
+        </div>
+      )}
+      {data.results.length > 0 && (
+        <>
+          <div className="max-w-[360px] sm:max-w-full overflow-x-auto">
+            <DataTable columns={usersColumn} data={data.results} />
+          </div>
+          <PaginationComponent
+            currentPage={getAllUsersParams.page}
+            totalPages={data.totalPages}
+            total={data.count}
+            onPageChange={(page) => {
+              setAdminState((prevState) => ({
+                ...prevState,
+                controller: {
+                  ...prevState.controller,
+                  getAllUsersParams: {
+                    ...prevState.controller.getAllUsersParams,
+                    page,
+                  },
+                },
+              }));
 
-      <PaginationComponent
-        currentPage={getAllUsersParams.page}
-        totalPages={data.totalPages}
-        total={data.count}
-        onPageChange={(page) => {
-          setAdminState((prevState) => ({
-            ...prevState,
-            controller: {
-              ...prevState.controller,
-              getAllUsersParams: {
-                ...prevState.controller.getAllUsersParams,
-                page,
-              },
-            },
-          }));
-
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-      />
-    </div>
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          />
+        </>
+      )}
+    </AdminPage>
   );
 };
 
