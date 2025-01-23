@@ -188,11 +188,9 @@ const RegisterPage: React.FC = () => {
                                 placeholder="Nome de usuario"
                                 {...field}
                                 onChange={(e) => {
-                                  // limita o tamanho do username para 30 caracteres
-                                  if (e.target.value.length > 30) {
-                                    e.target.value = e.target.value.slice(
-                                      0,
-                                      30
+                                  if (field.value.length < 30) {
+                                    field.onChange(
+                                      e.target.value.toLowerCase().slice(0, 30)
                                     );
                                   }
                                 }}
