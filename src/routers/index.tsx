@@ -13,6 +13,7 @@ import RegisterPage from "@/features/auth/implementation/register";
 import UsersManagementPage from "@/features/admin/presentations/users-management";
 import { NotFoundPage } from "@/features/not-found-page";
 import { TransmissionExpandedPage } from "@/features/transmission/presentations/expanded";
+import ApproveAccountsPage from "@/features/admin/presentations/approve-accounts";
 
 export const routers = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ export const routers = createBrowserRouter([
       {
         path: routes["UsersManagement"].path,
         Component: UsersManagementPage,
+      },
+      {
+        path: routes["ApproveAccounts"].path,
+        Component: ApproveAccountsPage,
       },
       {
         path: "*",

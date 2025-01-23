@@ -63,6 +63,11 @@ export const routes: RoutesProps = {
     label: "Gerenciar Usuários",
     name: "gerenciar-usuarios",
   },
+  ApproveAccounts: {
+    path: "/admin/aprovar-contas",
+    label: "Aprovar Contas",
+    name: "aprovar-contas",
+  },
 
   NotFound: {
     path: "*",
