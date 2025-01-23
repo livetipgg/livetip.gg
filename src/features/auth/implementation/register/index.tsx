@@ -88,6 +88,10 @@ const RegisterPage: React.FC = () => {
   const { sendCodeToEmail } = useProfileVerifyEmailUseCase();
   const { controller: profileController } = useRecoilValue(profileState);
   const { isLoadingSendCodeToEmail } = profileController;
+
+  const isPasswordValid =
+    form.watch("password") === form.watch("confirmPassword");
+
   return (
     <AuthLayout>
       <div className="w-full h-screen flex items-center justify-center overflow-hidden  relative  px-2  ">
@@ -183,6 +187,9 @@ const RegisterPage: React.FC = () => {
                               <Input
                                 placeholder="Nome de usuario"
                                 {...field}
+                                onChange={(e) => {
+                                  field.onChange(e.target.value.toLowerCase());
+                                }}
                                 className="p-6 rounded-xl shadow-none border-gray-300 bg-white dark:bg-card-custom dark:border-input"
                               />
                             </FormControl>
@@ -336,7 +343,7 @@ const RegisterPage: React.FC = () => {
                     {!isLoadingSendCodeToEmail && (
                       <Button
                         type="submit"
-                        disabled={!form.formState.isValid}
+                        disabled={!form.formState.isValid || !isPasswordValid}
                         className="p-6 rounded-xl hover:bg-secondary"
                         onClick={() => {
                           sendCodeToEmail(form.watch("email"), () => {
