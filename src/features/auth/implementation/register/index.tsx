@@ -190,7 +190,15 @@ const RegisterPage: React.FC = () => {
                                 onChange={(e) => {
                                   if (field.value.length < 30) {
                                     field.onChange(
-                                      e.target.value.toLowerCase().slice(0, 30)
+                                      e.target.value.toLowerCase()
+                                    );
+                                  }
+
+                                  if (
+                                    e.target.value.length < field.value.length
+                                  ) {
+                                    field.onChange(
+                                      e.target.value.toLowerCase()
                                     );
                                   }
                                 }}
