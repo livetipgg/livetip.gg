@@ -62,15 +62,39 @@ const ApproveAccounts = () => {
       },
       cpf: "123.456.789-00",
     },
+    {
+      id: 4,
+      fullName: "Ana",
+      email: "ana@gmail.com",
+      status: "pending",
+      bankInfo: {
+        bank: "Banco do Brasil",
+        agency: "1234",
+        account: "12345-6",
+      },
+      cpf: "123.456.789-00",
+    },
+    {
+      id: 5,
+      fullName: "Pedro",
+      email: "pedro@gmail.com",
+      status: "pending",
+      bankInfo: {
+        bank: "Banco do Brasil",
+        agency: "1234",
+        account: "12345-6",
+      },
+      cpf: "123.456.789-00",
+    },
   ];
 
   return (
     <div>
       <Tabs defaultValue="pending" className="px-0 mx-0">
-        <TabsList className="mb-5  w-full  bg-transparent h-fit">
+        <TabsList className="mb-5  w-full flex-col md:flex-row  bg-transparent h-fit">
           <TabsTrigger
             value="pending"
-            className="flex flex-1 border-b-4 p-4 gap-2 data-[state=active]:bg-transparent data-[state=active]:border-b-4 data-[state=active]:border-b-orange-400 data-[state=active]:shadow-none data-[state=active]:text-orange-400"
+            className="flex w-full flex-1 border-b-4 p-4 gap-2 data-[state=active]:bg-transparent data-[state=active]:border-b-4 data-[state=active]:border-b-orange-400 data-[state=active]:shadow-none data-[state=active]:text-orange-400"
           >
             <Clock className="h-5 w-5" />
             <span className="text-xl">Pendentes</span>
@@ -78,25 +102,25 @@ const ApproveAccounts = () => {
 
           <TabsTrigger
             value="approve"
-            className="flex flex-1 border-b-4 p-4 gap-2 data-[state=active]:bg-transparent data-[state=active]:border-b-4 data-[state=active]:border-b-green-400 data-[state=active]:shadow-none data-[state=active]:text-green-400"
+            className="flex w-full flex-1 border-b-4 p-4 gap-2 data-[state=active]:bg-transparent data-[state=active]:border-b-4 data-[state=active]:border-b-green-400 data-[state=active]:shadow-none data-[state=active]:text-green-400"
           >
             <Check className="h-5 w-5" />
             <span className="text-xl">Aprovados</span>
           </TabsTrigger>
           <TabsTrigger
             value="failed"
-            className="flex flex-1 border-b-4 p-4 gap-2 data-[state=active]:bg-transparent data-[state=active]:border-b-4 data-[state=active]:border-b-red-400 data-[state=active]:shadow-none data-[state=active]:text-red-400"
+            className="flex w-full flex-1 border-b-4 p-4 gap-2 data-[state=active]:bg-transparent data-[state=active]:border-b-4 data-[state=active]:border-b-red-400 data-[state=active]:shadow-none data-[state=active]:text-red-400"
           >
             <XCircle className="h-5 w-5" />
             <span className="text-xl">Reprovados</span>
           </TabsTrigger>
         </TabsList>
         <TabsContent value="pending">
-          <div className="flex flex-col w-full">
+          <div className="flex  gap-2 flex-wrap">
             {data.map((user) => (
               <div
                 key={user.id}
-                className="flex justify-between  p-4 bg-card-custom border rounded-lg shadow-lg mb-4"
+                className="flex justify-between flex-col flex-1 min-w-[320px]  p-4 bg-card-custom border rounded-lg  mb-4"
               >
                 <div className="flex flex-col">
                   <div className="flex flex-row justify-between items-center">
@@ -123,14 +147,14 @@ const ApproveAccounts = () => {
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Button className="bg-success font-bold gap-2 hover:bg-succes/20">
+                <div className="flex items-center gap-2 mt-4 flex-1">
+                  <Button className="bg-success font-bold gap-2 hover:bg-succes/20 flex-1">
                     <Check className="h-5 w-5" />
                     Aprovar
                   </Button>
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button className="bg-red-400 font-bold gap-2">
+                      <Button className="bg-red-400 font-bold gap-2 flex-1">
                         <X className="h-5 w-5" />
                         Reprovar
                       </Button>
