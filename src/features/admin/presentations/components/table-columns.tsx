@@ -51,7 +51,12 @@ export const usersColumn: ColumnDef<any>[] = [
           </Avatar>
           <div className="flex flex-col">
             <span className="font-semibold text-md flex items-center ">
-              {row.getValue("username")}
+              <a
+                target="_blank"
+                href={`https://livetip.gg/${row.getValue("username")}`}
+              >
+                {row.getValue("username")}
+              </a>
               {row.original.is_verified && (
                 <BadgeCheck
                   className="w-4 h-4"
