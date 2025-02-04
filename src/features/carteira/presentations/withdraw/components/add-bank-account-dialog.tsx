@@ -23,14 +23,28 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { useFetchBanks } from "@/hooks/use-fetch-banks";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ChevronsUpDown } from "lucide-react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import React from "react";
 
 export const AddBankAccountDialog = () => {
   const form = useForm<z.infer<typeof createBankAccountSchema>>({
     resolver: zodResolver(createBankAccountSchema),
     defaultValues: {
-      accountDigit: "",
       accountNumber: "",
-      agencyDigit: "",
       agencyNumber: "",
       bankId: "",
       fullName: "",
@@ -48,7 +62,7 @@ export const AddBankAccountDialog = () => {
       return "__.___.___/____-__";
     }
     if (value === "telefone") {
-      return "+0 (___) ___-__-__";
+      return "(__) _ ____-____";
     }
     if (value === "aleatorio") {
       return "";
@@ -77,6 +91,19 @@ export const AddBankAccountDialog = () => {
     }
     return { _: /./ };
   };
+
+  const { data: banks, isLoading, isError } = useFetchBanks();
+  const [open, setOpen] = React.useState(false);
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
+
+  console.log(form.formState.errors);
+
+  if (isLoading) {
+    return <div>Carregando...</div>;
+  }
 
   return (
     <FormProvider {...form}>
@@ -245,28 +272,73 @@ export const AddBankAccountDialog = () => {
         </div>
         <div className="">
           <FormField
-            name="agencyNumber"
+            name="bankId"
             control={form.control}
             render={({ field }) => (
               <FormItem className="flex flex-col w-full ">
                 <FormLabel className="text-[#A3A3A3]">Banco</FormLabel>
                 <div className="flex-1 flex-col ">
                   <FormControl>
-                    <Select>
+                    <Popover open={open} onOpenChange={setOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          aria-expanded={open}
+                          className="input-class bg-background shadow-none rounded-lg p-6 flex justify-between items-center w-full"
+                        >
+                          <div className="flex items-center gap-2">
+                            {banks.find(
+                              (bank) => bank.id.toString() === field.value
+                            )?.long_name || "Selecione o banco"}
+                          </div>
+
+                          <ChevronsUpDown className="opacity-50" size={14} />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-fit p-0">
+                        <Command>
+                          <CommandInput placeholder="Pesquisar banco..." />
+                          <CommandList>
+                            <CommandEmpty>Nenhum banco encontrado</CommandEmpty>
+                            <CommandGroup>
+                              {banks.map((bank, idx) => {
+                                return (
+                                  <CommandItem
+                                    key={idx}
+                                    value={bank.id.toString()}
+                                    onSelect={(currentValue) => {
+                                      console.log(currentValue);
+                                      field.onChange(currentValue);
+                                      setOpen(false);
+                                    }}
+                                  >
+                                    {bank.bank_code} - {bank.long_name}
+                                  </CommandItem>
+                                );
+                              })}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    {/* <Select>
                       <SelectTrigger className="shadow-none p-6 rounded-lg border-input">
                         <SelectValue placeholder="Selecione o banco" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Bancos</SelectLabel>
-                          <SelectItem value="cpf">CPF</SelectItem>
-                          <SelectItem value="cnpj">CNPJ</SelectItem>
-                          <SelectItem value="telefone">Telefone</SelectItem>
-                          <SelectItem value="aleatorio">Aleatório</SelectItem>
-                          <SelectItem value="email">Email</SelectItem>
+                          {banks?.map((bank) => (
+                            <div key={bank.id}>
+                              <SelectItem value={bank.id}>
+                                {bank.short_name}
+                              </SelectItem>
+                            </div>
+                          ))}
                         </SelectGroup>
                       </SelectContent>
-                    </Select>
+                    </Select> */}
                   </FormControl>
                   <FormMessage />
                 </div>
@@ -274,7 +346,10 @@ export const AddBankAccountDialog = () => {
             )}
           />
         </div>
-        <Button className="w-full p-6 rounded-lg font-bold text-sm">
+        <Button
+          className="w-full p-6 rounded-lg font-bold text-sm"
+          onClick={form.handleSubmit(onSubmit)}
+        >
           Cadastrar Conta{" "}
         </Button>
       </div>
