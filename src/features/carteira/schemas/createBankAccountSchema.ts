@@ -15,6 +15,7 @@ export const createBankAccountSchema = z.object({
   pixKeyType: z
     .string()
     .min(1, { message: "O tipo da chave pix é obrigatório" }),
+  cpf: z.string().min(1, { message: "O CPF é obrigatório" }),
 });
 
 export type IFormCreateBankAccountSchema = z.infer<

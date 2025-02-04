@@ -36,7 +36,7 @@ const Withdraw = () => {
   };
   return (
     <div className="h-full w-full flex flex-col ">
-      {!isAdmin && (
+      {/* {!isAdmin && (
         <>
           <HelpButton />
 
@@ -113,7 +113,6 @@ const Withdraw = () => {
                       onChange={handleInputChange}
                       placeholder="Digite o invoice"
                     />
-                    {/* Paste button */}
                   </div>
                 </div>
               </div>
@@ -146,7 +145,36 @@ const Withdraw = () => {
             )}
           </Button>
         </div>
-      </div>
+      </div> */}
+      <Tabs defaultValue="satoshi" className="">
+        <TabsList className="mb-5 bg-transparent border rounded-full ">
+          <div className="flex items-center gap-2  ">
+            {isAdmin && (
+              <TabsTrigger
+                value="pix"
+                className="flex items-center gap-2 data-[state=active]:bg-[#FE4E01]/10  data-[state=active]:text-primary  data-[state=active]:border-primary  data-[state=active]:border rounded-full "
+                onClick={() => setWithdrawType("BRL")}
+              >
+                Pix
+              </TabsTrigger>
+            )}
+
+            <TabsTrigger
+              value="satoshi"
+              className="flex items-center gap-2 data-[state=active]:bg-[#FE4E01]/10  data-[state=active]:text-primary  data-[state=active]:border-primary  data-[state=active]:border rounded-full "
+              onClick={() => setWithdrawType("BTC")}
+            >
+              Bitcoin
+            </TabsTrigger>
+          </div>
+        </TabsList>
+        <TabsContent value="pix">
+          <PixWithdraw />
+        </TabsContent>
+        <TabsContent value="satoshi" className="w-full ">
+          Sats
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
