@@ -10,7 +10,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useAdminGetAllUsersUseCase } from "../../useCases/useAdminGetAllUsersUseCase";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { adminState } from "../../state/atoms";
-import AdminPage from "..";
 import { NoContent } from "@/components/no-content";
 
 const UsersManagement = () => {
