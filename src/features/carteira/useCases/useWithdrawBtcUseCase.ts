@@ -54,7 +54,8 @@ export const useWithdrawUseCase = () => {
       }));
 
       errorSonner(
-        "Erro ao realizar saque, verifique as informações e tente novamente!"
+        error.response.data.message ||
+          "Erro ao realizar saque, verifique as informações e tente novamente!"
       );
 
       onError();
