@@ -172,7 +172,67 @@ const Withdraw = () => {
           <PixWithdraw />
         </TabsContent>
         <TabsContent value="satoshi" className="w-full ">
-          Sats
+          <div className="flex flex-col w-full">
+            <strong className="text-xl">Destino do saque</strong>
+            <span className="mt-3 text-muted-foreground ">
+              Informe o invoice
+            </span>
+            <div className="mt-4">
+              <div className="flex justify-between gap-2 flex-wrap">
+                <span className="text-sm font-semibold text-muted-foreground">
+                  Saldo disponível:{" "}
+                  <strong className="text-primary">
+                    {user.btcBalance} SATS
+                  </strong>
+                </span>
+                <Button
+                  className="flex items-center gap-2"
+                  variant="outline"
+                  onClick={() => {
+                    navigator.clipboard.readText().then((text) => {
+                      handleInputChange({ target: { value: text } });
+                    });
+                  }}
+                >
+                  <ClipboardPaste size={16} />
+                  Colar
+                </Button>
+                <Textarea
+                  ref={textareaRef}
+                  className="p-5 rounded-xl shadow-none bg-background w-full overflow-hidden resize-none"
+                  value={invoice}
+                  onChange={handleInputChange}
+                  placeholder="Digite o invoice"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-end mt-2">
+            <Button
+              variant="default"
+              disabled={
+                withdrawType === "" ||
+                (withdrawType === "BTC" && invoice === "")
+              }
+              onClick={() => {
+                if (withdrawType === "BTC") {
+                  withdraw({ invoice, currency: "BTC" });
+                }
+
+                setInvoice("");
+                setValue("0");
+              }}
+            >
+              {loading ? (
+                <>
+                  <LoaderCircle className="animate-spin" size={20} />
+                  Enviando...
+                </>
+              ) : (
+                "Sacar"
+              )}
+            </Button>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
