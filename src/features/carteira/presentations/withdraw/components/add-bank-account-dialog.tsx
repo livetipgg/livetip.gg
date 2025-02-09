@@ -105,12 +105,19 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
   const onSubmit = (data: any) => {
     console.log("data", data);
 
+    const payload = {
+      ...data,
+      bankId: banks
+        .find((bank) => bank.long_name === data.bankId)
+        ?.id.toString(),
+    };
+
     if (controller.bankAccountToEdit) {
-      editBankAccount(data);
+      editBankAccount(payload);
       return;
     }
 
-    createBankAccount(data);
+    createBankAccount(payload);
   };
 
   console.log(form.formState.errors);
@@ -313,7 +320,7 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
                         >
                           <div className="flex items-center gap-2">
                             {banks.find(
-                              (bank) => bank.id.toString() === field.value
+                              (bank) => bank.long_name === field.value
                             )?.long_name || "Selecione o banco"}
                           </div>
 
@@ -330,7 +337,7 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
                                 return (
                                   <CommandItem
                                     key={idx}
-                                    value={bank.id.toString()}
+                                    value={bank.long_name}
                                     onSelect={(currentValue) => {
                                       console.log(currentValue);
                                       field.onChange(currentValue);

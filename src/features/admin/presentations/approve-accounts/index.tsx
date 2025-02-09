@@ -20,6 +20,7 @@ import { useRecoilValue } from "recoil";
 import { adminState } from "../../state/atoms";
 import { GlobalLoader } from "@/components/global-loader";
 import { useAdminToggleBankAccountStatus } from "../../useCases/useAdminToggleBankAccountStatus";
+import { useFetchBanks } from "@/hooks/use-fetch-banks";
 
 const ApproveAccounts = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -40,6 +41,7 @@ const ApproveAccounts = () => {
     getApprovedBankAccounts();
     getRejectedBankAccounts();
   }, []);
+  const { data: banks } = useFetchBanks();
 
   return (
     <div>
@@ -115,9 +117,16 @@ const ApproveAccounts = () => {
                       <span className="font-bold">Tipo Chave Pix:</span>{" "}
                       {user.pixKeyType}
                     </span>
-                    <span className="text-sm">
-                      <span className="font-bold">Banco:</span> {user.bankId}
-                    </span>
+                    {banks && (
+                      <span className="text-sm">
+                        <span className="font-bold">Banco:</span>{" "}
+                        {
+                          banks.find((bank) => bank.id === user.bankId)
+                            ?.long_name
+                        }
+                      </span>
+                    )}
+
                     <span className="text-sm">
                       <span className="font-bold">Agência:</span>{" "}
                       {user.agencyNumber}
