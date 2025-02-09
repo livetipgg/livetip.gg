@@ -238,17 +238,19 @@ export const PixWithdraw = () => {
               />
             </div>
             <div>
-              <ConfirmEmailDialog
-                label="Realizar Saque"
-                onSuccess={(otp: string) =>
-                  sendWithdraw({
-                    amount: amount.toString(),
-                    currency: "BRL",
-                    pixKey: bankAccountToEdit?.pixKey.replace(/\.|-/g, ""),
-                    verificationCode: otp,
-                  })
-                }
-              />
+              {!!amount && (
+                <ConfirmEmailDialog
+                  label="Realizar Saque"
+                  onSuccess={(otp: string) =>
+                    sendWithdraw({
+                      amount: amount.toString(),
+                      currency: "BRL",
+                      pixKey: bankAccountToEdit?.pixKey.replace(/\.|-/g, ""),
+                      verificationCode: otp,
+                    })
+                  }
+                />
+              )}
             </div>
           </div>
         </div>
