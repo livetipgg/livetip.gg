@@ -17,7 +17,9 @@ export const useAdminGetBankAccounts = () => {
     }));
 
     try {
-      const response = await api.get("/payment-account?status=UNDER_REVIEW");
+      const response = await api.get(
+        "/payment-account?status=UNDER_REVIEW&limit=9999"
+      );
       setAdminState((old) => ({
         ...old,
         controller: {
@@ -51,7 +53,9 @@ export const useAdminGetBankAccounts = () => {
     }));
 
     try {
-      const response = await api.get("/payment-account?status=APPROVED");
+      const response = await api.get(
+        "/payment-account?status=APPROVED&limit=9999"
+      );
       setAdminState((old) => ({
         ...old,
         controller: {
@@ -85,7 +89,9 @@ export const useAdminGetBankAccounts = () => {
     }));
 
     try {
-      const response = await api.get("/payment-account?status=REJECTED");
+      const response = await api.get(
+        "/payment-account?status=REJECTED&limit=9999"
+      );
       setAdminState((old) => ({
         ...old,
         controller: {
