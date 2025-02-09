@@ -43,7 +43,8 @@ const ApproveAccounts = () => {
 
   return (
     <div>
-      {controller.isLoadingBankAccountsList && <GlobalLoader />}
+      {controller.isLoadingBankAccountsList ||
+        (isLoadingToggleBankAccountStatus && <GlobalLoader />)}
       <div className="flex justify-end">
         <Button
           onClick={() => {
@@ -132,14 +133,8 @@ const ApproveAccounts = () => {
                     className="bg-success font-bold gap-2 hover:bg-succes/20 flex-1"
                     onClick={() => approveBankAccount(user.accountId)}
                   >
-                    {isLoadingToggleBankAccountStatus ? (
-                      " Aprovando..."
-                    ) : (
-                      <>
-                        <Check className="h-5 w-5" />
-                        Aprovar
-                      </>
-                    )}
+                    <Check className="h-5 w-5" />
+                    Aprovar
                   </Button>
                   <Dialog
                     open={dialogOpen}
@@ -268,14 +263,8 @@ const ApproveAccounts = () => {
                   className="bg-success font-bold gap-2 hover:bg-succes/20 flex-1"
                   onClick={() => approveBankAccount(user.accountId)}
                 >
-                  {isLoadingToggleBankAccountStatus ? (
-                    " Aprovando..."
-                  ) : (
-                    <>
-                      <Check className="h-5 w-5" />
-                      Aprovar
-                    </>
-                  )}
+                  <Check className="h-5 w-5" />
+                  Aprovar
                 </Button>
               </div>
             </div>
