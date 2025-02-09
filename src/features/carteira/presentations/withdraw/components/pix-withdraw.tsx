@@ -28,7 +28,6 @@ export const PixWithdraw = () => {
 
   useEffect(() => {
     getBankAccountByUser();
-    console.log("Bank account status useeffect", bankAccountStatus);
 
     setSteps((prev) =>
       prev.map((step) => {
@@ -111,7 +110,9 @@ export const PixWithdraw = () => {
     },
   ]);
 
-  const { isLoading } = useFetchBanks();
+  const { isLoading, data: banks } = useFetchBanks();
+
+  console.log(bankAccountToEdit);
 
   return (
     <div>
@@ -225,9 +226,25 @@ export const PixWithdraw = () => {
               </span>
             </div>
             <div className="flex flex-col gap-2 mt-2">
-              <Label>Banco</Label>
-              <span className="text-2xl">{bankAccountToEdit?.bankId}</span>
+              <Label>Tipo Chave Pix</Label>
+              <span className="text-2xl">
+                {bankAccountToEdit?.pixKeyType.replace(/\.|-/g, "")}
+              </span>
             </div>
+            {banks && controller.bankAccountToEdit && (
+              <div className="flex flex-col gap-2 mt-2">
+                <Label>Banco</Label>
+                <span className="text-2xl">
+                  {" "}
+                  {
+                    banks.find(
+                      (bank) => bank.id === controller.bankAccountToEdit.bankId
+                    )?.long_name
+                  }
+                </span>
+              </div>
+            )}
+
             <div className="flex flex-col gap-2 mt-10">
               <Label>Valor</Label>
 
