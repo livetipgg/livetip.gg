@@ -218,9 +218,12 @@ const ApproveAccounts = () => {
                   <span className="text-sm">
                     <span className="font-bold">CPF:</span> {user.cpf}
                   </span>
-                  <span className="text-sm">
-                    <span className="font-bold">Banco:</span> {user.bankId}
-                  </span>
+                  {banks && (
+                    <span className="text-sm">
+                      <span className="font-bold">Banco:</span>{" "}
+                      {banks.find((bank) => bank.id === user.bankId)?.long_name}
+                    </span>
+                  )}
                   <span className="text-sm">
                     <span className="font-bold">Agência:</span>{" "}
                     {user.agencyNumber}
@@ -254,9 +257,12 @@ const ApproveAccounts = () => {
                   <span className="text-sm">
                     <span className="font-bold">CPF:</span> {user.cpf}
                   </span>
-                  <span className="text-sm">
-                    <span className="font-bold">Banco:</span> {user.bankId}
-                  </span>
+                  {banks && (
+                    <span className="text-sm">
+                      <span className="font-bold">Banco:</span>{" "}
+                      {banks.find((bank) => bank.id === user.bankId)?.long_name}
+                    </span>
+                  )}
                   <span className="text-sm">
                     <span className="font-bold">Agência:</span>{" "}
                     {user.agencyNumber}
