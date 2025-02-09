@@ -50,7 +50,7 @@ export const CreateBankAccountStepHeader = ({ steps }: any) => {
                 <div
                   className={`ml-2 hidden h-[1px] flex-1  sm:block ${
                     step.status === "done"
-                      ? "bg-primary"
+                      ? "bg-success"
                       : "bg-muted-foreground/30"
                   }`}
                   aria-hidden="true"
