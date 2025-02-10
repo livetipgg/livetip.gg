@@ -6,6 +6,21 @@ export interface IAdminState {
     count: number;
     totalPages: number;
   };
+  pendingAccounts: {
+    results: any[];
+    count: number;
+    totalPages: number;
+  };
+  approvedAccounts: {
+    results: any[];
+    count: number;
+    totalPages: number;
+  };
+  rejectedAccounts: {
+    results: any[];
+    count: number;
+    totalPages: number;
+  };
 }
 
 export interface IAdminControllerState {
@@ -17,5 +32,7 @@ export interface IAdminControllerState {
   isLoadingCreateUser: boolean;
   isLoadingVirtualWithdraw: boolean;
   isLoadingGetAllUsers: boolean;
+  isLoadingBankAccountsList: boolean;
+  isLoadingToggleBankAccountStatus: boolean;
   errorCreateUser: string;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   FormControl,
   FormField,
@@ -38,9 +39,15 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import React from "react";
+import React, { useEffect } from "react";
+import { useCreateBankAccount } from "@/features/carteira/useCases/useCreateBankAccount";
+import { useRecoilValue } from "recoil";
+import { withdrawState } from "@/features/carteira/states/atoms";
 
-export const AddBankAccountDialog = () => {
+export const AddBankAccountDialog = ({ data }: { data?: any }) => {
+  const { createBankAccount, editBankAccount } = useCreateBankAccount();
+  const { controller } = useRecoilValue(withdrawState);
+  const { loadingCreateBankAccount } = controller;
   const form = useForm<z.infer<typeof createBankAccountSchema>>({
     resolver: zodResolver(createBankAccountSchema),
     defaultValues: {
@@ -55,51 +62,70 @@ export const AddBankAccountDialog = () => {
   });
 
   const customMask = (value: string) => {
-    if (value === "cpf") {
+    if (value === "CPF") {
       return "___.___.___-__";
     }
-    if (value === "cnpj") {
+    if (value === "CNPJ") {
       return "__.___.___/____-__";
     }
-    if (value === "telefone") {
+    if (value === "PHONE_NUMBER") {
       return "(__) _ ____-____";
     }
-    if (value === "aleatorio") {
+    if (value === "RANDOM") {
       return "";
     }
-    if (value === "email") {
+    if (value === "EMAIL") {
       return "";
     }
     return "___.___.___-__";
   };
 
   const custmReplace = (value: string) => {
-    if (value === "cpf") {
+    if (value === "CPF") {
       return { _: /./ };
     }
-    if (value === "cnpj") {
+    if (value === "CNPJ") {
       return { _: /./ };
     }
-    if (value === "telefone") {
+    if (value === "PHONE_NUMBER") {
       return { _: /./ };
     }
-    if (value === "aleatorio") {
+    if (value === "RANDOM") {
       return { _: /./ };
     }
-    if (value === "email") {
+    if (value === "EMAIL") {
       return { _: /./ };
     }
     return { _: /./ };
   };
 
-  const { data: banks, isLoading, isError } = useFetchBanks();
+  const { data: banks, isLoading } = useFetchBanks();
   const [open, setOpen] = React.useState(false);
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    console.log("data", data);
+
+    if (controller.bankAccountToEdit) {
+      editBankAccount(data);
+      return;
+    }
+
+    createBankAccount(data);
   };
 
   console.log(form.formState.errors);
+
+  useEffect(() => {
+    if (data) {
+      form.setValue("fullName", data.fullName);
+      form.setValue("cpf", data.cpf);
+      form.setValue("pixKeyType", data.pixKeyType);
+      form.setValue("pixKey", data.pixKey);
+      form.setValue("agencyNumber", data.agencyNumber);
+      form.setValue("accountNumber", data.accountNumber);
+      form.setValue("bankId", data.bankId);
+    }
+  }, [data]);
 
   if (isLoading) {
     return <div>Carregando...</div>;
@@ -176,11 +202,11 @@ export const AddBankAccountDialog = () => {
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Chaves</SelectLabel>
-                          <SelectItem value="cpf">CPF</SelectItem>
-                          <SelectItem value="cnpj">CNPJ</SelectItem>
-                          <SelectItem value="telefone">Telefone</SelectItem>
-                          <SelectItem value="aleatorio">Aleatório</SelectItem>
-                          <SelectItem value="email">Email</SelectItem>
+                          <SelectItem value="CPF">CPF</SelectItem>
+                          <SelectItem value="CNPJ">CNPJ</SelectItem>
+                          <SelectItem value="PHONE_NUMBER">Telefone</SelectItem>
+                          <SelectItem value="RANDOM">Aleatório</SelectItem>
+                          <SelectItem value="EMAIL">Email</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -255,11 +281,9 @@ export const AddBankAccountDialog = () => {
                     <InputMask
                       className="input-class bg-background shadow-none rounded-lg p-6"
                       showMask={true}
+                      type="number"
                       component={Input}
                       {...field}
-                      mask="_____-_"
-                      placeholder="_____-_"
-                      replacement={{ _: /./ }}
                       value={field.value}
                       onChange={field.onChange}
                     />
@@ -349,8 +373,13 @@ export const AddBankAccountDialog = () => {
         <Button
           className="w-full p-6 rounded-lg font-bold text-sm"
           onClick={form.handleSubmit(onSubmit)}
+          disabled={loadingCreateBankAccount}
         >
-          Cadastrar Conta{" "}
+          {loadingCreateBankAccount
+            ? "Cadastrando..."
+            : data
+            ? "Editar"
+            : "Cadastrar"}
         </Button>
       </div>
     </FormProvider>

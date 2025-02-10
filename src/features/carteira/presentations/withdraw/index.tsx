@@ -149,15 +149,15 @@ const Withdraw = () => {
       <Tabs defaultValue="satoshi" className="">
         <TabsList className="mb-5 bg-transparent border rounded-full ">
           <div className="flex items-center gap-2  ">
-            {isAdmin && (
-              <TabsTrigger
-                value="pix"
-                className="flex items-center gap-2 data-[state=active]:bg-[#FE4E01]/10  data-[state=active]:text-primary  data-[state=active]:border-primary  data-[state=active]:border rounded-full "
-                onClick={() => setWithdrawType("BRL")}
-              >
-                Pix
-              </TabsTrigger>
-            )}
+            {/* {isAdmin && ( */}
+            <TabsTrigger
+              value="pix"
+              className="flex items-center gap-2 tadata-[state=active]:bg-[#FE4E01]/10  data-[state=active]:text-primary  data-[state=active]:border-primary  data-[state=active]:border rounded-full "
+              onClick={() => setWithdrawType("BRL")}
+            >
+              Pix
+            </TabsTrigger>
+            {/* )} */}
 
             <TabsTrigger
               value="satoshi"
