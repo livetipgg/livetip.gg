@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilState, useRecoilValue } from "recoil";
 import { withdrawState } from "../states/atoms";
 import { IWithdrawState } from "../contracts/IRecoilState";
@@ -10,7 +11,7 @@ export const useCreateBankAccount = () => {
   const { user } = useRecoilValue(authState);
   const api = useCreateApiInstance();
   const { getBankAccountByUser } = useGetBankAccountByUser();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const createBankAccount = async (payload: any) => {
     setWithdrawState((prevState: IWithdrawState) => ({
       ...prevState,

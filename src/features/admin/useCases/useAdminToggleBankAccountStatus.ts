@@ -45,6 +45,8 @@ export const useAdminToggleBankAccountStatus = () => {
           errorGetBankAccounts: "",
         },
       }));
+
+      return response;
     } catch (error) {
       setAdminState((old) => ({
         ...old,

@@ -1,20 +1,19 @@
-import { authState } from "@/features/auth/states/atoms";
 import { Check, Clipboard, Clock, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { AddBankAccountDialog } from "./add-bank-account-dialog";
 import { CreateBankAccountStepHeader } from "./create-bank-account-step-header";
 import { withdrawState } from "@/features/carteira/states/atoms";
 import { useGetBankAccountByUser } from "@/features/carteira/useCases/usegetBankAccountByUser";
 
 export const PixWithdraw = () => {
-  const { user } = useRecoilValue(authState);
+  // const { user } = useRecoilValue(authState);
   const { getBankAccountByUser } = useGetBankAccountByUser();
   const [withdraw] = useRecoilState(withdrawState);
   const { controller } = withdraw;
   const { bankAccountStatus } = controller;
 
-  const canWithdrawPix = user.emailVerifiedAt;
+  // const canWithdrawPix = user.emailVerifiedAt;
 
   const hasBankAccount = false;
 

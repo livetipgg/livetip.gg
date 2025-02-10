@@ -5,7 +5,7 @@ import useCreateApiInstance from "@/config/api";
 import { authState } from "@/features/auth/states/atoms";
 
 export const useGetBankAccountByUser = () => {
-  const [withdraw, setWithdrawState] = useRecoilState(withdrawState);
+  const [, setWithdrawState] = useRecoilState(withdrawState);
   const { user } = useRecoilValue(authState);
   const api = useCreateApiInstance();
 
