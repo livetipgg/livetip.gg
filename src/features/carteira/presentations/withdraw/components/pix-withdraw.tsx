@@ -5,13 +5,13 @@ import { AddBankAccountDialog } from "./add-bank-account-dialog";
 import { CreateBankAccountStepHeader } from "./create-bank-account-step-header";
 import { withdrawState } from "@/features/carteira/states/atoms";
 import { useGetBankAccountByUser } from "@/features/carteira/useCases/useGetBankAccountByUserUseCase";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import CurrencyInput from "react-currency-input-field";
 import InputMoney from "@/components/input-currency";
-import { Button } from "@/components/ui/button";
 import { ConfirmEmailDialog } from "./confirm-email-dialog";
 import { useWithdrawUseCase } from "@/features/carteira/useCases/useWithdrawBtcUseCase";
+import { Button } from "@/components/ui/button";
+import { GlobalLoader } from "@/components/global-loader";
+import { useFetchBanks } from "@/hooks/use-fetch-banks";
 
 export const PixWithdraw = () => {
   // const { user } = useRecoilValue(authState);
@@ -111,9 +111,15 @@ export const PixWithdraw = () => {
     },
   ]);
 
+  const { isLoading } = useFetchBanks();
+
   return (
     <div>
       {/* Steps */}
+      {(isLoading ||
+        controller.loadingGetBankAccount ||
+        controller.loadingCreateBankAccount) && <GlobalLoader />}
+
       <CreateBankAccountStepHeader steps={steps} />
 
       {!hasBankAccount && bankAccountStatus === null && (
@@ -141,9 +147,14 @@ export const PixWithdraw = () => {
             <span className="text-sm text-muted-foreground font-medium">
               Passo 2
             </span>
-            <h2 className="text-2xl font-medium">
-              Aguardando análise da conta
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-medium">
+                Aguardando análise da conta
+              </h2>
+              <Button variant="link" onClick={getBankAccountByUser}>
+                Atualizar
+              </Button>
+            </div>
 
             <hr className="mt-2" />
           </div>
@@ -160,9 +171,14 @@ export const PixWithdraw = () => {
             <span className="text-sm text-muted-foreground font-medium">
               Passo 2
             </span>
-            <h2 className="text-2xl font-medium">
-              Aguardando análise da conta
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-medium">
+                Aguardando análise da conta
+              </h2>
+              <Button variant="link" onClick={getBankAccountByUser}>
+                Atualizar
+              </Button>
+            </div>
             <hr className="mt-2" />
           </div>
           <div>

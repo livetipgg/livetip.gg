@@ -44,6 +44,17 @@ const ApproveAccounts = () => {
   return (
     <div>
       {controller.isLoadingBankAccountsList && <GlobalLoader />}
+      <div className="flex justify-end">
+        <Button
+          onClick={() => {
+            getPendingBankAccounts();
+            getApprovedBankAccounts();
+            getRejectedBankAccounts();
+          }}
+        >
+          Atualizar
+        </Button>
+      </div>
       <Tabs defaultValue="pending" className="px-0 mx-0">
         <TabsList className="mb-5  w-full flex-col md:flex-row  bg-transparent h-fit">
           <TabsTrigger
