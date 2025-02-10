@@ -4,7 +4,7 @@ import { withdrawState } from "../states/atoms";
 import { IWithdrawState } from "../contracts/IRecoilState";
 import useCreateApiInstance from "@/config/api";
 import { authState } from "@/features/auth/states/atoms";
-import { useGetBankAccountByUser } from "./usegetBankAccountByUser";
+import { useGetBankAccountByUser } from "./useGetBankAccountByUserUseCase";
 
 export const useCreateBankAccount = () => {
   const [withdraw, setWithdrawState] = useRecoilState(withdrawState);

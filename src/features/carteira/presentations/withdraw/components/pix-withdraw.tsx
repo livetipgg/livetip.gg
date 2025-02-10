@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { AddBankAccountDialog } from "./add-bank-account-dialog";
 import { CreateBankAccountStepHeader } from "./create-bank-account-step-header";
 import { withdrawState } from "@/features/carteira/states/atoms";
-import { useGetBankAccountByUser } from "@/features/carteira/useCases/usegetBankAccountByUser";
+import { useGetBankAccountByUser } from "@/features/carteira/useCases/useGetBankAccountByUserUseCase";
 
 export const PixWithdraw = () => {
   // const { user } = useRecoilValue(authState);
