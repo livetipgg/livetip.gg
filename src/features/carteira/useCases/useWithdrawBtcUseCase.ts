@@ -12,7 +12,10 @@ export const useWithdrawUseCase = () => {
   const { loadUserBalance } = useGetUserBalancesUseCase();
   const [, setWithdrawState] = useRecoilState(withdrawState);
   const { errorSonner, successSonner } = useCustomSonner();
-  const withdraw = async (payload: IWithdrawPayload) => {
+  const withdraw = async (
+    payload: IWithdrawPayload,
+    onError?: VoidFunction
+  ) => {
     if (payload.pixKey) {
       // remove / , .  - e () e espaços " "
       payload.pixKey = payload.pixKey.replace(/[^\d]/g, "");
@@ -49,9 +52,12 @@ export const useWithdrawUseCase = () => {
           error: error.message,
         },
       }));
+
       errorSonner(
         "Erro ao realizar saque, verifique as informações e tente novamente!"
       );
+
+      onError();
     }
   };
 

@@ -81,6 +81,7 @@ export interface IWithdrawPayload {
   amount?: string;
   invoice?: string;
   currency: "BTC" | "BRL";
+  verificationCode?: string;
 }
 
 export interface IWithdrawState {

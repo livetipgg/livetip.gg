@@ -5,13 +5,22 @@ import { AddBankAccountDialog } from "./add-bank-account-dialog";
 import { CreateBankAccountStepHeader } from "./create-bank-account-step-header";
 import { withdrawState } from "@/features/carteira/states/atoms";
 import { useGetBankAccountByUser } from "@/features/carteira/useCases/useGetBankAccountByUserUseCase";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import CurrencyInput from "react-currency-input-field";
+import InputMoney from "@/components/input-currency";
+import { Button } from "@/components/ui/button";
+import { ConfirmEmailDialog } from "./confirm-email-dialog";
+import { useWithdrawUseCase } from "@/features/carteira/useCases/useWithdrawBtcUseCase";
 
 export const PixWithdraw = () => {
   // const { user } = useRecoilValue(authState);
   const { getBankAccountByUser } = useGetBankAccountByUser();
   const [withdraw] = useRecoilState(withdrawState);
   const { controller } = withdraw;
-  const { bankAccountStatus } = controller;
+  const { bankAccountStatus, bankAccountToEdit } = controller;
+  const [amount, setAmount] = useState(0);
+  const { withdraw: sendWithdraw } = useWithdrawUseCase();
 
   // const canWithdrawPix = user.emailVerifiedAt;
 
@@ -180,22 +189,54 @@ export const PixWithdraw = () => {
           </div>
         </div>
       )}
-      {bankAccountStatus === "APPROVED" && <div>sacar</div>}
-      {/* 
-      {!hasBankAccount && bankAccountStatus === null && (
-        <div className="flex flex-col gap-2">
-          <div className="flex flex-col gap-1 mb-4">
-            <h2 className="text-2xl font-bold">Cadastre uma conta bancária</h2>
-            <span className="text-foreground">
-              Você precisa ter uma conta bancária cadastrada para realizar
-              saques pix.
-            </span>
+      {bankAccountStatus === "APPROVED" && (
+        <div>
+          <div className="flex flex-col gap-2 mt-10">
+            <div className="flex flex-col gap-1 mb-4">
+              <span className="text-sm text-muted-foreground font-medium">
+                Passo 3
+              </span>
+              <h2 className="text-2xl font-medium">Conta aprovada</h2>
+              <hr className="mt-2" />
+            </div>
+            <p className="text-foreground mt-2">
+              Sua conta foi aprovada. Agora você pode realizar saques pix.
+            </p>
+            <div className="flex flex-col gap-2 mt-10">
+              <Label>Chave Pix</Label>
+              <span className="text-2xl">
+                {bankAccountToEdit?.pixKey.replace(/\.|-/g, "")}
+              </span>
+            </div>
+            <div className="flex flex-col gap-2 mt-2">
+              <Label>Banco</Label>
+              <span className="text-2xl">{bankAccountToEdit?.bankId}</span>
+            </div>
+            <div className="flex flex-col gap-2 mt-10">
+              <Label>Valor</Label>
+
+              <InputMoney
+                className="border-none"
+                value={amount}
+                onChange={(e) => setAmount(Number(e.target.value))}
+              />
+            </div>
+            <div>
+              <ConfirmEmailDialog
+                label="Realizar Saque"
+                onSuccess={(otp: string) =>
+                  sendWithdraw({
+                    amount: amount.toString(),
+                    currency: "BRL",
+                    pixKey: bankAccountToEdit?.pixKey.replace(/\.|-/g, ""),
+                    verificationCode: otp,
+                  })
+                }
+              />
+            </div>
           </div>
-          <AddBankAccountDialog />
         </div>
       )}
-
-      {canWithdrawPix && hasBankAccount && <div>Realizar saque</div>} */}
     </div>
   );
 };
