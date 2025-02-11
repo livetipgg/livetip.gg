@@ -82,7 +82,7 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
           )}
           {!isLoading && !error && !showCurrentBalance && (
             <span className="blur-sm">
-              {prefix} {endValue}
+              {prefix} {endValue.toFixed(decimals)}
             </span>
           )}
           {!isLoading && error && (
