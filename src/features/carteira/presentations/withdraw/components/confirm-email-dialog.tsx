@@ -1,3 +1,4 @@
+import { ErrorAlert } from "@/components/error-alert";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,6 +14,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { authState } from "@/features/auth/states/atoms";
+import { withdrawState } from "@/features/carteira/states/atoms";
 import { profileState } from "@/features/profile/states/atoms";
 import { useProfileVerifyEmailUseCase } from "@/features/profile/useCases/useProfileVerifyEmailUseCase";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
@@ -34,6 +36,8 @@ export const ConfirmEmailDialog = ({
   const { sendCodeToEmail } = useProfileVerifyEmailUseCase();
   const { controller } = useRecoilValue(profileState);
   const { isLoadingSendCodeToEmail, isLoadingUpdateProfile } = controller;
+  const { controller: withdrawStateController } = useRecoilValue(withdrawState);
+  const { error } = withdrawStateController;
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (resendCodeCountdown > 0) {
@@ -79,7 +83,7 @@ export const ConfirmEmailDialog = ({
                 <span className="text-primary font-medium">{user.email}</span>
               </DialogDescription>
             </DialogHeader>
-
+            {error && <ErrorAlert error={error} />}
             <div className="mt-4">
               <InputOTP
                 pattern={REGEXP_ONLY_DIGITS}
@@ -113,10 +117,16 @@ export const ConfirmEmailDialog = ({
 
               <Button
                 className="p-6 rounded-xl mt-4 hover:bg-secondary flex-1 w-full"
-                disabled={otp.length < 6 || isLoadingUpdateProfile}
+                disabled={
+                  otp.length < 6 ||
+                  isLoadingUpdateProfile ||
+                  withdrawStateController.loading
+                }
                 onClick={() => onSuccess(otp)}
               >
-                {isLoadingUpdateProfile ? "Verificando..." : "Confirmar saque"}
+                {isLoadingUpdateProfile || withdrawStateController.loading
+                  ? "Verificando..."
+                  : "Confirmar saque"}
               </Button>
             </div>
           </>

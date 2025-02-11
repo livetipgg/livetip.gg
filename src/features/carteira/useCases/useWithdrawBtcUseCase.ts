@@ -42,7 +42,9 @@ export const useWithdrawUseCase = () => {
         controller: {
           ...prevState.controller,
           loading: false,
-          error: error.message,
+          error:
+            error.response.data.message ||
+            "Erro ao realizar saque, verifique as informações e tente novamente!",
         },
       }));
 
@@ -52,6 +54,13 @@ export const useWithdrawUseCase = () => {
       );
 
       onError();
+    } finally {
+      setWithdrawState((prevState) => ({
+        controller: {
+          ...prevState.controller,
+          loading: false,
+        },
+      }));
     }
   };
 
