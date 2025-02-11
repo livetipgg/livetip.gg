@@ -105,11 +105,17 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
   const onSubmit = (data: any) => {
     console.log("data", data);
 
+    // remove as mascaras dos campos
+
     const payload = {
       ...data,
       bankId: banks
         .find((bank) => bank.long_name === data.bankId)
         ?.id.toString(),
+      pixKey: data.pixKey.replace(/\.|-/g, ""),
+      cpf: data.cpf.replace(/\.|-/g, ""),
+      agencyNumber: data.agencyNumber.replace(/\.|-/g, ""),
+      accountNumber: data.accountNumber.replace(/\.|-/g, ""),
     };
 
     if (controller.bankAccountToEdit) {

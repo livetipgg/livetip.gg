@@ -55,6 +55,7 @@ export const ConfirmEmailDialog = ({
         if (open) {
           sendCodeToEmail();
           setResendCoderesendCodeCountdown(60);
+          setOtp("");
         }
       }}
     >

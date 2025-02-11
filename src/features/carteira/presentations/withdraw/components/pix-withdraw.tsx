@@ -84,6 +84,8 @@ export const PixWithdraw = () => {
     );
   }, [bankAccountStatus]);
 
+  console.log(amount.toString());
+
   const [steps, setSteps] = useState([
     {
       id: 1,
@@ -262,7 +264,7 @@ export const PixWithdraw = () => {
                     sendWithdraw({
                       amount: amount.toString(),
                       currency: "BRL",
-                      pixKey: bankAccountToEdit?.pixKey.replace(/\.|-/g, ""),
+                      pixKey: bankAccountToEdit?.pixKey,
                       verificationCode: otp,
                     })
                   }

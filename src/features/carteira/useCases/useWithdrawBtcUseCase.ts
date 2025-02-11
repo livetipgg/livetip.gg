@@ -16,14 +16,7 @@ export const useWithdrawUseCase = () => {
     payload: IWithdrawPayload,
     onError?: VoidFunction
   ) => {
-    if (payload.pixKey) {
-      // remove / , .  - e () e espaços " "
-      payload.pixKey = payload.pixKey.replace(/[^\d]/g, "");
-    }
-
-    if (payload.amount && payload.amount.startsWith("0")) {
-      payload.amount = payload.amount.slice(1);
-    }
+    console.log("payload", payload);
 
     setWithdrawState((prevState) => ({
       controller: {
