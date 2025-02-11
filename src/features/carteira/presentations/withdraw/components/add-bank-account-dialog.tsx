@@ -105,17 +105,28 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
   const onSubmit = (data: any) => {
     console.log("data", data);
 
-    // remove as mascaras dos campos
+    const removePixMask = (keyType: string, value: string) => {
+      if (keyType === "CPF" || keyType === "CNPJ") {
+        return value.replace(/\D/g, "");
+      }
+      if (keyType === "PHONE_NUMBER") {
+        return value.replace(/\D/g, "");
+      }
+      if (keyType === "EMAIL" || keyType === "RANDOM") {
+        return value.trim();
+      }
+      return value;
+    };
 
     const payload = {
       ...data,
       bankId: banks
         .find((bank) => bank.long_name === data.bankId)
         ?.id.toString(),
-      pixKey: data.pixKey.replace(/\.|-/g, ""),
-      cpf: data.cpf.replace(/\.|-/g, ""),
-      agencyNumber: data.agencyNumber.replace(/\.|-/g, ""),
-      accountNumber: data.accountNumber.replace(/\.|-/g, ""),
+      pixKey: removePixMask(data.pixKeyType, data.pixKey), // Remove a máscara com base no tipo
+      cpf: data.cpf.replace(/\D/g, ""), // Remove tudo que não for número
+      agencyNumber: data.agencyNumber.replace(/\D/g, ""),
+      accountNumber: data.accountNumber.replace(/\D/g, ""),
     };
 
     if (controller.bankAccountToEdit) {
