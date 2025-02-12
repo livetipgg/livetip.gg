@@ -19,7 +19,7 @@ export const PixWithdraw = () => {
   const [withdraw] = useRecoilState(withdrawState);
   const { controller } = withdraw;
   const { bankAccountStatus, bankAccountToEdit } = controller;
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("0");
   const { withdraw: sendWithdraw } = useWithdrawUseCase();
 
   // const canWithdrawPix = user.emailVerifiedAt;
@@ -252,8 +252,8 @@ export const PixWithdraw = () => {
 
               <InputMoney
                 className="border-none"
-                value={amount}
-                onChange={(e) => setAmount(Number(e.target.value))}
+                value={parseFloat(amount)}
+                onChange={(e) => setAmount(e.target.value)}
               />
             </div>
             <div>

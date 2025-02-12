@@ -103,8 +103,6 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
   const [open, setOpen] = React.useState(false);
 
   const onSubmit = (data: any) => {
-    console.log("data", data);
-
     const removePixMask = (keyType: string, value: string) => {
       if (keyType === "CPF" || keyType === "CNPJ") {
         return value.replace(/\D/g, "");
