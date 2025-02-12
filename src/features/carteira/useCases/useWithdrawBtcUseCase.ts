@@ -16,8 +16,6 @@ export const useWithdrawUseCase = () => {
     payload: IWithdrawPayload,
     onError?: VoidFunction
   ) => {
-    console.log("payload", payload);
-
     setWithdrawState((prevState) => ({
       controller: {
         ...prevState.controller,

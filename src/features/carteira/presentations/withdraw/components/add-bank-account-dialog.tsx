@@ -135,8 +135,6 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
     createBankAccount(payload);
   };
 
-  console.log(form.formState.errors);
-
   useEffect(() => {
     if (data) {
       form.setValue("fullName", data.fullName);
@@ -354,7 +352,6 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
                                     key={idx}
                                     value={bank.long_name}
                                     onSelect={(currentValue) => {
-                                      console.log(currentValue);
                                       field.onChange(currentValue);
                                       setOpen(false);
                                     }}

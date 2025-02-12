@@ -84,8 +84,6 @@ export const PixWithdraw = () => {
     );
   }, [bankAccountStatus]);
 
-  console.log(amount.toString());
-
   const [steps, setSteps] = useState([
     {
       id: 1,
@@ -113,8 +111,6 @@ export const PixWithdraw = () => {
   ]);
 
   const { isLoading, data: banks } = useFetchBanks();
-
-  console.log(bankAccountToEdit);
 
   return (
     <div>
