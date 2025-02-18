@@ -23,7 +23,6 @@ export const useGetBankAccountByUser = () => {
     try {
       const response = await api.get(`/user/${user.id}/payment-account`);
 
-      console.log("Response", response);
       setWithdrawState((prevState: IWithdrawState) => ({
         ...prevState,
         controller: {
@@ -32,8 +31,6 @@ export const useGetBankAccountByUser = () => {
           bankAccountToEdit: response.data[0],
         },
       }));
-
-      console.log("Bank account status", response.data[0].status);
     } catch {
       setWithdrawState((prevState: IWithdrawState) => ({
         ...prevState,

@@ -103,13 +103,28 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
   const [open, setOpen] = React.useState(false);
 
   const onSubmit = (data: any) => {
-    console.log("data", data);
+    const removePixMask = (keyType: string, value: string) => {
+      if (keyType === "CPF" || keyType === "CNPJ") {
+        return value.replace(/\D/g, "");
+      }
+      if (keyType === "PHONE_NUMBER") {
+        return value.replace(/\D/g, "");
+      }
+      if (keyType === "EMAIL" || keyType === "RANDOM") {
+        return value.trim();
+      }
+      return value;
+    };
 
     const payload = {
       ...data,
       bankId: banks
         .find((bank) => bank.long_name === data.bankId)
         ?.id.toString(),
+      pixKey: removePixMask(data.pixKeyType, data.pixKey), // Remove a máscara com base no tipo
+      cpf: data.cpf.replace(/\D/g, ""), // Remove tudo que não for número
+      agencyNumber: data.agencyNumber.replace(/\D/g, ""),
+      accountNumber: data.accountNumber.replace(/\D/g, ""),
     };
 
     if (controller.bankAccountToEdit) {
@@ -119,8 +134,6 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
 
     createBankAccount(payload);
   };
-
-  console.log(form.formState.errors);
 
   useEffect(() => {
     if (data) {
@@ -339,7 +352,6 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
                                     key={idx}
                                     value={bank.long_name}
                                     onSelect={(currentValue) => {
-                                      console.log(currentValue);
                                       field.onChange(currentValue);
                                       setOpen(false);
                                     }}

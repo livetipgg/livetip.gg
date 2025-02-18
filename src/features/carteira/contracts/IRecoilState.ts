@@ -78,7 +78,7 @@ export interface IPaymentState {
 
 export interface IWithdrawPayload {
   pixKey?: string;
-  amount?: string;
+  amount?: string | number;
   invoice?: string;
   currency: "BTC" | "BRL";
   verificationCode?: string;

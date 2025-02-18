@@ -19,7 +19,7 @@ export const PixWithdraw = () => {
   const [withdraw] = useRecoilState(withdrawState);
   const { controller } = withdraw;
   const { bankAccountStatus, bankAccountToEdit } = controller;
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("0");
   const { withdraw: sendWithdraw } = useWithdrawUseCase();
 
   // const canWithdrawPix = user.emailVerifiedAt;
@@ -111,8 +111,6 @@ export const PixWithdraw = () => {
   ]);
 
   const { isLoading, data: banks } = useFetchBanks();
-
-  console.log(bankAccountToEdit);
 
   return (
     <div>
@@ -250,8 +248,8 @@ export const PixWithdraw = () => {
 
               <InputMoney
                 className="border-none"
-                value={amount}
-                onChange={(e) => setAmount(Number(e.target.value))}
+                value={parseFloat(amount)}
+                onChange={(e) => setAmount(e.target.value)}
               />
             </div>
             <div>
@@ -262,7 +260,7 @@ export const PixWithdraw = () => {
                     sendWithdraw({
                       amount: amount.toString(),
                       currency: "BRL",
-                      pixKey: bankAccountToEdit?.pixKey.replace(/\.|-/g, ""),
+                      pixKey: bankAccountToEdit?.pixKey,
                       verificationCode: otp,
                     })
                   }
