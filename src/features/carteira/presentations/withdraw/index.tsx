@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { HelpButton } from "@/features/auth/implementation/components/help-button";
 import { PixWithdraw } from "./components/pix-withdraw";
+import { WarningAlert } from "@/components/warning-alert";
 
 const Withdraw = () => {
   const { user } = useRecoilValue(authState);
@@ -146,18 +147,21 @@ const Withdraw = () => {
           </Button>
         </div>
       </div> */}
-      <Tabs defaultValue="satoshi" className="">
+      {!user.emailVerifiedAt && (
+        <WarningAlert error="Atenção! Você precisa verificar seu email para poder realizar saques pix, acesse seu perfil e verifique seu email." />
+      )}
+      <Tabs defaultValue="satoshi" className="mt-4">
         <TabsList className="mb-5 bg-transparent border rounded-full ">
           <div className="flex items-center gap-2  ">
-            {/* {isAdmin && ( */}
-            <TabsTrigger
-              value="pix"
-              className="flex items-center gap-2 tadata-[state=active]:bg-[#FE4E01]/10  data-[state=active]:text-primary  data-[state=active]:border-primary  data-[state=active]:border rounded-full "
-              onClick={() => setWithdrawType("BRL")}
-            >
-              Pix
-            </TabsTrigger>
-            {/* )} */}
+            {user.emailVerifiedAt && (
+              <TabsTrigger
+                value="pix"
+                className="flex items-center gap-2 tadata-[state=active]:bg-[#FE4E01]/10  data-[state=active]:text-primary  data-[state=active]:border-primary  data-[state=active]:border rounded-full "
+                onClick={() => setWithdrawType("BRL")}
+              >
+                Pix
+              </TabsTrigger>
+            )}
 
             <TabsTrigger
               value="satoshi"
