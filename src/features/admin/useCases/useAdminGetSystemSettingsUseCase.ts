@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import useCreateApiInstance from "@/config/api";
-export const useFetchBanks = () => {
+export const useFetchSystemSettings = () => {
   const api = useCreateApiInstance();
 
   return useQuery({
-    queryKey: ["banks"],
+    queryKey: ["settings"],
     queryFn: async () => {
-      const response = await api("/bank");
+      const response = await api("/system-settings");
       return response.data;
     },
     staleTime: 1000 * 60 * 5,

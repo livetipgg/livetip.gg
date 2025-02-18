@@ -14,6 +14,7 @@ import UsersManagementPage from "@/features/admin/presentations/users-management
 import { NotFoundPage } from "@/features/not-found-page";
 import { TransmissionExpandedPage } from "@/features/transmission/presentations/expanded";
 import ApproveAccountsPage from "@/features/admin/presentations/approve-accounts";
+import AdminSettingsPage from "@/features/admin/presentations/admin-settings";
 
 export const routers = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const routers = createBrowserRouter([
       {
         path: routes["Register"].path,
         Component: RegisterPage,
+      },
+      {
+        path: routes["AdminSettings"].path,
+        Component: AdminSettingsPage,
       },
       {
         path: routes["Dashboard"].path,

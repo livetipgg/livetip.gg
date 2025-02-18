@@ -68,6 +68,11 @@ export const routes: RoutesProps = {
     label: "Aprovar Contas",
     name: "aprovar-contas",
   },
+  AdminSettings: {
+    path: "/admin/settings",
+    label: "Configurações do sistema",
+    name: "configuracoes-sistema",
+  },
 
   NotFound: {
     path: "*",
