@@ -12,6 +12,7 @@ import { useWithdrawUseCase } from "@/features/carteira/useCases/useWithdrawBtcU
 import { Button } from "@/components/ui/button";
 import { GlobalLoader } from "@/components/global-loader";
 import { useFetchBanks } from "@/hooks/use-fetch-banks";
+import { ErrorAlert } from "@/components/error-alert";
 
 export const PixWithdraw = () => {
   // const { user } = useRecoilValue(authState);
@@ -252,8 +253,11 @@ export const PixWithdraw = () => {
                 onChange={(e) => setAmount(e.target.value)}
               />
             </div>
+            {parseFloat(amount) <= 1 && (
+              <ErrorAlert error="O valor mínimo para saque é de R$ 1,00" />
+            )}
             <div>
-              {!!amount && (
+              {!!amount && Number(amount) >= 1 && (
                 <ConfirmEmailDialog
                   label="Realizar Saque"
                   onSuccess={(otp: string) =>
