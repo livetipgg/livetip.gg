@@ -1,6 +1,6 @@
 import { Check, Clipboard, Clock, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { AddBankAccountDialog } from "./add-bank-account-dialog";
 import { CreateBankAccountStepHeader } from "./create-bank-account-step-header";
 import { withdrawState } from "@/features/carteira/states/atoms";
@@ -14,6 +14,8 @@ import { GlobalLoader } from "@/components/global-loader";
 import { useFetchBanks } from "@/hooks/use-fetch-banks";
 import { ErrorAlert } from "@/components/error-alert";
 import { WarningAlert } from "@/components/warning-alert";
+import { balanceState } from "@/features/balance/states/atoms";
+import { authState } from "@/features/auth/states/atoms";
 
 export const PixWithdraw = () => {
   // const { user } = useRecoilValue(authState);
@@ -23,6 +25,8 @@ export const PixWithdraw = () => {
   const { bankAccountStatus, bankAccountToEdit } = controller;
   const [amount, setAmount] = useState("0");
   const { withdraw: sendWithdraw } = useWithdrawUseCase();
+  const { user } = useRecoilValue(authState);
+  const { brlBalance } = user;
 
   // const canWithdrawPix = user.emailVerifiedAt;
 
@@ -265,19 +269,21 @@ export const PixWithdraw = () => {
             )}
 
             <div>
-              {!!amount && Number(amount) >= 1 && (
-                <ConfirmEmailDialog
-                  label="Realizar Saque"
-                  onSuccess={(otp: string) =>
-                    sendWithdraw({
-                      amount: amount.toString(),
-                      currency: "BRL",
-                      pixKey: bankAccountToEdit?.pixKey,
-                      verificationCode: otp,
-                    })
-                  }
-                />
-              )}
+              {!!amount &&
+                Number(amount) >= 1 &&
+                Number(amount) <= Number(brlBalance) && (
+                  <ConfirmEmailDialog
+                    label="Realizar Saque"
+                    action={(otp: string) =>
+                      sendWithdraw({
+                        amount: amount.toString(),
+                        currency: "BRL",
+                        pixKey: bankAccountToEdit?.pixKey,
+                        verificationCode: otp,
+                      })
+                    }
+                  />
+                )}
             </div>
           </div>
         </div>
