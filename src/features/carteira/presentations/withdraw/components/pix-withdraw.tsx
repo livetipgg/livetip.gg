@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { GlobalLoader } from "@/components/global-loader";
 import { useFetchBanks } from "@/hooks/use-fetch-banks";
 import { ErrorAlert } from "@/components/error-alert";
+import { WarningAlert } from "@/components/warning-alert";
 
 export const PixWithdraw = () => {
   // const { user } = useRecoilValue(authState);
@@ -243,7 +244,13 @@ export const PixWithdraw = () => {
                 </span>
               </div>
             )}
-
+            {!!amount && Number(amount) >= 1 && (
+              <WarningAlert
+                error={`Temos uma taxa de R$ 0,50 para saque, para sacar o valor de R$ ${amount} você receberá R$ ${
+                  (Number(amount) - 0.5).toFixed(2) || "0,00"
+                }`}
+              />
+            )}
             <div className="flex flex-col gap-2 mt-10">
               <Label>Valor</Label>
 
@@ -256,6 +263,7 @@ export const PixWithdraw = () => {
             {parseFloat(amount) <= 1 && (
               <ErrorAlert error="O valor mínimo para saque é de R$ 1,00" />
             )}
+
             <div>
               {!!amount && Number(amount) >= 1 && (
                 <ConfirmEmailDialog
