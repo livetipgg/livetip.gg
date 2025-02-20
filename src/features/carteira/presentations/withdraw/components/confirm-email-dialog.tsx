@@ -24,10 +24,10 @@ import { useRecoilValue } from "recoil";
 
 export const ConfirmEmailDialog = ({
   label,
-  onSuccess,
+  action,
 }: {
   label: string;
-  onSuccess: (otp: string) => void;
+  action: (otp: string) => void;
 }) => {
   const { user } = useRecoilValue(authState);
   const [otp, setOtp] = useState("");
@@ -50,6 +50,15 @@ export const ConfirmEmailDialog = ({
       clearInterval(interval);
     };
   }, [resendCodeCountdown]);
+
+  const handleAction = async (otp: string) => {
+    try {
+      await action(otp); // Aguarda a ação ser concluída
+      setDialogOpen(false); // Fecha o modal após sucesso
+    } catch (error) {
+      console.error("Erro ao confirmar código:", error);
+    }
+  };
 
   return (
     <Dialog
@@ -122,7 +131,7 @@ export const ConfirmEmailDialog = ({
                   isLoadingUpdateProfile ||
                   withdrawStateController.loading
                 }
-                onClick={() => onSuccess(otp)}
+                onClick={() => handleAction(otp)}
               >
                 {isLoadingUpdateProfile || withdrawStateController.loading
                   ? "Verificando..."
