@@ -1,6 +1,8 @@
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { balanceState } from "@/features/balance/states/atoms";
 import CountUp from "react-countup";
+import { useRecoilValue } from "recoil";
 
 interface AnalyticsCardProps {
   title: string;
@@ -28,6 +30,8 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
   decimals = 0,
   error = null,
 }) => {
+  const { controller } = useRecoilValue(balanceState);
+  const { showCurrentBalance } = controller;
   return (
     <Card
       style={{ borderBottom: `4px solid ${borderColor}` }}
@@ -55,7 +59,7 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
       <CardContent>
         <span className={`text-2xl font-semibold ${textColor}`}>
           {isLoading && <Skeleton className="w-2/5 h-8" />}
-          {!isLoading && !error && (
+          {!isLoading && !error && showCurrentBalance && (
             <>
               <CountUp
                 start={0}
@@ -75,6 +79,11 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
                 </small>
               )} */}
             </>
+          )}
+          {!isLoading && !error && !showCurrentBalance && (
+            <span className="blur-sm">
+              {prefix} {endValue.toFixed(decimals)}
+            </span>
           )}
           {!isLoading && error && (
             <span className="text-muted-foreground text-xs">{error}</span>

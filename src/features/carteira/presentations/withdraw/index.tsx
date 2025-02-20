@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { HelpButton } from "@/features/auth/implementation/components/help-button";
 import { PixWithdraw } from "./components/pix-withdraw";
+import { WarningAlert } from "@/components/warning-alert";
 
 const Withdraw = () => {
   const { user } = useRecoilValue(authState);
@@ -36,7 +37,7 @@ const Withdraw = () => {
   };
   return (
     <div className="h-full w-full flex flex-col ">
-      {!isAdmin && (
+      {/* {!isAdmin && (
         <>
           <HelpButton />
 
@@ -113,7 +114,6 @@ const Withdraw = () => {
                       onChange={handleInputChange}
                       placeholder="Digite o invoice"
                     />
-                    {/* Paste button */}
                   </div>
                 </div>
               </div>
@@ -146,7 +146,99 @@ const Withdraw = () => {
             )}
           </Button>
         </div>
-      </div>
+      </div> */}
+      {!user.emailVerifiedAt && (
+        <WarningAlert error="Atenção! Você precisa verificar seu email para poder realizar saques pix, acesse seu perfil e verifique seu email." />
+      )}
+      <Tabs defaultValue="satoshi" className="mt-4">
+        <TabsList className="mb-5 bg-transparent border rounded-full ">
+          <div className="flex items-center gap-2  ">
+            {user.emailVerifiedAt && (
+              <TabsTrigger
+                value="pix"
+                className="flex items-center gap-2 tadata-[state=active]:bg-[#FE4E01]/10  data-[state=active]:text-primary  data-[state=active]:border-primary  data-[state=active]:border rounded-full "
+                onClick={() => setWithdrawType("BRL")}
+              >
+                Pix
+              </TabsTrigger>
+            )}
+
+            <TabsTrigger
+              value="satoshi"
+              className="flex items-center gap-2 data-[state=active]:bg-[#FE4E01]/10  data-[state=active]:text-primary  data-[state=active]:border-primary  data-[state=active]:border rounded-full "
+              onClick={() => setWithdrawType("BTC")}
+            >
+              Bitcoin
+            </TabsTrigger>
+          </div>
+        </TabsList>
+        <TabsContent value="pix">
+          <PixWithdraw />
+        </TabsContent>
+        <TabsContent value="satoshi" className="w-full ">
+          <div className="flex flex-col w-full">
+            <strong className="text-xl">Destino do saque</strong>
+            <span className="mt-3 text-muted-foreground ">
+              Informe o invoice
+            </span>
+            <div className="mt-4">
+              <div className="flex justify-between gap-2 flex-wrap">
+                <span className="text-sm font-semibold text-muted-foreground">
+                  Saldo disponível:{" "}
+                  <strong className="text-primary">
+                    {user.btcBalance} SATS
+                  </strong>
+                </span>
+                <Button
+                  className="flex items-center gap-2"
+                  variant="outline"
+                  onClick={() => {
+                    navigator.clipboard.readText().then((text) => {
+                      handleInputChange({ target: { value: text } });
+                    });
+                  }}
+                >
+                  <ClipboardPaste size={16} />
+                  Colar
+                </Button>
+                <Textarea
+                  ref={textareaRef}
+                  className="p-5 rounded-xl shadow-none bg-background w-full overflow-hidden resize-none"
+                  value={invoice}
+                  onChange={handleInputChange}
+                  placeholder="Digite o invoice"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-end mt-2">
+            <Button
+              variant="default"
+              disabled={
+                withdrawType === "" ||
+                (withdrawType === "BTC" && invoice === "")
+              }
+              onClick={() => {
+                if (withdrawType === "BTC") {
+                  withdraw({ invoice, currency: "BTC" });
+                }
+
+                setInvoice("");
+                setValue("0");
+              }}
+            >
+              {loading ? (
+                <>
+                  <LoaderCircle className="animate-spin" size={20} />
+                  Enviando...
+                </>
+              ) : (
+                "Sacar"
+              )}
+            </Button>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

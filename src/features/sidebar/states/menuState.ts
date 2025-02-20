@@ -76,6 +76,12 @@ export const menuState = atom<MenuItem[]>({
           to: "/admin/aprovar-contas",
           role: "admin",
         },
+        {
+          label: "Configurações do sistema",
+          icon: ArrowLeftRight,
+          to: "/admin/settings",
+          role: "admin",
+        },
       ],
     },
     // {

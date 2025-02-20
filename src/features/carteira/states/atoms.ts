@@ -37,6 +37,10 @@ export const withdrawState = atom<IWithdrawState>({
       error: "",
       loading: false,
       success: false,
+      bankAccountStatus: null,
+      loadingGetBankAccount: false,
+      loadingCreateBankAccount: false,
+      bankAccountToEdit: null,
     },
   },
 });

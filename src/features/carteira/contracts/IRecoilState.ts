@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IControllerPaymentState {
   isLoadingPayments: boolean;
   error: string;
@@ -77,15 +78,20 @@ export interface IPaymentState {
 
 export interface IWithdrawPayload {
   pixKey?: string;
-  amount?: string;
+  amount?: string | number;
   invoice?: string;
   currency: "BTC" | "BRL";
+  verificationCode?: string;
 }
 
 export interface IWithdrawState {
   controller: {
+    loadingCreateBankAccount: boolean;
+    bankAccountStatus: null | "UNDER_REVIEW" | "APPROVED" | "REJECTED";
+    loadingGetBankAccount: boolean;
     loading: boolean;
     error: string;
     success: boolean;
+    bankAccountToEdit: any;
   };
 }

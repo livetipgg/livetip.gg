@@ -21,7 +21,7 @@ const UsersManagement = () => {
 
   const [searchValue, setSearchValue] = useState("");
 
-  const { isPending, data } = useQuery({
+  const { data } = useQuery({
     queryKey: ["admin_users", page, getAllUsersParams.search],
     queryFn: () =>
       getAllUsers({
@@ -44,10 +44,6 @@ const UsersManagement = () => {
       },
     }));
   };
-
-  if (isPending) {
-    return <GlobalLoader />;
-  }
 
   return (
     <div>

@@ -26,10 +26,8 @@ export const useProfileCancelAccount = () => {
     try {
       const response = await api.delete(`${DELETE_USER}/${id}`);
 
-      successSonner(
-        "Conta encerrada com sucesso, redirecionando para a página inicial"
-      );
-      handleLogout();
+      successSonner("A conta será encerrada depois de 30 dias");
+      // handleLogout();
 
       return response;
     } catch (error: any) {
