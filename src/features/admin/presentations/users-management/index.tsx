@@ -21,7 +21,7 @@ const UsersManagement = () => {
 
   const [searchValue, setSearchValue] = useState("");
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["admin_users", page, getAllUsersParams.search],
     queryFn: () =>
       getAllUsers({
@@ -61,12 +61,8 @@ const UsersManagement = () => {
         />
         <CreateUserDialog />
       </div>
-      {data.results.length === 0 && (
-        <div className="mt-10">
-          <NoContent message="Nenhum usuário para mostrar" />
-        </div>
-      )}
-      {data.results.length > 0 && (
+
+      {!isLoading && data.results.length > 0 && (
         <>
           <div className="max-w-[360px] sm:max-w-full overflow-x-auto">
             <DataTable columns={usersColumn} data={data.results} />
