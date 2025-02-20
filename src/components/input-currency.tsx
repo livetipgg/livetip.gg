@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import { Input, InputProps } from "./ui/input";
+import { cn } from "@/lib/utils";
 interface InputMoneyProps extends InputProps {
   value: number;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   addonBefore?: string;
+  inputClassName?: string;
 }
 const DECIMAL_SIZE = 2;
-const InputMoney = ({ value, onChange, ...props }: InputMoneyProps) => {
+const InputMoney = ({
+  value,
+  onChange,
+  inputClassName,
+  ...props
+}: InputMoneyProps) => {
   const [currentValue, setCurrentValue] = useState<string>(`${value}`);
   useEffect(() => {
     const valueString = `${value}`;
@@ -31,11 +38,21 @@ const InputMoney = ({ value, onChange, ...props }: InputMoneyProps) => {
     });
   };
   return (
-    <div className="flex items-center bg-background rounded-xl border">
+    <div
+      className={cn(
+        props.className,
+        "flex items-center bg-background rounded-xl border"
+      )}
+    >
       <div className=" flex  items-center p-3 rounded-bl-xl rounded-tl-xl  bg-[#f3f3f3] dark:bg-[#212736] justify-center ">
         <span className="text-xs font-medium  ">R$</span>
       </div>
-      <Input value={currentValue} onChange={handleOnChange} {...props} />
+      <Input
+        value={currentValue}
+        onChange={handleOnChange}
+        {...props}
+        className={inputClassName}
+      />
     </div>
   );
 };
