@@ -45,6 +45,10 @@ const UsersManagement = () => {
     }));
   };
 
+  if (isLoading) {
+    return <GlobalLoader />;
+  }
+
   return (
     <div>
       <div className="mb-4 flex items-start gap-2 justify-between md:flex-row md:items-center flex-col">
@@ -61,7 +65,11 @@ const UsersManagement = () => {
         />
         <CreateUserDialog />
       </div>
-
+      {!isLoading && data.results.length === 0 && (
+        <div className="mt-10">
+          <NoContent message="Nenhum usuário para mostrar" />
+        </div>
+      )}
       {!isLoading && data.results.length > 0 && (
         <>
           <div className="max-w-[360px] sm:max-w-full overflow-x-auto">
