@@ -89,6 +89,7 @@ export interface IWithdrawState {
     loadingCreateBankAccount: boolean;
     bankAccountStatus: null | "UNDER_REVIEW" | "APPROVED" | "REJECTED";
     loadingGetBankAccount: boolean;
+    loadingDeleteBankAccount: boolean;
     loading: boolean;
     error: string;
     success: boolean;

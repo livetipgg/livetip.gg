@@ -41,6 +41,7 @@ export const withdrawState = atom<IWithdrawState>({
       loadingGetBankAccount: false,
       loadingCreateBankAccount: false,
       bankAccountToEdit: null,
+      loadingDeleteBankAccount: false,
     },
   },
 });

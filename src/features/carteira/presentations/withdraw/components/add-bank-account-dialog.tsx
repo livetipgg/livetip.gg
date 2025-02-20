@@ -298,11 +298,8 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
                 </FormLabel>
                 <div className="flex-1 flex-col ">
                   <FormControl>
-                    <InputMask
+                    <Input
                       className="input-class bg-background shadow-none rounded-lg p-6"
-                      showMask={true}
-                      type="number"
-                      component={Input}
                       {...field}
                       value={field.value}
                       onChange={field.onChange}

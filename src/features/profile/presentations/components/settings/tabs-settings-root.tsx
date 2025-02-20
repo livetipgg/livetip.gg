@@ -6,6 +6,7 @@ import { QRCodeWidgetsBlock } from "./qrcode-widgets/qrcode-widgets-block";
 import { authState } from "@/features/auth/states/atoms";
 import { useRecoilValue } from "recoil";
 import { AlertCircle } from "lucide-react";
+import { BankAccountBlock } from "./bank-account/update-password";
 
 const tabsItems = [
   {
@@ -19,6 +20,10 @@ const tabsItems = [
   {
     value: "qrcode_widgets",
     label: "QRCode e widgets",
+  },
+  {
+    value: "bank_account",
+    label: "Conta Bancária",
   },
 ];
 
@@ -63,6 +68,12 @@ export const TabsSettingsRoot = () => {
         <TabContentContainer>
           <TabHeader item={tabsItems[2]} />
           <QRCodeWidgetsBlock />
+        </TabContentContainer>
+      )}
+      {activeTab === "bank_account" && (
+        <TabContentContainer>
+          <TabHeader item={tabsItems[3]} />
+          <BankAccountBlock />
         </TabContentContainer>
       )}
     </div>
