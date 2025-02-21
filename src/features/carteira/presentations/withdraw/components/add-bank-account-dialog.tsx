@@ -119,7 +119,7 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
     const payload = {
       ...data,
       bankId: banks
-        .find((bank) => bank.long_name === data.bankId)
+        .find((bank) => bank.long_name === data.bankId.split(" - ")[1])
         ?.id.toString(),
       pixKey: removePixMask(data.pixKeyType, data.pixKey), // Remove a máscara com base no tipo
       cpf: data.cpf.replace(/\D/g, ""), // Remove tudo que não for número
@@ -330,7 +330,8 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
                         >
                           <div className="flex items-center gap-2">
                             {banks.find(
-                              (bank) => bank.long_name === field.value
+                              (bank) =>
+                                bank.long_name === field.value.split(" - ")[1]
                             )?.long_name || "Selecione o banco"}
                           </div>
 
@@ -347,7 +348,9 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
                                 return (
                                   <CommandItem
                                     key={idx}
-                                    value={bank.long_name}
+                                    value={
+                                      bank.bank_code + " - " + bank.long_name
+                                    }
                                     onSelect={(currentValue) => {
                                       field.onChange(currentValue);
                                       setOpen(false);
@@ -362,23 +365,6 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
                         </Command>
                       </PopoverContent>
                     </Popover>
-                    {/* <Select>
-                      <SelectTrigger className="shadow-none p-6 rounded-lg border-input">
-                        <SelectValue placeholder="Selecione o banco" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Bancos</SelectLabel>
-                          {banks?.map((bank) => (
-                            <div key={bank.id}>
-                              <SelectItem value={bank.id}>
-                                {bank.short_name}
-                              </SelectItem>
-                            </div>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select> */}
                   </FormControl>
                   <FormMessage />
                 </div>
