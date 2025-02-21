@@ -42,8 +42,8 @@ export const TransmissionMessage = ({ message }: { message: IMessage }) => {
 
   return (
     <>
-      <div className="flex items-center justify-between mt-5">
-        <div className="flex items-center">
+      <div className="flex md:items-center justify-between mt-5 gap-2 flex-col md:flex-row">
+        <div className="flex items-center ">
           {/* Cor do fundo dinâmica */}
           <div
             className={`${getBackgroundColor(

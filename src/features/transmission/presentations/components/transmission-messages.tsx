@@ -19,7 +19,7 @@ export const TransmissionMessages = () => {
   return (
     <>
       <Tabs defaultValue="todas" className="w-full">
-        <TabsList className="w-full">
+        <TabsList className="w-full flex-col h-auto md:flex-row">
           <TabsTrigger value="todas" className="w-full gap-2">
             Todas
             <Badge variant="destructive">
