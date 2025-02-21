@@ -30,6 +30,9 @@ export interface IAuthUserState {
   tax_value: string;
   is_verified: boolean;
   emailVerifiedAt: string;
+
+  brlMinimumDonation: string;
+  btcMinimumDonation: string;
 }
 
 export interface IAuthState {

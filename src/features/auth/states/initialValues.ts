@@ -34,4 +34,7 @@ export const initialAuthUser: IAuthUserState = {
   first_name: "",
   last_name: "",
   emailVerifiedAt: "",
+
+  brlMinimumDonation: "",
+  btcMinimumDonation: "",
 };

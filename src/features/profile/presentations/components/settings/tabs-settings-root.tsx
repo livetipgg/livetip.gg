@@ -7,6 +7,7 @@ import { authState } from "@/features/auth/states/atoms";
 import { useRecoilValue } from "recoil";
 import { AlertCircle } from "lucide-react";
 import { BankAccountBlock } from "./bank-account/update-password";
+import { DonatesSettingsBlock } from "./donates-settings/donates-settings";
 
 const tabsItems = [
   {
@@ -25,6 +26,10 @@ const tabsItems = [
     value: "bank_account",
     label: "Conta Bancária",
   },
+  {
+    value: "donates_settings",
+    label: "Configurações de doações",
+  },
 ];
 
 export const TabsSettingsRoot = () => {
@@ -33,7 +38,7 @@ export const TabsSettingsRoot = () => {
 
   return (
     <div className="rounded border flex flex-col w-full lg:flex-row">
-      <div className="flex flex-col rounded bg-card-custom py-6 px-2 border-r lg:max-w-[200px] w-full">
+      <div className="flex flex-col rounded bg-card-custom py-6 px-2 border-r lg:max-w-[220px] w-full">
         {tabsItems.map((tab) => (
           <button
             key={tab.value}
@@ -74,6 +79,12 @@ export const TabsSettingsRoot = () => {
         <TabContentContainer>
           <TabHeader item={tabsItems[3]} />
           <BankAccountBlock />
+        </TabContentContainer>
+      )}
+      {activeTab === "donates_settings" && (
+        <TabContentContainer>
+          <TabHeader item={tabsItems[4]} />
+          <DonatesSettingsBlock />
         </TabContentContainer>
       )}
     </div>

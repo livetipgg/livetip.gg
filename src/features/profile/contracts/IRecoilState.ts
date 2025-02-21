@@ -9,6 +9,8 @@ export interface IUpdateProfilePayload {
   nostrUsername?: string;
   telegramUsername?: string;
   whatsappUsername?: string;
+  brlMinimumDonation?: string;
+  btcMinimumDonation?: string;
 }
 
 export interface IControllerProfileState {
