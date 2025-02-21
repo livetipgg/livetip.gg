@@ -327,10 +327,22 @@ export const EditUserBlock = () => {
                           className="p-2"
                           variant="outline"
                           onClick={() => {
-                            const fullUrl = urlBase
+                            let fullUrl = urlBase
                               ? `${urlBase}${field.value}`
                               : field.value;
-                            window.open(fullUrl, "_blank");
+
+                            if (
+                              field.name === "websiteLink" &&
+                              !fullUrl.startsWith("http://") &&
+                              !fullUrl.startsWith("https://")
+                            ) {
+                              fullUrl = `https://${fullUrl}`;
+                            }
+                            window.open(
+                              fullUrl,
+                              "_blank",
+                              "noopener,noreferrer"
+                            );
                           }}
                           disabled={!field.value} // Disable if the input is empty
                         >
