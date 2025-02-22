@@ -14,7 +14,6 @@ import { GlobalLoader } from "@/components/global-loader";
 import { useFetchBanks } from "@/hooks/use-fetch-banks";
 import { ErrorAlert } from "@/components/error-alert";
 import { WarningAlert } from "@/components/warning-alert";
-import { balanceState } from "@/features/balance/states/atoms";
 import { authState } from "@/features/auth/states/atoms";
 
 export const PixWithdraw = () => {
