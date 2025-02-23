@@ -105,6 +105,9 @@ const ApproveAccounts = () => {
                       <span className="text-lg font-bold">{user.fullName}</span>
                     </div>
                   </div>
+                  <span className="text-sm">
+                    <span className="font-bold">Username:</span> {user.username}
+                  </span>
                   <div className="flex flex-col mt-4">
                     <span className="text-sm">
                       <span className="font-bold">CPF:</span> {user.cpf}
@@ -215,6 +218,9 @@ const ApproveAccounts = () => {
                   </div>
                 </div>
                 <div className="flex flex-col mt-4">
+                  <span className="text-sm">
+                    <span className="font-bold">Username:</span> {user.username}
+                  </span>
                   <span className="text-sm">
                     <span className="font-bold">CPF:</span> {user.cpf}
                   </span>
