@@ -35,8 +35,8 @@ export const IntegrationBlock = () => {
         client_id,
         client_secret,
         code,
-        grant_type: "authorization_code",
         redirect_uri: "https://app.livetip.gg/perfil",
+        grant_type: "authorization_code",
       },
 
       {
