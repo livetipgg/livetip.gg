@@ -19,18 +19,27 @@ export const TransmissionMessages = () => {
   return (
     <>
       <Tabs defaultValue="todas" className="w-full">
-        <TabsList className="w-full flex-col h-auto md:flex-row">
-          <TabsTrigger value="todas" className="w-full gap-2">
+        <TabsList className="w-full flex-col h-auto md:flex-row ">
+          <TabsTrigger
+            value="todas"
+            className="w-full gap-2 justify-between md:justify-center"
+          >
             Todas
             <Badge variant="destructive">
               {transmissionMessages.results.length}
             </Badge>
           </TabsTrigger>
-          <TabsTrigger value="nao_lidas" className="w-full gap-2">
+          <TabsTrigger
+            value="nao_lidas"
+            className="w-full gap-2 justify-between md:justify-center"
+          >
             Não Lidas
             <Badge variant="destructive">{unreadMessages.length}</Badge>
           </TabsTrigger>
-          <TabsTrigger value="lidas" className="w-full gap-2">
+          <TabsTrigger
+            value="lidas"
+            className="w-full gap-2 justify-between md:justify-center"
+          >
             Lidas
             <Badge variant="destructive">{readMessages.length}</Badge>
           </TabsTrigger>
