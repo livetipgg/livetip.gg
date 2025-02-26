@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
+import { useIntegrationsManagement } from "@/hooks/use-integrations-management";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const IntegrationBlock = () => {
+  const [token, setToken] = useState<string | null>(null);
   // https://api.streamelements.com/oauth2/authorize
   const client_secret = import.meta.env.VITE_STREAM_ELEMENTS_CLIENT_SECRET;
   const client_id = import.meta.env.VITE_STREAM_ELEMENTS_CLIENT_ID;
@@ -44,12 +46,24 @@ export const IntegrationBlock = () => {
       }
     );
     console.log("response", response);
+    setToken(response.data.access_token);
   };
   // D1dAPrWOTSmaot0xosHgmQ
+  const { testAlert } = useIntegrationsManagement();
+
   return (
     <div>
       <Button onClick={handleConnectStreamElements}>
         Conectar com Stream Elements
+      </Button>
+      <Button
+        onClick={() =>
+          testAlert({
+            access_token: token,
+          })
+        }
+      >
+        Test alert
       </Button>
     </div>
   );
