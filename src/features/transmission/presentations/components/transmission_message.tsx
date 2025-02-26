@@ -43,15 +43,15 @@ export const TransmissionMessage = ({ message }: { message: IMessage }) => {
   return (
     <>
       <div className="flex md:items-center justify-between mt-5 gap-2 flex-col md:flex-row">
-        <div className="flex items-center ">
+        <div className="flex items-center items-stretch ">
           {/* Cor do fundo dinâmica */}
           <div
             className={`${getBackgroundColor(
               message.amount,
               message.currency
-            )} p-2 rounded-s-lg`}
+            )} p-2 rounded-s-lg `}
           >
-            <span className="text-white font-semibold">
+            <span className="text-white font-semibold ">
               {formatPayment({
                 amount: message.amount,
                 type: message.currency,
@@ -61,15 +61,18 @@ export const TransmissionMessage = ({ message }: { message: IMessage }) => {
           <div
             className={`p-2 ${
               message.read ? "bg-gray-400" : "bg-blue-600"
-            } rounded-e-lg`}
+            } rounded-e-lg  flex-1 md:w-fit`}
           >
             <span className="font-semibold text-white">{message.sender}</span>
           </div>
-          <div className="w-10 h-10 ml-2 bg-card-custom border p-1 rounded-md -top-4">
+          <div className="w-10 h-10 ml-2 bg-card-custom border p-1 rounded-md -top-4 hidden md:flex">
             <PaymentIcon currency={message.currency} />
           </div>
         </div>
         <div className="flex items-center gap-2">
+          <div className="w-10 h-10 ml-2 bg-card-custom border p-1 rounded-md -top-4 flex md:hidden">
+            <PaymentIcon currency={message.currency} />
+          </div>
           <Button
             disabled={isLoadingTransmissionMessages}
             onClick={() => {
