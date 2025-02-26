@@ -10,7 +10,7 @@ import { IPaymentDonateState } from "@/features/carteira/contracts/IRecoilState"
 // import QRCode from "react-qr-code";
 import { useEffect } from "react";
 import PaymentIcon from "@/components/payment-icon";
-import iconLogo from "@/assets/icon.png";
+import iconLogo from "@/assets/icon.svg";
 import { useWebSocket } from "@/config/WebSocketProvider";
 import { emitEvent } from "@/socket";
 import { QRCodeSVG } from "qrcode.react";
@@ -28,15 +28,12 @@ const PaymentStep = () => {
     });
 
     socket.on("reconnect", () => {
-      console.log("Reconexão bem-sucedida ao WebSocket");
-
       socket.emit("join_room", {
         room: `payment-confirmation-${content.sender}`,
       });
     });
 
     socket.on("message", () => {
-      console.log("Payment success");
       setPaymentDonateState((prev: IPaymentDonateState) => ({
         ...prev,
         content: {
@@ -66,18 +63,18 @@ const PaymentStep = () => {
           </span>
         </div>
         <QRCodeSVG
+          className="bg-white p-1"
           value={controller.qrCode}
           size={280} // Tamanho do QR Code
           imageSettings={{
             src: iconLogo,
             x: undefined,
             y: undefined,
-            height: 40, // Altura do logo
-            width: 40, // Largura do logo
-            excavate: true, // Para recortar o QR code ao redor do logo
+            height: 40,
+            width: 40,
+            excavate: true,
           }}
         />
-        {/* <QRCode value={controller.qrCode} imageRendering={bitcoinLogo} /> */}
         {content.currency === "BRL" ? (
           <Label className="text-center my-4">Pix Copia e Cola</Label>
         ) : (

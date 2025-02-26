@@ -19,4 +19,25 @@ export const initialAuthUser: IAuthUserState = {
   is_deleted: false,
   token: "",
   photoUrl: "",
+  instagramUsername: "",
+  facebookUsername: "",
+  nostrUsername: "",
+  telegramUsername: "",
+  whatsappUsername: "",
+  xUsername: "",
+
+  youtubeUsername: "",
+  twitchUsername: "",
+  tax_value: "",
+  is_verified: false,
+  websiteLink: "",
+  first_name: "",
+  last_name: "",
+  emailVerifiedAt: "",
+
+  brlMinimumDonation: "",
+  btcMinimumDonation: "",
+
+  streamElementsToken: "",
+  streamLabToken: "",
 };

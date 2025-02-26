@@ -5,20 +5,21 @@ import { useCustomSonner } from "@/hooks/useCustomSonner";
 import { useRecoilState } from "recoil";
 import { profileState } from "../states/atoms";
 import { IUpdateProfilePayload } from "../contracts/IRecoilState";
-import { useProfileGetUserInfoUseCase } from "./useProfileGetUserInfoUseCase";
 
 export const useUpdateProfileAccount = () => {
   const api = createApiInstance();
   const [auth] = useRecoilState(authState);
   const [, setProfileState] = useRecoilState(profileState);
 
-  const { getUserInfo } = useProfileGetUserInfoUseCase();
-
   const { successSonner, errorSonner } = useCustomSonner();
 
   const { user } = auth;
 
-  const updateProfile = async (payload: IUpdateProfilePayload) => {
+  const updateProfile = async (
+    payload: Partial<IUpdateProfilePayload>,
+    id?: number,
+    onSuccess?: () => void
+  ) => {
     setProfileState((prev) => ({
       ...prev,
       controller: {
@@ -26,15 +27,19 @@ export const useUpdateProfileAccount = () => {
         isLoadingUpdateProfile: true,
       },
     }));
+
     try {
       const formData = new FormData();
 
       if (payload.photoUrl) {
-        formData.append("photo", payload.photoUrl);
+        formData.append("profile_picture", payload.photoUrl);
       }
-      formData.append("body", JSON.stringify(payload));
 
-      await api.patch(`/user/${user.id}`, formData, {
+      if (Object.keys(payload).length > 0 && !payload.photoUrl) {
+        formData.append("body", JSON.stringify(payload));
+      }
+
+      await api.patch(`/user/${id || user.id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -42,7 +47,7 @@ export const useUpdateProfileAccount = () => {
 
       successSonner("Perfil atualizado com sucesso!");
 
-      getUserInfo();
+      onSuccess();
     } catch (error: any) {
       console.error("error", error.response);
       errorSonner("Erro ao atualizar o perfil: " + error.response.data.message);

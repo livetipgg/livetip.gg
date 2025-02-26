@@ -1,4 +1,4 @@
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, RefreshCw } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
 import pixLogo from "@/assets/pix-logo.png";
 import bitcoinLogo from "@/assets/bitcoin-logo.png";
@@ -8,6 +8,7 @@ import { formatCurrencyValue } from "@/helpers/formatCurrencyValue";
 import { balanceState } from "@/features/balance/states/atoms";
 import { useSetShowCurrentBalanceUseCase } from "@/features/balance/useCases/useSetShowCurrentBalanceUseCase";
 import { Skeleton } from "../../../../components/ui/skeleton";
+import { useGetUserBalancesUseCase } from "../../useCases/useGetUserBalancesUseCase";
 
 const BalanceItem: React.FC<{
   logo?: string;
@@ -58,16 +59,34 @@ const BalanceToggleButton: React.FC<{
   showCurrentBalance: boolean;
   toggleShowCurrentBalance: () => void;
 }> = ({ showCurrentBalance, toggleShowCurrentBalance }) => (
-  <Button
-    size="icon"
-    variant={"ghost"}
-    className=" p-2 absolute top-3 right-4"
-    onClick={toggleShowCurrentBalance}
-  >
-    {showCurrentBalance ? <EyeOff /> : <Eye />}
+  <Button size="icon" variant={"link"} onClick={toggleShowCurrentBalance}>
+    {showCurrentBalance ? (
+      <EyeOff className="w-4 h-4" />
+    ) : (
+      <Eye className="w-4 h-4" />
+    )}
   </Button>
 );
+const BalanceLoadBalance = () => {
+  const { controller: balanceStateController } = useRecoilValue(balanceState);
+  const { isLoading: balanceIsLoading } = balanceStateController;
+  const { loadUserBalance } = useGetUserBalancesUseCase();
 
+  return (
+    <Button
+      size={"icon"}
+      variant={"link"}
+      className={` ${balanceIsLoading ? "text-muted-foreground" : ""}`}
+      title="Atualizar"
+      onClick={loadUserBalance}
+      disabled={balanceIsLoading}
+    >
+      <RefreshCw
+        className={`w-4 h-4 mb-0 ${balanceIsLoading ? "animate-spin" : ""}`}
+      />
+    </Button>
+  );
+};
 // Componente principal BalancePreview
 export const BalancePreview: React.FC = () => {
   const { controller } = useRecoilValue(balanceState);
@@ -75,18 +94,21 @@ export const BalancePreview: React.FC = () => {
   const { setShowCurrentBalance } = useSetShowCurrentBalanceUseCase();
   const { user } = useRecoilValue(authState);
   const { brlBalance, btcBalance } = user;
-
   return (
-    <div className="flex gap-2 flex-col items-stretch w-full mb-4">
-      <div className="flex items-center justify-end">
-        {!isLoading && (
-          <BalanceToggleButton
-            showCurrentBalance={showCurrentBalance}
-            toggleShowCurrentBalance={() =>
-              setShowCurrentBalance(!showCurrentBalance)
-            }
-          />
-        )}
+    <div className="flex gap-2 flex-col items-stretch w-full ">
+      <div className="px-1 flex items-center justify-between">
+        <span className="font-xs font-medium ">Saldo</span>
+        <div className="flex items-center gap-1">
+          {!isLoading && (
+            <BalanceToggleButton
+              showCurrentBalance={showCurrentBalance}
+              toggleShowCurrentBalance={() =>
+                setShowCurrentBalance(!showCurrentBalance)
+              }
+            />
+          )}
+          <BalanceLoadBalance />
+        </div>
       </div>
       <BalanceItem
         logo={pixLogo}

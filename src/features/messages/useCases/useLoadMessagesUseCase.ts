@@ -64,6 +64,7 @@ export const useLoadMessagesUseCase = () => {
         query: params?.query || messagesParams.query || null,
         startDate: messagesParams.startDate,
         endDate: messagesParams.endDate,
+        userId: messagesParams.userId,
       };
 
       // Adicionar `query` apenas se ela existir e não for vazia
@@ -71,9 +72,14 @@ export const useLoadMessagesUseCase = () => {
         queryParams.query = params.query;
       }
 
-      const response = await api.get(`${MESSAGE}/${user.id}`, {
-        params: queryParams,
-      });
+      const isAdmin = user.id === 3;
+
+      const response = await api.get(
+        `${MESSAGE}${!isAdmin ? "/" + user.id : ""}`,
+        {
+          params: queryParams,
+        }
+      );
 
       setMessageState((prevState: IMessageState) => ({
         ...prevState,

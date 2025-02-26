@@ -33,9 +33,17 @@ export interface IMessageController {
     limit: number;
     page: number;
     ordered: boolean;
+    userId: number | null;
   };
 
   lastMessagesParams: {
+    limit: number;
+    page: number;
+    startDate: Date | undefined | string;
+    endDate: Date | undefined | string;
+  };
+
+  transmissionMessagesParams: {
     limit: number;
     page: number;
     startDate: Date | undefined | string;

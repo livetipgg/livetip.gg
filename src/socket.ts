@@ -2,7 +2,7 @@
 // src/socket.ts
 import { io, Socket } from "socket.io-client";
 
-const URL = "wss://live-pix-service-dot-livechat-437913.uc.r.appspot.com";
+const URL = "wss://api.livetip.gg";
 
 // Cria uma instância de socket
 const socket: Socket = io(URL, {
@@ -36,16 +36,12 @@ const processPendingEvents = () => {
 
 // Event listeners para gerenciar a reconexão
 socket.on("connect", () => {
-  console.log("Conectado ao WebSocket");
   processPendingEvents(); // Reenvia eventos atrasados
 });
 
-socket.on("disconnect", () => {
-  console.log("Desconectado do WebSocket. Tentando reconectar...");
-});
+socket.on("disconnect", () => {});
 
 socket.on("reconnect", (attempt) => {
-  console.log(`Reconectado ao WebSocket após ${attempt} tentativa(s)`);
   processPendingEvents(); // Reenvia eventos ao reconectar
 });
 

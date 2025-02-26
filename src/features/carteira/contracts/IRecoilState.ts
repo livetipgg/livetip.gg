@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IControllerPaymentState {
   isLoadingPayments: boolean;
   error: string;
@@ -7,6 +8,7 @@ export interface IControllerPaymentState {
     endDate: Date | undefined | string;
     limit: number;
     page: number;
+    userId: number | null;
   };
 }
 
@@ -16,6 +18,8 @@ export interface IPayment {
   amount: number;
   currency: "BTC" | "BRL";
   createdAt: string;
+  receiverName: string;
+  transactionType: "payment" | "withdraw";
 }
 
 export interface IPaymentDonateState {
@@ -28,11 +32,20 @@ export interface IPaymentDonateState {
   receiver: {
     id: number;
     username: string;
+    is_verified: boolean;
     email: string;
     photoURL: string;
     isDeleted: boolean;
     btcBalance: string;
     brlBalance: string;
+    youtubeUsername: string;
+    twitchUsername: string;
+    instagramUsername: string;
+    facebookUsername: string;
+    nostrUsername: string;
+    telegramUsername: string;
+    whatsappUsername: string;
+    xUsername: string;
   };
   controller: {
     loadingReceiverData: boolean;
@@ -51,6 +64,11 @@ export interface IPaymentDonateState {
 
 export interface IPaymentState {
   payments: {
+    includes: {
+      currency: "BRL" | "BTC";
+      sum: string;
+      transaction_type: "payment" | "withdraw";
+    }[];
     results: IPayment[];
     count: number;
     totalPages: number;
@@ -58,15 +76,23 @@ export interface IPaymentState {
   controller: IControllerPaymentState;
 }
 
-export interface IWithdrawBTCPayload {
-  invoice: string;
-  currency: "BTC";
+export interface IWithdrawPayload {
+  pixKey?: string;
+  amount?: string | number;
+  invoice?: string;
+  currency: "BTC" | "BRL";
+  verificationCode?: string;
 }
 
 export interface IWithdrawState {
   controller: {
+    loadingCreateBankAccount: boolean;
+    bankAccountStatus: null | "UNDER_REVIEW" | "APPROVED" | "REJECTED";
+    loadingGetBankAccount: boolean;
+    loadingDeleteBankAccount: boolean;
     loading: boolean;
     error: string;
     success: boolean;
+    bankAccountToEdit: any;
   };
 }

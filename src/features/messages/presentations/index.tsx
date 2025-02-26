@@ -16,23 +16,23 @@ const MessagesReceived = () => {
   const { messagesParams } = controller;
 
   const { loadMessages } = useLoadMessagesUseCase();
-
   useEffect(() => {
     loadMessages();
   }, []);
 
-  console.log(messages);
   return (
     <div>
       <div className="flex items-center justify-end mb-4">
         <ButtonNewLive />
       </div>
       <FilterBar />
+
       <MessagesList
         isLoading={isLoadingMessages}
         messages={messages.results}
         error={errorMessages}
       />
+
       <PaginationComponent
         currentPage={messagesParams.page}
         totalPages={messages.totalPages}

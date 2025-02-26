@@ -55,15 +55,34 @@ export const menuState = atom<MenuItem[]>({
           label: "Saque",
           icon: ArrowLeftRight,
           to: "/carteira/saque",
-          role: "admin",
         },
       ],
     },
     {
       label: "Painel Admin",
       icon: Shield,
-      to: "/admin/painel",
+      to: "",
       role: "admin",
+      subItems: [
+        {
+          label: "Gerenciar Usuários",
+          icon: ArrowLeftRight,
+          to: "/admin/usuarios",
+          role: "admin",
+        },
+        {
+          label: "Aprovar Contas",
+          icon: ArrowLeftRight,
+          to: "/admin/aprovar-contas",
+          role: "admin",
+        },
+        {
+          label: "Configurações do sistema",
+          icon: ArrowLeftRight,
+          to: "/admin/settings",
+          role: "admin",
+        },
+      ],
     },
     // {
     //   label: "Apresentação",

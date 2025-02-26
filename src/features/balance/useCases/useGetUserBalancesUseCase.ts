@@ -2,10 +2,12 @@ import { authState } from "@/features/auth/states/atoms";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { balanceState } from "../states/atoms";
 import createApiInstance from "@/config/api";
+import { useSetShowCurrentBalanceUseCase } from "./useSetShowCurrentBalanceUseCase";
 
 export const useGetUserBalancesUseCase = () => {
   const [userState, setAuthState] = useRecoilState(authState);
   const setBalanceState = useSetRecoilState(balanceState);
+  const { setShowCurrentBalance } = useSetShowCurrentBalanceUseCase();
 
   const api = createApiInstance();
 
@@ -20,7 +22,6 @@ export const useGetUserBalancesUseCase = () => {
     }));
     try {
       const response = await api.get(`/user/${userState.user.id}/balance`);
-
       setAuthState((prev) => ({
         ...prev,
         user: {
@@ -29,6 +30,7 @@ export const useGetUserBalancesUseCase = () => {
           btcBalance: response.data.btcBalance,
         },
       }));
+      setShowCurrentBalance(false);
     } catch {
       setBalanceState((prevState) => ({
         ...prevState,

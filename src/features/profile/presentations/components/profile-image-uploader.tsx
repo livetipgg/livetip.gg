@@ -21,14 +21,8 @@ const ProfileImageUploader: React.FC = () => {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const { controller } = useRecoilValue(profileState);
   const { newPhotoUrl } = controller;
-  console.log("newPhotoUrl", newPhotoUrl);
-  const {
-    imagePreview,
-    uploadProgress,
-    handleFileChange,
-    deleteImage,
-    uploadImage,
-  } = useImageUploader();
+  const { imagePreview, handleFileChange, deleteImage, uploadImage } =
+    useImageUploader();
 
   const handleClick = () => {
     inputFileRef.current?.click();
@@ -54,7 +48,7 @@ const ProfileImageUploader: React.FC = () => {
     >
       <AlertDialogTrigger asChild>
         <div className="flex items-center gap-2 flex-col md:flex-row">
-          <Button variant="secondary" className="w-full md:w-fit">
+          <Button variant="link" className="w-full md:w-fit">
             Mudar foto
           </Button>
           <Button variant="destructive_secondary" onClick={handleRemovePhoto}>
@@ -70,17 +64,13 @@ const ProfileImageUploader: React.FC = () => {
             <span>Formatos permitidos: .png, .jpg, .jpeg</span>
           </AlertDialogDescription>
           <div className="flex items-center justify-center pt-4">
-            <ImagePreview
-              imagePreview={imagePreview}
-              uploadProgress={uploadProgress}
-              onClick={handleClick}
-            />
+            <ImagePreview imagePreview={imagePreview} onClick={handleClick} />
             <input
               type="file"
               ref={inputFileRef}
               onChange={onFileChange}
               className="hidden"
-              accept="image/*"
+              accept="image/png, image/jpeg, image/jpg"
             />
           </div>
         </AlertDialogHeader>

@@ -11,8 +11,7 @@ import { useLoadTotalsMessageUseCase } from "@/features/messages/useCases/useLoa
 
 const AnalyticsCardGrid = () => {
   const { controller: balanceStateController } = useRecoilValue(balanceState);
-  const { isLoading: balanceIsLoading, error: errorBalance } =
-    balanceStateController;
+  const { isLoading: balanceIsLoading } = balanceStateController;
 
   const { controller: messageStateController, totals } =
     useRecoilValue(messageState);
@@ -37,7 +36,7 @@ const AnalyticsCardGrid = () => {
         title="Mensagens Recebidas"
       />
       <AnalyticsCard
-        error={errorBalance}
+        error={errorTotals}
         isLoading={balanceIsLoading}
         borderColor="hsl(var(--success))"
         endValue={totals.brlTotal}
@@ -49,7 +48,7 @@ const AnalyticsCardGrid = () => {
         decimals={2}
       />
       <AnalyticsCard
-        error={errorBalance}
+        error={errorTotals}
         isLoading={balanceIsLoading}
         borderColor="hsl(var(--warning))"
         endValue={totals.btcTotal}

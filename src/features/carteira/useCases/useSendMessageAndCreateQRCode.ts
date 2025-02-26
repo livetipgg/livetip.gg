@@ -21,7 +21,7 @@ export const useSendMessageAndCreateQRCode = () => {
     }
 
     if (
-      parseFloat(payment.content.amount) < 300 &&
+      parseFloat(payment.content.amount) < 1 &&
       payment.content.currency === "BTC"
     ) {
       return errorSonner("O valor mínimo é de 300 SATS.");
@@ -69,7 +69,9 @@ export const useSendMessageAndCreateQRCode = () => {
         },
       }));
     } catch (err) {
-      console.log("error", err);
+      errorSonner(
+        "Ocorreu um erro ao enviar a mensagem: " + err.response.data.message
+      );
     } finally {
       setPaymentState((prev: IPaymentDonateState) => ({
         ...prev,

@@ -35,7 +35,6 @@ export function NavMain() {
   const menuItems = useRecoilValue(filteredMenuState);
   const { state } = useSidebar();
 
-  console.log(state);
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Menu</SidebarGroupLabel>
@@ -73,7 +72,7 @@ export function NavMain() {
                                     (subItem) =>
                                       subItem.to === window.location.pathname
                                   ) || isOpen
-                                    ? "text-secondary"
+                                    ? "text-primary"
                                     : ""
                                 }
                               >
@@ -119,7 +118,7 @@ export function NavMain() {
                               asChild
                               className={
                                 subItem.to === window.location.pathname
-                                  ? "text-secondary"
+                                  ? "text-primary"
                                   : ""
                               }
                             >
@@ -137,7 +136,7 @@ export function NavMain() {
               {!item.subItems && (
                 <SidebarMenuItem
                   className={
-                    item.to === window.location.pathname ? "text-secondary" : ""
+                    item.to === window.location.pathname ? "text-primary" : ""
                   }
                 >
                   <SidebarMenuButton tooltip={item.label}>

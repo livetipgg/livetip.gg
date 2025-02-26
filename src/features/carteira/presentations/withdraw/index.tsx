@@ -1,158 +1,120 @@
 import { withLayout } from "@/HOC/withLayout";
 import PaymentIcon from "@/components/payment-icon";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { authState } from "@/features/auth/states/atoms";
-import { useState } from "react";
-import { PatternFormat } from "react-number-format";
+import { useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { useWithdrawBtcUseCase } from "../../useCases/useWithdrawBtcUseCase";
 import { withdrawState } from "../../states/atoms";
-import { LoaderCircle } from "lucide-react";
-import InputMoney from "@/components/input-currency";
+import { AlertCircle, ClipboardPaste, LoaderCircle } from "lucide-react";
+import { useWithdrawUseCase } from "../../useCases/useWithdrawBtcUseCase";
+import { Textarea } from "@/components/ui/textarea";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { HelpButton } from "@/features/auth/implementation/components/help-button";
+import { PixWithdraw } from "./components/pix-withdraw";
+import { WarningAlert } from "@/components/warning-alert";
 
 const Withdraw = () => {
   const { user } = useRecoilValue(authState);
   const { controller } = useRecoilValue(withdrawState);
+  const [withdrawType, setWithdrawType] = useState("BTC");
   const { loading } = controller;
-  const [value, setValue] = useState(0);
-  const { brlBalance, btcBalance } = user;
+  const [, setValue] = useState("0");
   const [invoice, setInvoice] = useState("");
-  const [selectedKey, setSelectedKey] = useState("cpf");
-  const { withdrawBTC } = useWithdrawBtcUseCase();
-  console.log("BRL Balance", brlBalance);
-  console.log("BTC Balance", btcBalance);
+  const { withdraw } = useWithdrawUseCase();
+
+  const textareaRef = useRef(null);
+
+  const isAdmin = user.id === 3 || user.id === 5;
+  const handleInputChange = (e) => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+    setInvoice(e.target.value);
+  };
   return (
     <div className="h-full w-full flex flex-col ">
+      {/* {!isAdmin && (
+        <>
+          <HelpButton />
+
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Atenção</AlertTitle>
+            <AlertDescription>
+              O saque de PIX está indisponível no momento. Para fazer retiradas
+              em BRL, entre em contato diretamente com o suporte.
+            </AlertDescription>
+          </Alert>
+        </>
+      )}
+
       <div className="max-w-3xl w-full  mt-4">
         <div className="border p-5 bg-card-custom rounded-lg">
-          <Tabs defaultValue="pix" className="w-[400px]">
+          <Tabs defaultValue="satoshi" className="">
             <TabsList className="mb-5">
               <div className="flex items-center gap-2 ">
-                <TabsTrigger value="pix" className="flex items-center gap-2">
-                  <PaymentIcon currency="BRL" className="w-4" />
-                  Pix
-                </TabsTrigger>
+                {isAdmin && (
+                  <TabsTrigger
+                    value="pix"
+                    className="flex items-center gap-2"
+                    onClick={() => setWithdrawType("BRL")}
+                  >
+                    <PaymentIcon currency="BRL" className="w-4" />
+                    Pix
+                  </TabsTrigger>
+                )}
+
                 <TabsTrigger
                   value="satoshi"
                   className="flex items-center gap-2"
+                  onClick={() => setWithdrawType("BTC")}
                 >
                   <PaymentIcon currency="BTC" className="w-4" />
-                  Satoshis
+                  Bitcoin
                 </TabsTrigger>
               </div>
             </TabsList>
             <TabsContent value="pix">
-              <div className="flex flex-col">
-                <strong className="text-xl">Destino do saque</strong>
-                <span className="mt-3 text-muted-foreground">
-                  Escolha sua chave Pix para receber o saque.
-                </span>
-                <div className="w-[300px] mt-10">
-                  <Label>Tipo da chave PIX</Label>
-                  <Select
-                    value={selectedKey}
-                    defaultValue={selectedKey}
-                    onValueChange={(value) => setSelectedKey(value)}
-                  >
-                    <SelectTrigger className="p-5 rounded-xl shadow-none bg-background">
-                      <SelectValue placeholder="Chave pix" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="cpf">CPF</SelectItem>
-                      <SelectItem value="cnpj">CNPJ</SelectItem>
-                      <SelectItem value="email">E-mail</SelectItem>
-                      <SelectItem value="phone">Telefone</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <div className="mt-4">
-                    <Label>
-                      {
-                        {
-                          cpf: "CPF",
-                          cnpj: "CNPJ",
-                          email: "E-mail",
-                          phone: "Telefone",
-                        }[selectedKey]
-                      }
-                    </Label>
-                    {selectedKey === "cpf" && (
-                      <PatternFormat
-                        className="p-5 rounded-xl shadow-none bg-background"
-                        format="###.###.###-##"
-                        mask="_"
-                        customInput={Input}
-                        placeholder="Digite seu CPF"
-                      />
-                    )}
-                    {selectedKey === "cnpj" && (
-                      <PatternFormat
-                        className="p-5 rounded-xl shadow-none bg-background"
-                        format="##.###.###/####-##"
-                        mask="_"
-                        customInput={Input}
-                        placeholder="Digite seu CNPJ"
-                      />
-                    )}
-                  </div>
-                  <div className="flex flex-col">
-                    <div className="w-[300px] mt-10">
-                      <div className="flex items-center justify-between">
-                        <Label>Valor do saque</Label>
-                        <div className="text-xs font-semibold">
-                          Saldo disponível: R$ {brlBalance.replace(".", ",")}
-                        </div>
-                      </div>
-
-                      <InputMoney
-                        onChange={(event) =>
-                          setValue(Number(event.target.value))
-                        }
-                        value={value}
-                        title="Preço"
-                        className=" rounded-xl shadow-none bg-none ps-1 border-none  text-sm "
-                        placeholder="Preço"
-                      />
-                      {/* <NumericFormat
-                        className="p-5 rounded-xl shadow-none bg-background"
-                        thousandSeparator={true}
-                        decimalScale={2}
-                        prefix="R$"
-                        fixedDecimalScale
-                        allowNegative={false}
-                        customInput={Input}
-                        placeholder="R$ 0,00"
-                      /> */}
-                    </div>
-                  </div>
-                </div>
-              </div>{" "}
+              <PixWithdraw />
             </TabsContent>
-            <TabsContent value="satoshi">
-              <div className="flex flex-col">
+            <TabsContent value="satoshi" className="w-full ">
+              <div className="flex flex-col w-full">
                 <strong className="text-xl">Destino do saque</strong>
-                <span className="mt-3 text-muted-foreground">
-                  Informe a invoice para transferir os satoshis.
+                <span className="mt-3 text-muted-foreground ">
+                  Informe o invoice
                 </span>
-                <div className="w-[300px] mt-10">
-                  <Label>Informe o invoice criado</Label>
-
-                  <Input
-                    className="p-5 rounded-xl shadow-none bg-background"
-                    type="text"
-                    value={invoice}
-                    onChange={(e) => setInvoice(e.target.value)}
-                    placeholder="Digite o invoice"
-                  />
+                <div className="mt-4">
+                  <div className="flex justify-between gap-2 flex-wrap">
+                    <span className="text-sm font-semibold text-muted-foreground">
+                      Saldo disponível:{" "}
+                      <strong className="text-primary">
+                        {user.btcBalance} SATS
+                      </strong>
+                    </span>
+                    <Button
+                      className="flex items-center gap-2"
+                      variant="outline"
+                      onClick={() => {
+                        navigator.clipboard.readText().then((text) => {
+                          handleInputChange({ target: { value: text } });
+                        });
+                      }}
+                    >
+                      <ClipboardPaste size={16} />
+                      Colar
+                    </Button>
+                    <Textarea
+                      ref={textareaRef}
+                      className="p-5 rounded-xl shadow-none bg-background w-full overflow-hidden resize-none"
+                      value={invoice}
+                      onChange={handleInputChange}
+                      placeholder="Digite o invoice"
+                    />
+                  </div>
                 </div>
               </div>
             </TabsContent>
@@ -162,11 +124,16 @@ const Withdraw = () => {
         <div className="flex justify-end mt-2">
           <Button
             variant="default"
-            disabled={!invoice}
+            disabled={
+              withdrawType === "" || (withdrawType === "BTC" && invoice === "")
+            }
             onClick={() => {
-              withdrawBTC({ invoice, currency: "BTC" });
+              if (withdrawType === "BTC") {
+                withdraw({ invoice, currency: "BTC" });
+              }
 
               setInvoice("");
+              setValue("0");
             }}
           >
             {loading ? (
@@ -179,7 +146,99 @@ const Withdraw = () => {
             )}
           </Button>
         </div>
-      </div>
+      </div> */}
+      {!user.emailVerifiedAt && (
+        <WarningAlert error="Atenção! Você precisa verificar seu email para poder realizar saques pix, acesse seu perfil e verifique seu email." />
+      )}
+      <Tabs defaultValue="satoshi" className="mt-4">
+        <TabsList className="mb-5 bg-transparent border rounded-full ">
+          <div className="flex items-center gap-2  ">
+            {user.emailVerifiedAt && (
+              <TabsTrigger
+                value="pix"
+                className="flex items-center gap-2 tadata-[state=active]:bg-[#FE4E01]/10  data-[state=active]:text-primary  data-[state=active]:border-primary  data-[state=active]:border rounded-full "
+                onClick={() => setWithdrawType("BRL")}
+              >
+                Pix
+              </TabsTrigger>
+            )}
+
+            <TabsTrigger
+              value="satoshi"
+              className="flex items-center gap-2 data-[state=active]:bg-[#FE4E01]/10  data-[state=active]:text-primary  data-[state=active]:border-primary  data-[state=active]:border rounded-full "
+              onClick={() => setWithdrawType("BTC")}
+            >
+              Bitcoin
+            </TabsTrigger>
+          </div>
+        </TabsList>
+        <TabsContent value="pix">
+          <PixWithdraw />
+        </TabsContent>
+        <TabsContent value="satoshi" className="w-full ">
+          <div className="flex flex-col w-full">
+            <strong className="text-xl">Destino do saque</strong>
+            <span className="mt-3 text-muted-foreground ">
+              Informe o invoice
+            </span>
+            <div className="mt-4">
+              <div className="flex justify-between gap-2 flex-wrap">
+                <span className="text-sm font-semibold text-muted-foreground">
+                  Saldo disponível:{" "}
+                  <strong className="text-primary">
+                    {user.btcBalance} SATS
+                  </strong>
+                </span>
+                <Button
+                  className="flex items-center gap-2"
+                  variant="outline"
+                  onClick={() => {
+                    navigator.clipboard.readText().then((text) => {
+                      handleInputChange({ target: { value: text } });
+                    });
+                  }}
+                >
+                  <ClipboardPaste size={16} />
+                  Colar
+                </Button>
+                <Textarea
+                  ref={textareaRef}
+                  className="p-5 rounded-xl shadow-none bg-background w-full overflow-hidden resize-none"
+                  value={invoice}
+                  onChange={handleInputChange}
+                  placeholder="Digite o invoice"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-end mt-2">
+            <Button
+              variant="default"
+              disabled={
+                withdrawType === "" ||
+                (withdrawType === "BTC" && invoice === "")
+              }
+              onClick={() => {
+                if (withdrawType === "BTC") {
+                  withdraw({ invoice, currency: "BTC" });
+                }
+
+                setInvoice("");
+                setValue("0");
+              }}
+            >
+              {loading ? (
+                <>
+                  <LoaderCircle className="animate-spin" size={20} />
+                  Enviando...
+                </>
+              ) : (
+                "Sacar"
+              )}
+            </Button>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

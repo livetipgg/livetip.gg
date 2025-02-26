@@ -16,7 +16,7 @@ import { Calendar } from "@/components/ui/calendar";
 interface DateFilterProps {
   date: DateRange | undefined;
   onDateSelect: (date: DateRange) => void;
-  onClear: () => void;
+  onClear?: () => void;
 }
 
 const DateFilter: React.FC<DateFilterProps> = ({
@@ -62,7 +62,8 @@ const DateFilter: React.FC<DateFilterProps> = ({
           />
         </PopoverContent>
       </Popover>
-      {(date?.from || date?.to) && (
+
+      {onClear && (date?.from || date?.to) && (
         <Button
           variant="link"
           className="w-full lg:w-auto mt-4 lg:mt-0"

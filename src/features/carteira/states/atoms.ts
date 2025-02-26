@@ -11,6 +11,7 @@ export const paymentState = atom<IPaymentState>({
   key: "paymentState",
   default: {
     payments: {
+      includes: [],
       results: [],
       count: 0,
       totalPages: 0,
@@ -21,6 +22,7 @@ export const paymentState = atom<IPaymentState>({
         startDate: undefined,
         limit: 0,
         page: 1,
+        userId: null,
       },
       error: "",
       isLoadingPayments: false,
@@ -35,6 +37,11 @@ export const withdrawState = atom<IWithdrawState>({
       error: "",
       loading: false,
       success: false,
+      bankAccountStatus: null,
+      loadingGetBankAccount: false,
+      loadingCreateBankAccount: false,
+      bankAccountToEdit: null,
+      loadingDeleteBankAccount: false,
     },
   },
 });
@@ -55,8 +62,17 @@ export const paymentDonateState = atom<IPaymentDonateState>({
       email: "",
       isDeleted: false,
       btcBalance: "",
+      is_verified: false,
       photoURL: "",
       brlBalance: "",
+      instagramUsername: "",
+      facebookUsername: "",
+      nostrUsername: "",
+      telegramUsername: "",
+      whatsappUsername: "",
+      xUsername: "",
+      youtubeUsername: "",
+      twitchUsername: "",
     },
 
     controller: {

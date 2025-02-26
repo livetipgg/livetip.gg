@@ -59,6 +59,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    loadDashboardArea();
     loadLastMessages();
   }, []);
   return (

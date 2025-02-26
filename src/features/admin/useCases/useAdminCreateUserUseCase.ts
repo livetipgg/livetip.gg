@@ -7,11 +7,23 @@ export const useAdminCreateUserUseCase = () => {
   const api = useCreateApiInstance();
   const setAdminState = useSetRecoilState(adminState);
   const { errorSonner, successSonner } = useCustomSonner();
+
+  // Essa função ta uma merda, tem q refatorar kkkjjk
   const createUser = async (
     username: string,
     password: string,
-    onSuccess: () => void
+    onSuccess: () => void,
+    confirmPassword?: string,
+    email?: string,
+    first_name?: string,
+    last_name?: string,
+    otp?: string
   ) => {
+    if (password !== confirmPassword) {
+      errorSonner("As senhas não coincidem");
+      return;
+    }
+
     setAdminState((old) => ({
       ...old,
       controller: {
@@ -22,21 +34,28 @@ export const useAdminCreateUserUseCase = () => {
     }));
 
     try {
-      const response = await api.post("/user", { username, password });
+      const response = await api.post("/user", {
+        username,
+        password,
+        email,
+        first_name,
+        last_name,
+        verificationCode: otp,
+      });
 
       successSonner(`Usuário ${username} criado com sucesso!`);
       onSuccess();
       return response;
     } catch (error) {
-      errorSonner("Erro ao criar usuário");
       setAdminState((old) => ({
         ...old,
         controller: {
           ...old.controller,
           isLoadingCreateUser: false,
-          errorCreateUser: error.message,
+          errorCreateUser: error.response.data.message,
         },
       }));
+      throw new Error(error.response.data.message);
     } finally {
       setAdminState((old) => ({
         ...old,

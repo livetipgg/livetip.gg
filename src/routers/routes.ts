@@ -12,6 +12,11 @@ export const routes: RoutesProps = {
     label: "Login",
     name: "login",
   },
+  Register: {
+    path: "/cadastro",
+    label: "Cadastro",
+    name: "cadastro",
+  },
   Dashboard: {
     path: "/inicio",
     label: "Início",
@@ -22,11 +27,7 @@ export const routes: RoutesProps = {
     label: "Mensagens Recebidas",
     name: "mensagens-recebidas",
   },
-  UserMessage: {
-    path: "/:userId",
-    label: "Mensagem Usuário",
-    name: "mensagem-usuario",
-  },
+
   Withdraw: {
     path: "/carteira/saque",
     label: "Saque",
@@ -42,6 +43,11 @@ export const routes: RoutesProps = {
     label: "Transmissão",
     name: "transmissao",
   },
+  TransmissionExpanded: {
+    path: "/transmissao/expanded",
+    label: "Transmissão",
+    name: "transmissao",
+  },
   TransactionsHistory: {
     path: "/carteira/historico",
     label: "Histórico de Transações",
@@ -51,6 +57,21 @@ export const routes: RoutesProps = {
     path: "/admin/painel",
     label: "Painel Admin",
     name: "painel-admin",
+  },
+  UsersManagement: {
+    path: "/admin/usuarios",
+    label: "Gerenciar Usuários",
+    name: "gerenciar-usuarios",
+  },
+  ApproveAccounts: {
+    path: "/admin/aprovar-contas",
+    label: "Aprovar Contas",
+    name: "aprovar-contas",
+  },
+  AdminSettings: {
+    path: "/admin/settings",
+    label: "Configurações do sistema",
+    name: "configuracoes-sistema",
   },
 
   NotFound: {

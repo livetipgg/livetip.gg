@@ -12,6 +12,7 @@ import { useSendMessageAndCreateQRCode } from "@/features/carteira/useCases/useS
 import CurrencyInput from "react-currency-input-field";
 import ReactGA from "react-ga4";
 import InputMoney from "@/components/input-currency";
+
 const MessageStep = () => {
   const setPaymentDonateState = useSetRecoilState(paymentDonateState);
   const { content, controller } = useRecoilValue(paymentDonateState);
@@ -29,7 +30,7 @@ const MessageStep = () => {
 
   const handleInputChange = (e: any) => {
     const textarea = e.target;
-    const minHeight = 100; // Defina o valor mínimo desejado aqui
+    const minHeight = 100;
 
     setPaymentDonateState((prev: IPaymentDonateState) => ({
       ...prev,
@@ -52,7 +53,7 @@ const MessageStep = () => {
         </Label>
         <Input
           placeholder="Digite seu nome ou apelido"
-          className="rounded-xl"
+          className="rounded-xl bg-background"
           value={content.sender}
           onChange={(e) => {
             setPaymentDonateState((prev: IPaymentDonateState) => ({
@@ -72,7 +73,7 @@ const MessageStep = () => {
           placeholder="Escreva sua mensagem aqui"
           maxLength={MAX_LENGTH}
           onChange={handleInputChange}
-          className="min-h-[100px] rounded-xl "
+          className="min-h-[100px] rounded-xl bg-background"
           value={content.content}
         />
         <span className="text-muted-foreground text-xs text-right mt-2">
@@ -97,7 +98,7 @@ const MessageStep = () => {
                   },
                 }));
               }}
-              className={`flex items-center w-full p-1 border-2 justify-between ${
+              className={`flex items-center w-full p-1 px-2 border-2 justify-between bg-background ${
                 paymentMethod.id === content.currency
                   ? "border-success"
                   : "border"
@@ -157,7 +158,7 @@ const MessageStep = () => {
               }
               value={Number(content.amount)}
               title="Preço"
-              className=" rounded-xl shadow-none bg-none ps-1 border-none  text-sm "
+              className=" rounded-xl shadow-none bg-none ps-1 border-none  text-sm  "
               placeholder="Preço"
             />
             {/* <CurrencyInput
@@ -189,7 +190,7 @@ const MessageStep = () => {
 
         {content.currency === "BTC" && (
           <CurrencyInput
-            className="rounded-xl"
+            className="rounded-xl bg-background"
             customInput={Input}
             id="input-example"
             name="input-name"

@@ -1,6 +1,5 @@
-import logotipoWhite from "@/assets/logotipo_white.png";
-import logotipoDark from "@/assets/logotipo_dark.png";
-import icon from "@/assets/icon.png";
+import logotipoWhite from "@/assets/logotipo_white.svg";
+import icon from "@/assets/icon.svg";
 import { useTheme } from "./theme-provider";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -18,7 +17,7 @@ export const Logotipo = ({ classname }: { classname?: string }) => {
   }
   return (
     <img
-      src={isMobile ? icon : logotipoDark}
+      src={isMobile ? icon : logotipoWhite}
       alt="Logotipo"
       className={classname}
     />

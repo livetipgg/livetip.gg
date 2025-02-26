@@ -6,7 +6,7 @@ import { MESSAGE } from "@/helpers/apiUrls";
 import { authState } from "@/features/auth/states/atoms";
 
 export const useLoadTransmissionMessagesUseCase = () => {
-  const [, setMessageState] = useRecoilState(messageState);
+  const [state, setMessageState] = useRecoilState(messageState);
   const { user } = useRecoilValue(authState);
   const api = useCreateApiInstance();
 
@@ -28,7 +28,6 @@ export const useLoadTransmissionMessagesUseCase = () => {
       },
       transmissionMessages: {
         ...prevState.transmissionMessages,
-        results: [],
       },
       messages: {
         ...prevState.messages,
@@ -47,8 +46,9 @@ export const useLoadTransmissionMessagesUseCase = () => {
           limit: 9999,
           page: 1,
           ordered: true,
-          startDate: start,
-          endDate: end,
+          startDate:
+            state.controller.transmissionMessagesParams.startDate || start,
+          endDate: state.controller.transmissionMessagesParams.endDate || end,
         },
       });
 

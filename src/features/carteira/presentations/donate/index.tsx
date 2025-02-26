@@ -10,10 +10,11 @@ import MessageStep from "./components/steps/message-step";
 import { Header } from "./components/header";
 import { useLoadReceiverData } from "../../useCases/useLoadReceiverData";
 import { useParams } from "react-router-dom";
-import { ErrorAlert } from "@/components/error-alert";
-import { LoaderCircle } from "lucide-react";
 import ReactGA from "react-ga4";
 import { TRACKING_ID } from "@/App";
+import { GlobalLoader } from "@/components/global-loader";
+import { NotFoundPage } from "@/features/not-found-page";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const UserMessagePage = () => {
   const { loadReceiverData } = useLoadReceiverData();
@@ -43,14 +44,7 @@ const UserMessagePage = () => {
   }, [userId]);
 
   if (controller.loadingReceiverData) {
-    return (
-      <div className="flex justify-center items-center h-screen w-full bg-gray-100">
-        <div className="bg-white p-4 rounded-lg flex items-center justify-center flex-col space-y-4">
-          <LoaderCircle className="w-8 h-8 animate-spin" />
-          <h1>Carregando informações...</h1>
-        </div>
-      </div>
-    );
+    return <GlobalLoader />;
   }
 
   if (!userId) {
@@ -62,18 +56,12 @@ const UserMessagePage = () => {
   }
 
   if (controller.errorMessage) {
-    return (
-      <div className="flex justify-center items-center h-screen w-full bg-gray-100">
-        <span></span>
-        <h1>
-          <ErrorAlert error={controller.errorMessage} />
-        </h1>
-      </div>
-    );
+    return <NotFoundPage />;
   }
   return (
-    <div className="flex justify-center items-center min-h-screen w-full bg-gray-100 relative">
-      <div className="bg-white rounded-2xl p-5 max-w-[320px] w-full flex items-center flex-col justify-center relative h-full max-h-screen overflow-hidden m-2">
+    <div className="flex justify-center items-center min-h-screen w-full bg-background relative">
+      <div className="bg-card-custom rounded-2xl p-5 max-w-[320px] w-full border flex items-center flex-col justify-center  h-full max-h-screen overflow-hidden m-2 relative">
+        <ModeToggle className="absolute top-1 right-1 " />
         <Header />
         <div className="mt-2 flex items-center justify-center flex-col w-full">
           {controller.currentStep === "MESSAGE" && <MessageStep />}
