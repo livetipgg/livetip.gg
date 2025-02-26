@@ -36,9 +36,10 @@ export const IntegrationBlock = () => {
         grant_type: "authorization_code",
         redirect_uri: "https://app.livetip.gg/perfil",
       },
+
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       }
     );

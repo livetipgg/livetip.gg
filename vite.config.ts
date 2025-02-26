@@ -18,4 +18,14 @@ export default defineConfig({
   },
   build: {},
   base: "/",
+
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://api.streamelements.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
 });
