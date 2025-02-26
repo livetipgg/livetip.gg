@@ -15,6 +15,7 @@ import { useLoadLastMessagesUseCase } from "@/features/messages/useCases/useLoad
 import { useWebSocket } from "@/config/WebSocketProvider";
 import { emitEvent } from "@/socket";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useIntegrationsManagement } from "@/hooks/use-integrations-management";
 const Dashboard = () => {
   const { controller: balanceStateController } = useRecoilValue(balanceState);
   const { isLoading: balanceIsLoading } = balanceStateController;
@@ -28,6 +29,8 @@ const Dashboard = () => {
 
   const audio = new Audio(notificationAudio);
   const socket = useWebSocket();
+
+  const { testAlert } = useIntegrationsManagement();
 
   useEffect(() => {
     if (user.token) {
@@ -62,6 +65,8 @@ const Dashboard = () => {
     loadDashboardArea();
     loadLastMessages();
   }, []);
+
+  const isAdmin = user.id === 3;
   return (
     <>
       <div className="flex items-center justify-between mb-4 ">
@@ -89,6 +94,7 @@ const Dashboard = () => {
               }`}
             />
           </Button>
+          {isAdmin && <Button onClick={testAlert}>Test alert</Button>}
         </div>
       </div>
 

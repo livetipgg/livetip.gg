@@ -10,7 +10,7 @@ export const IntegrationBlock = () => {
   const handleConnectStreamElements = () => {
     // abre uma nova janela para o usuário se autenticar,  passa o client_id, redirect_uri, response_type e scope
     window.open(
-      `https://api.streamelements.com/oauth2/authorize?client_id=${client_id}&response_type=code&redirect_uri=https://app.livetip.gg/perfil&scope=channel:read overlays:read overlays:write`
+      `https://api.streamelements.com/oauth2/authorize?client_id=${client_id}&response_type=code&redirect_uri=https://app.livetip.gg/perfil&scope=channel:read overlays:read overlays:write tips:write tips:read`
     );
   };
 
