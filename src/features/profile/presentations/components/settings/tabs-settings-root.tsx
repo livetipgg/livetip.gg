@@ -44,10 +44,12 @@ export const TabsSettingsRoot = () => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    if (searchParams.get("code")) {
+    if (isAdmin && searchParams.get("code")) {
       setActiveTab("integrations");
     }
   }, [searchParams]);
+
+  const isAdmin = user.id === 3;
 
   return (
     <div className="rounded border flex flex-col w-full lg:flex-row">
@@ -100,7 +102,7 @@ export const TabsSettingsRoot = () => {
           <DonatesSettingsBlock />
         </TabContentContainer>
       )}
-      {activeTab === "integrations" && (
+      {isAdmin && activeTab === "integrations" && (
         <TabContentContainer>
           <TabHeader item={tabsItems[5]} />
           <IntegrationBlock />
