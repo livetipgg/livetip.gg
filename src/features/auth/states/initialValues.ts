@@ -37,4 +37,7 @@ export const initialAuthUser: IAuthUserState = {
 
   brlMinimumDonation: "",
   btcMinimumDonation: "",
+
+  streamElementsToken: "",
+  streamLabToken: "",
 };

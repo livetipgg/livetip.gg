@@ -33,6 +33,9 @@ export interface IAuthUserState {
 
   brlMinimumDonation: string;
   btcMinimumDonation: string;
+
+  streamElementsToken: string;
+  streamLabToken: string;
 }
 
 export interface IAuthState {

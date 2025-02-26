@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EditUserBlock } from "./user-edit/edit-user-block";
 import { UpdateUserPasswordBlock } from "./update-password/update-password";
 import { QRCodeWidgetsBlock } from "./qrcode-widgets/qrcode-widgets-block";
@@ -8,7 +8,8 @@ import { useRecoilValue } from "recoil";
 import { AlertCircle } from "lucide-react";
 import { BankAccountBlock } from "./bank-account/update-password";
 import { DonatesSettingsBlock } from "./donates-settings/donates-settings";
-
+import { IntegrationBlock } from "./integrations-block";
+import { useSearchParams } from "react-router-dom";
 const tabsItems = [
   {
     value: "my_profile",
@@ -30,15 +31,27 @@ const tabsItems = [
     value: "donates_settings",
     label: "Configurações de doações",
   },
+  {
+    value: "integrations",
+    label: "Integrações",
+  },
 ];
 
 export const TabsSettingsRoot = () => {
   const [activeTab, setActiveTab] = useState("my_profile");
   const { user } = useRecoilValue(authState);
 
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("code")) {
+      setActiveTab("integrations");
+    }
+  }, [searchParams]);
+
   return (
     <div className="rounded border flex flex-col w-full lg:flex-row">
-      <div className="flex flex-col rounded bg-card-custom py-6 px-2 border-r lg:max-w-[220px] w-full">
+      <div className="flex flex-col rounded bg-card-custom py-6 px-2 border-r lg:max-w-[200px] w-full">
         {tabsItems.map((tab) => (
           <button
             key={tab.value}
@@ -85,6 +98,12 @@ export const TabsSettingsRoot = () => {
         <TabContentContainer>
           <TabHeader item={tabsItems[4]} />
           <DonatesSettingsBlock />
+        </TabContentContainer>
+      )}
+      {activeTab === "integrations" && (
+        <TabContentContainer>
+          <TabHeader item={tabsItems[5]} />
+          <IntegrationBlock />
         </TabContentContainer>
       )}
     </div>
