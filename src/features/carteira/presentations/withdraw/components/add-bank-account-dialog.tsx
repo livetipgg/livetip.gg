@@ -71,13 +71,8 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
     if (value === "PHONE_NUMBER") {
       return "(__) _ ____-____";
     }
-    if (value === "RANDOM") {
-      return "";
-    }
-    if (value === "EMAIL") {
-      return "";
-    }
-    return "___.___.___-__";
+
+    return value;
   };
 
   const custmReplace = (value: string) => {
@@ -90,13 +85,8 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
     if (value === "PHONE_NUMBER") {
       return { _: /./ };
     }
-    if (value === "RANDOM") {
-      return { _: /./ };
-    }
-    if (value === "EMAIL") {
-      return { _: /./ };
-    }
-    return { _: /./ };
+
+    return value;
   };
 
   const { data: banks, isLoading } = useFetchBanks();
@@ -244,16 +234,26 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
                 <FormLabel className="text-[#A3A3A3]">Chave Pix</FormLabel>
                 <div className="flex-1 flex-col ">
                   <FormControl>
-                    <InputMask
-                      className="input-class bg-background shadow-none rounded-lg p-6"
-                      showMask={true}
-                      component={Input}
-                      mask={customMask(form.watch("pixKeyType"))}
-                      replacement={custmReplace(form.watch("pixKeyType"))}
-                      placeholder={customMask(form.watch("pixKeyType"))}
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
+                    {form.watch("pixKeyType") === "EMAIL" ||
+                    form.watch("pixKeyType") === "RANDOM" ? (
+                      <Input
+                        className="input-class bg-background shadow-none rounded-lg p-6"
+                        {...field}
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    ) : (
+                      <InputMask
+                        className="input-class bg-background shadow-none rounded-lg p-6"
+                        showMask={true}
+                        component={Input}
+                        mask={customMask(form.watch("pixKeyType"))}
+                        replacement={custmReplace(form.watch("pixKeyType"))}
+                        placeholder={customMask(form.watch("pixKeyType"))}
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    )}
                   </FormControl>
                   <FormMessage />
                 </div>
