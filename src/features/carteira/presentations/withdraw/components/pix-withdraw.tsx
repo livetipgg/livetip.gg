@@ -248,11 +248,16 @@ export const PixWithdraw = () => {
               </div>
             )}
             {!!amount && Number(amount) >= 1 && (
-              <WarningAlert
-                error={`Temos uma taxa de R$ 0,50 para saque, para sacar o valor de R$ ${amount} você receberá R$ ${
-                  (Number(amount) - 0.5).toFixed(2) || "0,00"
-                }`}
-              />
+              <>
+                <WarningAlert
+                  error={`O parceiro bancário cobra uma taxa de R$0,50 por saque, para sacar o valor de R$ ${amount} você receberá R$ ${
+                    (Number(amount) - 0.5).toFixed(2) || "0,00"
+                  }`}
+                />
+                <WarningAlert
+                  error={`Caso não queira pagar a taxa, nos contate via suporte para enviarmos o PIX diretamente para a sua conta`}
+                />
+              </>
             )}
             <div className="flex flex-col gap-2 mt-10">
               <Label>Valor</Label>
