@@ -19,7 +19,13 @@ export const useLoadTransmissionMessagesUseCase = () => {
   end.setDate(end.getDate() + 1);
   end.setHours(23, 59, 59, 999);
 
-  const loadTransmissionMessages = async () => {
+  const loadTransmissionMessages = async ({
+    startDate,
+    endDate,
+  }: {
+    startDate?: Date;
+    endDate?: Date;
+  }) => {
     setMessageState((prevState: IMessageState) => ({
       ...prevState,
       lastMessages: {
@@ -47,8 +53,13 @@ export const useLoadTransmissionMessagesUseCase = () => {
           page: 1,
           ordered: true,
           startDate:
-            state.controller.transmissionMessagesParams.startDate || start,
-          endDate: state.controller.transmissionMessagesParams.endDate || end,
+            startDate ||
+            state.controller.transmissionMessagesParams.startDate ||
+            start,
+          endDate:
+            endDate ||
+            state.controller.transmissionMessagesParams.endDate ||
+            end,
         },
       });
 

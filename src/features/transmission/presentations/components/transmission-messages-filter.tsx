@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
-import DateFilter from "@/features/messages/presentations/components/messages-received/date-filter";
 import { messageState } from "@/features/messages/states/atoms";
 import { useLoadTransmissionMessagesUseCase } from "@/features/messages/useCases/useLoadTransmissionMessagesUseCase";
 import { format } from "date-fns";
 import { RefreshCw } from "lucide-react";
 import { useState } from "react";
-import { DateRange } from "react-day-picker";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { DatePicker } from "./date-picker";
+import { Label } from "@/components/ui/label";
 
 export const TransmissionMessagesFilter = () => {
   const { controller } = useRecoilValue(messageState);
@@ -14,6 +14,7 @@ export const TransmissionMessagesFilter = () => {
     controller;
   const setMessageState = useSetRecoilState(messageState);
   const { loadTransmissionMessages } = useLoadTransmissionMessagesUseCase();
+
   const start = new Date();
   start.setDate(start.getDate());
   start.setHours(0, 0, 0, 0);
@@ -22,20 +23,23 @@ export const TransmissionMessagesFilter = () => {
   end.setDate(end.getDate() + 1);
   end.setHours(23, 59, 59, 999);
 
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: transmissionMessagesParams.startDate
+  const [startDate, setStartDate] = useState<Date | undefined>(
+    transmissionMessagesParams.startDate
       ? new Date(transmissionMessagesParams.startDate)
-      : start,
-    to: transmissionMessagesParams.endDate
+      : start
+  );
+
+  const [endDate, setEndDate] = useState<Date | undefined>(
+    transmissionMessagesParams.endDate
       ? new Date(transmissionMessagesParams.endDate)
-      : end,
-  });
+      : end
+  );
 
-  const handleSetDate = (date: DateRange) => {
-    setDate(date);
+  const handleSetStartDate = (date: Date | undefined) => {
+    setStartDate(date);
 
-    const from_date_formatted = date.from && format(date.from, "yyyy-MM-dd");
-    const to_date_formatted = date.to && format(date.to, "yyyy-MM-dd");
+    const from_date_formatted = date && format(date, "yyyy-MM-dd");
+    const to_date_formatted = endDate && format(endDate, "yyyy-MM-dd");
 
     setMessageState((prevState) => ({
       ...prevState,
@@ -48,13 +52,61 @@ export const TransmissionMessagesFilter = () => {
         },
       },
     }));
+
+    loadTransmissionMessages({
+      startDate: date,
+      endDate,
+    });
+  };
+
+  const handleSetEndDate = (date: Date | undefined) => {
+    setEndDate(date);
+
+    const from_date_formatted = startDate && format(startDate, "yyyy-MM-dd");
+    const to_date_formatted = date && format(date, "yyyy-MM-dd");
+
+    setMessageState((prevState) => ({
+      ...prevState,
+      controller: {
+        ...prevState.controller,
+        transmissionMessagesParams: {
+          ...prevState.controller.transmissionMessagesParams,
+          startDate: from_date_formatted,
+          endDate: to_date_formatted,
+        },
+      },
+    }));
+
+    loadTransmissionMessages({
+      startDate,
+      endDate: date,
+    });
   };
 
   return (
     <div className="space-y-5 pb-10">
-      <div className="flex items-center gap-2  justify-between flex-wrap">
+      <div className="flex items-center gap-2 justify-between flex-wrap">
         <div className="w-full md:w-fit">
-          <DateFilter date={date} onDateSelect={handleSetDate} />
+          <div className="flex gap-4">
+            <div className="flex flex-col">
+              <Label>Data Início</Label>
+              <DatePicker
+                initialDate={startDate}
+                onDateSelect={handleSetStartDate}
+                placeholder="Data Início"
+                dateFormat="dd/MM/yyyy"
+              />
+            </div>
+            <div className="flex flex-col">
+              <Label>Data Fim</Label>
+              <DatePicker
+                initialDate={endDate}
+                onDateSelect={handleSetEndDate}
+                placeholder="Data Fim"
+                dateFormat="dd/MM/yyyy"
+              />
+            </div>
+          </div>
         </div>
         <Button
           variant={"outline"}
