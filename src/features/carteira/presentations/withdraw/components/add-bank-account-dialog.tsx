@@ -329,10 +329,10 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
                           className="input-class bg-background shadow-none rounded-lg p-6 flex justify-between items-center w-full"
                         >
                           <div className="flex items-center gap-2">
-                            {banks.find(
-                              (bank) =>
-                                bank.long_name === field.value.split(" - ")[1]
-                            )?.long_name || "Selecione o banco"}
+                            {typeof field.value === "string"
+                              ? field.value.split(" - ")[1] ||
+                                "Selecione o banco"
+                              : "Selecione o banco"}
                           </div>
 
                           <ChevronsUpDown className="opacity-50" size={14} />
@@ -352,6 +352,7 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
                                       bank.bank_code + " - " + bank.long_name
                                     }
                                     onSelect={(currentValue) => {
+                                      console.log("Selecionado:", currentValue);
                                       field.onChange(currentValue);
                                       setOpen(false);
                                     }}
