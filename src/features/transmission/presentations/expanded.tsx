@@ -58,7 +58,7 @@ export const TransmissionExpandedPage = () => {
       controller.transmissionMessagesParams.startDate &&
       controller.transmissionMessagesParams.endDate
     ) {
-      loadTransmissionMessages();
+      loadTransmissionMessages({});
 
       setCurrentMessage(transmissionMessages.results[currentIndex]);
     }

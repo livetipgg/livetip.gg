@@ -115,7 +115,10 @@ export const TransmissionMessagesFilter = () => {
           }`}
           title="Atualizar"
           onClick={() => {
-            loadTransmissionMessages();
+            loadTransmissionMessages({
+              startDate,
+              endDate,
+            });
           }}
           disabled={isLoadingTransmissionMessages}
         >

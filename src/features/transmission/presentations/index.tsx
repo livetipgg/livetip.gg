@@ -106,7 +106,7 @@ const TransmissionPage = () => {
   }, []);
 
   useEffect(() => {
-    loadTransmissionMessages();
+    loadTransmissionMessages({});
   }, []);
 
   return (

@@ -20,8 +20,8 @@ export const useLoadTransmissionMessagesUseCase = () => {
   end.setHours(23, 59, 59, 999);
 
   const loadTransmissionMessages = async ({
-    startDate,
-    endDate,
+    startDate = start,
+    endDate = end,
   }: {
     startDate?: Date;
     endDate?: Date;

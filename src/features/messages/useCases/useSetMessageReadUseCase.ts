@@ -42,7 +42,7 @@ export const useSetMessageReadUseCase = () => {
 
     try {
       const response = await api.patch(`${MESSAGE}/${messageId}/unread`);
-      loadTransmissionMessages();
+      loadTransmissionMessages({});
 
       return response;
     } catch {
