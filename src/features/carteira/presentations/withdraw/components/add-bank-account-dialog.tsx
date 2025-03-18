@@ -108,9 +108,8 @@ export const AddBankAccountDialog = ({ data }: { data?: any }) => {
 
     const payload = {
       ...data,
-      bankId: banks
-        .find((bank) => bank.long_name === data.bankId.split(" - ")[1])
-        ?.id.toString(),
+      // pega o bankId
+      bankId: data.bankId.split(" - ")[0],
       pixKey: removePixMask(data.pixKeyType, data.pixKey), // Remove a máscara com base no tipo
       cpf: data.cpf.replace(/\D/g, ""), // Remove tudo que não for número
       agencyNumber: data.agencyNumber.replace(/\D/g, ""),
