@@ -124,6 +124,7 @@ const TransmissionPage = () => {
       </div>
       <div className="absolute w-full top-8">
         <div className="max-w-4xl h-screen m-auto p-10 ">
+          {/* test */}
           <TransmissionUserHeader user={user} />
           {!!transmissionMessages.results.length && (
             <div className="flex items-center justify-end ">
