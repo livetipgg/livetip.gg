@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -47,9 +48,11 @@ export const ReproveAccountDialog = ({ user }: { user: any }) => {
           />
         </div>
         <DialogFooter>
-          <Button variant="link" className="text-foreground">
-            Cancelar
-          </Button>
+          <DialogClose asChild>
+            <Button variant="link" className="text-foreground">
+              Cancelar
+            </Button>
+          </DialogClose>
           <Button
             className="bg-red-400 font-bold gap-2"
             onClick={() => {
